@@ -2,6 +2,7 @@
 using ShipDock.Datas;
 using ShipDock.Notices;
 using ShipDock.Server;
+using ShipDock.Tools;
 using ShipDock.UI;
 using ShipDock.Versioning;
 using System.Collections.Generic;
@@ -173,7 +174,7 @@ namespace ShipDock.Applications
             int v2 = int.Parse(splits[1]);
 
             version = Application.version;
-            splits = version.Split('.');
+            splits = version.Split(StringUtils.DOT_CHAR);
 
             bool result = v1 > int.Parse(splits[0]) || v2 > int.Parse(splits[1]);
             if (result)

@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 
 namespace ShipDock.Applications
 {
@@ -23,19 +26,37 @@ namespace ShipDock.Applications
     [RequireComponent(typeof(UpdatesComponent))]
     public class ShipDockGame : MonoBehaviour
     {
+#if ODIN_INSPECTOR
+        [TitleGroup("模板信息")]
+#endif
         [SerializeField, Tooltip("运行帧率")]
+#if ODIN_INSPECTOR
+        [LabelText("帧率"), Indent(1)]
+#endif 
         private int m_FrameRate = 40;
 
         [SerializeField, Tooltip("多语言本地化标识")]
+#if ODIN_INSPECTOR
+        [LabelText("语言本地化参数"), Indent(1), ShowIf("@this.m_DevelopSubgroup.hasLocalsConfig == true")]
+#endif 
         private string m_Locals = "CN";
 
         [SerializeField, Tooltip("开发设置子组")]
+#if ODIN_INSPECTOR
+        [TitleGroup("开发参数"), LabelText("详情"), Indent(1)]
+#endif
         private DevelopSubgroup m_DevelopSubgroup;
 
         [SerializeField, Tooltip("ILRuntime热更子组")]
+#if ODIN_INSPECTOR
+        [TitleGroup("ILRuntime热更子组"), LabelText("详情"), Indent(1)]
+#endif 
         private HotFixSubgroup m_HotFixSubgroup;
 
         [SerializeField, Tooltip("游戏应用启动系列事件")]
+#if ODIN_INSPECTOR
+        [TitleGroup("事件"), LabelText("详情"), Indent(1)]
+#endif 
         private GameApplicationEvents m_GameAppEvents;
 
         public DevelopSubgroup DevelopSetting
@@ -54,6 +75,10 @@ namespace ShipDock.Applications
             }
         }
 
+        /// <summary>
+        /// UI 根节点就绪事件处理函数
+        /// </summary>
+        /// <param name="root"></param>
         public void UIRootAwaked(IUIRoot root)
         {
             ShipDockApp.Instance.InitUIRoot(root);
@@ -87,7 +112,6 @@ namespace ShipDock.Applications
         {
             if (m_DevelopSubgroup.isDeletePlayerPref)
             {
-                m_DevelopSubgroup.isDeletePlayerPref = false;
                 PlayerPrefs.DeleteAll();
             }
             else { }
@@ -95,6 +119,9 @@ namespace ShipDock.Applications
             CreateGame();
         }
 
+        /// <summary>
+        /// 创建游戏应用组件
+        /// </summary>
         private void CreateGame()
         {
             ShipDockAppComponent component = GetComponent<ShipDockAppComponent>();
@@ -161,6 +188,9 @@ namespace ShipDock.Applications
 #endif
         }
 
+        /// <summary>
+        /// ShipDock 启动后的回调函数
+        /// </summary>
         private void OnShipDockStart()
         {
             CreateTesters();
@@ -168,16 +198,22 @@ namespace ShipDock.Applications
             InitServerContainers();
         }
 
+        /// <summary>
+        /// 初始化IoC服务容器
+        /// </summary>
         private void InitServerContainers()
         {
             ShipDockApp app = ShipDockApp.Instance;
-            bool flag = m_DevelopSubgroup.startUpIOC;
+            bool flag = m_DevelopSubgroup.startUpIOC;//根据开发参数确定是否启动IoC模块
             IServer[] servers = flag ? GetGameServers() : default;
             Action[] onInited = flag ? new Action[] { AddResolvableConfigs } : default;
             Action[] onFinished = flag ? new Action[] { OnServersFinished } : default;
             app.StartIOC(servers, MainThreadServerReady, onInited, onFinished);
         }
 
+        /// <summary>
+        /// 初始化数据代理
+        /// </summary>
         private void InitDataProxy()
         {
             IDataProxy[] list = DataProxyWillInit();
@@ -192,6 +228,9 @@ namespace ShipDock.Applications
             InitProfile(ref proxyNames);
         }
 
+        /// <summary>
+        /// 添加服务容器解析器配置
+        /// </summary>
         private void AddResolvableConfigs()
         {
             ShipDockApp app = ShipDockApp.Instance;
@@ -202,6 +241,9 @@ namespace ShipDock.Applications
             "log".AssertLog("game", "ServerInit");
         }
 
+        /// <summary>
+        /// 服务容器初始化完成后在主线程上的回调
+        /// </summary>
         private void MainThreadServerReady()
         {
             "log".AssertLog("game", "ServerFinished");
@@ -216,7 +258,7 @@ namespace ShipDock.Applications
             }
             else
             {
-                OnConfigLoaded(default);
+                OnConfigLoaded(default);//未开启相关的本地化配置开发参数选项则直接跳到配置加载完成环节
             }
         }
 
@@ -257,7 +299,7 @@ namespace ShipDock.Applications
 
             if (m_DevelopSubgroup.ApplyRemoteAssets)
             {
-                m_GameAppEvents.updateRemoteAssetEvent.Invoke();
+                m_GameAppEvents.updateRemoteAssetEvent.Invoke();//触发远程资源对比事件，完成后调用 PreLoadAsset 以继续流程
             }
             else
             {
@@ -265,6 +307,9 @@ namespace ShipDock.Applications
             }
         }
 
+        /// <summary>
+        /// 启动资源预加载
+        /// </summary>
         public void PreloadAsset()
         {
             AssetsLoader assetsLoader = new AssetsLoader();
@@ -273,9 +318,12 @@ namespace ShipDock.Applications
             {
                 assetsLoader.CompleteEvent.AddListener(OnPreloadComplete);
                 assetsLoader.AddManifest(m_DevelopSubgroup.assetNameResData, m_DevelopSubgroup.applyManifestAutoPath);
+
+                string item;
                 for (int i = 0; i < max; i++)
                 {
-                    assetsLoader.Add(m_DevelopSubgroup.assetNamePreload[i], true, m_DevelopSubgroup.applyManifestAutoPath);
+                    item = m_DevelopSubgroup.assetNamePreload[i];
+                    assetsLoader.Add(item, true, m_DevelopSubgroup.applyManifestAutoPath);
                 }
                 assetsLoader.Load(out _);
             }
@@ -308,6 +356,11 @@ namespace ShipDock.Applications
             "log".AssertLog("game", "ProfileDataInited");
         }
 
+        /// <summary>
+        /// 资源预加载完成
+        /// </summary>
+        /// <param name="successed"></param>
+        /// <param name="target"></param>
         private void OnPreloadComplete(bool successed, AssetsLoader target)
         {
             target.Dispose();
@@ -315,6 +368,17 @@ namespace ShipDock.Applications
             EnterGame();
         }
 
+        /// <summary>
+        /// 进入游戏
+        /// </summary>
+        private void EnterGame()
+        {
+            m_GameAppEvents.enterGameEvent?.Invoke();
+        }
+
+        /// <summary>
+        /// 创建测试器
+        /// </summary>
         private void CreateTesters()
         {
             m_GameAppEvents.createTestersEvent?.Invoke();
@@ -356,11 +420,19 @@ namespace ShipDock.Applications
             m_GameAppEvents.serversFinishedEvent?.Invoke();
         }
 
+        /// <summary>
+        /// 初始化账户
+        /// </summary>
+        /// <param name="proxyNames"></param>
         private void InitProfile(ref int[] proxyNames)
         {
             CommonEventInovker(m_GameAppEvents.initProfileEvent, false, proxyNames);
         }
 
+        /// <summary>
+        /// 获取需要初始化的服务容器解析器配置
+        /// </summary>
+        /// <returns></returns>
         private IResolvableConfig[] GetServerConfigs()
         {
             "log".AssertLog("game", "ServerInit");
@@ -368,11 +440,10 @@ namespace ShipDock.Applications
             return serverConfigs;
         }
 
-        private void EnterGame()
-        {
-            m_GameAppEvents.enterGameEvent?.Invoke();
-        }
-
+        /// <summary>
+        /// 获取需要初始化的数据代理
+        /// </summary>
+        /// <returns></returns>
         private IDataProxy[] DataProxyWillInit()
         {
             IDataProxy[] result = CommonEventInovker(m_GameAppEvents.getDataProxyEvent);

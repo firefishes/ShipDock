@@ -5,7 +5,13 @@ using System;
 namespace ShipDock.Modulars
 {
     /// <summary>
+    /// 
     /// 装饰化模块管理器
+    /// 
+    /// 模拟 IoC 流程设计的模块管理器。每个模块可定义消息创建器函数和消息装饰函数，并可监听其他广播形式发送的消息
+    /// 
+    /// add by Minghua.ji
+    /// 
     /// </summary>
     public class DecorativeModulars : IAppModulars
     {
@@ -61,6 +67,7 @@ namespace ShipDock.Modulars
                 "log".Log(noticeName.ToString().Append(" remove decorator "));
                 mNoticeDecorator[noticeName] -= method;
             }
+            else { }
         }
 
         /// <summary>
@@ -76,6 +83,7 @@ namespace ShipDock.Modulars
                 "Creater {0} added.".Log(noticeName.ToString());
                 mNoticeCreaters[noticeName] = method;
             }
+            else { }
         }
 
         /// <summary>
@@ -90,6 +98,7 @@ namespace ShipDock.Modulars
                 "Creater {0} removed.".Log(noticeName.ToString());
                 mNoticeCreaters.Remove(noticeName);
             }
+            else { }
         }
 
         /// <summary>
@@ -155,9 +164,6 @@ namespace ShipDock.Modulars
         /// <returns></returns>
         public INoticeBase<int> NotifyModular(int noticeName, INoticeBase<int> param = default)
         {
-            //Func<int, INoticeBase<int>> creater = mNoticeCreaters[noticeName];
-            //bool applyCreater = param == default;
-            //INoticeBase<int> notice = applyCreater ? creater?.Invoke(noticeName) : param;//调用消息体对象生成器函数
             BeforeNotifyModular(noticeName, ref param, out INoticeBase<int> notice);
             DuringNotifyModular(noticeName, ref notice);
 

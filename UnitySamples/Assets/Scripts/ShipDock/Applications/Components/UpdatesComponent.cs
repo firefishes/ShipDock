@@ -1,19 +1,47 @@
 using ShipDock.Notices;
 using ShipDock.Ticks;
 using UnityEngine;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 
 namespace ShipDock.Applications
 {
+    /// <summary>
+    /// 
+    /// 总线帧更新组件
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     [DisallowMultipleComponent]
     public class UpdatesComponent : MonoBehaviour, IUpdatesComponent
     {
+#if ODIN_INSPECTOR
+        [TitleGroup("组件相关消息")]
+#endif
         [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("消息名 - 组件就绪"), Indent(1)]
+#endif 
         private int m_ReadyNoticeName = ShipDockConsts.NOTICE_SCENE_UPDATE_READY;
-        [SerializeField]
+
+        [SerializeField, Tooltip("触发Unity主线程驱动模式的帧更新消息")]
+#if ODIN_INSPECTOR
+        [LabelText("消息名 - 新增帧更新项"), Indent(1)]
+#endif
         private int m_AddItemNoticeName = ShipDockConsts.NOTICE_ADD_SCENE_UPDATE;
+
         [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("消息名 - 移除帧更新项"), Indent(1)]
+#endif
         private int m_RemoveItemNoticeName = ShipDockConsts.NOTICE_REMOVE_SCENE_UPDATE;
+
         [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("消息名 - 推迟至下一帧更新"), Indent(1)]
+#endif
         private int m_CallLateItemNoticeName = ShipDockConsts.NOTICE_SCENE_CALL_LATE;
 
         private UpdatesCacher mUpdatesCacher;
@@ -29,11 +57,13 @@ namespace ShipDock.Applications
             {
                 mUpdatesCacher = new UpdatesCacher(m_AddItemNoticeName, m_RemoveItemNoticeName, m_CallLateItemNoticeName);
             }
+            else { }
 
             if(m_ReadyNoticeName != int.MaxValue)
             {
                 m_ReadyNoticeName.Broadcast();
             }
+            else { }
         }
 
         private void Update()

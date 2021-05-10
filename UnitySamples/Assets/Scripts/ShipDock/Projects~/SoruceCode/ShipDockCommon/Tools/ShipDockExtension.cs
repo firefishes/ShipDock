@@ -4,16 +4,32 @@ using UnityEngine;
 
 static public class ShipDockExtension
 {
+    /// <summary>颜色参数所需长度</summary>
+    private const int COLOR_PARAM_LEN = 3;
+    /// <summary>颜色参数最大值</summary>
+    private const int COLOR_MAX = 255;
+
+    /// <summary>字符串创建器</summary>
     private static StringBuilder mBuilder;
+    /// <summary>相机射线临时引用</summary>
     private static Ray rayForMainCamera;
+    /// <summary>相机变换对象引用</summary>
     private static Transform cameraTF;
 
+    /// <summary>
+    /// 字符串拼接
+    /// </summary>
+    /// <param name="target">启示字符串</param>
+    /// <param name="args">即将拼接的字符串数组</param>
+    /// <returns></returns>
     public static string Append(this string target, params string[] args)
     {
         if (mBuilder == null)
         {
             mBuilder = new StringBuilder();
         }
+        else { }
+
         mBuilder.Length = 0;
         mBuilder.Append(target);
 
@@ -27,6 +43,12 @@ static public class ShipDockExtension
         return mBuilder.ToString();
     }
 
+    /// <summary>
+    /// 将数组转换为指定字符串标识分隔的字符串
+    /// </summary>
+    /// <param name="target">目标字符串数组</param>
+    /// <param name="symbol">用于分隔的字符串标识</param>
+    /// <returns></returns>
     public static string Joins(this string[] target, string symbol = ",")
     {
         string connector;
@@ -42,6 +64,12 @@ static public class ShipDockExtension
         return result;
     }
 
+    /// <summary>
+    /// 将列表转换为指定字符串标识分隔的字符串
+    /// </summary>
+    /// <param name="target">目标字符串数组</param>
+    /// <param name="symbol">用于分隔的字符串标识</param>
+    /// <returns></returns>
     public static string Joins(this List<string> target, string symbol = ",")
     {
         string connector;
@@ -112,6 +140,8 @@ static public class ShipDockExtension
         {
             return;
         }
+        else { }
+
         int oldLen = target.Length;
         int contactLen = list.Length;
         int max = oldLen + contactLen;
@@ -127,6 +157,7 @@ static public class ShipDockExtension
             {
                 result[i] = list[i - oldLen];
             }
+            else { }
         }
     }
 
@@ -163,6 +194,8 @@ static public class ShipDockExtension
         {
             cameraTF = Camera.main.transform;
         }
+        else { }
+
         rayForMainCamera = new Ray(cameraTF.position, direction);
         bool result = Physics.Raycast(rayForMainCamera, out hitInfo, distance, layerMask);
 #if UNITY_EDITOR
@@ -193,9 +226,6 @@ static public class ShipDockExtension
         }
         else { }
     }
-
-    private const int COLOR_PARAM_LEN = 3;
-    private const int COLOR_MAX = 255;
 
     public static Color ToColor(this int[] target)
     {

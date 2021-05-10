@@ -22,19 +22,26 @@ namespace ShipDock.Applications
 
     /// <summary>
     /// 
-    /// ShipDock 框架单例，门面
+    /// ShipDock 门面单例
+    /// 
+    /// add by Minghua.ji
     /// 
     /// </summary>
     public class ShipDockApp : Singletons<ShipDockApp>, IAppILRuntime, ICustomFramework
     {
+        /// <summary>
+        /// 启动 ShipDock 框架
+        /// </summary>
+        /// <param name="ticks">子线程心跳帧率</param>
+        /// <param name="onStartUp">初始化后调用的回调函数</param>
         public static void StartUp(int ticks, Action onStartUp = default)
         {
             ICustomFramework app = Instance;
-            Framework.Instance.InitCustomFramework(app, ticks, onStartUp);
+            Framework.Instance.InitCustomFramework(app, ticks, onStartUp);//将 ShipDock 门面对象加入框架定制
         }
 
         /// <summary>
-        /// 副线程中延迟一帧后调用
+        /// 让指定方法在子线程延迟一帧后执行
         /// </summary>
         public static void CallLater(Action<int> method)
         {
@@ -57,26 +64,26 @@ namespace ShipDock.Applications
         private IHotFixConfig HotFixConfig { get; set; }
 
         public bool IsStarted { get; private set; }
+        public bool IsSceneUpdateReady { get; private set; }
         public UIManager UIs { get; private set; }
-        public TicksUpdater TicksUpdater { get; private set; }
+        public Tester Tester { get; private set; }
         public Notifications<int> Notificater { get; private set; }
-        public ShipDockComponentContext ECSContext { get; private set; }
+        public IUpdatesComponent UpdatesComponent { get; private set; }
+        public TicksUpdater TicksUpdater { get; private set; }
         public Servers Servers { get; private set; }
+        public ConfigHelper Configs { get; private set; }
+        public Locals Locals { get; private set; }
         public AssetBundles ABs { get; private set; }
         public AssetsPooling AssetsPooling { get; private set; }
-        public StateMachines StateMachines { get; private set; }
         public Effects Effects { get; private set; }
-        public Locals Locals { get; private set; }
-        public Tester Tester { get; private set; }
+        public StateMachines StateMachines { get; private set; }
         public PerspectiveInputer PerspectivesInputer { get; private set; }
-        public ILRuntimeHotFix ILRuntimeHotFix { get; private set; }
         public DecorativeModulars AppModulars { get; private set; }
-        public ConfigHelper Configs { get; private set; }
+        public ShipDockComponentContext ECSContext { get; private set; }
+        public ILRuntimeHotFix ILRuntimeHotFix { get; private set; }
         public IFrameworkUnit[] FrameworkUnits { get; private set; }
         public Action MergeCallOnMainThread { get; set; }
         public Action SceneUpdaterReady { get; set; }
-        public bool IsSceneUpdateReady { get; private set; }
-        public IUpdatesComponent UpdatesComponent { get; private set; }
 
         public DataWarehouse Datas
         {
@@ -94,6 +101,8 @@ namespace ShipDock.Applications
                 "error".Log("ShipDockApplication has started");
                 return;
             }
+            else { }
+
             Tester = Tester.Instance;
             Tester.Init(new TesterBaseApp());
             "log".AssertLog("framework start", "Welcom..");
@@ -119,6 +128,7 @@ namespace ShipDock.Applications
             Configs = new ConfigHelper();//新建配置管理器
 
             "debug".Log("UI root ready");
+            #region 向定制框架中填充框架功能单元
             Framework framework = Framework.Instance;
             FrameworkUnits = new IFrameworkUnit[]
             {
@@ -132,6 +142,7 @@ namespace ShipDock.Applications
                 framework.CreateUnitByBridge(Framework.UNIT_FSM, StateMachines),
             };
             framework.LoadUnit(FrameworkUnits);
+            #endregion
 
             mFSMUpdaters = new KeyValueList<IStateMachine, IUpdate>();
             mStateUpdaters = new KeyValueList<IState, IUpdate>();
@@ -170,6 +181,7 @@ namespace ShipDock.Applications
                     mStateUpdaters[state] = updater;
                     UpdaterNotice.AddSceneUpdater(updater);
                 }
+                else { }
             }
             else
             {
@@ -191,6 +203,7 @@ namespace ShipDock.Applications
                     mFSMUpdaters[fsm] = updater;
                     UpdaterNotice.AddSceneUpdater(updater);
                 }
+                else { }
             }
             else
             {
@@ -222,10 +235,13 @@ namespace ShipDock.Applications
                     StartIOC(default, default);
                 };
             }
+            else { }
+
             if (mServersWillAdd == default)
             {
                 mServersWillAdd = servers;
             }
+            else { }
         }
 
         private void MergeToMainThread(out bool isSceneUpdateReady)
@@ -249,6 +265,8 @@ namespace ShipDock.Applications
                     Servers.AddOnServerInited(onInitedCallbacks[i]);
                 }
             }
+            else { }
+
             max = onFinishedCallbacks != default ? onFinishedCallbacks.Length : 0;
             if (max > 0)
             {
@@ -257,6 +275,7 @@ namespace ShipDock.Applications
                     Servers.AddOnServerFinished(onFinishedCallbacks[i]);
                 }
             }
+            else { }
         }
 
         private void OnCheckMainThreadReady(int time)
@@ -295,6 +314,8 @@ namespace ShipDock.Applications
                     Servers.Add(mServersWillAdd[i]);
                 }
             }
+            else { }
+
             Utils.Reclaim(ref mServersWillAdd);
         }
 
@@ -351,6 +372,7 @@ namespace ShipDock.Applications
                     ECSContext.FreeComponentUnit(time, ComponentUnitUpdate);//奇数帧检测是否有需要释放的实体
                     ECSContext.RemoveSingedComponents();
                 }
+                else { }
             }
             else
             {
@@ -360,6 +382,7 @@ namespace ShipDock.Applications
                     ECSContext.FreeComponentUnit(time);//奇数帧检测是否有需要释放的实体，框架默认为此模式
                     ECSContext.RemoveSingedComponents();
                 }
+                else { }
             }
             mFrameSign++;
             mFrameSign = mFrameSign > 1 ? 0 : mFrameSign;
@@ -428,6 +451,7 @@ namespace ShipDock.Applications
                     ECSContext.FreeComponentUnitInScene(time, ComponentUnitUpdateInScene);//奇数帧检测是否有需要释放的实体
                     ECSContext.RemoveSingedComponents();
                 }
+                else { }
             }
             else
             {
@@ -437,6 +461,7 @@ namespace ShipDock.Applications
                     ECSContext.FreeComponentUnitInScene(time);//奇数帧检测是否有需要释放的实体
                     ECSContext.RemoveSingedComponents();
                 }
+                else { }
             }
             mFrameSignInScene++;
             mFrameSignInScene = mFrameSignInScene > 1 ? 0 : mFrameSignInScene;
@@ -524,6 +549,7 @@ namespace ShipDock.Applications
                     mAppStarted += method;
                 }
             }
+            else { }
         }
 
         public void RemoveStart(Action method)
@@ -535,10 +561,11 @@ namespace ShipDock.Applications
         {
             if (UIs == default)
             {
-                UIs = new UIManager();
+                UIs = new UIManager();//新建 UI 管理器
                 UIs.SetRoot(root);
                 "debug".Log("UI root ready");
             }
+            else { }
         }
 
         public KeyValueList<int, IDataProxy> DataProxyLink(IDataExtracter target, params int[] dataNames)
@@ -576,7 +603,10 @@ namespace ShipDock.Applications
                 {
                     ILRuntimeHotFix.InitFromApp(this);
                 }
+                else { }
             }
+            else { }
+
             HotFixConfig = config;
         }
 
