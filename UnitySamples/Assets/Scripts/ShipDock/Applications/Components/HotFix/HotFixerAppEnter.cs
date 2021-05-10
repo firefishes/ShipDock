@@ -39,9 +39,11 @@ namespace ShipDock.Applications
                 return;
             }
 
-            ShipDockApp.Instance.SetHotFixSetting(new ILRuntimeHotFix(ShipDockApp.Instance), new AppHotFixConfig());
-            ShipDockApp.Instance.ILRuntimeHotFix.Start();
-
+#if ILRUNTIME
+            ShipDockApp app = ShipDockApp.Instance;
+            app.SetHotFixSetting(new ILRuntimeHotFix(ShipDockApp.Instance), new AppHotFixConfig());
+            app.ILRuntimeHotFix.Start();
+#endif
             base.Init();
 
             StartHotFixeByAsset(this, m_EnterDll, m_EnterPdb);

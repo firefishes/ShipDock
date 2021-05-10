@@ -118,24 +118,21 @@ namespace ShipDock.Modulars
             }
         }
 
-        /// <summary>
-        /// 发送模块消息
-        /// </summary>
-        /// <param name="noticeName">消息名</param>
-        /// <param name="param">消息体对象，如不为空，则不调用对应的生成器函数</param>
-        /// <returns></returns>
-        public INoticeBase<int> NotifyModular(int noticeName, INoticeBase<int> param = default)
+        private void BeforeNotifyModular(int noticeName, ref INoticeBase<int> param, out INoticeBase<int> notice)
         {
             Func<int, INoticeBase<int>> creater = mNoticeCreaters[noticeName];
             bool applyCreater = param == default;
-            INoticeBase<int> notice = applyCreater ? creater?.Invoke(noticeName) : param;//调用消息体对象生成器函数
+            notice = applyCreater ? creater?.Invoke(noticeName) : param;//调用消息体对象生成器函数
 
             #region Logs
             "error".Log(param == default && creater == default, "Notice creater is null..".Append(" notice = ", noticeName.ToString()));
             "warning".Log(notice == default, "Brocast notice is null..".Append(" notice = ", noticeName.ToString()));
             "warning".Log(!mNoticeDecorator.ContainsKey(noticeName), string.Format("Notice {0} decorator is empty..", noticeName));
             #endregion
+        }
 
+        private void DuringNotifyModular(int noticeName, ref INoticeBase<int> notice)
+        {
             if (notice != default)
             {
                 Action<int, INoticeBase<int>> decorator = mNoticeDecorator[noticeName];
@@ -146,9 +143,44 @@ namespace ShipDock.Modulars
             else
             {
                 "log".Log("Notify modular by default notice");
-                noticeName.Broadcast(notice);//广播普通消息
+                noticeName.Broadcast(notice);//直接广播消息
             }
+        }
+
+        /// <summary>
+        /// 发送模块消息
+        /// </summary>
+        /// <param name="noticeName">消息名</param>
+        /// <param name="param">消息体对象，如不为空，则不调用对应的生成器函数</param>
+        /// <returns></returns>
+        public INoticeBase<int> NotifyModular(int noticeName, INoticeBase<int> param = default)
+        {
+            //Func<int, INoticeBase<int>> creater = mNoticeCreaters[noticeName];
+            //bool applyCreater = param == default;
+            //INoticeBase<int> notice = applyCreater ? creater?.Invoke(noticeName) : param;//调用消息体对象生成器函数
+            BeforeNotifyModular(noticeName, ref param, out INoticeBase<int> notice);
+            DuringNotifyModular(noticeName, ref notice);
+
             return notice;
+        }
+
+        public INoticeBase<int> NotifyModularWithParam<T>(int noticeName, T param = default, IParamNotice<T> notice = default)
+        {
+            INoticeBase<int> temp = notice != default ? notice as INoticeBase<int> : default;
+
+            BeforeNotifyModular(noticeName, ref temp, out INoticeBase<int> result);
+
+            if (result is IParamNotice<T> noticeWithParam)
+            {
+                noticeWithParam.ParamValue = param;
+
+                DuringNotifyModular(noticeName, ref result);
+            }
+            else
+            {
+                "error".Log("Notice param type do not match..".Append(" notice = ", noticeName.ToString()));
+            }
+            return result;
         }
 
         public void NotifyModularAndRelease(int noticeName, INoticeBase<int> param = default, bool isRelease = true)

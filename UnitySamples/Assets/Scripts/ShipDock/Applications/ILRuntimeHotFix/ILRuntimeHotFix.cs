@@ -128,8 +128,10 @@ namespace ShipDock.Applications
                 ILAppDomain.RegisterCrossBindingAdaptor(list[i]);//注册跨域类适配器
             }
 
+#if ILRUNTIME
             LitJson.JsonMapper.RegisterILRuntimeCLRRedirection(ILAppDomain);//注册热更端JSON解析器
             ILRuntime.Runtime.Generated.CLRBindings.Initialize(ILAppDomain);//注册重定向的方法
+#endif
         }
 
         /// <summary>

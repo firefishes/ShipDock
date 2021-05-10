@@ -13,23 +13,29 @@ using UnityEngine.Events;
 
 namespace ShipDock.Applications
 {
+    /// <summary>
+    /// 
+    /// 游戏模板组件
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     [RequireComponent(typeof(UpdatesComponent))]
     public class ShipDockGame : MonoBehaviour
     {
-        [SerializeField]
-        [Tooltip("运行帧率")]
+        [SerializeField, Tooltip("运行帧率")]
         private int m_FrameRate = 40;
-        [SerializeField]
-        [Tooltip("多语言本地化标识")]
+
+        [SerializeField, Tooltip("多语言本地化标识")]
         private string m_Locals = "CN";
-        [SerializeField]
-        [Tooltip("开发设置子组")]
+
+        [SerializeField, Tooltip("开发设置子组")]
         private DevelopSubgroup m_DevelopSubgroup;
-        [SerializeField]
-        [Tooltip("ILRuntime热更子组")]
+
+        [SerializeField, Tooltip("ILRuntime热更子组")]
         private HotFixSubgroup m_HotFixSubgroup;
-        [SerializeField]
-        [Tooltip("游戏应用启动系列事件")]
+
+        [SerializeField, Tooltip("游戏应用启动系列事件")]
         private GameApplicationEvents m_GameAppEvents;
 
         public DevelopSubgroup DevelopSetting
@@ -52,7 +58,7 @@ namespace ShipDock.Applications
         {
             ShipDockApp.Instance.InitUIRoot(root);
 #if RELEASE
-            Debug.unityLogger.logEnabled = false;
+            Debug.unityLogger.logEnabled = false;//编译发布版时关闭日志
 #endif
             ShipDockApp.StartUp(m_FrameRate, OnShipDockStart);
         }

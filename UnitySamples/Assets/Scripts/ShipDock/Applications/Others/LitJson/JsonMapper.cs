@@ -15,10 +15,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+#if ILRUNTIME
 using ILRuntime.Runtime.Intepreter;
 using ILRuntime.Runtime.Stack;
 using ILRuntime.CLR.Method;
 using ILRuntime.CLR.Utils;
+#endif
 
 namespace LitJson
 {
@@ -102,7 +104,7 @@ namespace LitJson
 
     public class JsonMapper
     {
-        #region Fields
+#region Fields
         private static int max_nesting_depth;
 
         private static IFormatProvider datetime_format;
@@ -430,9 +432,11 @@ namespace LitJson
                     object item = ReadValue (elem_type, reader);
                     if (item == null && reader.Token == JsonToken.ArrayEnd)
                         break;
+#if ILRUNTIME
                     var rt = elem_type is ILRuntime.Reflection.ILRuntimeWrapperType ? ((ILRuntime.Reflection.ILRuntimeWrapperType)elem_type).RealType : elem_type;
                     item = rt.CheckCLRTypes(item);
                     list.Add (item);
+#endif
                 }
 
                 if (t_data.IsArray) {
@@ -493,11 +497,12 @@ namespace LitJson
                                 continue;
                             }
                         }
-
+#if ILRUNTIME
                         var rt = t_data.ElementType is ILRuntime.Reflection.ILRuntimeWrapperType ? ((ILRuntime.Reflection.ILRuntimeWrapperType)t_data.ElementType).RealType : t_data.ElementType;
                         ((IDictionary) instance).Add (
                             property, rt.CheckCLRTypes(ReadValue (
                                 t_data.ElementType, reader)));
+#endif
                     }
 
                 }
@@ -974,7 +979,8 @@ namespace LitJson
             custom_importers_table.Clear ();
         }
 
-        public unsafe static void RegisterILRuntimeCLRRedirection(ILRuntime.Runtime.Enviorment.AppDomain appdomain)
+#if ILRUNTIME
+        public static unsafe void RegisterILRuntimeCLRRedirection(ILRuntime.Runtime.Enviorment.AppDomain appdomain)
         {
             foreach(var i in typeof(JsonMapper).GetMethods())
             {
@@ -1038,5 +1044,6 @@ namespace LitJson
 
             return ILIntepreter.PushObject(__ret, mStack, result_of_this_method);
         }
+#endif
     }
 }

@@ -86,6 +86,7 @@ namespace ShipDock.FSM
                 AniParamer.ResetMotionState();
                 AniParamer.ResetMotionWillPlay();
             }
+            else { }
 
             base.StateChanging();
 

@@ -18,6 +18,8 @@ namespace ShipDock.Applications
         public bool applyManifestAutoPath = false;
         [Tooltip("是否启动IOC功能")]
         public bool startUpIOC = false;
+        [Tooltip("服务容器子组")]
+        public ServerContainerSubgroup loadConfig;
         [Tooltip("是否包含多语言本地化配置")]
         public bool hasLocalsConfig = false;
         [Tooltip("是否包含多语言本地化配置")]
@@ -28,8 +30,6 @@ namespace ShipDock.Applications
         public string[] configNames;
         [Tooltip("预加载的资源列表")]
         public string[] assetNamePreload;
-        [Tooltip("服务容器子组")]
-        public ServerContainerSubgroup loadConfig;
 
         /// <summary>是否应用远程资源服务器</summary>
         public bool ApplyRemoteAssets

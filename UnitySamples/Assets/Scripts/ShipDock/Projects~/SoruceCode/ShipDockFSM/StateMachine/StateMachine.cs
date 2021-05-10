@@ -389,16 +389,16 @@ namespace ShipDock.FSM
             }
             else
             {
-                if (Current != default)
+                if (!IsStateChanging && (Current != default))
                 {
                     Current.SetStateParam(param);
                 }
                 else { }
             }
         }
-#endregion
+        #endregion
 
-#region 启动、停止和更新
+        #region 启动、停止和更新
         /// <summary>运行状态机</summary>
         public virtual void Run(IStateParam param = default, int initState = int.MaxValue)
         {
@@ -427,13 +427,13 @@ namespace ShipDock.FSM
         /// <summary>更新当前状态</summary>
         public virtual void UpdateState(int dTime)
         {
-#region 状态修改完成
+            #region 状态修改完成
             if (!IsApplyFastChange)
             {
                 ChangedStateFinish();
             }
             else { }
-#endregion
+            #endregion
         }
 
         private void ChangedStateFinish()
@@ -516,7 +516,7 @@ namespace ShipDock.FSM
         {
             return (state != default) && state.IsDeinitLater;
         }
-#endregion
+        #endregion
 
     }
 }

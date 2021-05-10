@@ -291,6 +291,12 @@ namespace ShipDock.Applications
 #endif
         private GameObject m_FX;
 
+        [SerializeField, Tooltip("清理对象池时同时销毁池中的特效对象")]
+#if ODIN_INSPECTOR
+        [LabelText("被清理时销毁池中对象"), ShowIf("@!string.IsNullOrEmpty(this.m_FXName) && this.m_FX != null && m_Enabled == true")]
+#endif
+        private bool m_IsDestroyWhenClean = true;
+
         [SerializeField, Tooltip("在特效池中循环使用的特效实例总数")]
 #if ODIN_INSPECTOR
         [LabelText("特效数量上限"), ShowIf("@!string.IsNullOrEmpty(this.m_FXName) && this.m_FX != null && m_Enabled == true")]
@@ -442,8 +448,7 @@ namespace ShipDock.Applications
                     {
                         mEffects = ShipDockApp.Instance.Effects;
                         PoolID = m_FX.GetInstanceID();
-                        Debug.Log("Pool id is " + PoolID);
-                        mEffects?.CreateSource(PoolID, ref m_FX, m_FXTotal);
+                        mEffects?.CreateSource(PoolID, ref m_FX, m_FXTotal, 0, m_IsDestroyWhenClean);
                     }
                     else { }
 

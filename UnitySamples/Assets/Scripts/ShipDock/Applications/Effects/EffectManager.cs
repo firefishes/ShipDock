@@ -15,6 +15,7 @@ namespace ShipDock.Applications
         {
             public int total;
             public int poolID;
+            public bool isDestroyWhenClean;
             public GameObject source;
 
             private int CacheIndex { get; set; }
@@ -35,7 +36,7 @@ namespace ShipDock.Applications
                 source = default;
 
                 List<GameObject> list = UniqueCache;
-                Utils.Reclaim(ref list);
+                Utils.Reclaim(ref list, true, isDestroyWhenClean);
 
                 UniqueCache = default;
             }
@@ -111,7 +112,7 @@ namespace ShipDock.Applications
             return mPrefabRaw.ContainsKey(id);
         }
 
-        public void CreateSource(int id, ref GameObject source, int total, int preCreate = 0)
+        public void CreateSource(int id, ref GameObject source, int total, int preCreate = 0, bool isDestroyWhenClean = false)
         {
             Effect effect;
             if (mPrefabRaw.ContainsKey(id))
@@ -125,6 +126,7 @@ namespace ShipDock.Applications
                     source = source,
                     total = total,
                     poolID = id,
+                    isDestroyWhenClean = isDestroyWhenClean,
                 };
                 effect.Init();
                 mPrefabRaw[id] = effect;
@@ -137,10 +139,10 @@ namespace ShipDock.Applications
             }
         }
 
-        public void CreateSource(int id, ref ResPrefabBridge source, int total, int preCreate = 0)
+        public void CreateSource(int id, ref ResPrefabBridge source, int total, int preCreate = 0, bool isDestroyWhenClean = false)
         {
             GameObject prefab = source.Prefab;
-            CreateSource(id, ref prefab, total, preCreate);
+            CreateSource(id, ref prefab, total, preCreate, isDestroyWhenClean);
         }
 
         public void FillToPrefabBridge(int id, ref ResPrefabBridge source)

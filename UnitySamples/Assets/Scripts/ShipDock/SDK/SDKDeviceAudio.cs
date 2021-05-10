@@ -5,6 +5,7 @@
 #pragma warning disable
 namespace Greencheng.Applications.SDK
 {
+    using ShipDock.SDK;
 
     /// <summary>
     /// 

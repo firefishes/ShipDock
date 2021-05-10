@@ -17,9 +17,9 @@ namespace ShipDock.Applications
 #endif
         private bool m_IsSendIDAsNotice;
 
-        [SerializeField, Tooltip("是否在物体被渲染时发送对象就绪的消息"), Indent(1)]
+        [SerializeField, Tooltip("是否在物体被渲染时发送对象就绪的消息")]
 #if ODIN_INSPECTOR
-        [LabelText("在物体被渲染时发送消息"), ShowIf("m_IsSendIDAsNotice", true)]
+        [LabelText("在物体被渲染时发送消息"), ShowIf("m_IsSendIDAsNotice", true), Indent(1)]
 #endif
         private bool m_IsSendInRenderObject;
 
@@ -41,9 +41,9 @@ namespace ShipDock.Applications
 #endif
         private bool m_ApplyDefaultNoticeType = true;
 
-        [SerializeField, Tooltip("能从热更端对象获取自定义的消息类型的函数名"), Indent(1)]
+        [SerializeField, Tooltip("能从热更端对象获取自定义的消息类型的函数名")]
 #if ODIN_INSPECTOR
-        [LabelText("获取自定义消息类对象的方法名"), ShowIf("@this.m_IsSendIDAsNotice && !this.m_ApplyDefaultNoticeType"), OnValueChanged("GetIDAsCustomNoticeMethodChanged"), Indent(2)]
+        [LabelText("获取自定义消息类对象的方法名"), ShowIf("@this.m_IsSendIDAsNotice && !this.m_ApplyDefaultNoticeType"), OnValueChanged("GetIDAsCustomNoticeMethodChanged"), Indent(2), Indent(1)]
 #endif
         private string m_GetIDAsCustomNoticeMethod;
 #if ODIN_INSPECTOR

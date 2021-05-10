@@ -17,7 +17,7 @@ namespace ShipDock.Applications
 
         public void Delive<T>(ResolveDelegate<T> customResolver = default)
         {
-            serverName.Delive<T>(deliverName, alias, customResolver);//调用容器方法
+            serverName.Delive(deliverName, alias, customResolver);//调用容器方法
         }
     }
 }
