@@ -84,6 +84,7 @@ namespace ShipDock.HotFix
         public HotFixerComponent HotFixEnter { get; set; }
 
         public int PlaySoundNoticeName { get; set; } = int.MaxValue;
+        public int StopSoundNoticeName { get; set; } = int.MaxValue;
         public int PlayBGMNoticeName { get; set; } = int.MaxValue;
         public int StopBGMNoticeName { get; set; } = int.MaxValue;
         public int AddSoundsNoticeName { get; set; } = int.MaxValue;
@@ -124,15 +125,17 @@ namespace ShipDock.HotFix
             #endregion
         }
 
-        public void SetSoundEffectNotices(int playSound, int playBGM, int stopBGM, int addSounds, int removeSounds)
+        public void SetSoundEffectNotices(int playSound, int stopSound, int playBGM, int stopBGM, int addSounds, int removeSounds)
         {
             PlaySoundNoticeName = playSound;
+            StopSoundNoticeName = stopSound;
             PlayBGMNoticeName = playBGM;
             StopBGMNoticeName = stopBGM;
             AddSoundsNoticeName = addSounds;
             RemoveSoundsNoticeName = removeSounds;
 
             CheckAndAddSoundsNotice(PlaySoundNoticeName, OnPlaySound);
+            CheckAndAddSoundsNotice(StopSoundNoticeName, OnStopSound);
             CheckAndAddSoundsNotice(PlayBGMNoticeName, OnPlayBGM);
             CheckAndAddSoundsNotice(StopBGMNoticeName, OnStopBGM);
             CheckAndAddSoundsNotice(AddSoundsNoticeName, OnAddSounds);
@@ -172,6 +175,15 @@ namespace ShipDock.HotFix
             if (param is IParamNotice<string> soundNotice)
             {
                 Sounds.PlaySound(soundNotice.ParamValue);
+            }
+            else { }
+        }
+
+        private void OnStopSound(INoticeBase<int> param)
+        {
+            if (param is IParamNotice<string> soundNotice)
+            {
+                Sounds.StopSound(soundNotice.ParamValue);
             }
             else { }
         }

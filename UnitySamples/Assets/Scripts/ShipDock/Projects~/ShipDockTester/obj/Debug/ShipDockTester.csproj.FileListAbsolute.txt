@@ -16,3 +16,9 @@ F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Debug\Sh
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Debug\ShipDockTester.csproj.CoreCompileInputs.cache
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Debug\ShipDockTester.dll
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Debug\ShipDockTester.pdb
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\bin\Debug\ShipDockTester.dll
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\bin\Debug\ShipDockTester.pdb
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Debug\ShipDockTester.csprojAssemblyReference.cache
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Debug\ShipDockTester.csproj.CoreCompileInputs.cache
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Debug\ShipDockTester.dll
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Debug\ShipDockTester.pdb

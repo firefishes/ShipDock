@@ -1,5 +1,8 @@
 ﻿using ShipDock.Applications;
 using ShipDock.Tools;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,9 +12,13 @@ namespace ShipDock.Versioning
 {
     public enum ResDataVersionType
     {
+        /// <summary>空的资源版本</summary>
         Empty = 0,
+        /// <summary>客户端上的资源版本</summary>
         Client,
+        /// <summary>远端的资源版本</summary>
         Remote,
+        /// <summary>已缓存的资源版本</summary>
         Cached,
     }
 
@@ -77,6 +84,8 @@ namespace ShipDock.Versioning
                     remote = remoteVers.GetResVersion(abName);
                     baseVersion = remote != default ? remote.version : baseVersion;//若已存在线上版本，基于线上版本号进行设置
                 }
+                else { }
+
                 NewResVersion(baseVersion, isUpdateVersion, ref item, ref abName);
                 UpdateVersionChange(ref changeds, ref abName, ref item);
             }
@@ -88,10 +97,13 @@ namespace ShipDock.Versioning
             {
                 res_version++;
             }
+            else { }
+
             if (isSyncAppVersion)
             {
                 app_version = Application.version;
             }
+            else { }
         }
 
         private void FillChangedABList(out List<string> changeds)
@@ -123,6 +135,7 @@ namespace ShipDock.Versioning
                 {
                     resData.version++;
                 }
+                else { }
             }
         }
 
@@ -194,6 +207,7 @@ namespace ShipDock.Versioning
             {
                 ResChanges = mResChanged.ToArray();
             }
+            else { }
 #endif
         }
 
@@ -242,21 +256,51 @@ namespace ShipDock.Versioning
         }
 
         /// <summary>资源配置的类别</summary>
-        [Sirenix.OdinInspector.ReadOnly]
+#if ODIN_INSPECTOR
+        [LabelText("资源版本类型"), ReadOnly]
+#endif
         public ResDataVersionType resVersionType = ResDataVersionType.Empty;
+
         /// <summary>资源配置版本号</summary>
+#if ODIN_INSPECTOR
+        [LabelText("资源配置版本号")]
+#endif
         public int res_version;
+
         /// <summary>App版本号</summary>
+#if ODIN_INSPECTOR
+        [LabelText("App版本号")]
+#endif
         public string app_version;
+
         /// <summary>远程资源服务器网关</summary>
+#if ODIN_INSPECTOR
+        [LabelText("远程资源服务器网关")]
+#endif
         public string res_gateway;
+
         /// <summary>总资源数</summary>
+#if ODIN_INSPECTOR
+        [LabelText("资源总数")]
+#endif
         public int res_total;
+
         /// <summary>更新的资源数</summary>
+#if ODIN_INSPECTOR
+        [LabelText("更新中断等待重连数")]
+#endif
         public int updating_total;
+
         /// <summary>本版数据包含的所有资源版本</summary>
+#if ODIN_INSPECTOR
+        [LabelText("资源版本列表")]
+#endif
         public ResVersion[] res;
+
         /// <summary>需要加载的资源映射，用于排除重复更新/summary>
+#if ODIN_INSPECTOR
+        [LabelText("等待重连列表")]
+#endif
         public ResUpdating[] updatings;
 
         private int mUpdatingCount;
@@ -330,11 +374,14 @@ namespace ShipDock.Versioning
                 Array.Clear(res, 0, res.Length);
                 res = new ResVersion[0];
             }
+            else { }
+
             if (updatings != default)
             {
                 Array.Clear(updatings, 0, updatings.Length);
                 updatings = new ResUpdating[0];
             }
+            else { }
         }
 
         public void Clean(bool isRrefresh = true, bool deleteAll = false)
@@ -343,10 +390,13 @@ namespace ShipDock.Versioning
             {
                 Refresh();
             }
+            else { }
+
             if (deleteAll)
             {
                 CleanResAndUpdatinsRaw();
             }
+            else { }
 
             mRes?.Clear();
             mUpdatings?.Clear();
@@ -369,6 +419,8 @@ namespace ShipDock.Versioning
                 RefreshInEditor();
                 res = mRes.ToArray();
             }
+            else { }
+
             RefreshResChangedInEditor();
             res_total = res.Length;
             updating_total = updatings.Length;
@@ -384,6 +436,8 @@ namespace ShipDock.Versioning
             {
                 mUpdatings = new List<ResUpdating>();
             }
+            else { }
+
             int max = mUpdatingMapper != default ? mUpdatingMapper.Count : 0;
             if (max > 0)
             {
@@ -396,9 +450,13 @@ namespace ShipDock.Versioning
                     {
                         mUpdatings.Add(item);
                     }
+                    else { }
+
                     enumer.MoveNext();
                 }
             }
+            else { }
+
             updatings = new ResUpdating[max];
             updatings = mUpdatings.ToArray();
             updating_total = updatings.Length;
@@ -417,6 +475,8 @@ namespace ShipDock.Versioning
             {
                 copyFrom.Init();
             }
+            else { }
+
             app_version = copyFrom.app_version;
             res_version = copyFrom.res_version;
             res_gateway = copyFrom.res_gateway;
@@ -458,12 +518,15 @@ namespace ShipDock.Versioning
             {
                 return new List<ResVersion>(0);
             }
+            else { }
 
             bool isVersionsEmpty = IsVersionsEmpty();
             if (isVersionsEmpty)
             {
                 CloneVersionsFrom(ref clientVersions);//复制安装包中默认的资源版本
             }
+            else { }
+
             Init();
 
             ResVersion remoteItem = default, cachedItem = default;
@@ -471,6 +534,8 @@ namespace ShipDock.Versioning
             {
                 AddUpdatingsFromExisted(ref remoteItem, ref cachedItem);
             }
+            else { }
+
             SyncCachedUpdatingToMapper();
             AddUpdatingsFromRemote(ref remoteVersions, ref remoteItem, ref cachedItem);
 
@@ -479,6 +544,30 @@ namespace ShipDock.Versioning
             GetWillUpdateList(out List<ResVersion> result);
             return result;
         }
+
+        //public void CopySteammingAssets(ResDataVersion clientVersions)
+        //{
+        //    string streamming, persistent;
+        //    int max = clientVersions.res.Length;
+        //    ResVersion item;
+        //    byte[] vs;
+        //    for (int i = 0; i < max; i++)
+        //    {
+        //        item = clientVersions.res[i];
+        //        streamming = AppPaths.StreamingResDataRoot.Append(item.name);
+        //        if (File.Exists(streamming))
+        //        {
+        //            persistent = AppPaths.PersistentResDataRoot.Append(item.name);
+        //            if (!File.Exists(persistent))
+        //            {
+        //                vs = FileOperater.ReadBytes(streamming);
+        //                FileOperater.WriteBytes(vs, persistent);
+        //            }
+        //            else { }
+        //        }
+        //        else { }
+        //    }
+        //}
 
         /// <summary>
         /// 获取更新列表
@@ -496,10 +585,13 @@ namespace ShipDock.Versioning
             {
                 abName = mUpdatings[i].name;
                 item = GetResVersion(abName);
+
                 if (item == default)
                 {
                     item = ResVersion.CreateNew(abName, mUpdatings[i].version, mUpdatings[i].file_size);
                 }
+                else { }
+
                 item.Url = res_gateway.Append(abName);
                 result.Add(item);
             }
@@ -523,14 +615,16 @@ namespace ShipDock.Versioning
                     statu = 0;
                     remoteItem = list[i];
                     isResExist = IsResExist(ref remoteItem);
+
                     if (isResExist)
                     {
                         CampareVersion(ref cachedItem, ref remoteItem, out statu);
                     }
                     else
                     {
-                        statu = 1;//文件不存在，新建版本并更新
+                        statu = 1;//服务端的文件不存在于本地，新建版本并更新
                     }
+
                     switch (statu)
                     {
                         case 1:
@@ -540,11 +634,13 @@ namespace ShipDock.Versioning
                                 cachedItem = AddNewRes(remoteItem.name, remoteItem.version);//增加本地新资源的版本
                                 "warning: Res {0} version is new one or deleted, will add and update".Log(cachedItem.name);
                             }
+                            else { }
                             AddToUpdate(ref remoteItem, cachedItem);
                             break;
                     }
                 }
             }
+            else { }
         }
 
         /// <summary>
@@ -574,6 +670,8 @@ namespace ShipDock.Versioning
                 {
                     mUpdatingMapper = new Dictionary<string, ResUpdating>();
                 }
+                else { }
+
                 string abName;
                 ResUpdating resUpdate;
                 int max = mUpdatings.Count;
@@ -586,8 +684,10 @@ namespace ShipDock.Versioning
                     {
                         mUpdatingMapper[abName] = resUpdate;
                     }
+                    else { }
                 }
             }
+            else { }
         }
 
         /// <summary>
@@ -609,6 +709,7 @@ namespace ShipDock.Versioning
                 mUpdatingMapper[name] = newUpdating;
                 "log: Res {0} version changed ({1} -> {2}), will update".Log(remoteItem.name, (cached != default) ? cached.version.ToString() : "...", remoteItem.version.ToString());
             }
+            else { }
         }
 
         /// <summary>
@@ -633,6 +734,7 @@ namespace ShipDock.Versioning
                     statu = 2;//需要更新资源的版本
                     cachedItem.version = remoteItem.version;
                 }
+                else { }
             }
         }
 
@@ -695,7 +797,10 @@ namespace ShipDock.Versioning
                 {
                     result = res[value];
                 }
+                else { }
             }
+            else { }
+
             return result;
         }
 
@@ -710,6 +815,8 @@ namespace ShipDock.Versioning
                 mUpdatingMapper.Remove(abName);
                 mUpdatingCount--;
             }
+            else { }
+
             "log: Patch updated, remains {0}".Log(mUpdatingCount.ToString());
 
             if (mUpdatingCount <= 0)
@@ -719,6 +826,7 @@ namespace ShipDock.Versioning
 
                 "log".Log("Patches update Completed!");
             }
+            else { }
         }
 
         public void ResetUpdatingsCount()

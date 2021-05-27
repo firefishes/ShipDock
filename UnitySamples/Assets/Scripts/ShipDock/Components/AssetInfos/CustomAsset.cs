@@ -20,45 +20,47 @@ namespace ShipDock.Loader
     [Serializable]
     public class CustomAsset
     {
+        public string assetName;
+
+#if ODIN_INSPECTOR
+        [Indent(1)]
+#endif
         public CustomAssetType customAssetType;
+
+#if ODIN_INSPECTOR
+        [ShowIf("customAssetType", CustomAssetType.GAME_OBJECT), Indent(1)]
+#endif
+        public GameObject asset;
+
+#if ODIN_INSPECTOR
+        [ShowIf("customAssetType", CustomAssetType.TEXTURE_2D), Indent(1)]
+#endif
+        public Texture2D tex2D;
+
+#if ODIN_INSPECTOR
+        [ShowIf("customAssetType", CustomAssetType.SPRITE), Indent(1)]
+#endif
+        public Sprite sprite;
+
+#if ODIN_INSPECTOR
+        [ShowIf("customAssetType", CustomAssetType.AUDIO_CLIP), Indent(1)]
+#endif
+        public AudioClip audioClip;
+
+#if ODIN_INSPECTOR
+        [ShowIf("customAssetType", CustomAssetType.TEXT_ASSET), Indent(1)]
+#endif
+        public TextAsset textData;
+
+#if ODIN_INSPECTOR
+        [ShowIf("customAssetType", CustomAssetType.ASSET_BUNDLE), Indent(1)]
+#endif
+        public AssetBundle assetBundle;
+
 #if ODIN_INSPECTOR
         [Indent(1)]
 #endif
         public bool refresh;
-#if ODIN_INSPECTOR
-        [Indent(1)]
-#endif
-        public string assetName;
-#if ODIN_INSPECTOR
-        [ShowIf("customAssetType", CustomAssetType.GAME_OBJECT)]
-        [Indent(1)]
-#endif
-        public GameObject asset;
-#if ODIN_INSPECTOR
-        [ShowIf("customAssetType", CustomAssetType.TEXTURE_2D)]
-        [Indent(1)]
-#endif
-        public Texture2D tex2D;
-#if ODIN_INSPECTOR
-        [ShowIf("customAssetType", CustomAssetType.SPRITE)]
-        [Indent(1)]
-#endif
-        public Sprite sprite;
-#if ODIN_INSPECTOR
-        [ShowIf("customAssetType", CustomAssetType.AUDIO_CLIP)]
-        [Indent(1)]
-#endif
-        public AudioClip audioClip;
-#if ODIN_INSPECTOR
-        [ShowIf("customAssetType", CustomAssetType.TEXT_ASSET)]
-        [Indent(1)]
-#endif
-        public TextAsset textData;
-#if ODIN_INSPECTOR
-        [ShowIf("customAssetType", CustomAssetType.ASSET_BUNDLE)]
-        [Indent(1)]
-#endif
-        public AssetBundle assetBundle;
 
         public void UpdateCustomAssetName()
         {

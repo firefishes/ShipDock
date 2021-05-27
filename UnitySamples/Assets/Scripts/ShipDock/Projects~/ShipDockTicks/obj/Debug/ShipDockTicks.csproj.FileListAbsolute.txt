@@ -22,3 +22,9 @@ F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\obj\Debug\Shi
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\obj\Debug\ShipDockTicks.csproj.CoreCompileInputs.cache
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\obj\Debug\ShipDockTicks.dll
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\obj\Debug\ShipDockTicks.pdb
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\bin\Debug\ShipDockTicks.dll
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\bin\Debug\ShipDockTicks.pdb
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\obj\Debug\ShipDockTicks.csprojAssemblyReference.cache
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\obj\Debug\ShipDockTicks.csproj.CoreCompileInputs.cache
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\obj\Debug\ShipDockTicks.dll
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTicks\obj\Debug\ShipDockTicks.pdb

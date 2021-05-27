@@ -75,9 +75,19 @@ namespace ShipDock.Modulars
 
         protected virtual void NoticeDecorator(int noticeName, INoticeBase<int> param) { }
 
-        public virtual INoticeBase<int> NotifyModular(int name, INoticeBase<int> param = default)
+        public virtual INoticeBase<int> NotifyModular(int name, INoticeBase<int> notice = default)
         {
-            return Modulars != default ? Modulars.NotifyModular(name, param) : default;
+            return Modulars != default ? Modulars.NotifyModular(name, notice) : default;
+        }
+
+        public virtual INoticeBase<int> NotifyModularWithParam<T>(int name, T param = default, IParamNotice<T> notice = default)
+        {
+            return Modulars != default ? Modulars.NotifyModularWithParam(name, param, notice) : default;
+        }
+
+        public virtual void NotifyModularAndRelease(int name, INoticeBase<int> notice = default)
+        {
+            Modulars?.NotifyModularAndRelease(name, notice);
         }
 
         public virtual void SetModularManager(IAppModulars modulars)

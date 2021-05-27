@@ -72,6 +72,8 @@ namespace ShipDock.Loader
         public AssetBundleManifest AessetManifest { get; private set; }
         public AssetBundles ABs { get; private set; }
 
+        public static bool IgnoreRemote { get; set; }
+
         public AssetsLoader()
         {
             ResList = new List<string>();
@@ -229,7 +231,7 @@ namespace ShipDock.Loader
                 {
                     relativeName = relativeName,
                     isGetDependencies = isDependenciesLoader,
-                    isPersistentPath = isPersistent,
+                    isPersistentPath = !IgnoreRemote && isPersistent,
                 };
                 InitDependencesList(opertion.relativeName, isPersistent);
                 "log: 添加本地资源队列: {0}".Log(opertion.relativeName);

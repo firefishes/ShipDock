@@ -10,3 +10,9 @@ F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\obj\Debug\ShipD
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\obj\Debug\ShipDockECS.csproj.CoreCompileInputs.cache
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\obj\Debug\ShipDockECS.dll
 F:\Work\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\obj\Debug\ShipDockECS.pdb
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\bin\Debug\ShipDockECS.dll
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\bin\Debug\ShipDockECS.pdb
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\obj\Debug\ShipDockECS.csprojAssemblyReference.cache
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\obj\Debug\ShipDockECS.csproj.CoreCompileInputs.cache
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\obj\Debug\ShipDockECS.dll
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockECS\obj\Debug\ShipDockECS.pdb

@@ -10,5 +10,7 @@ namespace ShipDock.Modulars
         void AddNoticeDecorator(int noticeName, Action<int, INoticeBase<int>> method);
         void RemoveNoticeDecorator(int noticeName, Action<int, INoticeBase<int>> method);
         INoticeBase<int> NotifyModular(int name, INoticeBase<int> param = default);
+        INoticeBase<int> NotifyModularWithParam<T>(int noticeName, T param = default, IParamNotice<T> notice = default);
+        void NotifyModularAndRelease(int noticeName, INoticeBase<int> param = default, bool isRelease = true);
     }
 }

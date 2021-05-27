@@ -1,66 +1,109 @@
 ﻿using ShipDock.Applications;
 using ShipDock.Loader;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace ShipDock.Versioning
 {
+    /// <summary>
+    /// 
+    /// 远程网关可选项
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     [Serializable]
     public class RemoteGatewayItem
     {
+        /// <summary>网关名</summary>
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.ShowIf("selected", true)]
+        [LabelText("网关名"), ShowIf("selected", true)]
 #endif
         public string name;
+
+        /// <summary>网关</summary>
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.ToggleGroup("selected", "$name")]
-#endif
-        public bool selected;
-#if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.ShowIf("selected", true)]
+        [ShowIf("selected", true), Indent(1)]
 #endif
         public string gateway;
+
+        /// <summary>是否启用</summary>
+#if ODIN_INSPECTOR
+        [ToggleGroup("selected", "$name"), Indent(1)]
+#endif
+        public bool selected;
     }
 
     /// <summary>
+    /// 
     /// 客户端安装包资源版本配置数据对象
+    /// 
+    /// add by Minghua.ji
+    /// 
     /// </summary>
     [CreateAssetMenu(fileName = "ClientResVersions", menuName = "ShipDock : 客户端资源版本", order = 100)]
     public class ClientResVersion : ScriptableObject
     {
-        [Header("客户端安装包默认的资源版本配置")]
+        [SerializeField, Header("客户端安装包默认的资源版本配置"), Tooltip("子服务名，用于在同一个客户端下获取不同服务器的资源"), HideInInspector()]
+#if ODIN_INSPECTOR
+        [LabelText("子服务")]
+#endif
+        private string m_RemoteName = string.Empty;//TODO 用于进一步扩展不同资源网关支持，未完成，暂时隐藏
+
         [SerializeField]
-        [Tooltip("子服务名，用于在同一个客户端下获取不同服务器的资源")]
-        private string m_RemoteName = string.Empty;
-        [SerializeField]
-        private bool m_ApplyCurrentResGateway;
-        [SerializeField]
-        private string m_ResRemoteGateway;
-        [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("客户端资源版本")]
+#endif
         private ResDataVersion m_Res;
 
         #region 编辑器扩展相关
+        /// <summary>本次资源打包变更项</summary>
 #if UNITY_EDITOR
-        [Header("以下仅用于编辑器")]
-        [SerializeField]
+        [SerializeField, Header("以下仅生效于编辑器")]
+#if ODIN_INSPECTOR
+        [LabelText("本次资源打包变更项"), ShowIf("@this.m_ResChanged.Length > 0")]
+#endif
         private ResVersion[] m_ResChanged;
+
         [SerializeField]
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.ShowIf("m_ApplyCurrentResGateway", true)]
+        [LabelText("启用备选资源网关")]
+#endif
+        private bool m_ApplyCurrentResGateway;
+
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("已选的资源网关"), ShowIf("m_ApplyCurrentResGateway", true)]
+#endif
+        private string m_ResRemoteGateway;
+
+        /// <summary>可选的资源网关项</summary>
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("资源网关备选项"), ShowIf("m_ApplyCurrentResGateway", true)]
 #endif
         private RemoteGatewayItem[] m_OptionalGateways;
 
+        /// <summary>其他客户端资源版本的预览文件</summary>
         [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("其他资源版本预览文件")]
+#endif
         private TextAsset m_Preview = default;
-        private ResDataVersion mBeforePreview;
-        private bool mIsShowPreview = false;
 
         private int mRemoteSelected = -1;
+        private int mRemoteResVersion;
+        private bool mIsShowPreview = false;
         private bool mAskForDeletePersistent = false;
+        private ResDataVersion mBeforePreview;
+
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.ShowIf("m_ApplyCurrentResGateway", true)]
-        [Sirenix.OdinInspector.Button(name: "应用 Gateway")]
+        [ShowIf("m_ApplyCurrentResGateway", true), Button(name: "应用 Gateway")]
         private void UpdateRemoteGatewaySelected()
         {
             mRemoteSelected = -1;
@@ -72,6 +115,7 @@ namespace ShipDock.Versioning
                     mRemoteSelected = i;
                     break;
                 }
+                else { }
             }
             max = m_OptionalGateways.Length;
             for (int i = 0; i < max; i++)
@@ -80,16 +124,16 @@ namespace ShipDock.Versioning
                 {
                     m_OptionalGateways[i].selected = false;
                 }
+                else { }
             }
             if (mRemoteSelected != -1)
             {
                 m_ResRemoteGateway = m_OptionalGateways[mRemoteSelected].gateway;
-                
             }
+            else { }
         }
 
-        [Sirenix.OdinInspector.Button(name: "预览其他")]
-        [Sirenix.OdinInspector.ShowIf("@this.mIsShowPreview == false && m_Preview != null")]
+        [Button(name: "预览其他"), ShowIf("@this.mIsShowPreview == false && m_Preview != null")]
         private void PreviewVersionsData()
         {
             if (m_Preview != default)
@@ -98,10 +142,10 @@ namespace ShipDock.Versioning
                 mIsShowPreview = true;
                 m_Res = JsonUtility.FromJson<ResDataVersion>(m_Preview.text);
             }
+            else { }
         }
 
-        [Sirenix.OdinInspector.Button(name: "返回")]
-        [Sirenix.OdinInspector.ShowIf("@this.mIsShowPreview == true")]
+        [Button(name: "返回"), ShowIf("@this.mIsShowPreview == true")]
         private void ClosePreviewVersions()
         {
             mIsShowPreview = false;
@@ -109,26 +153,22 @@ namespace ShipDock.Versioning
             {
                 m_Res = mBeforePreview;
             }
+            else { }
         }
 
-        [Sirenix.OdinInspector.Button(name: "清空缓存资源")]
-        [Sirenix.OdinInspector.ShowIf("@this.mAskForDeletePersistent == false")]
+        [Button(name: "清空缓存资源"), ShowIf("@this.mAskForDeletePersistent == false")]
         private void WillDeletePersistent()
         {
             mAskForDeletePersistent = true;
         }
 
-        [Sirenix.OdinInspector.ButtonGroup("是否清空缓存资源？")]
-        [Sirenix.OdinInspector.Button(name: "取消")]
-        [Sirenix.OdinInspector.ShowIf("@this.mAskForDeletePersistent == true")]
+        [ButtonGroup("是否清空缓存资源？"), Button(name: "取消"), ShowIf("@this.mAskForDeletePersistent == true")]
         private void CancelDeletePersistent()
         {
             mAskForDeletePersistent = false;
         }
 
-        [Sirenix.OdinInspector.ButtonGroup("是否清空缓存资源？")]
-        [Sirenix.OdinInspector.Button(name: "确定")]
-        [Sirenix.OdinInspector.ShowIf("@this.mAskForDeletePersistent == true")]
+        [ButtonGroup("是否清空缓存资源？"), Button(name: "确定"), ShowIf("@this.mAskForDeletePersistent == true")]
         private void ConfirmDeletePersistent()
         {
             mAskForDeletePersistent = false;
@@ -136,6 +176,10 @@ namespace ShipDock.Versioning
         }
 #endif
 
+        /// <summary>
+        /// 设置本次资源打包的变更
+        /// </summary>
+        /// <param name="resChanges"></param>
         public void SetChanges(ResVersion[] resChanges)
         {
             m_ResChanged = resChanges;
@@ -144,24 +188,16 @@ namespace ShipDock.Versioning
         private void OnEnable()
         {
 #if ODIN_INSPECTOR
-            if (mIsShowPreview && mBeforePreview != default && m_Preview == default)
+            if (mIsShowPreview && 
+                (mBeforePreview != default) && (m_Preview == default))
             {
                 ClosePreviewVersions();
             }
+            else { }
 #endif
         }
 #endif
         #endregion
-
-        private int mRemoteResVersion;
-
-        public bool ApplyCurrentResGateway
-        {
-            get
-            {
-                return m_ApplyCurrentResGateway;
-            }
-        }
 
         /// <summary>本地缓存的资源版本配置</summary>
         public ResDataVersion CachedVersion { get; private set; }
@@ -169,6 +205,8 @@ namespace ShipDock.Versioning
         public Action<bool, float> UpdateHandler { get; private set; }
         /// <summary>单个资源更新完成的回调函数</summary>
         public Func<bool> VersionInvalidHandler { get; private set; }
+        /// <summary>远端服务器上的应用版本号</summary>
+        public string RemoteAppVersion { get; private set; }
 
         public int UpdatingLoaded
         {
@@ -211,12 +249,24 @@ namespace ShipDock.Versioning
                 {
                     m_Res = new ResDataVersion();
                 }
+                else { }
+
                 if (m_Res.resVersionType != ResDataVersionType.Client)
                 {
                     m_Res.resVersionType = ResDataVersionType.Client;
                 }
+                else { }
+
                 SyncResGateway();
                 return m_Res;
+            }
+        }
+
+        public bool ApplyCurrentResGateway
+        {
+            get
+            {
+                return m_ApplyCurrentResGateway;
             }
         }
 
@@ -256,10 +306,12 @@ namespace ShipDock.Versioning
                     app_version = remoteVersions.app_version,
                     res_version = remoteVersions.res_version
                 };
-                
+
                 ResDataVersion client = Versions;
                 temp.CloneVersionsFrom(ref client);
             }
+            else { }
+
             CachedVersion = temp;
             CachedVersion.resVersionType = ResDataVersionType.Cached;
         }
@@ -280,13 +332,12 @@ namespace ShipDock.Versioning
             {
                 UpdateHandler = updateHandler;
                 VersionInvalidHandler = versionInvalidHandler;
+
                 Loader.Loader loader = new Loader.Loader();
                 loader.CompleteEvent.AddListener(OnLoadComplete);
                 loader.Load(Versions.res_gateway.Append(ResDataVersion.FILE_RES_DATA_VERSIONS_NAME));
             }
         }
-
-        public string RemoteAppVersion { get; private set; }
 
         private void OnLoadComplete(bool success, Loader.Loader target)
         {
@@ -308,7 +359,9 @@ namespace ShipDock.Versioning
                         "warning:There have a newest App.".Log();
                         return;
                     }
+                    else { }
                 }
+                else { }
 
                 mRemoteResVersion = remoteVersions.res_version;
                 List<ResVersion> resUpdate = CachedVersion.CheckUpdates(Versions, ref remoteVersions);
@@ -364,52 +417,57 @@ namespace ShipDock.Versioning
         /// <param name="name"></param>
         private void OnResItemUpdated(bool flag, string name)
         {
-            if (CachedVersion == default)
+            if (CachedVersion != default)
             {
-                return;
+                CachedVersion.RemoveUpdate(name);
+
+                float min = CachedVersion.UpdatingLoaded;
+                float max = CachedVersion.UpdatingMax;
+                bool isCompleted = CachedVersion.UpdatingLoaded >= CachedVersion.UpdatingMax;
+
+                UpdateHandler?.Invoke(isCompleted, min / max);
+
+                bool isFinished = min >= max;
+                if (isFinished)
+                {
+                    CachedVersion.res_version = mRemoteResVersion;
+                    CachedVersion.WriteAsCached();
+                    UpdateHandler = default;
+                    CachedVersion.ResetUpdatingsCount();
+                }
+                else { }
             }
-
-            CachedVersion.RemoveUpdate(name);
-
-            float min = CachedVersion.UpdatingLoaded;
-            float max = CachedVersion.UpdatingMax;
-            bool isCompleted = CachedVersion.UpdatingLoaded >= CachedVersion.UpdatingMax;
-
-            UpdateHandler?.Invoke(isCompleted, min / max);
-
-            bool isFinished = min >= max;
-            if (isFinished)
-            {
-                CachedVersion.res_version = mRemoteResVersion;
-                CachedVersion.WriteAsCached();
-                UpdateHandler = default;
-                CachedVersion.ResetUpdatingsCount();
-            }
+            else { }
         }
 
         public void CacheResVersion(bool isExit)
         {
-            if (CachedVersion == default)
+            if (CachedVersion != default)
             {
-                return;
+                if (CachedVersion.resVersionType == ResDataVersionType.Cached)
+                {
+                    CachedVersion?.WriteAsCached();
+                }
+                else { }
+
+                if (isExit)
+                {
+                    CachedVersion.Clean();
+                    CachedVersion = default;
+                }
+                else { }
             }
-            if (CachedVersion.resVersionType == ResDataVersionType.Cached)
-            {
-                CachedVersion?.WriteAsCached();
-            }
-            if (isExit)
-            {
-                CachedVersion.Clean();
-                CachedVersion = default;
-            }
+            else { }
         }
+
         public void ClearPersistent()
         {
             string path = AppPaths.PersistentResDataRoot;
-            if (System.IO.Directory.Exists(path))
+            if (Directory.Exists(path))
             {
-                System.IO.Directory.Delete(path, true);
+                Directory.Delete(path, true);
             }
+            else { }
         }
     }
 

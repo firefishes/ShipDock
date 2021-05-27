@@ -36,10 +36,6 @@
       <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ShipDockEditor">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockEditor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ShipDockLoader">
       <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockLoader.dll</HintPath>
       <Private>False</Private>
