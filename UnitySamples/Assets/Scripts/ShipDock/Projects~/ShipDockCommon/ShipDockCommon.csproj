@@ -49,6 +49,9 @@
     <Compile Include="..\SoruceCode\ShipDockCommon\Applications\Interfaces\ICamerLens.cs">
       <Link>ShipDockCommon\ICamerLens.cs</Link>
     </Compile>
+    <Compile Include="..\SoruceCode\ShipDockCommon\Applications\Loom.cs">
+      <Link>ShipDockCommon\Loom.cs</Link>
+    </Compile>
     <Compile Include="..\SoruceCode\ShipDockCommon\Applications\Tools\AppPaths.cs">
       <Link>ShipDockCommon\AppPaths.cs</Link>
     </Compile>

@@ -156,6 +156,8 @@ namespace ShipDock.Applications
                 else { }
             }
             else { }
+
+            Loom loom = Loom.Current;
         }
 
         protected virtual void OnApplicationQuit()

@@ -90,7 +90,10 @@ namespace ShipDock.Editors
                 }
                 else
                 {
-                    Loader.Loader loader = new Loader.Loader();
+                    Loader.Loader loader = new Loader.Loader
+                    {
+                        ApplyLoom = false
+                    };
                     loader.CompleteEvent.AddListener(OnGetRemoteVersion);
                     loader.Load(resRemoteGateWay.Append(ResDataVersion.FILE_RES_DATA_VERSIONS_NAME));
                 }

@@ -33,17 +33,52 @@ namespace ShipDock.Ticks
         private UpdaterNotice mNoticeAdded;
         private UpdaterNotice mNoticeRemoved;
 
+        public bool Enable
+        {
+            set
+            {
+                mEnable = value;
+                if (mEnable)
+                {
+                    Enabled();
+                }
+                else
+                {
+                    Disabled();
+                }
+            }
+            get
+            {
+                return mEnable;
+            }
+        }
+
+        public float DeltaTime
+        {
+            get
+            {
+                return LastRunTime - RunTime;
+            }
+        }
+
+        public float FixedUpdateTime { get; private set; }
+        public float RunTime { get; private set; }
+        public float LastRunTime { get; private set; }
+
         public TicksUpdater(int tickTime, float fixedUpdateTime = 0.3f)
         {
             FixedUpdateTime = fixedUpdateTime;
             mFixedUpdateDeltaTime = (int)(fixedUpdateTime * 1000);
             mFixedUpdateCountTime = mFixedUpdateDeltaTime;
+
             if (mThreadTicks == null)
             {
                 mThreadTicks = new ThreadTicks(tickTime);
                 mThreadTicks.Add(Updating);
                 mThreadTicks.Start();
             }
+            else { }
+
             mTicksLater = new TicksLater();
             mTicksList = new List<IUpdate>();
             mListDeleted = new List<IUpdate>();
@@ -77,6 +112,8 @@ namespace ShipDock.Ticks
             {
                 return;
             }
+            else { }
+
             ShipDockConsts.NOTICE_REMOVE_UPDATE.Add(RemoveUpdate);
             ShipDockConsts.NOTICE_ADD_UPDATE.Add(AddUpdate);
             ShipDockConsts.NOTICE_FRAME_UPDATER_COMP_READY.Broadcast();
@@ -88,6 +125,8 @@ namespace ShipDock.Ticks
             {
                 return;
             }
+            else { }
+
             ShipDockConsts.NOTICE_REMOVE_UPDATE.Remove(RemoveUpdate);
             ShipDockConsts.NOTICE_ADD_UPDATE.Remove(AddUpdate);
         }
@@ -98,15 +137,21 @@ namespace ShipDock.Ticks
             {
                 return;
             }
+            else { }
+
             if ((mTicksList != null) && (mTicksList.IndexOf(mItemAdded) == -1))
             {
                 mTicksList.Add(mItemAdded);
                 mItemAdded.AddUpdate();
             }
+            else { }
+
             if ((mListDeleted != null) && mListDeleted.Contains(mItemAdded))
             {
                 mListDeleted.Remove(mItemAdded);//清除之前添加过的移除刷帧标记，避免最新的队列标记不生效
             }
+            else { }
+
             mItemAdded = null;
         }
 
@@ -116,15 +161,19 @@ namespace ShipDock.Ticks
             {
                 return;
             }
+            else { }
+
             if ((mItemRemoved != null) && (mListDeleted != null) && (mListDeleted.IndexOf(mItemRemoved) == -1))
             {
                 mListDeleted.Add(mItemRemoved);//加入删除列表，下一次帧周期中统一移除
             }
+            else { }
         }
 
         /// <summary>添加一个需要刷帧的对象</summary>
         protected virtual void AddUpdate(INoticeBase<int> param)
         {
+            UnityEngine.Debug.Log("AddUpdate " + param);
             mNoticeAdded = param as UpdaterNotice;
             if ((mNoticeAdded == null) || 
                 (mNoticeAdded.ParamValue == null) || 
@@ -132,6 +181,7 @@ namespace ShipDock.Ticks
             {
                 return;
             }
+            else { }
 
             mItemAdded = mNoticeAdded.ParamValue;
             AddUpdaterItem(0);
@@ -148,6 +198,8 @@ namespace ShipDock.Ticks
             {
                 return;
             }
+            else { }
+
             mItemRemoved = mNoticeRemoved.ParamValue;
             RemoveUpdaterItem(0);
             mNoticeRemoved = null;
@@ -165,6 +217,8 @@ namespace ShipDock.Ticks
             {
                 return;
             }
+            else { }
+
             RunTime += time * 0.001f;
 
             CheckRemoveUpdate();
@@ -186,11 +240,14 @@ namespace ShipDock.Ticks
                 {
                     break;
                 }
+                else { }
+
                 mItem = mTicksList[mIndex];
                 if (IsValidUpdate(mItem))
                 {
                     CallUpdateMethodByType(time, methodType);
                 }
+                else { }
             }
         }
 
@@ -207,7 +264,9 @@ namespace ShipDock.Ticks
                             mItem.OnFixedUpdate(mFixedUpdateDeltaTime);
                             mFixedUpdateCountTime += mFixedUpdateDeltaTime;
                         }
+                        else { }
                     }
+                    else { }
                     break;
                 case TICKS_UPDATE:
                     if(mItem.IsUpdate)
@@ -215,12 +274,14 @@ namespace ShipDock.Ticks
                         mTicksLater?.Update(time);
                         mItem?.OnUpdate(time);
                     }
+                    else { }
                     break;
                 case TICKS_LATE_UPDATE:
                     if(mItem.IsLateUpdate)
                     {
                         mItem.OnLateUpdate();
                     }
+                    else { }
                     break;
             }
         }
@@ -244,38 +305,7 @@ namespace ShipDock.Ticks
                 }
                 mListDeleted.Clear();
             }
+            else { }
         }
-
-        public bool Enable
-        {
-            set
-            {
-                mEnable = value;
-                if(mEnable)
-                {
-                    Enabled();
-                }
-                else
-                {
-                    Disabled();
-                }
-            }
-            get
-            {
-                return mEnable;
-            }
-        }
-
-        public float DeltaTime
-        {
-            get
-            {
-                return LastRunTime - RunTime;
-            }
-        }
-
-        public float FixedUpdateTime { get; private set; }
-        public float RunTime { get; private set; }
-        public float LastRunTime { get; private set; }
     }
 }

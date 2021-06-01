@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShipDock.UI
@@ -13,9 +14,11 @@ namespace ShipDock.UI
         private IUIStack mCurrent;
         private IUIStack mPrevious;
         private UICacher mUICacher;
+        private Dictionary<string, GameObject> mResourceUIMapper;
 
         public UIManager()
         {
+            mResourceUIMapper = new Dictionary<string, GameObject>();
             mUICacher = new UICacher();
             mUICacher.Init();
         }
@@ -23,6 +26,7 @@ namespace ShipDock.UI
         public void Dispose()
         {
             mUICacher.Clear();
+            mResourceUIMapper.Clear();
 
             mCurrent = default;
             mPrevious = default;
@@ -40,10 +44,44 @@ namespace ShipDock.UI
 
         public T OpenResourceUI<T>(string resName) where T : Component
         {
-            GameObject raw = Resources.Load<GameObject>("ui/".Append(resName));
-            raw = UnityEngine.Object.Instantiate(raw, UIRoot.MainCanvas.transform);
-            T result = raw.GetComponent<T>();
+            T result;
+            if (mResourceUIMapper.TryGetValue(resName, out GameObject raw))
+            {
+                if (raw != default)
+                {
+                    result = raw.GetComponent<T>();
+                }
+                else
+                {
+                    mResourceUIMapper.Remove(resName);//排除已被外部销毁的对象，然后重新获取
+                    result = OpenResourceUI<T>(resName);
+                }
+            }
+            else
+            {
+                raw = Resources.Load<GameObject>("ui/".Append(resName));
+                raw = UnityEngine.Object.Instantiate(raw, UIRoot.MainCanvas.transform);
+                result = raw.GetComponent<T>();
+                mResourceUIMapper[resName] = raw;
+            }
             return result;
+        }
+
+        public void CloseResourceUI(string resName)
+        {
+            if (mResourceUIMapper.TryGetValue(resName, out GameObject raw))
+            {
+                mResourceUIMapper.Remove(resName);
+                if (raw != default)
+                {
+                    UnityEngine.Object.Destroy(raw);
+                }
+                else { }
+            }
+            else
+            {
+                Debug.LogError(resName);
+            }
         }
 
         public T Open<T>(string stackName, Func<object> creater = default) where T : IUIStack, new()

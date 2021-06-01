@@ -1,4 +1,6 @@
-﻿using ShipDock.Applications;
+﻿#define LOG_CLIENT_VERSIONING
+
+using ShipDock.Applications;
 using ShipDock.Loader;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -101,6 +103,7 @@ namespace ShipDock.Versioning
         private bool mIsShowPreview = false;
         private bool mAskForDeletePersistent = false;
         private ResDataVersion mBeforePreview;
+        private AssetsLoader mRemoteResLoader;
 
 #if ODIN_INSPECTOR
         [ShowIf("m_ApplyCurrentResGateway", true), Button(name: "应用 Gateway")]
@@ -299,7 +302,9 @@ namespace ShipDock.Versioning
             ResDataVersion temp = JsonUtility.FromJson<ResDataVersion>(data);
             if (temp == default || temp.IsVersionsEmpty())
             {
+#if LOG_CLIENT_VERSIONING
                 "log".Log("Verision data is empty, will create new one.");
+#endif
                 temp = new ResDataVersion
                 {
                     res_gateway = remoteVersions.res_gateway,
@@ -356,7 +361,9 @@ namespace ShipDock.Versioning
                     bool flag = VersionInvalidHandler();
                     if (flag)
                     {
-                        "warning:There have a newest App.".Log();
+#if LOG_CLIENT_VERSIONING
+                        "warning:There have a newer App inistaller.".Log();
+#endif
                         return;
                     }
                     else { }
@@ -367,6 +374,10 @@ namespace ShipDock.Versioning
                 List<ResVersion> resUpdate = CachedVersion.CheckUpdates(Versions, ref remoteVersions);
                 CachedVersion.WriteAsCached();
 
+#if LOG_CLIENT_VERSIONING
+                "log:Remote res update count is {0}".Log(resUpdate.Count.ToString());
+                "log:UpdateHandler is null: {0}".Log((UpdateHandler == default).ToString());
+#endif
                 if (resUpdate.Count == 0)
                 {
                     UpdateHandler?.Invoke(true, 1f);
@@ -388,26 +399,33 @@ namespace ShipDock.Versioning
         /// <param name="resUpdate"></param>
         private void StartLoadPatchRes(ref List<ResVersion> resUpdate)
         {
-            AssetsLoader loader = new AssetsLoader();
-            loader.CompleteEvent.AddListener(OnPatchLoadFinished);
-            loader.RemoteAssetUpdated.AddListener(OnResItemUpdated);
-
-            ResVersion item;
-            string url, resName;
-            int max = resUpdate.Count;
-            for (int i = 0; i < max; i++)
+            if (mRemoteResLoader != default)
             {
-                item = resUpdate[i];
-                url = item.Url;
-                resName = item.name;
-                loader.AddRemote(url, resName, true);
+                mRemoteResLoader.Dispose();
             }
-            loader.Load(out _);
-        }
+            else { }
 
-        private void OnPatchLoadFinished(bool flag, AssetsLoader loader)
-        {
-            loader.Dispose();
+            int max = resUpdate.Count;
+            if (max > 0)
+            {
+                mRemoteResLoader = new AssetsLoader();
+                mRemoteResLoader.RemoteAssetUpdated.AddListener(OnResItemUpdated);
+
+                ResVersion item;
+                string url, resName;
+                for (int i = 0; i < max; i++)
+                {
+                    item = resUpdate[i];
+                    url = item.Url;
+                    resName = item.name;
+                    mRemoteResLoader.AddRemote(url, resName, true);
+                }
+                mRemoteResLoader.Load(out _);
+            }
+            else
+            {
+                UpdateHandler?.Invoke(true, 1f);
+            }
         }
 
         /// <summary>
@@ -423,16 +441,15 @@ namespace ShipDock.Versioning
 
                 float min = CachedVersion.UpdatingLoaded;
                 float max = CachedVersion.UpdatingMax;
-                bool isCompleted = CachedVersion.UpdatingLoaded >= CachedVersion.UpdatingMax;
+                bool isCompleted = min >= max;
 
-                UpdateHandler?.Invoke(isCompleted, min / max);
+                UpdateHandler?.Invoke(isCompleted, isCompleted ? 1f : min / max);
 
                 bool isFinished = min >= max;
                 if (isFinished)
                 {
                     CachedVersion.res_version = mRemoteResVersion;
                     CachedVersion.WriteAsCached();
-                    UpdateHandler = default;
                     CachedVersion.ResetUpdatingsCount();
                 }
                 else { }

@@ -1,6 +1,8 @@
 ﻿#define _LOG_UNPRESS_ZIP
 
 using ICSharpCode.SharpZipLib.Zip;
+using ShipDock.Commons;
+using ShipDock.Notices;
 using ShipDock.Tools;
 using System;
 using System.IO;
@@ -12,29 +14,158 @@ namespace ShipDock.Applications
     /// Zip 解压缩
     /// 
     /// 技术引用CSDN博主「C-h-h」的原创文章，https://blog.csdn.net/chh19941125/article/details/104984884
+    /// 引用的库文件：I18N.CJK.dll，I18N.dll，I18N.West.dll，Mono.Data.Tds.dll，System.Data.dll
     /// 
     /// author C-h-h
     /// modify by Minghua.ji
     /// 
     /// </summary>
-    public class ZipHelper
+    public class ZipHelper : IUpdate
     {
+        private string mPassword;
+        private ZipEntry mEnt;
+        private ZipInputStream mZipInputStream;
+
         public string ZipID { get; private set; }
         public string SavePath { get; set; }
+        public bool IsCompleted { get; private set; }
+        public bool IsUpdate { get; } = true;
+        public bool IsFixedUpdate { get; }
+        public bool IsLateUpdate { get; }
+        public Action OnCompleted { get; set; }
+        public FileStream FileStream { get; private set; }
+
+        public void AddUpdate() { }
+
+        public void RemoveUpdate() { }
+
+        public void OnLateUpdate() { }
+
+        public void OnFixedUpdate(int dTime) { }
+
+        public void OnUpdate(int dTime)
+        {
+            Uncompress();
+        }
+
+        private void Uncompress()
+        {
+            if (!IsCompleted)
+            {
+                //try
+                //{
+                    int size;
+                    int fixSize = 2048;
+                    byte[] data;
+                    string fileName;
+                    while ((mEnt = mZipInputStream.GetNextEntry()) != null)
+                    {
+                        if (!string.IsNullOrEmpty(mEnt.Name))
+                        {
+                            fileName = Path.Combine(SavePath, mEnt.Name);
+
+                            #region Android
+                            fileName = fileName.Replace('\\', '/');
+
+                            "log:Start uncompress zip, file name is {0}".Log(fileName);
+
+                            if (fileName.EndsWith(StringUtils.PATH_SYMBOL))
+                            {
+                                Directory.CreateDirectory(fileName);
+                                continue;
+                            }
+                            else { }
+                            #endregion
+
+                            FileStream = File.Create(fileName);
+
+                            size = fixSize;
+                            data = new byte[size];
+                            while (true)
+                            {
+                                size = mZipInputStream.Read(data, 0, data.Length);
+
+#if LOG_UNPRESS_ZIP
+                                bool isReadAll = size <= 0;
+                                if (isReadAll)
+                                {
+                                    "log:File {0} uncompress end.".Log(fileName);
+                                }
+                                else
+                                {
+                                    "log:Zip stream read size {0}".Log(size.ToString());
+                                }
+#endif
+                                if (size > 0)
+                                {
+                                    FileStream.Write(data, 0, size);//解决读取不完整情况
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            "error:Next Entry name is empty..".Log();
+                        }
+                    }
+                //}
+                //catch (Exception e)
+                //{
+                //    "error:Zip exception {0}".Log(e.ToString());
+                //}
+                //finally
+                //{
+                    if (FileStream != null)
+                    {
+                        FileStream.Close();
+                        FileStream.Dispose();
+                    }
+                    else { }
+
+                    if (mZipInputStream != null)
+                    {
+                        mZipInputStream.Close();
+                        mZipInputStream.Dispose();
+                    }
+                    else { }
+
+                    if (mEnt != null)
+                    {
+                        mEnt = null;
+                    }
+                    else { }
+
+                    GC.Collect();
+                    GC.Collect(1);
+
+                    IsCompleted = true;
+                    UpdaterNotice.SceneCallLater((t) => { OnCompleted?.Invoke(); });
+                    
+                //}
+            }
+            else { }
+        }
 
         /// <summary> 
         /// 解压功能(下载后直接解压压缩文件到指定目录) 
         /// </summary> 
-        public bool SaveZip(string ID, byte[] zipByte, string password)
+        public void SaveZip(string ID, byte[] zipByte, string password)
         {
-            bool result = true;
-
             ZipID = ID;
+            mPassword = password;
 
-            FileStream fs = null;
-            ZipEntry ent = null;
-            ZipInputStream zipStream = null;
-            string fileName;
+            //直接使用 将byte转换为Stream，省去先保存到本地在解压的过程
+            Stream stream = new MemoryStream(zipByte);
+            mZipInputStream = new ZipInputStream(stream);
+
+            if (!string.IsNullOrEmpty(mPassword))
+            {
+                mZipInputStream.Password = mPassword;
+            }
+            else { }
 
             if (!Directory.Exists(SavePath))
             {
@@ -42,102 +173,9 @@ namespace ShipDock.Applications
             }
             else { }
 
-            try
-            {
-                //直接使用 将byte转换为Stream，省去先保存到本地在解压的过程
-                Stream stream = new MemoryStream(zipByte);
-                zipStream = new ZipInputStream(stream);
-
-                if (!string.IsNullOrEmpty(password))
-                {
-                    zipStream.Password = password;
-                }
-                else { }
-
-                byte[] data;
-                int fixSize = 2048;
-                int size;
-                while ((ent = zipStream.GetNextEntry()) != null)
-                {
-                    if (!string.IsNullOrEmpty(ent.Name))
-                    {
-                        fileName = SavePath.Append(StringUtils.PATH_SYMBOL, ent.Name);
-
-                        #region Android
-                        //fileName = fileName.Replace('\\', '/');
-
-                        if (fileName.EndsWith("/"))
-                        {
-                            Directory.CreateDirectory(fileName);
-                            continue;
-                        }
-                        else { }
-                        #endregion
-
-                        fs = File.Create(fileName);
-
-#if LOG_UNPRESS_ZIP
-                        "log:Start uncompress zip, file name is {0}".Log(fileName);
-#endif
-                        size = fixSize;
-                        data = new byte[size];
-                        while (true)
-                        {
-                            size = zipStream.Read(data, 0, data.Length);
-                            if (size > 0)
-                            {
-#if LOG_UNPRESS_ZIP
-                                "log:Zip stream read size {0}".Log(size.ToString());
-#endif
-                                //fs.Write(data, 0, data.Length);
-                                fs.Write(data, 0, size);//解决读取不完整情况
-                            }
-                            else
-                            {
-#if LOG_UNPRESS_ZIP
-                                "log:File {0} uncompress end.".Log(fileName);
-#endif
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        "error:Next Entry name is empty..".Log();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                "error:Zip exception {0}".Log(e.ToString());
-                result = false;
-            }
-            finally
-            {
-                if (fs != null)
-                {
-                    fs.Close();
-                    fs.Dispose();
-                }
-                else { }
-
-                if (zipStream != null)
-                {
-                    zipStream.Close();
-                    zipStream.Dispose();
-                }
-                else { }
-
-                if (ent != null)
-                {
-                    ent = null;
-                }
-                else { }
-
-                GC.Collect();
-                GC.Collect(1);
-            }
-            return result;
+            UpdaterNotice.AddUpdater(this);
+            //System.Threading.Thread thread = new System.Threading.Thread(Uncompress);
+            //thread.Start();
         }
     }
 }

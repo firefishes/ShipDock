@@ -79,6 +79,7 @@ namespace ShipDock.Loader
             ResList = new List<string>();
             mOpertions = new Queue<LoaderOpertion>();
             mLoader = Loader.GetAssetBundleLoader();
+            mLoader.ApplyLoom = true;
             mLoader.CompleteEvent.AddListener(OnCompleted);
 
             AssetBundles abs = Framework.Instance.GetUnit<AssetBundles>(Framework.UNIT_AB);
@@ -122,6 +123,7 @@ namespace ShipDock.Loader
                 else { }
 
                 mLoader = Loader.GetAssetBundleLoader();
+                mLoader.ApplyLoom = true;
                 mLoader.CompleteEvent.AddListener(OnCompleted);
             }
             else { }
@@ -137,7 +139,10 @@ namespace ShipDock.Loader
                 }
                 else { }
 
-                mLoader = new Loader();
+                mLoader = new Loader()
+                {
+                    ApplyLoom = true,
+                };
                 mLoader.CompleteEvent.AddListener(OnCompleted);
             }
             else { }
@@ -233,7 +238,7 @@ namespace ShipDock.Loader
                     isGetDependencies = isDependenciesLoader,
                     isPersistentPath = !IgnoreRemote && isPersistent,
                 };
-                InitDependencesList(opertion.relativeName, isPersistent);
+                InitDependencesList(ref opertion, isPersistent);
                 "log: 添加本地资源队列: {0}".Log(opertion.relativeName);
                 mOpertions.Enqueue(opertion);
             }
@@ -277,6 +282,11 @@ namespace ShipDock.Loader
             {
                 statu = 1;
             }
+            if (statu == 2)
+            {
+                CompleteEvent?.Invoke(true, this);
+            }
+            else { }
         }
 
         /// <summary>
@@ -294,6 +304,11 @@ namespace ShipDock.Loader
                 string source = mCurrentOption.relativeName;
                 if (mCurrentOption.isGetDependencies)//资源依赖
                 {
+                    if (!mCurrentOption.hasWalkDependences)
+                    {
+                        InitDependencesList(ref mCurrentOption, mCurrentOption.isPersistentPath, false);//补充获取要加载的资源依赖文件
+                    }
+                    else { }
                     InitAssetLoader();
                     source = GetPathByLoaderOption(mCurrentOption, source);
                 }
@@ -358,14 +373,21 @@ namespace ShipDock.Loader
             else { }
 
             string path = opertion.isPersistentPath ?
-                GetPersistentAResPath(out _, ref source) :
-                AppPaths.StreamingResDataRoot.Append(source);
+                GetPersistentABResPath(out _, ref source) :
+                GetStreamingABResPath(out _, ref source);
+                //AppPaths.StreamingResDataRoot.Append(source);
             return path;
         }
 
-        private string GetPersistentAResPath(out string path, ref string relativeName)
+        private string GetPersistentABResPath(out string path, ref string relativeName)
         {
             path = AppPaths.PersistentResDataRoot.Append(relativeName);
+            return path;
+        }
+
+        private string GetStreamingABResPath(out string path, ref string relativeName)
+        {
+            path = AppPaths.StreamingResDataRoot.Append(relativeName);
             return path;
         }
 
@@ -390,8 +412,7 @@ namespace ShipDock.Loader
         /// <summary>
         /// 初始化依赖资源列表
         /// </summary>
-        /// <param name="source"></param>
-        private void InitDependencesList(string source, bool isPersistent)
+        private void InitDependencesList(ref LoaderOpertion operation, bool isPersistent, bool isCleanDepsSigned = true)
         {
             if (mDepsSigned == default)
             {
@@ -399,30 +420,40 @@ namespace ShipDock.Loader
             }
             else
             {
-                mDepsSigned.Clear();
+                if (isCleanDepsSigned)
+                {
+                    mDepsSigned.Clear();
+                }
+                else { }
             }
 
             mDepsWalkMax = 0;
-            string deped = source;
-            WalkDependences(deped, isPersistent);
+            string deped = operation.relativeName;
+            WalkDependences(ref operation, deped, isPersistent);
         }
 
         /// <summary>
         /// 遍历依赖资源列表，为加载所有依赖资源做准备
         /// </summary>
-        /// <param name="deped"></param>
-        private void WalkDependences(string deped, bool isPersistent)
+        private void WalkDependences(ref LoaderOpertion mainOperation, string deped, bool isPersistent)
         {
             mDepsWalkMax++;
-            if (mDepsWalkMax > 100)
+            if (mDepsWalkMax > 10)
             {
                 "walk deps".Log();
                 return;
             }
             else { }
 
-            string[] list = AessetManifest != default ? AessetManifest.GetDirectDependencies(deped) : default;
-            "error".Log(AessetManifest == default, "遍历依赖资源时资源主依赖不可为空.");
+            bool hasMainManifest = AessetManifest != default;
+            if (!mainOperation.hasWalkDependences)
+            {
+                mainOperation.hasWalkDependences = hasMainManifest;
+                "error".Log(!hasMainManifest, "遍历依赖资源时资源主依赖不可为空.");
+            }
+            else { }
+
+            string[] list = hasMainManifest ? AessetManifest.GetDirectDependencies(deped) : default;
             int max = list != default ? list.Length : 0;
             if (max > 0)
             {
@@ -433,9 +464,10 @@ namespace ShipDock.Loader
                     if (!string.IsNullOrEmpty(dep))
                     {
                         "deps".Log(deped, dep);
-                        WalkDependences(dep, isPersistent);
+                        WalkDependences(ref mainOperation, dep, isPersistent);
 
-                        if (!mDepsSigned.Contains(dep))
+                        bool hasLoaded = ABs.HasBundel(dep);//未加载过此资源
+                        if (!hasLoaded && !mDepsSigned.Contains(dep))
                         {
                             mDepsSigned.Add(dep);
                             AddResList(ref dep, true);
@@ -444,6 +476,7 @@ namespace ShipDock.Loader
                                 relativeName = dep,
                                 isPersistentPath = isPersistent,
                                 isGetDependencies = true,
+                                hasWalkDependences = true,
                             };
                             mOpertions.Enqueue(opertion);
                         }
@@ -509,12 +542,6 @@ namespace ShipDock.Loader
             else { }
 
             Load(out int statu);
-
-            if (statu == 2)
-            {
-                CompleteEvent?.Invoke(true, this);
-            }
-            else { }
         }
 
         /// <summary>
@@ -524,10 +551,63 @@ namespace ShipDock.Loader
         private void GetRemote(ref Loader target)
         {
             "todo".Log("根据版本控制实时更新并加载");
-            GetPersistentAResPath(out string path, ref mCurrentOption.relativeName);
-            FileOperater.WriteBytes(target.ResultData, path);
-            RemoteAssetUpdated?.Invoke(true, mCurrentOption.relativeName);
+
+            byte[] vs = target.ResultData;
+            string relativeName = mCurrentOption.relativeName;
+
+            GetPersistentABResPath(out string path, ref relativeName);
+            RemoteAsyncer item = new RemoteAsyncer()
+            {
+                path = path,
+                relativeName = relativeName,
+                vs = vs,
+                onMainThread = CallRemoteAssetUpdated,
+            };
+            Loom.QueueOnMainThread(item.GetRemoteFinished, default);
             mCurrentOption = default;
+
+            //Loom.RunAsync(() => 
+            //{
+            //    GetPersistentABResPath(out string path, ref relativeName);
+            //    FileOperater.WriteBytes(vs, path);//在子线程中写文件
+            //    Loom.QueueOnMainThread(CallRemoteAssetUpdated, relativeName);
+            //});
+            //RemoteAssetUpdated?.Invoke(true, mCurrentOption.relativeName);
+        }
+
+        private class RemoteAsyncer
+        {
+
+            public string path;
+            public string relativeName;
+            public byte[] vs;
+            public System.Action<object> onMainThread;
+
+            public void GetRemoteFinished(object param)
+            {
+                Loom.RunAsync(Async);
+            }
+
+            private void Async()
+            {
+                onMainThread += Clean;
+
+                FileOperater.WriteBytes(vs, path);//在子线程中写文件
+                Loom.QueueOnMainThread(onMainThread, relativeName);
+            }
+
+            private void Clean(object param)
+            {
+                vs = default;
+                onMainThread = default;
+            }
+        }
+
+        private void CallRemoteAssetUpdated(object param)
+        {
+            string relativeName = param as string;
+            Debug.Log("CallRemoteAssetUpdated " + relativeName);
+            RemoteAssetUpdated?.Invoke(true, relativeName);
         }
 
         /// <summary>
@@ -537,7 +617,7 @@ namespace ShipDock.Loader
         private void GetNextDependenced(ref Loader target)
         {
             bool flag = ABs.Add(target.Assets);
-            "log:Asset bundle {0} is existed.".Log(!flag, target.Assets.name);
+            "log:Asset bundle {0} is existed.".Log(!flag, target.Url);
 
             if (mOpertions.Count > 0)
             {

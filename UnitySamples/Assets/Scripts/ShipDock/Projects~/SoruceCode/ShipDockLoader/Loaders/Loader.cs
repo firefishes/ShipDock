@@ -1,4 +1,5 @@
 ﻿using ShipDock.Interfaces;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -52,6 +53,7 @@ namespace ShipDock.Loader
         public AudioClip AudioClip { get; private set; }
         public Texture2D Texture2D { get; private set; }
         public string TextureText { get; private set; }
+        public bool ApplyLoom { get; set; }
 
         public Loader()
         {
@@ -202,22 +204,66 @@ namespace ShipDock.Loader
 
         private void StartLoad()
         {
+            if (ApplyLoom)
+            {
+                Loom.RunAsync(Loading);
+            }
+            else
+            {
+                Loading();
+            }
+        }
+
+        private void Loading()
+        {
             if (mRequester != null)
             {
                 IsLoading = true;
-                SetAsync();
-                BeforeCheckResult();
+                if (ApplyLoom)
+                {
+                    Loom.QueueOnMainThread(SetAsyncInMainThread, default);
+                    Loom.QueueOnMainThread(CheckResultInMainThread, default);
+                }
+                else
+                {
+                    SetAsync();
+                    BeforeCheckResult();
+                }
+
             }
             else
             {
                 if (LoadType == LOADER_ASSETBUNDLE)
                 {
                     IsLoading = true;
-                    Asyncer = AssetBundle.LoadFromFileAsync(Url);
-                    BeforeCheckResult();
+                    if (ApplyLoom)
+                    {
+                        Loom.QueueOnMainThread(LoadAssetBundleInMainThread, default);
+                        Loom.QueueOnMainThread(CheckResultInMainThread, default);
+                    }
+                    else
+                    {
+                        Asyncer = AssetBundle.LoadFromFileAsync(Url);
+                        BeforeCheckResult();
+                    }
                 }
                 else { }
             }
+        }
+
+        private void SetAsyncInMainThread(object param)
+        {
+            SetAsync();
+        }
+
+        private void LoadAssetBundleInMainThread(object param)
+        {
+            Asyncer = AssetBundle.LoadFromFileAsync(Url);
+        }
+
+        private void CheckResultInMainThread(object param)
+        {
+            BeforeCheckResult();
         }
 
         private void SetAsync()
