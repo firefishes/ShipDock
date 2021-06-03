@@ -34,6 +34,11 @@ namespace ShipDock.Applications
             Agent.Dispatch(name, param);
         }
 
+        public virtual T Dispatch<T>(int name, T vs = default)
+        {
+            return Agent.Dispatch(name, vs);
+        }
+
         public abstract void UpdateInteractor();
     }
 }

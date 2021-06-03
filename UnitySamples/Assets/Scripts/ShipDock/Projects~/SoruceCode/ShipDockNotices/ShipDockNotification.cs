@@ -1,5 +1,4 @@
 ﻿using ShipDock.Notices;
-using ShipDock.Pooling;
 using ShipDock.Tools;
 using System;
 
@@ -83,7 +82,7 @@ public static class NoticesExtensions
         NotificatonsInt.Instance.Notificater.Dispatch(notice);
     }
 
-    public static void Dispatch<T>(this INotificationSender target, int noticeName, T vs)
+    public static T Dispatch<T>(this INotificationSender target, int noticeName, T vs)
     {
         ParamNotice<T> notice = new ParamNotice<T>
         {
@@ -94,7 +93,9 @@ public static class NoticesExtensions
 
         NotificatonsInt.Instance.Notificater.Dispatch(notice);
 
+        T result = notice.ParamValue;
         notice.Dispose();
+        return result;
     }
 
     public static void Dispatch(this INotificationSender target, int noticeName, INoticeBase<int> notice = default)

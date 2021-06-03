@@ -65,11 +65,6 @@ namespace ShipDock.Applications
 #endif
         private bool m_IsReadyNoticeSend;
 
-        public void SetReadyNoticeSend(bool value)
-        {
-            m_IsReadyNoticeSend = value;
-        }
-
         /// <summary>
         /// 禁用热更端对象的就绪消息发送
         /// </summary>
@@ -145,6 +140,11 @@ namespace ShipDock.Applications
             {
                 return m_IsReadyNoticeSend;
             }
+        }
+
+        public void SetReadyNoticeSend(bool value)
+        {
+            m_IsReadyNoticeSend = value;
         }
     }
 }

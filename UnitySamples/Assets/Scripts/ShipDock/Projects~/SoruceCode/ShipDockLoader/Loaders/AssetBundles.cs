@@ -12,9 +12,12 @@ namespace ShipDock.Loader
     /// 
     /// 资源包管理器
     /// 
+    /// add by Minghua.ji
+    /// 
     /// </summary>
     public class AssetBundles : IAssetBundles
     {
+        /// <summary>资源包的依赖清单</summary>
         public const string ASSET_BUNDLE_MANIFEST = "AssetBundleManifest";
 
         private const int IDColumnSize = 10;
@@ -28,6 +31,8 @@ namespace ShipDock.Loader
         private KeyValueList<Object, AssetQuoteder> mAssetMapper = new KeyValueList<Object, AssetQuoteder>();
         private KeyValueList<int, AssetQuoteder> mQuotederMapper = new KeyValueList<int, AssetQuoteder>();
         private KeyValueList<string, int> mBundlesCounter = new KeyValueList<string, int>();
+
+        public string MainManifestName { get; private set; }
 
         public AssetBundles()
         {
@@ -172,9 +177,36 @@ namespace ShipDock.Loader
             return result;
         }
 
+        public void SetMainManifest(string name, AssetBundle bundle)
+        {
+            if (string.IsNullOrEmpty(MainManifestName))
+            {
+                MainManifestName = name;
+                Add(name, bundle);
+                "log:Main manifest asset bundle added, name is {0}".Log(name);
+            }
+            else { }
+        }
+
+        public void RemoveMainManifest()
+        {
+            if (!string.IsNullOrEmpty(MainManifestName))
+            {
+                "log:Will remove main manifest asset bundle.".Log();
+                Remove(MainManifestName, true);
+                MainManifestName = string.Empty;
+            }
+            else { }
+        }
+
         public AssetBundleManifest GetManifest(string name = "")
         {
-            name = string.IsNullOrEmpty(name) && (mABManifests.Size > 0) ? mABManifests.Keys[0] : name;
+            if (string.IsNullOrEmpty(name))
+            {
+                name = MainManifestName;//name 参数为空字符串为获取资源包的总依赖
+            }
+            else { }
+
             return HasBundel(name) ? mABManifests[name] : default;
         }
 
@@ -281,7 +313,7 @@ namespace ShipDock.Loader
 
 public static class AssetBundlesExtensions
 {
-    public static void Destroy(this Object target, bool isAutoDispose = false)
+    public static void DestroyFromQuote(this Object target, bool isAutoDispose = false)
     {
         AssetBundles abs = Framework.Instance.GetUnit<AssetBundles>(Framework.UNIT_AB);
         abs?.DestroyQuotederAsset(target, isAutoDispose);

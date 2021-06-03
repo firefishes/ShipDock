@@ -44,7 +44,7 @@ namespace ShipDock.Testers
             tester.AddLogger(this, "loader deps", "log: 资源加载器已完成，开始加载下一个依赖资源: {0}");
             tester.AddLogger(this, "empty deps", "warning: 资源依赖为空");
             tester.AddLogger(this, "deps", "log: 资源依赖关系如下（被依赖资源优先加载）: {0} 依赖于 {1}");
-            tester.AddLogger(this, "walk deps", "error: 资源依赖递归层数超出定义的最大值");
+            tester.AddLogger(this, "walk deps error", "error: 资源依赖递归层数超出定义的最大值, {0} 与 {1} 之间存在循环依赖");
 #endif
 #if LOG_LOADER_LOAD
             tester.AddLogger(this, "load res", "log: 加载依赖资源，加载的开端文件位置: {0}");

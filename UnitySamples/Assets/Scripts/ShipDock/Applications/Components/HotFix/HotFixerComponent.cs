@@ -5,6 +5,7 @@ using ShipDock.Notices;
 using ShipDock.Pooling;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+using System;
 #endif
 using UnityEngine;
 
@@ -33,6 +34,8 @@ namespace ShipDock.Applications
 
         private ComponentBridge mCompBridge;
         private INoticeBase<int> mIDAsNotice;
+
+        public int HotFixerReadID { get; private set; } = int.MaxValue;
 
         public string HotFixCompClassName
         {
@@ -122,6 +125,23 @@ namespace ShipDock.Applications
             else { }
         }
 
+        public int GetReadyNoticeName(out bool hasEnabled)
+        {
+            hasEnabled = m_LoadedNoticeInfo.IsSendIDAsNotice;
+            return m_LoadedNoticeInfo.ApplyGameObjectID ? gameObject.GetInstanceID() : GetInstanceID();
+        }
+
+        public void ListenReadyNotice(Action<INoticeBase<int>> handler, int readyID = int.MaxValue)
+        {
+            if (m_LoadedNoticeInfo.IsSendIDAsNotice)
+            {
+                HotFixerReadID = readyID;
+                int noticeName = GetReadyNoticeName(out _);
+                noticeName.Add(handler);
+            }
+            else { }
+        }
+
         private void SendLoadedNotice()
         {
             if (m_LoadedNoticeInfo.IsSendIDAsNotice && !m_LoadedNoticeInfo.IsReadyNoticeSend)
@@ -155,7 +175,7 @@ namespace ShipDock.Applications
             }
             else { }
 
-            int noticeName = m_LoadedNoticeInfo.ApplyGameObjectID ? gameObject.GetInstanceID() : GetInstanceID();
+            int noticeName = GetReadyNoticeName(out _);
             noticeName.Broadcast(mIDAsNotice);
             if (mIDAsNotice is IPoolable item)
             {

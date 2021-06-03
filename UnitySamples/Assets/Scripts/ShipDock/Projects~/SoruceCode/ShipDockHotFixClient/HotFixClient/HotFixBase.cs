@@ -6,19 +6,18 @@ namespace ShipDock.Applications
 {
     public abstract class HotFixBase
     {
-        public abstract void ShellInited(MonoBehaviour target);
-
         private Dictionary<string, Action> mHotFixMethods;
+
+        public int ReadyID { get; set; }
+
+        public abstract void ShellInited(MonoBehaviour target);
 
         protected void AddHotFixMethod(string name, Action method)
         {
             mHotFixMethods[name] = method;
         }
 
-        protected virtual void InitHotFixedMethods()
-        {
-
-        }
+        protected virtual void InitHotFixedMethods() { }
 
         public Action GetUpdateMethods(string name)
         {

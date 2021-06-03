@@ -125,7 +125,7 @@ namespace ShipDock.HotFix
             #endregion
         }
 
-        public void SetSoundEffectNotices(int playSound, int stopSound, int playBGM, int stopBGM, int addSounds, int removeSounds)
+        public void SetSoundNotices(int playSound, int stopSound, int playBGM, int stopBGM, int addSounds, int removeSounds)
         {
             PlaySoundNoticeName = playSound;
             StopSoundNoticeName = stopSound;
@@ -134,15 +134,15 @@ namespace ShipDock.HotFix
             AddSoundsNoticeName = addSounds;
             RemoveSoundsNoticeName = removeSounds;
 
-            CheckAndAddSoundsNotice(PlaySoundNoticeName, OnPlaySound);
-            CheckAndAddSoundsNotice(StopSoundNoticeName, OnStopSound);
-            CheckAndAddSoundsNotice(PlayBGMNoticeName, OnPlayBGM);
-            CheckAndAddSoundsNotice(StopBGMNoticeName, OnStopBGM);
-            CheckAndAddSoundsNotice(AddSoundsNoticeName, OnAddSounds);
-            CheckAndAddSoundsNotice(RemoveSoundsNoticeName, OnRemoveSounds);
+            ListenNotice(PlaySoundNoticeName, OnPlaySound);
+            ListenNotice(StopSoundNoticeName, OnStopSound);
+            ListenNotice(PlayBGMNoticeName, OnPlayBGM);
+            ListenNotice(StopBGMNoticeName, OnStopBGM);
+            ListenNotice(AddSoundsNoticeName, OnAddSounds);
+            ListenNotice(RemoveSoundsNoticeName, OnRemoveSounds);
         }
 
-        private void CheckAndAddSoundsNotice(int noticeName, Action<INoticeBase<int>> handler)
+        private void ListenNotice(int noticeName, Action<INoticeBase<int>> handler)
         {
             if (noticeName != int.MaxValue)
             {

@@ -15,8 +15,6 @@ namespace ShipDock.Loader
     {
         /// <summary>正在处理的依赖资源索引号</summary>
         private int mIndex;
-        /// <summary>遍历依赖资源时的数量</summary>
-        private int mDepsWalkMax;
         /// <summary>通用加载器</summary>
         private Loader mLoader;
         /// <summary>正在处理的加载操作器</summary>
@@ -24,7 +22,7 @@ namespace ShipDock.Loader
         /// <summary>加载操作器的队列</summary>
         private Queue<LoaderOpertion> mOpertions;
         /// <summary>已检测过依赖资源的标记映射</summary>
-        private List<string> mDepsSigned;
+        private KeyValueList<string, List<string>> mDepsSigned;
 
         public float LoadingProgress
         {
@@ -103,6 +101,7 @@ namespace ShipDock.Loader
             Utils.Reclaim(mLoader);
 
             ResList.Clear();
+            mDepsSigned.Clear();
 
             CompleteEvent?.RemoveAllListeners();
             RemoteAssetUpdated?.RemoveAllListeners();
@@ -110,6 +109,7 @@ namespace ShipDock.Loader
             CompleteEvent = default;
             RemoteAssetUpdated = default;
             mLoader = default;
+            mDepsSigned = default;
         }
 
         private void InitAssetLoader()
@@ -416,78 +416,87 @@ namespace ShipDock.Loader
         {
             if (mDepsSigned == default)
             {
-                mDepsSigned = new List<string>();
+                mDepsSigned = new KeyValueList<string, List<string>>();
             }
             else
             {
-                if (isCleanDepsSigned)
-                {
-                    mDepsSigned.Clear();
-                }
-                else { }
+                mDepsSigned.Clear();
             }
 
-            mDepsWalkMax = 0;
             string deped = operation.relativeName;
-            WalkDependences(ref operation, deped, isPersistent);
+            WalkDependences(ref operation, deped, isPersistent, string.Empty);
         }
 
         /// <summary>
         /// 遍历依赖资源列表，为加载所有依赖资源做准备
         /// </summary>
-        private void WalkDependences(ref LoaderOpertion mainOperation, string deped, bool isPersistent)
+        private void WalkDependences(ref LoaderOpertion mainOperation, string checking, bool isPersistent, string depChecked)
         {
-            mDepsWalkMax++;
-            if (mDepsWalkMax > 10)
-            {
-                "walk deps".Log();
-                return;
-            }
-            else { }
-
             bool hasMainManifest = AessetManifest != default;
-            if (!mainOperation.hasWalkDependences)
-            {
-                mainOperation.hasWalkDependences = hasMainManifest;
-                "error".Log(!hasMainManifest, "遍历依赖资源时资源主依赖不可为空.");
-            }
-            else { }
+            mainOperation.hasWalkDependences = hasMainManifest;
 
-            string[] list = hasMainManifest ? AessetManifest.GetDirectDependencies(deped) : default;
-            int max = list != default ? list.Length : 0;
-            if (max > 0)
+            "error".Log(!hasMainManifest, "遍历依赖资源时资源主依赖不可为空.");
+
+            if (mainOperation.hasWalkDependences)
             {
-                string dep = string.Empty;
-                for (int i = 0; i < max; i++)
+                List<string> depedSigns, anothers;
+                if (!mDepsSigned.ContainsKey(checking))//获取未检测过的依赖标记列表
                 {
-                    dep = list[i];
-                    if (!string.IsNullOrEmpty(dep))
-                    {
-                        "deps".Log(deped, dep);
-                        WalkDependences(ref mainOperation, dep, isPersistent);
+                    depedSigns = new List<string>();
+                    mDepsSigned[checking] = depedSigns;
 
-                        bool hasLoaded = ABs.HasBundel(dep);//未加载过此资源
-                        if (!hasLoaded && !mDepsSigned.Contains(dep))
+                    string[] list = hasMainManifest ? AessetManifest.GetDirectDependencies(checking) : default;
+                    int max = list != default ? list.Length : 0;
+                    if (max > 0)
+                    {
+                        string depItem = string.Empty;
+                        for (int i = 0; i < max; i++)
                         {
-                            mDepsSigned.Add(dep);
-                            AddResList(ref dep, true);
-                            LoaderOpertion opertion = new LoaderOpertion()
+                            depItem = list[i];
+                            if (!string.IsNullOrEmpty(depItem))
                             {
-                                relativeName = dep,
-                                isPersistentPath = isPersistent,
-                                isGetDependencies = true,
-                                hasWalkDependences = true,
-                            };
-                            mOpertions.Enqueue(opertion);
+                                if (depedSigns.Contains(depItem))//依赖标记列表已包含此资源
+                                {
+                                    anothers = mDepsSigned[depItem];
+                                    if (anothers.Contains(checking))//检测是否存在循环依赖
+                                    {
+                                        "walk deps error".Log(checking, depChecked);
+                                    }
+                                    else { }
+                                }
+                                else
+                                {
+                                    depedSigns.Add(depItem);
+
+                                    "deps".Log(checking, depItem);
+                                    WalkDependences(ref mainOperation, depItem, isPersistent, checking);
+
+                                    bool hasLoaded = ABs.HasBundel(depItem);//未加载过此资源
+                                    if (!hasLoaded)
+                                    {
+                                        AddResList(ref depItem, true);
+                                        LoaderOpertion opertion = new LoaderOpertion()
+                                        {
+                                            relativeName = depItem,
+                                            isPersistentPath = isPersistent,
+                                            isGetDependencies = true,
+                                            hasWalkDependences = true,
+                                        };
+                                        mOpertions.Enqueue(opertion);
+                                    }
+                                    else { }
+                                }
+                            }
+                            else { }
                         }
-                        else { }
                     }
                     else { }
                 }
+                else { }
             }
             else { }
 
-            AddResList(ref deped, true);
+            AddResList(ref checking, true);
         }
 
         private void OnCompleted(bool isSuccessd, Loader target)
@@ -523,7 +532,7 @@ namespace ShipDock.Loader
             if (mCurrentOption.isManifest)
             {
                 Loaded++;
-                GetAssetManifest(ref target);
+                GetAssetManifest(ref mCurrentOption.relativeName, ref target);
             }
             else if (mCurrentOption.isGetDependencies)
             {
@@ -565,14 +574,6 @@ namespace ShipDock.Loader
             };
             Loom.QueueOnMainThread(item.GetRemoteFinished, default);
             mCurrentOption = default;
-
-            //Loom.RunAsync(() => 
-            //{
-            //    GetPersistentABResPath(out string path, ref relativeName);
-            //    FileOperater.WriteBytes(vs, path);//在子线程中写文件
-            //    Loom.QueueOnMainThread(CallRemoteAssetUpdated, relativeName);
-            //});
-            //RemoteAssetUpdated?.Invoke(true, mCurrentOption.relativeName);
         }
 
         private class RemoteAsyncer
@@ -606,7 +607,6 @@ namespace ShipDock.Loader
         private void CallRemoteAssetUpdated(object param)
         {
             string relativeName = param as string;
-            Debug.Log("CallRemoteAssetUpdated " + relativeName);
             RemoteAssetUpdated?.Invoke(true, relativeName);
         }
 
@@ -661,9 +661,9 @@ namespace ShipDock.Loader
         /// 获取资源主依赖
         /// </summary>
         /// <param name="target"></param
-        private void GetAssetManifest(ref Loader target)
+        private void GetAssetManifest(ref string name, ref Loader target)
         {
-            ABs.Add(mCurrentOption.manifestName, target.Assets);
+            ABs.SetMainManifest(name, target.Assets);
             AessetManifest = ABs.GetManifest();
             mCurrentOption = default;
         }
