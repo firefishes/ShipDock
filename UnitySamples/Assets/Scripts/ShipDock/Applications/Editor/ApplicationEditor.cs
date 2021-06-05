@@ -15,8 +15,18 @@ using System;
 
 namespace ShipDock.Editors
 {
+    /// <summary>
+    /// 
+    /// 编辑器扩展应用类
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public class ApplicationEditor : ShipDockEditor
     {
+        /// <summary>
+        /// 编辑器菜单：创建一个应用
+        /// </summary>
         [MenuItem("ShipDock/Create Application")]
         public static void CreateApplication()
         {
@@ -41,19 +51,27 @@ namespace ShipDock.Editors
                 {
                     canvas.gameObject.AddComponent<CanvasScaler>();
                 }
+                else { }
+
                 if (graphicRaycaster == default)
                 {
                     canvas.gameObject.AddComponent<GraphicRaycaster>();
                 }
+                else { }
+
                 if (eventSystem == default)
                 {
                     target.AddComponent<EventSystem>();
                 }
+                else { }
+
                 if (inputModule == default)
                 {
                     target.AddComponent<StandaloneInputModule>();
                 }
+                else { }
             }
+            else { }
 
             string gameSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             Transform p = ShipDockEditorUtils.CreateGameObjectWithComponent<ShipDockGame>(gameSceneName);

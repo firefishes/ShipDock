@@ -35,8 +35,7 @@ namespace ShipDock.Applications
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public abstract class HotFixBaseUI : HotFixerInteractor
+    public class HotFixBaseUI : HotFixerInteractor
     {
-        public override void UpdateInteractor() { }
     }
 }

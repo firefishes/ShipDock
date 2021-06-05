@@ -8,6 +8,13 @@ using UnityEngine;
 
 namespace ShipDock.Editors
 {
+    /// <summary>
+    /// 
+    /// 资源包打包相关的编辑器扩展工具
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public class AssetBundleInfoPopupEditor : ShipDockEditor
     {
         public static AssetBundleInfoPopupEditor Popup()
@@ -16,17 +23,22 @@ namespace ShipDock.Editors
             return focusedWindow as AssetBundleInfoPopupEditor;
         }
 
+        private string mIsBuildABKey = "is_build_ab";
+        private string mOverrideToStreamingKey = "override_to_streaming";
+        private string mABItemNameKey = "ab_item_name";
+        private string mDisplayResShowerKey = "display_res_shower";
+        private string mIsBuildVersionsKey = "is_build_versions";
         private Vector2 mResShowerScrollPos;
 
         public UnityEngine.Object[] ResList { get; set; } = new UnityEngine.Object[0];
 
         protected override void ReadyClientValues()
         {
-            SetValueItem("is_build_ab", "true");
-            SetValueItem("override_to_streaming", "false");
-            SetValueItem("ab_item_name", string.Empty);
-            SetValueItem("display_res_shower", "true");
-            SetValueItem("is_build_versions", "true");
+            SetValueItem(mIsBuildABKey, "true");//是否生成资源包
+            SetValueItem(mOverrideToStreamingKey, "false");//是否将生成的资源包覆盖至Streaming目录
+            SetValueItem(mABItemNameKey, string.Empty);
+            SetValueItem(mDisplayResShowerKey, "true");//是否显示带打包的资源列表
+            SetValueItem(mIsBuildVersionsKey, "true");//是否构建资源版本
 
             ResDataVersionEditorCreater.SetEditorValueItems(this);
         }
@@ -40,10 +52,10 @@ namespace ShipDock.Editors
             EditorGUILayout.Space();
             EditorGUILayout.BeginVertical();
             bool isIgnoreRemote = false;
-            bool isBuildAB = ValueItemTriggle("is_build_ab", "创建资源包");
+            bool isBuildAB = ValueItemTriggle(mIsBuildABKey, "创建资源包");
             if (isBuildAB)
             {
-                ValueItemTriggle("override_to_streaming", "    资源打包完成后复制到 SteamingAssets");
+                ValueItemTriggle(mOverrideToStreamingKey, "    资源打包完成后复制到 SteamingAssets");
             }
             bool isBuildVersions = ValueItemTriggle("is_build_versions", "生成资源版本");
             if (isBuildVersions)
@@ -57,6 +69,7 @@ namespace ShipDock.Editors
                     ValueItemTriggle("sync_app_version", "    更新版本配置的App版本号");
                     ValueItemTriggle("is_sync_client_versions", "    作为最新版客户端的资源配置模板");
                 }
+                ValueItemTextAreaField("client_version_filename", true, "    客户端配置资源文件名");
                 ResDataVersionEditorCreater.CheckGatewayEditorGUI(this, out isIgnoreRemote);
             }
             if (isBuildAB)
@@ -119,7 +132,7 @@ namespace ShipDock.Editors
             {
                 AssetDatabase.Refresh();
 
-                bool overrideToStreaming = GetValueItem("override_to_streaming").Bool;
+                bool overrideToStreaming = GetValueItem(mOverrideToStreamingKey).Bool;
                 string path;
                 int max = abNames.Count;
                 byte[] vs;
@@ -235,7 +248,7 @@ namespace ShipDock.Editors
 
         private void BuildVersions(List<string> abNames)
         {
-            bool isBuildVersions = GetValueItem("is_build_versions").Bool;
+            bool isBuildVersions = GetValueItem(mIsBuildVersionsKey).Bool;
             if (isBuildVersions)
             {
                 ResDataVersionEditorCreater.BuildVersions(this, ref abNames);
@@ -251,7 +264,7 @@ namespace ShipDock.Editors
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.Space();
             EditorGUILayout.EndHorizontal();
-            bool displayShower = ValueItemTriggle("display_res_shower", "查看即将打包的资源");
+            bool displayShower = ValueItemTriggle(mDisplayResShowerKey, "查看即将打包的资源");
             if (displayShower)
             {
                 EditorGUILayout.LabelField("资源名清单：");
@@ -260,7 +273,7 @@ namespace ShipDock.Editors
             int max = ResList.Length;
             UnityEngine.Object item;
             string path;
-            string key, fieldValue, keyABItemName = "ab_item_name";
+            string key, fieldValue, keyABItemName = mABItemNameKey;
             for (int i = 0; i < max; i++)
             {
                 item = ResList[i];

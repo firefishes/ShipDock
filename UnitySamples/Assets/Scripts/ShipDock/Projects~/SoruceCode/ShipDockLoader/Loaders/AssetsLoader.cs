@@ -13,8 +13,6 @@ namespace ShipDock.Loader
     /// </summary>
     public class AssetsLoader : IDispose
     {
-        /// <summary>正在处理的依赖资源索引号</summary>
-        private int mIndex;
         /// <summary>通用加载器</summary>
         private Loader mLoader;
         /// <summary>正在处理的加载操作器</summary>
@@ -96,12 +94,11 @@ namespace ShipDock.Loader
 
         public void Dispose()
         {
-            mIndex = 0;
             Loaded = 0;
             Utils.Reclaim(mLoader);
 
             ResList.Clear();
-            mDepsSigned.Clear();
+            mDepsSigned?.Clear();
 
             CompleteEvent?.RemoveAllListeners();
             RemoteAssetUpdated?.RemoveAllListeners();

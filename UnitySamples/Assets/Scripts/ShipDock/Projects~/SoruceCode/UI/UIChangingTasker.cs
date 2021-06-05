@@ -1,0 +1,155 @@
+﻿using ShipDock.Tools;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using U = ShipDock.UI.UI;
+
+namespace ShipDock.Applications
+{
+    public class UIChangingTasker
+    {
+        private U mOwner;
+        private string mCurrentTaskName;
+        private Action<TimeGapper> mTaskCallback;
+        private List<string> mStartedChangeTask;
+        private List<int> mFinishTaskIndex;
+        private List<TimeGapper> mChangeTimes;
+        private KeyValueList<string, Action<TimeGapper>> mChangeHnadlers;
+
+        public UIChangingTasker(U target)
+        {
+            mOwner = target;
+
+            mStartedChangeTask = new List<string>();
+            mFinishTaskIndex = new List<int>();
+            mChangeTimes = new List<TimeGapper>();
+            mChangeHnadlers = new KeyValueList<string, Action<TimeGapper>>();
+        }
+
+        public void Clean()
+        {
+            mStartedChangeTask?.Clear();
+            mFinishTaskIndex?.Clear();
+            mChangeTimes = default;
+
+            int max = mChangeHnadlers.Keys.Count;
+            string key;
+            for (int i = 0; i < max; i++)
+            {
+                key = mChangeHnadlers.Keys[i];
+                mChangeHnadlers[key] = default;
+            }
+
+            mOwner = default;
+        }
+
+        public bool HasTask(string taskName)
+        {
+            return mStartedChangeTask.Contains(taskName);
+        }
+
+        public bool IsTaskStoped(string taskName)
+        {
+            bool result = false;
+            if (mStartedChangeTask.Contains(taskName))
+            {
+                int index = mStartedChangeTask.IndexOf(taskName);
+                if (index != -1)
+                {
+                    if (!mFinishTaskIndex.Contains(index))
+                    {
+                        mFinishTaskIndex.Add(index);
+                        TimeGapper timeGapper = mChangeTimes[index];
+                        result = timeGapper.IsFinised;
+                    }
+                    else { }
+                }
+                else { }
+            }
+            else { }
+            return result;
+        }
+
+        public void StopChangeTask(string taskName)
+        {
+            if (mStartedChangeTask.Contains(taskName))
+            {
+                int index = mStartedChangeTask.IndexOf(taskName);
+                if (index != -1)
+                {
+                    if (!mFinishTaskIndex.Contains(index))
+                    {
+                        mFinishTaskIndex.Add(index);
+                        TimeGapper timeGapper = mChangeTimes[index];
+                        timeGapper.Stop();
+
+                        mChangeTimes[index] = timeGapper;
+                    }
+                    else { }
+                }
+                else { }
+            }
+            else { }
+        }
+
+        public void AddChangeTask(string taskName, float duringTime, Action<TimeGapper> handler)
+        {
+            TimeGapper timeGapper;
+            if (mStartedChangeTask.Contains(taskName))
+            {
+                int index = mStartedChangeTask.IndexOf(taskName);
+                mFinishTaskIndex.Remove(index);
+
+                timeGapper = mChangeTimes[index];
+                timeGapper.Start(duringTime);
+                mChangeTimes[index] = timeGapper;
+            }
+            else
+            {
+                timeGapper = new TimeGapper();
+                timeGapper.Start(duringTime);
+                mChangeTimes.Add(timeGapper);
+
+                mStartedChangeTask.Add(taskName);
+                mChangeHnadlers[taskName] = handler;
+            }
+            mOwner.UIChanged = true;
+        }
+
+        public void UpdateUITasks()
+        {
+            if (mOwner != default)
+            {
+                bool isChangeFinish = false;
+                int max = mStartedChangeTask.Count;
+
+                TimeGapper gapper;
+                for (int i = 0; i < max; i++)
+                {
+                    if (mFinishTaskIndex.IndexOf(i) == -1)
+                    {
+                        gapper = mChangeTimes[i];
+                        isChangeFinish = gapper.TimeAdvanced(Time.deltaTime);
+                        mChangeTimes[i] = gapper;
+                        if (isChangeFinish)
+                        {
+                            mFinishTaskIndex.Add(i);
+                        }
+                        else
+                        {
+                            mCurrentTaskName = mStartedChangeTask[i];
+                        }
+                        mTaskCallback = mChangeHnadlers[mCurrentTaskName];
+                        mTaskCallback?.Invoke(gapper);
+                        mTaskCallback = default;
+                    }
+                    else { }
+                }
+
+                mOwner.UIChanged = !isChangeFinish;
+            }
+            else { }
+        }
+
+    }
+}

@@ -11,11 +11,15 @@ namespace ShipDock.Applications
         public HotFixerUIAgent Agent { get; private set; }
         public UIModularHotFixer UIModular { get; private set; }
 
+        public UIChangingTasker UIChangingTask { get; protected set; }
+
         public virtual void Release()
         {
             UI = default;
             Agent = default;
             UIModular = default;
+
+            UIChangingTask?.Clean();
         }
 
         public void SetUIModular(UIModularHotFixer modular)
@@ -27,6 +31,8 @@ namespace ShipDock.Applications
         {
             UI = UIOwner;
             Agent = agent;
+
+            UIChangingTask = new UIChangingTasker(UIOwner);
         }
 
         public virtual void Dispatch(int name, INoticeBase<int> param = default)
@@ -39,6 +45,8 @@ namespace ShipDock.Applications
             return Agent.Dispatch(name, vs);
         }
 
-        public abstract void UpdateInteractor();
+        public virtual void UpdateInteractor()
+        {
+        }
     }
 }

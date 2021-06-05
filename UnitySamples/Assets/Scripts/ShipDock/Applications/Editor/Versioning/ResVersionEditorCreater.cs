@@ -5,11 +5,20 @@ using UnityEngine;
 
 namespace ShipDock.Editors
 {
+    /// <summary>
+    /// 
+    /// 资源版本相关的编辑器扩展工具
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public class ResDataVersionEditorCreater
     {
+        private static string resVersionRootURLKey = "res_version_root_url";
+
         public static void SetEditorValueItems(ShipDockEditor editor)
         {
-            editor.SetValueItem("res_version_root_url", "http://127.0.0.1");
+            editor.SetValueItem(resVersionRootURLKey, "http://127.0.0.1");
             editor.SetValueItem("res_version_root_url_release", string.Empty);
             editor.SetValueItem("is_ignore_remote", "false");
             editor.SetValueItem("is_sync_client_versions", "true");
@@ -17,6 +26,7 @@ namespace ShipDock.Editors
             editor.SetValueItem("update_total_version", "false");
             editor.SetValueItem("sync_app_version", "false");
             editor.SetValueItem("apply_res_version_gateway_release", "false");
+            editor.SetValueItem("client_version_filename", "ClientResVersions");
         }
 
         public static void CheckEditorGUI(ShipDockEditor editor)
@@ -34,19 +44,21 @@ namespace ShipDock.Editors
             if (!isIgnoreRemote)
             {
                 bool isApplyReleaseGateway = editor.ValueItemTriggle("apply_res_version_gateway_release", "    使用发布版 Gateway");
-                string key = isApplyReleaseGateway ? "res_version_root_url_release" : "res_version_root_url";//区分测试和发布版
+                string key = isApplyReleaseGateway ? "res_version_root_url_release" : resVersionRootURLKey;//区分测试和发布版
                 editor.ValueItemTextAreaField(key, true, "远程版本配置所在服务端 URL".Append(isApplyReleaseGateway ? "(发布版)" : string.Empty), false);
             }
+            else { }
         }
 
         public static void BuildVersions(ShipDockEditor editor, ref List<string> abNames)
         {
-            string remoteGateway = editor.GetValueItem("res_version_root_url").Value;
+            string remoteGateway = editor.GetValueItem(resVersionRootURLKey).Value;
             bool isIgnoreRemote = editor.GetValueItem("is_ignore_remote").Bool;
             bool isSyncClientVersions = editor.GetValueItem("is_sync_client_versions").Bool;
             bool isUpdateAdditionVersion = editor.GetValueItem("update_addition_version").Bool;
             bool isUpdateResVersion = editor.GetValueItem("update_total_version").Bool;
             bool isSyncAppVersion = editor.GetValueItem("sync_app_version").Bool;
+            string clientVersionsFileName = editor.GetValueItem("client_version_filename").Value;
 
             ResDataVersionEditorCreater creater = new ResDataVersionEditorCreater()
             {
@@ -56,6 +68,7 @@ namespace ShipDock.Editors
                 isUpdateVersion = isUpdateAdditionVersion,
                 isUpdateResVersion = isUpdateResVersion,
                 isSyncAppVersion = isSyncAppVersion,
+                ClientVersionFileName = clientVersionsFileName,
             };
             creater.CreateResDataVersion(isIgnoreRemote);
         }
@@ -99,6 +112,8 @@ namespace ShipDock.Editors
                 }
             }
         }
+
+        public string ClientVersionFileName { get; set; }
 
         private void OnGetRemoteVersion(bool flag, Loader.Loader ld)
         {
@@ -147,7 +162,16 @@ namespace ShipDock.Editors
             {
                 List<ScriptableObject> list = default;
                 ShipDockEditorUtils.FindAssetInEditorProject(ref list, "t:ScriptableObject", @"Assets\Prefabs");
-                ClientResVersion clientRes = (ClientResVersion)list[0];
+                ClientResVersion clientRes = default;// = (ClientResVersion)list[0];
+                foreach (ScriptableObject i in list)
+                {
+                    if (i.name == ClientVersionFileName)
+                    {
+                        clientRes = (ClientResVersion)i;
+                        break;
+                    }
+                    else { }
+                }
 
                 applyClientGateway = clientRes.ApplyCurrentResGateway;
                 if (applyClientGateway)

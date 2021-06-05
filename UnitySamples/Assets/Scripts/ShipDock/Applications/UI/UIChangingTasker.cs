@@ -7,18 +7,24 @@ namespace ShipDock.Applications
 {
     public class UIChangingTasker
     {
+
         private string mCurrentTaskName;
         private Action<TimeGapper> mTaskCallback;
-        private List<string> mStartedChangeTask = new List<string>();
-        private List<int> mFinishTaskIndex = new List<int>();
-        private List<TimeGapper> mChangeTimes = new List<TimeGapper>();
-        private KeyValueList<string, Action<TimeGapper>> mChangeHnadlers = new KeyValueList<string, Action<TimeGapper>>();
+        private List<string> mStartedChangeTask;
+        private List<int> mFinishTaskIndex;
+        private List<TimeGapper> mChangeTimes;
+        private KeyValueList<string, Action<TimeGapper>> mChangeHnadlers;
 
         private UI.UI Owner { get; set; }
 
         public UIChangingTasker(UI.UI target)
         {
             Owner = target;
+
+            mStartedChangeTask = new List<string>();
+            mFinishTaskIndex = new List<int>();
+            mChangeTimes = new List<TimeGapper>();
+            mChangeHnadlers = new KeyValueList<string, Action<TimeGapper>>();
         }
 
         public void Clean()

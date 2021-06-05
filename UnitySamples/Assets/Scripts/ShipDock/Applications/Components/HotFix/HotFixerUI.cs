@@ -9,7 +9,7 @@ namespace ShipDock.Applications
     /// 
     /// UI热更中间类
     /// 
-    /// 为了同时获得框架的UI类功能、又兼顾ILRuntime中尽量不继承 MonoBehaviour 的原则而设计
+    /// 为兼顾ILRuntime中尽量不继承 MonoBehaviour 的原则、同时获得框架的UI类功能而设计
     /// 
     /// </summary>
     public class HotFixerUI : UI.UI
@@ -34,6 +34,7 @@ namespace ShipDock.Applications
 
         public override void UpdateUI()
         {
+            HotFixerInteractor?.UIChangingTask?.UpdateUITasks();
             HotFixerInteractor?.UpdateInteractor();
         }
 

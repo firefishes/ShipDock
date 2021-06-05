@@ -26,6 +26,18 @@ public static class HotFixClientExtensions
 
         return result;
     }
+
+    public static void SetSceneUpdate(this object target, Action<int> handler, bool isAdd)
+    {
+        if (isAdd)
+        {
+            ShipDock.HotFix.HotFixClient.Instance.AddUpdate(handler);
+        }
+        else
+        {
+            ShipDock.HotFix.HotFixClient.Instance.RemoveUpdate(handler);
+        }
+    }
 }
 
 namespace ShipDock.HotFix

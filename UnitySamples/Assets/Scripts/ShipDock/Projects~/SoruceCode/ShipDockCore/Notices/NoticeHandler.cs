@@ -25,6 +25,23 @@ namespace ShipDock.Notices
             mHandler = newDelegate;
         }
 
+        public bool HasHandler(Action<INoticeBase<NameT>> handler)
+        {
+            bool result = false;
+            Delegate[] delegates = mHandler.GetInvocationList();
+            int max = delegates.Length;
+            for (int i = 0; i < max; i++)
+            {
+                if (delegates[i].Method == handler.Method)
+                {
+                    result = true;
+                    break;
+                }
+                else { }
+            }
+            return result;
+        }
+
         public void Add(Action<INoticeBase<NameT>> handler)
         {
             if (handler == null)

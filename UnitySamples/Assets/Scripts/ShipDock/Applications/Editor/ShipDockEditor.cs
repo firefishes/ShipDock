@@ -6,8 +6,21 @@ using UnityEngine;
 
 namespace ShipDock.Editors
 {
+    /// <summary>
+    /// 
+    /// 编辑器扩展基类
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public abstract class ShipDockEditor : EditorWindow
     {
+        /// <summary>
+        /// 初始化编辑器窗口
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="title"></param>
+        /// <param name="rect"></param>
         public static void InitEditorWindow<T>(string title, Rect rect = default) where T : ShipDockEditor
         {
             ShipDockEditor window = (rect != default) ? GetWindowWithRect<T>(rect, true, title) : GetWindow<T>(title);
@@ -15,8 +28,11 @@ namespace ShipDock.Editors
             window.Show();
         }
 
+        /// <summary>编辑器中即将生效的字段集合</summary>
         protected KeyValueList<string, bool> mApplyValues;
+        /// <summary>编辑器中即将生效的字符串集合</summary>
         protected KeyValueList<string, string> mApplyStrings;
+        /// <summary>编辑器中的属性集合</summary>
         protected KeyValueList<string, ValueItem> mValueItemMapper;
 
         private List<int> mGUIFlagKeys;
@@ -24,6 +40,9 @@ namespace ShipDock.Editors
         private List<string> mFlagLabels;
         private List<bool> mConfigFlagValues;
 
+        /// <summary>
+        /// 编辑器窗口预备显示
+        /// </summary>
         public virtual void Preshow()
         {
             UpdateEditorAsset();
@@ -38,14 +57,15 @@ namespace ShipDock.Editors
             }
         }
 
+        /// <summary>
+        /// 更新编辑器相关的配置资源，例如一些 .asset文件
+        /// </summary>
         protected virtual void UpdateEditorAsset()
         {
             UpdateEditorConfigAssets();
         }
 
-        protected virtual void UpdateEditorConfigAssets()
-        {
-        }
+        protected virtual void UpdateEditorConfigAssets() { }
 
         private void InitConfigFlagAndValues()
         {
@@ -67,6 +87,7 @@ namespace ShipDock.Editors
             {
                 mApplyValues[flagKey] = clientConfigFlag;
             }
+            else { }
         }
 
         protected void AddFlagKeyValue(string flag, ref bool configValue, string label)
@@ -84,6 +105,7 @@ namespace ShipDock.Editors
                 mGUIFlagKeys.Add(index);
                 mConfigFlagValues[index] = configValue;
             }
+            else { }
         }
 
         protected bool GetFlagKeyValue(string flag)
@@ -92,6 +114,11 @@ namespace ShipDock.Editors
             return (index >= 0) && mConfigFlagValues[index];
         }
 
+        /// <summary>
+        /// 设置属性
+        /// </summary>
+        /// <param name="keyField"></param>
+        /// <param name="value"></param>
         public void SetValueItem(string keyField, string value)
         {
             if (mValueItemMapper != default)
@@ -99,6 +126,7 @@ namespace ShipDock.Editors
                 ValueItem valueItem = ValueItem.New(keyField, value);
                 mValueItemMapper[keyField] = valueItem;
             }
+            else { }
         }
 
         public ValueItem GetValueItem(string keyField)
@@ -120,6 +148,7 @@ namespace ShipDock.Editors
             {
                 mValueItemMapper[keyField] = item;
             }
+            else { }
         }
 
         public void ValueItemTextField(string keyField, string title = "", bool isLayoutH = true)
@@ -154,8 +183,10 @@ namespace ShipDock.Editors
             {
                 ReadValueItemValueFromEditor(keyField);
             }
+            else { }
+
             ValueItem item = GetValueItem(keyField);
-            if(item != default)
+            if (item != default)
             {
                 string input = GetValueItem(keyField).Value;
                 string value = EditorGUILayout.TextField(input);
@@ -164,7 +195,9 @@ namespace ShipDock.Editors
                 {
                     WriteValueItemDataToEditor(keyField);
                 }
+                else { }
             }
+            else { }
             CheckValueItemArea(ref title, isLayoutH, true);
         }
 
@@ -178,6 +211,7 @@ namespace ShipDock.Editors
                 string input = item.Value;
                 EditorGUILayout.LabelField(input);
             }
+            else { }
 
             CheckValueItemArea(ref title, isLayoutH, true);
         }
@@ -192,6 +226,7 @@ namespace ShipDock.Editors
                 {
                     EditorGUILayout.EndHorizontal();
                 }
+                else { }
             }
             else
             {
@@ -201,8 +236,10 @@ namespace ShipDock.Editors
                     {
                         EditorGUILayout.BeginHorizontal();
                     }
+                    else { }
                     EditorGUILayout.LabelField(title);
                 }
+                else { }
             }
         }
 
@@ -214,9 +251,7 @@ namespace ShipDock.Editors
             EditorGUILayout.EndVertical();
         }
 
-        protected virtual void CheckGUI()
-        {
-        }
+        protected virtual void CheckGUI() { }
         
         protected void ConfirmPopup(string titleValue, string message, Action action = null, string ok = "好的", string cancel = "取消", string log = "")
         {
@@ -229,6 +264,7 @@ namespace ShipDock.Editors
             {
                 result = EditorUtility.DisplayDialog(titleValue, message, ok, cancel);
             }
+
             if (result)
             {
                 if (action != null)
@@ -238,11 +274,21 @@ namespace ShipDock.Editors
                     {
                         Debug.Log(log);
                     }
+                    else { }
                 }
+                else { }
             }
+            else { }
         }
 
+        /// <summary>
+        /// 准备编辑器需要的字段
+        /// </summary>
         protected abstract void ReadyClientValues();
+
+        /// <summary>
+        /// 更新编辑器需要的字段
+        /// </summary>
         protected abstract void UpdateClientValues();
     }
 }
