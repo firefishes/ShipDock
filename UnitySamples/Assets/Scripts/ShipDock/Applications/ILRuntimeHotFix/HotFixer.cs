@@ -205,29 +205,29 @@ namespace ShipDock.Applications
         {
             if (m_StartUpInfo.ApplyClassName)
             {
-                if (string.IsNullOrEmpty(m_StartUpInfo.ClassName))
-                {
+                string clsName = m_StartUpInfo.ClassName;
+                bool isClsNameEmpty = string.IsNullOrEmpty(clsName);
 #if LOG_STATU
+                if (isClsNameEmpty)
+                {
                     Debug.Log(GetType().Name + "'s ClassName is null.");
+                }
+                else { }
 #endif
-                    return;
+                if(!isClsNameEmpty)
+                {
+                    if (m_StartUpInfo.IsMonoBehaviorMode)
+                    {
+                        ILRuntimeUtils.InstantiateMonoFromIL(gameObject, clsName);
+                    }
+                    else
+                    {
+                        HotFixBaseMode(ref clsName);
+                    }
                 }
                 else { }
             }
-            else
-            {
-                return;
-            }
-
-            string clsName = m_StartUpInfo.ClassName;
-            if (m_StartUpInfo.IsMonoBehaviorMode)
-            {
-                ILRuntimeUtils.InstantiateMonoFromIL(gameObject, clsName);
-            }
-            else
-            {
-                HotFixBaseMode(ref clsName);
-            }
+            else { }
         }
 
         /// <summary>

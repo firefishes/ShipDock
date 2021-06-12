@@ -41,7 +41,7 @@ namespace ShipDock.Editors
         private List<bool> mConfigFlagValues;
 
         /// <summary>
-        /// 编辑器窗口预备显示
+        /// 预显示编辑器窗口
         /// </summary>
         public virtual void Preshow()
         {
@@ -115,7 +115,7 @@ namespace ShipDock.Editors
         }
 
         /// <summary>
-        /// 设置属性
+        /// 设置编辑器字段值
         /// </summary>
         /// <param name="keyField"></param>
         /// <param name="value"></param>
@@ -129,17 +129,30 @@ namespace ShipDock.Editors
             else { }
         }
 
+        /// <summary>
+        /// 获取编辑器字段值
+        /// </summary>
+        /// <param name="keyField"></param>
+        /// <returns></returns>
         public ValueItem GetValueItem(string keyField)
         {
             return mValueItemMapper != default ? mValueItemMapper[keyField] : default;
         }
 
+        /// <summary>
+        /// 将值写入编辑器的缓存
+        /// </summary>
+        /// <param name="keyField"></param>
         public void WriteValueItemDataToEditor(string keyField)
         {
             string value = mValueItemMapper[keyField].Value;
             EditorPrefs.SetString(keyField, value);
         }
 
+        /// <summary>
+        /// 从编辑器缓存中读取值
+        /// </summary>
+        /// <param name="keyField"></param>
         public void ReadValueItemValueFromEditor(string keyField)
         {
             string value = EditorPrefs.GetString(keyField);
@@ -151,6 +164,12 @@ namespace ShipDock.Editors
             else { }
         }
 
+        /// <summary>
+        /// 使用编辑器字段值绘制 TextField 控件
+        /// </summary>
+        /// <param name="keyField"></param>
+        /// <param name="title"></param>
+        /// <param name="isLayoutH"></param>
         public void ValueItemTextField(string keyField, string title = "", bool isLayoutH = true)
         {
             CheckValueItemArea(ref title, isLayoutH);
@@ -162,6 +181,13 @@ namespace ShipDock.Editors
             CheckValueItemArea(ref title, isLayoutH, true);
         }
 
+        /// <summary>
+        /// 使用编辑器字段值绘制 Toggle 控件
+        /// </summary>
+        /// <param name="keyField"></param>
+        /// <param name="title"></param>
+        /// <param name="isLayoutH"></param>
+        /// <returns></returns>
         public bool ValueItemTriggle(string keyField, string title = "", bool isLayoutH = true)
         {
             CheckValueItemArea(ref title, isLayoutH);
@@ -175,6 +201,13 @@ namespace ShipDock.Editors
             return toggle;
         }
 
+        /// <summary>
+        /// 使用编辑器字段值绘制可编辑的 文本区域 控件
+        /// </summary>
+        /// <param name="keyField"></param>
+        /// <param name="isReadFromEditor">初始化时是否从编辑器缓存获取值进行显示，且在值被修改后自动写入编辑器缓存</param>
+        /// <param name="title"></param>
+        /// <param name="isLayoutH"></param>
         public void ValueItemTextAreaField(string keyField, bool isReadFromEditor = false, string title = "", bool isLayoutH = true)
         {
             CheckValueItemArea(ref title, isLayoutH);
@@ -201,6 +234,12 @@ namespace ShipDock.Editors
             CheckValueItemArea(ref title, isLayoutH, true);
         }
 
+        /// <summary>
+        /// 使用编辑器字段值绘制 Label 控件
+        /// </summary>
+        /// <param name="keyField"></param>
+        /// <param name="title"></param>
+        /// <param name="isLayoutH"></param>
         public void ValueItemLabel(string keyField, string title = "", bool isLayoutH = true)
         {
             CheckValueItemArea(ref title, isLayoutH);
@@ -216,6 +255,12 @@ namespace ShipDock.Editors
             CheckValueItemArea(ref title, isLayoutH, true);
         }
 
+        /// <summary>
+        /// 对编辑器扩展的控件进行区域排版
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="isLayoutH"></param>
+        /// <param name="isCheckEnd"></param>
         public void CheckValueItemArea(ref string title, bool isLayoutH, bool isCheckEnd = false)
         {
             bool hasTitle = !string.IsNullOrEmpty(title);
@@ -251,6 +296,9 @@ namespace ShipDock.Editors
             EditorGUILayout.EndVertical();
         }
 
+        /// <summary>
+        /// 更新编辑器的 GUI 界面
+        /// </summary>
         protected virtual void CheckGUI() { }
         
         protected void ConfirmPopup(string titleValue, string message, Action action = null, string ok = "好的", string cancel = "取消", string log = "")

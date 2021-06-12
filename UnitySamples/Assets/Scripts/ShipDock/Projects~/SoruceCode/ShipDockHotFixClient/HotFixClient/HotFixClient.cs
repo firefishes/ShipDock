@@ -122,9 +122,6 @@ namespace ShipDock.HotFix
             Sounds = new SoundEffects();
             Sounds.Init();
 
-            NetDistributer = new NetDistributer();
-            NetDistributer.Init();
-
             #region 对主工程框架重填充各热更端的功能单元，以使热更端获得原框架相同的所有功能
             Framework framework = Framework.Instance;
             framework.ReloadUnit(new IFrameworkUnit[] {

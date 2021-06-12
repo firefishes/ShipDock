@@ -22,10 +22,18 @@ namespace ShipDock.Applications
     /// </summary>
     public class ZipHelper : IUpdate
     {
+        public enum ZipOperation
+        {
+            None = 0,
+            Decompress,
+            compress,
+        }
+
         private string mPassword;
         private ZipEntry mEnt;
         private ZipInputStream mZipInputStream;
 
+        public ZipOperation Operation { get; private set; } = ZipOperation.None;
         public string ZipID { get; private set; }
         public string SavePath { get; set; }
         public bool IsCompleted { get; private set; }
@@ -45,15 +53,21 @@ namespace ShipDock.Applications
 
         public void OnUpdate(int dTime)
         {
-            Uncompress();
+            if (Operation == ZipOperation.Decompress)
+            {
+                DuringDecompress();
+            }
+            else
+            {
+            }
         }
 
-        private void Uncompress()
+        private void DuringDecompress()
         {
             if (!IsCompleted)
             {
-                //try
-                //{
+                try
+                {
                     int size;
                     int fixSize = 2048;
                     byte[] data;
@@ -108,16 +122,16 @@ namespace ShipDock.Applications
                         }
                         else
                         {
-                            "error:Next Entry name is empty..".Log();
+                            "error".Log("Next Entry name is empty..");
                         }
                     }
-                //}
-                //catch (Exception e)
-                //{
-                //    "error:Zip exception {0}".Log(e.ToString());
-                //}
-                //finally
-                //{
+                }
+                catch (Exception e)
+                {
+                    "error:Zip exception {0}".Log(e.ToString());
+                }
+                finally
+                {
                     if (FileStream != null)
                     {
                         FileStream.Close();
@@ -142,9 +156,10 @@ namespace ShipDock.Applications
                     GC.Collect(1);
 
                     IsCompleted = true;
+                    Operation = ZipOperation.None;
                     UpdaterNotice.SceneCallLater((t) => { OnCompleted?.Invoke(); });
-                    
-                //}
+
+                }
             }
             else { }
         }
@@ -154,6 +169,7 @@ namespace ShipDock.Applications
         /// </summary> 
         public void SaveZip(string ID, byte[] zipByte, string password)
         {
+            Operation = ZipOperation.Decompress;
             ZipID = ID;
             mPassword = password;
 
@@ -174,8 +190,6 @@ namespace ShipDock.Applications
             else { }
 
             UpdaterNotice.AddUpdater(this);
-            //System.Threading.Thread thread = new System.Threading.Thread(Uncompress);
-            //thread.Start();
         }
     }
 }

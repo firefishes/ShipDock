@@ -192,23 +192,26 @@ public static class ILRuntimeUtils
 
     public static object InstantiateMonoFromIL(GameObject target, string monoCompName)
     {
-        ILType type = appDomain.LoadedTypes[monoCompName] as ILType;//获取Mono组件在ILRuntime中的类型定义
-        
-        if (type == default)
+        ILTypeInstance result = default;
+        if (ILAppDomain().LoadedTypes.TryGetValue(monoCompName, out IType t))
         {
-            Debug.Log("Error: ILType is null when call InstantiateMonoFromIL");
-            return default;
+            ILType type = t as ILType;//获取Mono组件在ILRuntime中的类型定义
+
+            if (type != default)
+            {
+                result = new ILTypeInstance(type as ILType, false);//以适配器的方式新建组件
+                MonoBehaviourAdapter.Adaptor component = target.AddComponent<MonoBehaviourAdapter.Adaptor>();//添加组件
+
+                component.ILInstance = result;//手动构建ILRuntime热更端实例的关联
+                component.AppDomain = ILAppDomain();
+                result.CLRInstance = component;//手动替换组件的实例（AddComponent不是引擎中原来的API）
+                component.Awake();//补调 Awake
+            }
+            else
+            {
+                Debug.LogError("Error: ILType is null when call InstantiateMonoFromIL, class name is " + monoCompName);
+            }
         }
-        else { }
-
-        ILTypeInstance result = new ILTypeInstance(type as ILType, false);//以适配器的方式新建组件
-        MonoBehaviourAdapter.Adaptor component = target.AddComponent<MonoBehaviourAdapter.Adaptor>();//添加组件
-
-        component.ILInstance = result;//手动构建ILRuntime热更端实例的关联
-        component.AppDomain = ILAppDomain();
-        result.CLRInstance = component;//手动替换组件的实例（AddComponent不是引擎中原来的API）
-        component.Awake();//补调 Awake
-
         return result;
     }
 

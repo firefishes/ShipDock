@@ -8,7 +8,6 @@ using ShipDock.Notices;
 using ShipDock.Tools;
 using System.Collections.Generic;
 using UnityEngine;
-
 using AutoAdaptorGeneratesDic = System.Collections.Generic.Dictionary<string, System.Type>;
 
 public class AppHotFixConfigBase : IHotFixConfig

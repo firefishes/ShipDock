@@ -65,7 +65,7 @@ public static class NoticesExtensions
         else { }
     }
 
-    public static void BroadcastWithParam<T>(this int noticeName, T vs)
+    public static T BroadcastWithParam<T>(this int noticeName, T vs)
     {
         ParamNotice<T> notice = new ParamNotice<T>
         {
@@ -73,7 +73,9 @@ public static class NoticesExtensions
         };
         notice.SetNoticeName(noticeName);
         NotificatonsInt.Instance.Notificater?.Broadcast(notice);
+        T result = notice.ParamValue;
         notice.Dispose();
+        return result;
     }
 
     public static void Dispatch(this INotificationSender target, INoticeBase<int> notice)

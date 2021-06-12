@@ -37,5 +37,9 @@ namespace ShipDock.Applications
     /// </summary>
     public class HotFixBaseUI : HotFixerInteractor
     {
+        public void Close(bool isDestroy)
+        {
+            UIModular.Name.Close(isDestroy);
+        }
     }
 }

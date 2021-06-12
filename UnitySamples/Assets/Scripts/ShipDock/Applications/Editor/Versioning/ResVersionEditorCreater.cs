@@ -14,27 +14,37 @@ namespace ShipDock.Editors
     /// </summary>
     public class ResDataVersionEditorCreater
     {
+        public static string versionFileNameKey = "client_version_filename";
+        public static string versionFileNameReleaseKey = "client_version_filename_release";
+        public static string applyResVersionGatewayReleaseKey = "apply_res_version_gateway_release";
+
         private static string resVersionRootURLKey = "res_version_root_url";
+        private static string updateTotalVersionKey = "update_total_version";
+        private static string updateAdditionVersionKey = "update_addition_version";
+        private static string resVersionRootUrlReleaseKey = "res_version_root_url_release";
+
+        public static bool ApplyReleaseGateway { get; private set; }
 
         public static void SetEditorValueItems(ShipDockEditor editor)
         {
             editor.SetValueItem(resVersionRootURLKey, "http://127.0.0.1");
-            editor.SetValueItem("res_version_root_url_release", string.Empty);
+            editor.SetValueItem(resVersionRootUrlReleaseKey, string.Empty);
             editor.SetValueItem("is_ignore_remote", "false");
             editor.SetValueItem("is_sync_client_versions", "true");
-            editor.SetValueItem("update_addition_version", "true");
-            editor.SetValueItem("update_total_version", "false");
+            editor.SetValueItem(updateAdditionVersionKey, "true");
+            editor.SetValueItem(updateTotalVersionKey, "false");
             editor.SetValueItem("sync_app_version", "false");
-            editor.SetValueItem("apply_res_version_gateway_release", "false");
-            editor.SetValueItem("client_version_filename", "ClientResVersions");
+            editor.SetValueItem(applyResVersionGatewayReleaseKey, "false");
+            editor.SetValueItem(versionFileNameKey, "ClientResVersions");
+            editor.SetValueItem(versionFileNameReleaseKey, "ClientResVersions_Release");
         }
 
         public static void CheckEditorGUI(ShipDockEditor editor)
         {
             //editor.ValueItemTriggle("is_zip_patch", "zip压缩包：");
             editor.ValueItemTriggle("sync_app_version", "    更新版本配置的App版本号");
-            editor.ValueItemTriggle("update_total_version", "    提升版本配置的总版本号");
-            editor.ValueItemTriggle("update_addition_version", "    更新各增量资源版本号");
+            editor.ValueItemTriggle(updateTotalVersionKey, "    提升版本配置的总版本号");
+            editor.ValueItemTriggle(updateAdditionVersionKey, "    更新各增量资源版本号");
             editor.ValueItemTriggle("is_sync_client_versions", "    作为最新版客户端的资源配置模板");
         }
 
@@ -43,9 +53,9 @@ namespace ShipDock.Editors
             isIgnoreRemote = editor.ValueItemTriggle("is_ignore_remote", "    不基于远程版本配置生成新版本配置");
             if (!isIgnoreRemote)
             {
-                bool isApplyReleaseGateway = editor.ValueItemTriggle("apply_res_version_gateway_release", "    使用发布版 Gateway");
-                string key = isApplyReleaseGateway ? "res_version_root_url_release" : resVersionRootURLKey;//区分测试和发布版
-                editor.ValueItemTextAreaField(key, true, "远程版本配置所在服务端 URL".Append(isApplyReleaseGateway ? "(发布版)" : string.Empty), false);
+                ApplyReleaseGateway = editor.ValueItemTriggle(applyResVersionGatewayReleaseKey, "    使用发布版 Gateway");
+                string key = ApplyReleaseGateway ? resVersionRootUrlReleaseKey : resVersionRootURLKey;//区分测试和发布版
+                editor.ValueItemTextAreaField(key, true, "远程版本配置所在服务端 URL".Append(ApplyReleaseGateway ? "(发布版)" : string.Empty), false);
             }
             else { }
         }
@@ -55,10 +65,10 @@ namespace ShipDock.Editors
             string remoteGateway = editor.GetValueItem(resVersionRootURLKey).Value;
             bool isIgnoreRemote = editor.GetValueItem("is_ignore_remote").Bool;
             bool isSyncClientVersions = editor.GetValueItem("is_sync_client_versions").Bool;
-            bool isUpdateAdditionVersion = editor.GetValueItem("update_addition_version").Bool;
-            bool isUpdateResVersion = editor.GetValueItem("update_total_version").Bool;
+            bool isUpdateAdditionVersion = editor.GetValueItem(updateAdditionVersionKey).Bool;
+            bool isUpdateResVersion = editor.GetValueItem(updateTotalVersionKey).Bool;
             bool isSyncAppVersion = editor.GetValueItem("sync_app_version").Bool;
-            string clientVersionsFileName = editor.GetValueItem("client_version_filename").Value;
+            string clientVersionsFileName = editor.GetValueItem(versionFileNameKey).Value;
 
             ResDataVersionEditorCreater creater = new ResDataVersionEditorCreater()
             {

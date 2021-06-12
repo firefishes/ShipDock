@@ -545,30 +545,6 @@ namespace ShipDock.Versioning
             return result;
         }
 
-        //public void CopySteammingAssets(ResDataVersion clientVersions)
-        //{
-        //    string streamming, persistent;
-        //    int max = clientVersions.res.Length;
-        //    ResVersion item;
-        //    byte[] vs;
-        //    for (int i = 0; i < max; i++)
-        //    {
-        //        item = clientVersions.res[i];
-        //        streamming = AppPaths.StreamingResDataRoot.Append(item.name);
-        //        if (File.Exists(streamming))
-        //        {
-        //            persistent = AppPaths.PersistentResDataRoot.Append(item.name);
-        //            if (!File.Exists(persistent))
-        //            {
-        //                vs = FileOperater.ReadBytes(streamming);
-        //                FileOperater.WriteBytes(vs, persistent);
-        //            }
-        //            else { }
-        //        }
-        //        else { }
-        //    }
-        //}
-
         /// <summary>
         /// 获取更新列表
         /// </summary>

@@ -17,17 +17,23 @@ namespace ShipDock.Editors
     /// </summary>
     public class AssetBundleInfoPopupEditor : ShipDockEditor
     {
+        /// <summary>
+        /// 弹出编辑器工具弹窗
+        /// </summary>
+        /// <returns></returns>
         public static AssetBundleInfoPopupEditor Popup()
         {
             InitEditorWindow<AssetBundleInfoPopupEditor>("资源打包与版本配置");//, new Rect(0, 0, 400, 400));
             return focusedWindow as AssetBundleInfoPopupEditor;
         }
 
+        #region 编辑器字段名
         private string mIsBuildABKey = "is_build_ab";
         private string mOverrideToStreamingKey = "override_to_streaming";
         private string mABItemNameKey = "ab_item_name";
         private string mDisplayResShowerKey = "display_res_shower";
         private string mIsBuildVersionsKey = "is_build_versions";
+        #endregion
         private Vector2 mResShowerScrollPos;
 
         public UnityEngine.Object[] ResList { get; set; } = new UnityEngine.Object[0];
@@ -45,6 +51,9 @@ namespace ShipDock.Editors
 
         protected override void UpdateClientValues() { }
 
+        /// <summary>
+        /// 更新编辑器的 GUI 界面
+        /// </summary>
         protected override void CheckGUI()
         {
             base.CheckGUI();
@@ -57,6 +66,8 @@ namespace ShipDock.Editors
             {
                 ValueItemTriggle(mOverrideToStreamingKey, "    资源打包完成后复制到 SteamingAssets");
             }
+            else { }
+
             bool isBuildVersions = ValueItemTriggle("is_build_versions", "生成资源版本");
             if (isBuildVersions)
             {
@@ -69,9 +80,16 @@ namespace ShipDock.Editors
                     ValueItemTriggle("sync_app_version", "    更新版本配置的App版本号");
                     ValueItemTriggle("is_sync_client_versions", "    作为最新版客户端的资源配置模板");
                 }
-                ValueItemTextAreaField("client_version_filename", true, "    客户端配置资源文件名");
+
                 ResDataVersionEditorCreater.CheckGatewayEditorGUI(this, out isIgnoreRemote);
+
+                string versionFileNameKey = ResDataVersionEditorCreater.ApplyReleaseGateway ? 
+                    ResDataVersionEditorCreater.versionFileNameReleaseKey : ResDataVersionEditorCreater.versionFileNameKey;
+
+                ValueItemTextAreaField(versionFileNameKey, true, "    客户端配置资源文件名");
             }
+            else { }
+
             if (isBuildAB)
             {
                 ResList = ShipDockEditorData.Instance.selections;
@@ -82,6 +100,7 @@ namespace ShipDock.Editors
                 {
                     AssetBuilding();
                 }
+                else { }
             }
             else if (isBuildVersions)
             {
@@ -91,6 +110,7 @@ namespace ShipDock.Editors
                     {
                         BuildVersions(default);
                     }
+                    else { }
                 }
                 else
                 {
@@ -98,6 +118,7 @@ namespace ShipDock.Editors
                     {
                         BuildVersions(default);
                     }
+                    else { }
                 }
             }
             else

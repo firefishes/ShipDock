@@ -1,66 +1,79 @@
-﻿using ShipDock.Tools;
-using System;
-using DataLoader = ShipDock.Loader.Loader;
+﻿using LitJson;
+using ShipDock.Testers;
+using ShipDock.Tools;
 
 namespace ShipDock.Network
 {
     public class NetDistributer
     {
-        public Action<bool, byte[]> Prerecived { get; set; }
-        public Action<int, byte[]> Successed { get; set; }
-        public Action<int, byte[]> Failed { get; set; }
-        public Func<string, byte[]> FalseDataCreater { get; set; }
+        private KeyValueList<string, IHttpRequester> mHttpReqeuesters;
 
-        private KeyValueList<string, int> mDataResultNotices;
-
-        public void Init()
+        public NetDistributer()
         {
-            mDataResultNotices = new KeyValueList<string, int>();
+            Tester.Instance.AddLogger("HTTP url", "log:发送服务端请求 URL: {0}");
+
+            mHttpReqeuesters = new KeyValueList<string, IHttpRequester>();
         }
 
-        public void AddRequestInfo(int noticeName, string api)
+        public virtual void Clean()
         {
-            mDataResultNotices[api] = noticeName;
+            mHttpReqeuesters?.Clear();
         }
 
-        public void Send(string url, bool isFalseData = false)
+        public void InitRequests(HTTPDriver driver, ServiceURL services)
         {
-            if (isFalseData && (FalseDataCreater != default))
+            IHttpRequester requester;
+            int max = mHttpReqeuesters.Size;
+            for (int i = 0; i < max; i++)
             {
-                byte[] data = FalseDataCreater?.Invoke(url);
-                RecivedData(true, ref url, ref data);
-            }
-            else
-            {
-                DataLoader loader = new DataLoader(DataLoader.LOADER_DEFAULT);
-                loader.CompleteEvent.AddListener(OnNetCompleted);
-                loader.Load(url);
+                requester = mHttpReqeuesters.GetValueByIndex(i);
+                requester.Init(driver, services);
             }
         }
 
-        private void OnNetCompleted(bool successed, DataLoader loader)
+        public void AddRequester(IHttpRequester requester)
         {
-            string url = loader.Url;
-            byte[] data = loader.ResultData;
-
-            RecivedData(successed, ref url, ref data);
-
-            loader.Dispose();
+            string keyInServices = requester.KeyInURLServices;
+            mHttpReqeuesters[keyInServices] = requester;
         }
 
-        private void RecivedData(bool successed, ref string api, ref byte[] data)
+        public T GetHTTPIniter<T>(string keyInURLManager) where T : ResponserIniter
         {
-            Prerecived?.Invoke(successed, data);
+            T result = default;
+            IHttpRequester request = mHttpReqeuesters[keyInURLManager];
+            if (request != default)
+            {
+                result = (T)request.ResponserIniter;
+            }
+            else { }
+            return result;
+        }
 
-            int noticeName = mDataResultNotices[api];
-            if (successed)
+        public void SendRequest(string keyInURLManager)
+        {
+            IHttpRequester requester = mHttpReqeuesters[keyInURLManager];
+            requester?.Build();
+            requester?.Send();
+        }
+
+        public void SendRequest(string keyInURLManager, JsonData jsonParam, string headerAPI = "")
+        {
+            IHttpRequester requester = mHttpReqeuesters[keyInURLManager];
+
+            if (requester is IRequesterJsonParamer jsonParamRequest)
             {
-                Successed?.Invoke(noticeName, data);
+                jsonParamRequest.RequestParam = jsonParam;
+
+                ResponserIniter initer = requester.ResponserIniter;
+                initer.IgnoreParamCreate = true;
+
+                requester.HeaderAPIKey = headerAPI;
+                requester?.Build();
+                requester?.Send();
+
+                initer.IgnoreParamCreate = false;
             }
-            else
-            {
-                Failed?.Invoke(noticeName, data);
-            }
+            else { }
         }
     }
 }
