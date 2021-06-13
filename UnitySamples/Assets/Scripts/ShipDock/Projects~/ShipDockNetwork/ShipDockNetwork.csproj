@@ -61,11 +61,47 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\HTTPDriver.cs">
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Driver\HTTPDriver.cs">
       <Link>ShipDockNetwork\HTTPDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Driver\HTTPJsonRequestInfo.cs">
+      <Link>ShipDockNetwork\HTTPJsonRequestInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Driver\HttpRequestType.cs">
+      <Link>ShipDockNetwork\HttpRequestType.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Driver\HttpUtility.cs">
+      <Link>ShipDockNetwork\HttpUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\HTTPIniter\CommonResponserIniter.cs">
+      <Link>ShipDockNetwork\CommonResponserIniter.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\HTTPIniter\NotificationResponseIniter.cs">
+      <Link>ShipDockNetwork\NotificationResponseIniter.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\HTTPIniter\ResponserIniter.cs">
+      <Link>ShipDockNetwork\ResponserIniter.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Interfaces\IHttpRequester.cs">
+      <Link>ShipDockNetwork\IHttpRequester.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Interfaces\IRequesterParamer.cs">
+      <Link>ShipDockNetwork\IRequesterParamer.cs</Link>
     </Compile>
     <Compile Include="..\SoruceCode\ShipDockNetwork\Network\NetDistributer.cs">
       <Link>ShipDockNetwork\NetDistributer.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Requester\NotificationJsonRequester.cs">
+      <Link>ShipDockNetwork\NotificationJsonRequester.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Requester\RequestBase.cs">
+      <Link>ShipDockNetwork\RequestBase.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Responser\RequestResponser.cs">
+      <Link>ShipDockNetwork\RequestResponser.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\ServiceURL.cs">
+      <Link>ShipDockNetwork\ServiceURL.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShipDockNetwork\Socket.IO\JSONObjectReuse.cs" />

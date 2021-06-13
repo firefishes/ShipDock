@@ -14,6 +14,12 @@ namespace ShipDock.Sounds
     /// </summary>
     public class SoundEffects
     {
+        /// <summary>
+        /// 构建音效播放列表
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="group"></param>
+        /// <param name="clips"></param>
         public static void BuildSoundPlayList(ref List<SoundItem> list, int group, params AudioClip[] clips)
         {
             if (list != default)
@@ -35,6 +41,13 @@ namespace ShipDock.Sounds
             }
             else { }
         }
+
+        /// <summary>
+        /// 构建背景音乐播放列表
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="group"></param>
+        /// <param name="clips"></param>
         public static void BuildBGMPlayList(ref List<SoundItem> list, int group, params AudioClip[] clips)
         {
             if (list != default)
@@ -149,8 +162,6 @@ namespace ShipDock.Sounds
                 else { }
             }
             else { }
-
-            Debug.Log("BGM volumn " + VolumnBGM);
         }
 
         /// <summary>
@@ -163,8 +174,6 @@ namespace ShipDock.Sounds
             vol = Mathf.Max(0f, vol);
             VolumnSound = vol;
             IsSoundMute = vol <= 0f;
-
-            Debug.Log("Sound volumn " + VolumnSound);
         }
 
         public void AddSound(string name, AudioClip clip, bool isBGM = false, int groupName = int.MaxValue)
@@ -404,11 +413,14 @@ namespace ShipDock.Sounds
             }
             else
             {
-                if (!isNipOff)
+                if (isNipOff)
+                {
+                    mTrackTemp.source.Stop();
+                }
+                else
                 {
                     mPlayCompleteCallback += mTrackTemp.onPlayCompleted;
                 }
-                else { }
 
                 mSourceTemp.Stop();
                 mSourceTemp.clip = default;

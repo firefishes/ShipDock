@@ -61,6 +61,9 @@
       <HintPath>..\References\2018.4.3f1\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\References\2018.3.9f1\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SoruceCode\ShipDockUI\UIBase\Events\UIRootEvents.cs">
@@ -83,6 +86,21 @@
     </Compile>
     <Compile Include="..\SoruceCode\ShipDockUI\UIBase\UIStack.cs">
       <Link>ShipDockUI\UIStack.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockUI\UIControls\IUIRaw.cs">
+      <Link>ShipDockUI\IUIRaw.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockUI\UIControls\UIBase.cs">
+      <Link>ShipDockUI\UIBase.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockUI\UIControls\UIButton.cs">
+      <Link>ShipDockUI\UIButton.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockUI\UIControls\UIRaw.cs">
+      <Link>ShipDockUI\UIRaw.cs</Link>
+    </Compile>
+    <Compile Include="..\SoruceCode\ShipDockUI\UIControls\UISwitch.cs">
+      <Link>ShipDockUI\UISwitch.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
