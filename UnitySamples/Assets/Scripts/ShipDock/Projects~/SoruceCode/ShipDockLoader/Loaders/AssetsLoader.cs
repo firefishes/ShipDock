@@ -1,5 +1,4 @@
-﻿#define _G_LOG
-
+﻿
 using ShipDock.Applications;
 using ShipDock.Interfaces;
 using ShipDock.Tools;

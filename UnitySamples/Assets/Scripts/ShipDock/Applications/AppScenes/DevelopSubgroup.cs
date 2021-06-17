@@ -2,6 +2,7 @@
 using ShipDock.Versioning;
 using System;
 using UnityEngine;
+using ShipDock.Testers;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -83,6 +84,36 @@ namespace ShipDock.Applications
         [LabelText("预加载资源")]
 #endif
         public string[] assetNamePreload;
+
+#if ODIN_INSPECTOR
+        [LabelText("修改日志颜色")]
+#endif
+        public bool changeDebugSettings;
+
+#if ODIN_INSPECTOR
+        [LabelText("启动前"), ShowIf("@this.changeDebugSettings == true")]
+#endif
+        public Color logColorDefault;
+
+#if ODIN_INSPECTOR
+        [LabelText("普通日志"), ShowIf("@this.changeDebugSettings == true")]
+#endif
+        public Color logColorDebug;
+
+#if ODIN_INSPECTOR
+        [LabelText("警告日志"), ShowIf("@this.changeDebugSettings == true")]
+#endif
+        public Color logColorWarning;
+
+#if ODIN_INSPECTOR
+        [LabelText("报错"), ShowIf("@this.changeDebugSettings == true")]
+#endif
+        public Color logColorError;
+
+#if ODIN_INSPECTOR
+        [LabelText("待完成"), ShowIf("@this.changeDebugSettings == true")]
+#endif
+        public Color logColorTodo;
 
         /// <summary>是否应用远程资源服务器</summary>
         public bool ApplyRemoteAssets

@@ -1,5 +1,4 @@
-﻿#define _COLOR_LOG
-
+﻿
 using UnityEngine;
 using System;
 using System.Text;
@@ -68,11 +67,53 @@ namespace ShipDock.Testers
 #endif
         }
 
-        private const string LOG_COLOR_TODO = "#FF4DFF";
-        private const string LOG_COLOR_WARNING = "#E78D08";
-        private const string LOG_COLOR_DEBUG = "#00BEEEFF";
-        private const string LOG_COLOR_ERROR = "#EE0000";
-        private const string LOG_COLOR_DEFAULT = "#FFFFFFFF";
+        public static void SetLogDebugColor(string colorValue)
+        {
+            LOG_COLOR_DEBUG = colorValue;
+        }
+
+        public static void SetLogWarningColor(string colorValue)
+        {
+            LOG_COLOR_WARNING = colorValue;
+        }
+
+        public static void SetLogTodoColor(string colorValue)
+        {
+            LOG_COLOR_TODO = colorValue;
+        }
+
+        public static void SetLogErrorColor(string colorValue)
+        {
+            LOG_COLOR_ERROR = colorValue;
+        }
+
+        public static void SetLogDefaultColor(string colorValue)
+        {
+            LOG_COLOR_DEFAULT = colorValue;
+        }
+
+        public static Color GetLogColor(string type)
+        {
+            string htmlColor = LOG_COLOR_DEFAULT;
+            switch (type)
+            {
+                case "l":
+                    htmlColor = LOG_COLOR_DEBUG;
+                    break;
+                case "w":
+                    htmlColor = LOG_COLOR_WARNING;
+                    break;
+                case "e":
+                    htmlColor = LOG_COLOR_ERROR;
+                    break;
+                case "t":
+                    htmlColor = LOG_COLOR_TODO;
+                    break;
+            }
+            ColorUtility.TryParseHtmlString(htmlColor, out Color color);
+            return color;
+        }
+
         private const string COLOR_FORMAT = "<color=\"{0}\">{1}</color>";
         private const string COLOR_SYBMBOL = "#";
         private const string COLOR_LOG_MATCHER_TODO = "todo:";
@@ -81,6 +122,11 @@ namespace ShipDock.Testers
         private const string COLOR_LOG_MATCHER_LOG = "log:";
         private const string COLOR_LOG_MATCHER_TESTER = "Tester:";
 
+        private static string LOG_COLOR_TODO = "#FF4DFF";
+        private static string LOG_COLOR_WARNING = "#E78D08";
+        private static string LOG_COLOR_DEBUG = "#00BEEEFF";
+        private static string LOG_COLOR_ERROR = "#EE0000";
+        private static string LOG_COLOR_DEFAULT = "#8A8A8A";
         private static string colorInLog = string.Empty;
         private static string colorValueInLog = string.Empty;
         private static string firstElment = string.Empty;
@@ -112,11 +158,11 @@ namespace ShipDock.Testers
 #if !COLOR_LOG
             colorValueInLog = string.Empty;
 #endif
-            bool isTODO = colorInLog.StartsWith(COLOR_LOG_MATCHER_TODO);//, StringComparison.OrdinalIgnoreCase) != -1;
-            bool isWarning = colorInLog.StartsWith(COLOR_LOG_MATCHER_WARNING);//, StringComparison.OrdinalIgnoreCase) != -1;
-            bool isLog = colorInLog.StartsWith(COLOR_LOG_MATCHER_LOG);//, StringComparison.OrdinalIgnoreCase) != -1;
-            bool isError = colorInLog.StartsWith(COLOR_LOG_MATCHER_ERROR);//, StringComparison.OrdinalIgnoreCase) != -1;
-            bool isTester = colorInLog.StartsWith(COLOR_LOG_MATCHER_TESTER);//, StringComparison.OrdinalIgnoreCase) != -1;
+            bool isTODO = colorInLog.StartsWith(COLOR_LOG_MATCHER_TODO);
+            bool isWarning = colorInLog.StartsWith(COLOR_LOG_MATCHER_WARNING);
+            bool isLog = colorInLog.StartsWith(COLOR_LOG_MATCHER_LOG);
+            bool isError = colorInLog.StartsWith(COLOR_LOG_MATCHER_ERROR);
+            bool isTester = colorInLog.StartsWith(COLOR_LOG_MATCHER_TESTER);
             if (string.IsNullOrEmpty(colorValueInLog))
             {
                 if (isTODO)
@@ -131,7 +177,6 @@ namespace ShipDock.Testers
                 {
                     colorValueInLog = LOG_COLOR_ERROR;
                 }
-#if COLOR_LOG
                 else if (isLog)
                 {
                     colorValueInLog = LOG_COLOR_DEBUG;
@@ -140,7 +185,6 @@ namespace ShipDock.Testers
                 {
                     colorValueInLog = LOG_COLOR_DEFAULT;
                 }
-#endif
             }
 
 #if COLOR_LOG

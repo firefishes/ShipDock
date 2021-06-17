@@ -128,17 +128,22 @@ namespace ShipDock.Applications
             ShipDockApp.Instance.Clean();
         }
 
+        protected virtual AppHotFixConfigBase GetAppHotFixConfig()
+        {
+            return new AppHotFixConfigBase();
+        }
+
         /// <summary>
         /// 相应更新远程资源事件的处理函数
         /// </summary>
         public virtual void UpdateRemoteAssetHandler()
         {
             HotFixSubgroup hotFixSubgroup = GameComponent.HotFixSubgroup;
-            if (!string.IsNullOrEmpty(hotFixSubgroup.initerNameInResource))
+            if (hotFixSubgroup.applyILRuntime && !string.IsNullOrEmpty(hotFixSubgroup.initerNameInResource))
             {
 #if ILRUNTIME
                 IAppILRuntime app = ShipDockApp.Instance;
-                app.SetHotFixSetting(new ILRuntimeHotFix(app), new AppHotFixConfig());
+                app.SetHotFixSetting(new ILRuntimeHotFix(app), GetAppHotFixConfig());
 #endif
 
                 GameObject mainBridge = Resources.Load<GameObject>(hotFixSubgroup.initerNameInResource);

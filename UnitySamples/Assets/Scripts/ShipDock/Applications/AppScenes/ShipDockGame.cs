@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using ShipDock.Testers;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -81,6 +82,7 @@ namespace ShipDock.Applications
         /// <param name="root"></param>
         public void UIRootAwaked(IUIRoot root)
         {
+            CreateTesters();
             ShipDockApp.Instance.InitUIRoot(root);
 #if RELEASE
             Debug.unityLogger.logEnabled = false;//编译发布版时关闭日志
@@ -116,7 +118,31 @@ namespace ShipDock.Applications
             }
             else { }
 
+            CheckLogColorSettings();
+
             CreateGame();
+        }
+
+        public void CheckLogColorSettings()
+        {
+            if (m_DevelopSubgroup.changeDebugSettings)
+            {
+                string colorValue = ColorUtility.ToHtmlStringRGBA(m_DevelopSubgroup.logColorDebug);
+                DebugUtils.SetLogDebugColor(colorValue);
+
+                colorValue = ColorUtility.ToHtmlStringRGBA(m_DevelopSubgroup.logColorDefault);
+                DebugUtils.SetLogDefaultColor(colorValue);
+
+                colorValue = ColorUtility.ToHtmlStringRGBA(m_DevelopSubgroup.logColorWarning);
+                DebugUtils.SetLogWarningColor(colorValue);
+
+                colorValue = ColorUtility.ToHtmlStringRGBA(m_DevelopSubgroup.logColorTodo);
+                DebugUtils.SetLogTodoColor(colorValue);
+
+                colorValue = ColorUtility.ToHtmlStringRGBA(m_DevelopSubgroup.logColorError);
+                DebugUtils.SetLogErrorColor(colorValue);
+            }
+            else { }
         }
 
         /// <summary>
@@ -195,7 +221,6 @@ namespace ShipDock.Applications
         /// </summary>
         private void OnShipDockStart()
         {
-            CreateTesters();
             InitDataProxy();
             InitServerContainers();
         }

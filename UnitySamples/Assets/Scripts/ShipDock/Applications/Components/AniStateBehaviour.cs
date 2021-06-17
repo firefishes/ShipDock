@@ -146,31 +146,13 @@ namespace ShipDock.Applications
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            bool isFXChecked = false;
             if (HasAniStateEffect())
             {
-                bool flag = false;
-                int FXFinished = 0;
                 int max = m_AniStateEffects.Length;
                 for (int i = 0; i < max; i++)
                 {
                     m_AniStateEffects[i].UpdateFX();
-                    //flag = m_AniStateEffects[i].IsCreated();
-
-                    //if (flag)
-                    //{
-                    //    FXFinished++;
-                    //}
-                    //else { }
                 }
-
-                //isFXChecked = FXFinished >= max;
-
-                //if (!isFXChecked)
-                //{
-                //    return;
-                //}
-                //else { }
             }
             else { }
 
@@ -201,8 +183,6 @@ namespace ShipDock.Applications
 
         private void SendAniStateNotice()
         {
-            "AniStateBehaviour finish".Log(!IsDuringState, m_AniSubgroup.MotionName.ToString());
-
             if (mNotice != default)
             {
                 mNoticeName.Broadcast(mNotice);

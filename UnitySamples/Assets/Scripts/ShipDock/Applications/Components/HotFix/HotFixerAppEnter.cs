@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShipDock.Applications
 {
-    public class HotFixerAppEnter : HotFixBridge
+    public class HotFixerAppEnter<T> : HotFixBridge where T : AppHotFixConfigBase, new()
     {
         [SerializeField]
         private TextAsset m_EnterDll;
@@ -41,7 +41,7 @@ namespace ShipDock.Applications
 
 #if ILRUNTIME
             ShipDockApp app = ShipDockApp.Instance;
-            app.SetHotFixSetting(new ILRuntimeHotFix(ShipDockApp.Instance), new AppHotFixConfig());
+            app.SetHotFixSetting(new ILRuntimeHotFix(ShipDockApp.Instance), new T());
             app.ILRuntimeHotFix.Start();
 #endif
             base.Init();

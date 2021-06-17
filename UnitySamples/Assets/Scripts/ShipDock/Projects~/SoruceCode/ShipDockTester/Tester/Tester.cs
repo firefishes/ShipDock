@@ -294,10 +294,26 @@ namespace ShipDock.Testers
             {
                 if (logID.Contains("{0}"))
                 {
-                    logger = new LogItem
+                    if (!mLoggerMapper.ContainsKey(string.Empty))
                     {
-                        format = logID,
-                    };
+                        mLoggerMapper[string.Empty] = new Dictionary<string, LogItem>();
+                    }
+                    else { }
+
+                    Dictionary<string, LogItem> list = mLoggerMapper[string.Empty];
+
+                    if (list.ContainsKey(logID))
+                    {
+                        logger = list[logID];
+                    }
+                    else
+                    {
+                        logger = new LogItem
+                        {
+                            format = logID,
+                        };
+                        list[logID] = logger;
+                    }
                 }
                 else
                 {

@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;G_LOG;COLOR_LOG;UNITY_5_6_OR_NEWER;LOG_LOADER_SUCCESS;LOG_LOADER_FAILED</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;_G_LOG;_COLOR_LOG;UNITY_5_6_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
@@ -42,7 +42,6 @@
     </Reference>
     <Reference Include="ShipDockTester">
       <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -81,10 +81,9 @@ Camera:
   m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
+  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -93,9 +92,9 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 120
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: 0
   m_CullingMask:
@@ -126,12 +125,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UICamera: {fileID: 8976732739232926415}
   m_MainCanvas: {fileID: 8495998237422655543}
+  m_Windows: {fileID: 1396445589339426764}
   m_Widgets: {fileID: 4472687400690764348}
   m_Popups: {fileID: 1761346179262748430}
-  m_Windows: {fileID: 1396445589339426764}
   m_OnAwaked:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: ShipDock.UI.OnUIRootAwaked, ShipDockUI, Version=1.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &3701493621554461843
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,8 +177,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 421512070601637394}
-  - component: {fileID: 5929303887885792830}
-  - component: {fileID: 7764732329717002990}
+  - component: {fileID: 3304475920281823623}
+  - component: {fileID: 3304475920281823620}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -199,7 +200,7 @@ Transform:
   m_Father: {fileID: 6532199061091325503}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5929303887885792830
+--- !u!114 &3304475920281823623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,13 +209,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4856215875102154114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!114 &7764732329717002990
+--- !u!114 &3304475920281823620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,7 +224,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4856215875102154114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalAxis: Horizontal
@@ -278,8 +279,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2522587103558151751}
   - component: {fileID: 8495998237422655543}
-  - component: {fileID: 3053988412613235674}
-  - component: {fileID: 1918371052368163466}
+  - component: {fileID: 3304475920036046420}
+  - component: {fileID: 3304475920036046421}
+  - component: {fileID: 6180233188012811484}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -318,7 +320,7 @@ Canvas:
   m_GameObject: {fileID: 8619762569737248833}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 8976732739232926415}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -326,11 +328,11 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &3053988412613235674
+--- !u!114 &3304475920036046420
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -339,20 +341,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 8619762569737248833}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1792, y: 828}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 828, y: 1792}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &1918371052368163466
+--- !u!114 &3304475920036046421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -361,7 +363,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8619762569737248833}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -369,3 +371,11 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!222 &6180233188012811484
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8619762569737248833}
+  m_CullTransparentMesh: 0

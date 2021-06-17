@@ -67,7 +67,7 @@ namespace ILRuntime.Runtime.Debugger
         public void StopDebugService()
         {
 #if DEBUG && !DISABLE_ILRUNTIME_DEBUG
-            server.Stop();
+            server?.Stop();
             server = null;
 #endif
         }

@@ -39,6 +39,8 @@ namespace ShipDock.Applications
             mRepeats = repeats;
             Repeatable = mRepeats > 0;
             mCancelCondition = cancelCondition;
+
+            UpdaterNotice.RemoveSceneUpdater(this);
         }
 
         public void Start()

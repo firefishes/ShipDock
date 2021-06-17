@@ -3,9 +3,9 @@ using ILRuntime.Runtime.Enviorment;
 using ShipDock.Loader;
 using ShipDock.Notices;
 using ShipDock.Pooling;
+using System;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
-using System;
 #endif
 using UnityEngine;
 

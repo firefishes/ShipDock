@@ -677,52 +677,38 @@ namespace ShipDock.Network
         #endregion
 
         #region 日志相关
-        private void LogResponsed(ref string debug, ref string response)
+        private void LogResponsed(ref string debug, ref string result)
         {
-            Debug.Log("请求成功：".Append(debug, "\n服务器返回值:", response));
+            "log:请求成功: {0}, 服务端返回值：{1}".Log(debug, result);
         }
 
         private void LogServiceError(ref string debug, ref UnityWebRequest engine)
         {
-            debug = "服务器报错（" + engine.responseCode + "):" + engine.error + "\n" + debug;
-            debug = debug + "服务器返回值：" + engine.downloadHandler.text;
-            Debug.LogError(debug);
+            "error:服务端报错（{0}） UnityWebRequest error: {1}, 详情：{2}".Log(engine.responseCode.ToString(), engine.error.ToString(), debug);
         }
 
         private void LogNetError(ref string debug, ref UnityWebRequest engine)
         {
-            Debug.LogError("网络错误：" + engine.error + "\n" + debug);
-            if (engine.error == "Cannot connect to destination host")
-            {
-                Debug.LogError("无法连接到网络！请检查网络连接设置！");
-            }
-            else if (engine.error == "Request timeout")
-            {
-                Debug.LogError("网络连接超时！");
-            }
-            else { }
+            "error:网络错误：{0}， 详情：{1}".Log(engine.error.ToString(), debug);
+            "error".Log(engine.error == "Cannot connect to destination host", "无法连接到网络！请检查网络连接设置！");
+            "error".Log(engine.error == "Request timeout", "网络连接超时！");
         }
 
         private void LogTimeUsed(ref string debug, ref UnityWebRequest engine, DateTime debugTime)
         {
-            Debug.Log("服务器返回：" + debug + "\n服务器返回值:" + engine.downloadHandler.text);
-            debug = debug + "消耗时间：" + (DateTime.UtcNow - debugTime).TotalMilliseconds / 1000 + "秒\n";
+            "log:URL请求：{0} 消耗时间：{1}".Log(engine.url, ((DateTime.UtcNow - debugTime).TotalMilliseconds / 1000).ToString());
         }
 
         private void LogBeforeSend(ref string debug, ref HttpRequestType requestType, ref string requestURL, ref JsonData data)
         {
-            debug = "URL地址：".Append(requestURL, "\n");
-            debug = debug + "数据:".Append(JsonMapper.ToJson(data), "\n");
-            debug = debug + "请求类型：".Append(requestType.ToString().ToUpper(), "\n");
-            Debug.Log("客户端请求：".Append(debug));
+            debug = "URL：".Append(requestURL, " 数据：", JsonMapper.ToJson(data), " 请求类型：", requestType.ToString().ToUpper());
+            "log:客户端即将发送请求，{0}".Log(debug);
         }
 
         private void LogBeforeSend(ref string debug, ref HttpRequestType requestType, ref string requestURL, ref HTTPParam data)
         {
-            debug = "URL地址：".Append(requestURL, "\n");
-            debug = debug + "数据:".Append(JsonMapper.ToJson(data), "\n");
-            debug = debug + "请求类型：".Append(requestType.ToString().ToUpper(), "\n");
-            Debug.Log("客户端请求：".Append(debug));
+            debug = "URL：".Append(requestURL, " 数据：", JsonMapper.ToJson(data), " 请求类型：", requestType.ToString().ToUpper());
+            "log:客户端即将发送请求，{0}".Log(debug);
         }
         #endregion
     }
