@@ -1,4 +1,5 @@
 ﻿using LitJson;
+using System;
 using System.Collections.Generic;
 
 namespace ShipDock.Network
@@ -12,6 +13,7 @@ namespace ShipDock.Network
         public string HeaderAPIKey { get; set; }
         public ResponserIniter ResponserIniter { get; set; }
         public RequestResponser Resposer { get; set; }
+        public Action BeforeSend { get; set; }
         public HttpRequestType RequestType { get; private set; } = HttpRequestType.Post;
 
         public RequestBase(string keyInUrlMrg, HttpRequestType requestType)
@@ -24,7 +26,7 @@ namespace ShipDock.Network
         {
             Driver = driver;
             Services = services;
-            ServiceURL = Services.GetHttpURL(KeyInURLServices);
+            RevertURL();
         }
 
         public abstract void Send();
@@ -33,6 +35,7 @@ namespace ShipDock.Network
 
         public void Build()
         {
+            BeforeSend?.Invoke();
             ResponserIniter.Build();
 
             BuildCallbacks();
@@ -56,6 +59,16 @@ namespace ShipDock.Network
             Resposer.SuccessForCustom = ResponserIniter.SuccessForCustom;
             Resposer.Failed = ResponserIniter.OnResponseFailed;
             Resposer.Error = ResponserIniter.OnErrorNet;
+        }
+
+        public void RecoverURL(string url)
+        {
+            ServiceURL = url;
+        }
+
+        public void RevertURL()
+        {
+            ServiceURL = Services.GetHttpURL(KeyInURLServices);
         }
     }
 
@@ -91,6 +104,7 @@ namespace ShipDock.Network
 
     public class JsonRequester<T> : RequestBase, IRequesterJsonParamer where T : ResponserIniter, new()
     {
+        public bool ShowWaiting { get; set; }
         public JsonData RequestParam { get; set; }
 
         public JsonRequester(string keyInUrlMrg, HttpRequestType requestType = HttpRequestType.Post) : base(keyInUrlMrg, requestType)
@@ -107,7 +121,7 @@ namespace ShipDock.Network
                 Resposer.ErrorForJson,
                 RequestParam,
                 10, 
-                Resposer.ShowWaiting, 
+                ShowWaiting, 
                 Resposer.SuccessForCustom, 
                 HeaderAPIKey
             );

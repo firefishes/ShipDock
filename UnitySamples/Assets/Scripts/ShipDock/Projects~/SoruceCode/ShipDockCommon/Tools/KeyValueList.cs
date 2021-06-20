@@ -15,6 +15,27 @@ namespace ShipDock.Tools
     /// </summary>
     public class KeyValueList<K, V> : IDispose
     {
+        #region 属性
+        public int Capacity { get; private set; }
+        public List<K> Keys { get; private set; }
+        public List<V> Values { get; private set; }
+
+        public int Size
+        {
+            get
+            {
+                return (Keys != null) ? Keys.Count : 0;
+            }
+        }
+
+        public bool IsEmpty
+        {
+            get
+            {
+                return Size < 1;
+            }
+        }
+        #endregion
 
         #region 构造函数及初始化
         public KeyValueList()
@@ -44,13 +65,15 @@ namespace ShipDock.Tools
             {
                 Keys.Clear();
             }
+            else { }
             
             if (Values != null)
             {
                 Values.Clear();
             }
-            
-            if(capacity != 0)
+            else { }
+
+            if (capacity != 0)
             {
                 Keys = new List<K>(capacity);
                 Values = new List<V>(capacity);
@@ -76,15 +99,19 @@ namespace ShipDock.Tools
             {
                 target = new KeyValueList<K, V>();
             }
+            else { }
+
             int max = Keys.Count;
             for (int i = 0; i < max; i++)
             {
                 target[Keys[i]] = Values[i];
             }
+
             if(isClear)
             {
                 Clear();
             }
+            else { }
         }
         #endregion
 
@@ -115,6 +142,7 @@ namespace ShipDock.Tools
                     {
                         (Values[i] as IPoolable).Revert();
                     }
+                    else { }
                 }
             }
             Dispose();
@@ -130,10 +158,12 @@ namespace ShipDock.Tools
         {
             Values.Clear();
             Keys.Clear();
+
             if(isTrimExcess)
             {
                 TrimExcess();
             }
+            else { }
         }
         #endregion
 
@@ -145,6 +175,7 @@ namespace ShipDock.Tools
             {
                 return;
             }
+            else { }
 
             Clear();
 
@@ -159,6 +190,7 @@ namespace ShipDock.Tools
                     Put(key, map[key]);
                 }
             }
+            else { }
         }
 
         /// <summary>检查是否包含某个属性</summary>
@@ -196,6 +228,7 @@ namespace ShipDock.Tools
                 {
                     Init();
                 }
+                else { }
 
                 Put(key, value);
             }
@@ -228,6 +261,7 @@ namespace ShipDock.Tools
             {
                 return default(V);
             }
+            else { }
 
             V result = hasKey ? Values[index] : default(V);
             if (hasKey)
@@ -235,6 +269,7 @@ namespace ShipDock.Tools
                 Keys.RemoveAt(index);
                 Values.RemoveAt(index);
             }
+            else { }
             return result;
         }
 
@@ -250,6 +285,7 @@ namespace ShipDock.Tools
             {
                 return default(K);
             }
+            else { }
 
             K result = default(K);
             int max = Keys.Count;
@@ -260,6 +296,7 @@ namespace ShipDock.Tools
                 {
                     return result;
                 }
+                else { }
             }
             return result;
         }
@@ -271,13 +308,15 @@ namespace ShipDock.Tools
             {
                 return default;
             }
+            else { }
 
             int index = KeyIndex(key);
-            bool hasKey = (index != -1);
+            bool hasKey = index != -1;
             if (!hasKey)
             {
                 return default;
             }
+            else { }
 
             V result = Values[index];
             if (isDelete)
@@ -285,6 +324,7 @@ namespace ShipDock.Tools
                 Keys.RemoveAt(index);
                 Values.RemoveAt(index);
             }
+            else { }
             return result;
         }
 
@@ -295,6 +335,7 @@ namespace ShipDock.Tools
             {
                 return default;
             }
+            else { }
 
             V result = default;
             if (index < Keys.Count)
@@ -302,19 +343,13 @@ namespace ShipDock.Tools
                 K key = Keys[index];
                 result = GetValue(key, isDelete);
             }
+            else { }
             return result;
         }
 
         public V TryGet(K key)
         {
-            if (IsContainsKey(key))
-            {
-                return GetValue(key);
-            }
-            else
-            {
-                return default;
-            }
+            return IsContainsKey(key) ? GetValue(key) : default;
         }
 
         public bool ContainsKey(K key)
@@ -334,28 +369,6 @@ namespace ShipDock.Tools
         }
         #endregion
 
-        #region 属性
-        public int Size
-        {
-            get
-            {
-                return (Keys != null) ? Keys.Count : 0;
-            }
-        }
-
-        public bool IsEmpty
-        {
-            get
-            {
-                return Size < 1;
-            }
-        }
-
-        public int Capacity { get; private set; }
-        public List<K> Keys { get; private set; }
-        public List<V> Values { get; private set; }
-        #endregion
-
     }
 
     public class StringIntValueList : KeyValueList<string, int>
@@ -366,11 +379,15 @@ namespace ShipDock.Tools
             {
                 this[key] = defaultValue;
             }
+            else { }
+
             int result = this[key] += value;
             if(checkRemovable && (result <= removeLowFromValue))
             {
                 Remove(key);
             }
+            else { }
+
             return result;
         }
     }

@@ -6,9 +6,17 @@ using OnErrorResponse = UnityEngine.Events.UnityAction<int, string, string, Syst
 
 namespace ShipDock.Network
 {
-    public class NotificationJsonRequester<T> : JsonRequester<T> where T : NotificationResponseIniter, new()
+    public class NotificationRequester<T> : JsonRequester<T> where T : NotificationResponseIniter, new()
     {
-        public NotificationJsonRequester(int noticeName, string keyInUrlMrg, HttpRequestType requestType = HttpRequestType.Post) : base(keyInUrlMrg, requestType)
+        public bool ApplyJSONParam
+        {
+            set
+            {
+                ResponserIniter.ApplyJSONParam = value;
+            }
+        }
+
+        public NotificationRequester(int noticeName, string keyInUrlMrg, HttpRequestType requestType = HttpRequestType.Post) : base(keyInUrlMrg, requestType)
         {
             noticeName.Add(OnResponserInit);
             NotificationResponseIniter initer = ResponserIniter as NotificationResponseIniter;

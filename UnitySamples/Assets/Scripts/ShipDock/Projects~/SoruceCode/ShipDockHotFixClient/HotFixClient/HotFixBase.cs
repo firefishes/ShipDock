@@ -8,7 +8,7 @@ namespace ShipDock.Applications
     {
         private Dictionary<string, Action> mHotFixMethods;
 
-        public int ReadyID { get; set; }
+        public virtual int ReadyID { get; set; }
 
         public abstract void ShellInited(MonoBehaviour target);
 

@@ -14,22 +14,45 @@ namespace ShipDock.UI
         private IUIStack mCurrent;
         private IUIStack mPrevious;
         private UICacher mUICacher;
+        private List<IUIStack> mPopups;
         private Dictionary<string, GameObject> mResourceUIMapper;
+
+        public IUIRoot UIRoot { get; private set; }
+        public Action<bool> OnLoadingAlert { get; private set; }
+        public Action<UIManager, IUIStack> OnStackableChanged { get; set; }
+        public Action<UIManager, IUIStack> OnNonstackChanged { get; set; }
+
+        public int PopupCount
+        {
+            get
+            {
+                return mPopups.Count;
+            }
+        }
 
         public UIManager()
         {
             mResourceUIMapper = new Dictionary<string, GameObject>();
             mUICacher = new UICacher();
             mUICacher.Init();
+
+            mPopups = new List<IUIStack>();
         }
 
         public void Dispose()
         {
             mUICacher.Clear();
             mResourceUIMapper.Clear();
+            mPopups?.Clear();
 
             mCurrent = default;
             mPrevious = default;
+            OnLoadingAlert = default;
+        }
+
+        public void SetLoadingAlert(Action<bool> method)
+        {
+            OnLoadingAlert = method;
         }
 
         public void SetRoot(IUIRoot root)
@@ -160,8 +183,6 @@ namespace ShipDock.UI
             "log".Log("UI renew ".Append(mCurrent.Name));
             mCurrent.Renew();//界面栈被提前后重新唤醒
         }
-
-        public IUIRoot UIRoot { get; private set; }
 
     }
 }

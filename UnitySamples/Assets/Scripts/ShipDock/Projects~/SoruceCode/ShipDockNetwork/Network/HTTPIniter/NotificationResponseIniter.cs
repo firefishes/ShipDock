@@ -9,7 +9,8 @@ namespace ShipDock.Network
     {
         public int NoticeName { get; private set; }
 
-        public NotificationResponseIniter() { }
+        public NotificationResponseIniter() : this(true) { }
+        public NotificationResponseIniter(bool applyJSONParam) : base(applyJSONParam) { }
 
         public void Init(int notice, bool applyJSONParam)
         {

@@ -89,9 +89,9 @@ namespace ShipDock.Network
         }
         #endregion
 
-        #region 常用接口。创建以字典为参数的网络请求，不加入网络请求的队列
+        #region 外部常用接口
         /// <summary>
-        /// 发送普通请求（不区分是否有阻塞界面）
+        /// 发送普通请求（无等待环节）
         /// </summary>
         /// <param name="requestType"></param>
         /// <param name="requestURL"></param>
@@ -144,9 +144,7 @@ namespace ShipDock.Network
             engine.Dispose();
             RemoveHeaderAPI(ref headerAPI);
         }
-        #endregion
 
-        #region 常用接口。创建以JSON为参数的网络请求，并加入网络请求的队列
         /// <summary>
         /// 发送以Json对象为参数的请求
         /// </summary>
@@ -184,6 +182,52 @@ namespace ShipDock.Network
             {
                 mRequestInfosNoWaiting.Add(info);
             }
+        }
+
+        /// <summary>
+        /// 以构建信息项的方式创建JSON参数的网络请求，并加入网络请求的队列（无等待环节）
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public bool StartRequestNoWaiting(HTTPJsonRequestInfo info)
+        {
+            bool allowSend = !mIsNetWorkingNoWaiting;
+            if (allowSend)
+            {
+                allowSend = IsRequestValid(ref info, ref mRequestInfosNoWaiting);
+                if (allowSend)
+                {
+                    IEnumerator enumerator = SendRequestNoWaiting(info);
+                    ComponentOnwer.StartCoroutine(enumerator);
+                }
+                else { }
+            }
+            else { }
+
+            return allowSend;
+        }
+
+        /// <summary>
+        /// 以构建信息项的方式创建JSON参数的网络请求，并加入网络请求的队列（附带等待环节）
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public bool StartRequestWaiting(HTTPJsonRequestInfo info)
+        {
+            bool allowSend = !mIsNetWorking;
+            if (allowSend)
+            {
+                allowSend = IsRequestValid(ref info, ref mRequestInfoList);
+                if (allowSend)
+                {
+                    IEnumerator enumerator = SendRequestWaiting(info);
+                    ComponentOnwer.StartCoroutine(enumerator);
+                }
+                else { }
+            }
+            else { }
+
+            return allowSend;
         }
         #endregion
 
@@ -241,7 +285,7 @@ namespace ShipDock.Network
 
                     if (!allowSend)
                     {
-                        Debug.LogError("使用Http的Post方式请求服务器，表单数据不能为空！URL: ".Append(requestURL));
+                        Debug.LogError("使用Http的Post方式（DICTIONARY）请求服务器，表单数据不能为空！URL: ".Append(requestURL));
                     }
                     else { }
                     break;
@@ -259,48 +303,12 @@ namespace ShipDock.Network
 
                     if (!allowSend)
                     {
-                        Debug.LogError("使用Http的Post方式请求服务器，表单数据不能为空！URL: ".Append(info.requestURL));
+                        Debug.LogError("使用Http的Post方式（JSON）请求服务器，表单数据不能为空！URL: ".Append(info.requestURL));
                         list?.RemoveAt(0);
                     }
                     else { }
                     break;
             }
-            return allowSend;
-        }
-
-        public bool StartRequestNoWaiting(HTTPJsonRequestInfo info)
-        {
-            bool allowSend = !mIsNetWorkingNoWaiting;
-            if (allowSend)
-            {
-                allowSend = IsRequestValid(ref info, ref mRequestInfosNoWaiting);
-                if (allowSend)
-                {
-                    IEnumerator enumerator = SendRequestNoWaiting(info);
-                    ComponentOnwer.StartCoroutine(enumerator);
-                }
-                else { }
-            }
-            else { }
-
-            return allowSend;
-        }
-
-        public bool StartRequestWaiting(HTTPJsonRequestInfo info)
-        {
-            bool allowSend = !mIsNetWorking;
-            if (allowSend)
-            {
-                allowSend = IsRequestValid(ref info, ref mRequestInfoList);
-                if (allowSend)
-                {
-                    IEnumerator enumerator = SendRequestWaiting(info);
-                    ComponentOnwer.StartCoroutine(enumerator);
-                }
-                else { }
-            }
-            else { }
-
             return allowSend;
         }
 

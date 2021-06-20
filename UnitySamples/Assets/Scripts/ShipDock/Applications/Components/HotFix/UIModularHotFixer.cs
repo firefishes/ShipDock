@@ -7,11 +7,12 @@ namespace ShipDock.Applications
     public class UIModularHotFixer : UIModular<HotFixerUIAgent>
     {
         private HotFixerUI mBridge;
-
-        public override int[] DataProxyLinks { get; set; }
+        private UIModularHotFixer mUIHotFixer;
 
         protected Func<HotFixerInteractor> UIInteracterCreater { get; set; }
         protected Action<INoticeBase<int>> UIInteracterHandler { get; set; }
+
+        public override int[] DataProxyLinks { get; set; }
 
         protected HotFixerUIAgent UIAgent
         {
@@ -21,20 +22,9 @@ namespace ShipDock.Applications
             }
         }
 
-        public override void Dispose()
-        {
-            base.Dispose();
+        public override void OnDataProxyNotify(IDataProxy data, int keyName) { }
 
-            mBridge = default;
-        }
-
-        public override void OnDataProxyNotify(IDataProxy data, int keyName)
-        {
-        }
-
-        protected override void UIModularHandler(INoticeBase<int> param)
-        {
-        }
+        protected override void UIModularHandler(INoticeBase<int> param) { }
 
         sealed public override void Init()
         {
@@ -53,7 +43,9 @@ namespace ShipDock.Applications
             mBridge = UIAgent.Bridge;
             mBridge.SetHotFixInteractor(interacter);
 
-            ILRuntimeUtils.InvokeMethodILR(mBridge.HotFixerInteractor.UIModular, UIAgent.UIModularName, "AfterUIModularInit", 0);
+            mUIHotFixer = mBridge.HotFixerInteractor.UIModular;
+
+            ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIInit", 0);
 
         }
 
@@ -61,45 +53,63 @@ namespace ShipDock.Applications
         {
             base.Enter();
 
-            ILRuntimeUtils.InvokeMethodILR(mBridge.HotFixerInteractor.UIModular, UIAgent.UIModularName, "AfterUIModularEnter", 0);
+            ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIEnter", 0);
         }
 
-        sealed public override void Exit(bool isDestroy)
+        protected sealed override void Purge()
         {
-            base.Exit(isDestroy);
-
-            if (isDestroy)
+            if (UIInteracterHandler != default)
             {
-                if (UIInteracterHandler != default)
-                {
-                    mUI.Remove(UIInteracterHandler);
-                }
-                else { }
+                mUI.Remove(UIInteracterHandler);
             }
             else { }
 
-            ILRuntimeUtils.InvokeMethodILR(mBridge.HotFixerInteractor.UIModular, UIAgent.UIModularName, "AfterUIModularExit", 1, isDestroy);
+            ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIExit", 0);
+
+            mBridge = default;
+            mUIHotFixer = default;
         }
 
-        protected override void HideUI()
+        public sealed override void Exit(bool isDestroy)
         {
-            base.HideUI();
-
-            ILRuntimeUtils.InvokeMethodILR(mBridge.HotFixerInteractor.UIModular, UIAgent.UIModularName, "AfterUIModularHide", 0);
+            base.Exit(isDestroy);
         }
 
-        protected override void ShowUI()
-        {
-            base.ShowUI();
-
-            ILRuntimeUtils.InvokeMethodILR(mBridge.HotFixerInteractor.UIModular, UIAgent.UIModularName, "AfterUIModularShow", 0);
-        }
-
-        sealed public override void Renew()
+        public sealed override void Renew()
         {
             base.Renew();
 
-            ILRuntimeUtils.InvokeMethodILR(mBridge.HotFixerInteractor.UIModular, UIAgent.UIModularName, "AfterUIModularRenew", 0);
+            if (!IsExited)
+            {
+                ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIRenew", 0);
+            }
+            else { }
         }
+
+        public sealed override void Interrupt()
+        {
+            base.Interrupt();
+
+            if (!IsExited)
+            {
+                ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIInterrupt", 0);
+            }
+            else { }
+        }
+
+        protected sealed override void HideUI()
+        {
+            base.HideUI();
+
+            ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIHide", 0);
+        }
+
+        protected sealed override void ShowUI()
+        {
+            base.ShowUI();
+
+            ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIShow", 0);
+        }
+
     }
 }

@@ -68,14 +68,13 @@ namespace ShipDock.Applications
             }
             else { }
 
-            GetUIParent(out Transform parent);
-            mUI.transform.SetParent(parent);
+            SetUIParent();
             mUI.Add(UIModularHandler);
         }
 
-        private void GetUIParent(out Transform parent)
+        private void SetUIParent()
         {
-            parent = default;
+            Transform parent = default;
             IUIRoot root = UIs.UIRoot;
             switch (UILayer)
             {
@@ -92,6 +91,14 @@ namespace ShipDock.Applications
                     parent = root.MainCanvas.transform;
                     break;
             }
+
+            mUI.transform.SetParent(parent);
+
+            if (UILayer == UILayerType.POPUPS)
+            {
+                mUI.transform.SetAsLastSibling();
+            }
+            else { }
         }
 
         public override void Enter()
@@ -156,31 +163,37 @@ namespace ShipDock.Applications
         {
             base.Exit(isDestroy);
 
-            //ShipDockApp.Instance.DataProxyDelink(this, DataProxyLinks);
-            this.DataProxyDelink(DataProxyLinks);
-
             if (mUI != default)
             {
                 if (isDestroy)
                 {
-                    mUI.Remove(UIModularHandler);
-                    Object.Destroy(mUI.gameObject);
+                    Dispose();
                 }
                 else
                 {
+                    this.DataProxyDelink(DataProxyLinks);
+
                     HideUI();
                 }
             }
             else { }
-
         }
 
         public virtual void Dispose()
         {
+            this.DataProxyDelink(DataProxyLinks);
+            mUI.Remove(UIModularHandler);
+
+            Purge();
+
+            Object.Destroy(mUI.gameObject);
+
             UIs = default;
             ABs = default;
             mUI = default;
             Datas = default;
         }
+
+        protected abstract void Purge();
     }
 }

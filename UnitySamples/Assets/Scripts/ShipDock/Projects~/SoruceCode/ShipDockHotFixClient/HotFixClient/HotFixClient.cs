@@ -211,6 +211,16 @@ namespace ShipDock.HotFix
             Sounds.StopBGM();
         }
 
+        public void RunSoundsUnit()
+        {
+            AddUpdate(OnSoundsUpdate);
+        }
+
+        private void OnSoundsUpdate(int time)
+        {
+            Sounds?.Update();
+        }
+
         private void OnStateFrameUpdater(IState state, bool isAdd)
         {
             if (isAdd)

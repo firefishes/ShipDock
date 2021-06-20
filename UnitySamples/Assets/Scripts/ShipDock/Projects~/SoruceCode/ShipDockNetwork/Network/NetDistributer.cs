@@ -1,6 +1,7 @@
 ﻿using LitJson;
 using ShipDock.Testers;
 using ShipDock.Tools;
+using UnityEngine.Events;
 
 namespace ShipDock.Network
 {
@@ -49,31 +50,59 @@ namespace ShipDock.Network
             return result;
         }
 
-        public void SendRequest(string keyInURLManager)
+        public void SendRequest(string keyInURLManager, bool showWaiting = false)
         {
             IHttpRequester requester = mHttpReqeuesters[keyInURLManager];
-            requester?.Build();
-            requester?.Send();
+            if (requester != default)
+            {
+                if (requester is IRequesterJsonParamer jsonParamRequest)
+                {
+                    jsonParamRequest.ShowWaiting = showWaiting;
+                }
+                else { }
+
+                requester.Build();
+                requester.Send();
+            }
+            else { }
         }
 
-        public void SendRequest(string keyInURLManager, JsonData jsonParam, string headerAPI = "")
+        public void SendRequest(string keyInURLManager, JsonData jsonParam, string headerAPI = "", bool showWaiting = false)
         {
             IHttpRequester requester = mHttpReqeuesters[keyInURLManager];
 
             if (requester is IRequesterJsonParamer jsonParamRequest)
             {
+                jsonParamRequest.ShowWaiting = showWaiting;
                 jsonParamRequest.RequestParam = jsonParam;
 
                 ResponserIniter initer = requester.ResponserIniter;
                 initer.IgnoreParamCreate = true;
 
                 requester.HeaderAPIKey = headerAPI;
-                requester?.Build();
-                requester?.Send();
+                requester.Build();
+                requester.Send();
 
                 initer.IgnoreParamCreate = false;
             }
             else { }
+        }
+
+        public void SendRequest(string keyInURLManager, string url, string headerAPI = "", bool showWaiting = false)
+        {
+            IHttpRequester requester = mHttpReqeuesters[keyInURLManager];
+
+            if (requester is IRequesterJsonParamer jsonParamRequest)
+            {
+                jsonParamRequest.ShowWaiting = showWaiting;
+            }
+            else { }
+
+            requester.HeaderAPIKey = headerAPI;
+            requester.RecoverURL(url);//覆盖为新的 URL 链接
+            requester.Build();
+            requester.Send();
+            requester.RevertURL();//发送请求后还原为之前的 URL 链接
         }
     }
 }

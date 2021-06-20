@@ -11,5 +11,7 @@
         void Send();
         void Build();
         void Init(HTTPDriver driver, ServiceURL services);
+        void RecoverURL(string url);
+        void RevertURL();
     }
 }

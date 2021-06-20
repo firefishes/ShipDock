@@ -7,7 +7,7 @@ namespace ShipDock.Network
 {
     public class CommonResponserIniter : ResponserIniter
     {
-        public CommonResponserIniter(bool applyJSONParam = false)
+        public CommonResponserIniter(bool applyJSONParam)
         {
             ApplyJSONParam = applyJSONParam;
         }

@@ -7,30 +7,18 @@ using System;
 
 public static class ShipDockUIExtensions
 {
-    private static Action<bool> onLoadingAlert { get; set; }
-
-    public static void SetLoadingAlert(this UIManager stackName, Action<bool> action)
-    {
-        onLoadingAlert = action;
-    }
-
-    public static Action<bool> GetLoadingAlert(this UIManager stackName)
-    {
-        return onLoadingAlert;
-    }
-
     /// <summary>
     /// 打开热更界面
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="stackName">界面名</param>
     /// <returns></returns>
-    public static T Open<T>(this string stackName) where T : UIModularHotFixer, IUIStack, new()
+    public static T OpenHotFixUI<T>(this string stackName) where T : UIModularHotFixer, new()
     {
         UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
         T result = uis.Open<T>(stackName, () =>
         {
-            "log:Open UI {0}".Log(stackName);
+            "log:Open hotfix UI {0}".Log(stackName);
             return new T();
         });
         return result;
@@ -43,12 +31,14 @@ public static class ShipDockUIExtensions
     /// <param name="stackName">界面名</param>
     /// <param name="onUIOpen">打开热更界面后的回调函数</param>
     /// <param name="UIABNames">需要加载的资源列表</param>
-    public static void LoadAndOpen<T>(this string stackName, Action<T> onUIOpen, params string[] UIABNames) where T : UIModularHotFixer, IUIStack, new()
+    public static void LoadAndOpenHotFixUI<T>(this string stackName, Action<T> onUIOpen, params string[] UIABNames) where T : UIModularHotFixer, new()
     {
         int max = UIABNames.Length;
         if (max > 0)
         {
-            AssetBundles abs = Framework.Instance.GetUnit<AssetBundles>(Framework.UNIT_AB);
+            Framework framework = Framework.Instance;
+            UIManager uis = framework.GetUnit<UIManager>(Framework.UNIT_UI);
+            AssetBundles abs = framework.GetUnit<AssetBundles>(Framework.UNIT_AB);
             if (abs != default)
             {
                 AssetsLoader loader = new AssetsLoader();
@@ -57,9 +47,9 @@ public static class ShipDockUIExtensions
                     if (suc)
                     {
                         ld?.Dispose();
-                        onLoadingAlert?.Invoke(false);
+                        uis.OnLoadingAlert?.Invoke(false);
 
-                        T result = Open<T>(stackName);
+                        T result = OpenHotFixUI<T>(stackName);
                         onUIOpen?.Invoke(result);
                     }
                     else { }
@@ -76,7 +66,7 @@ public static class ShipDockUIExtensions
                 }
                 if (loader.ResList.Count > 0)
                 {
-                    onLoadingAlert?.Invoke(true);
+                    uis.OnLoadingAlert?.Invoke(true);
                 }
                 else { }
                 loader.Load(out _);
@@ -85,7 +75,7 @@ public static class ShipDockUIExtensions
         }
         else
         {
-            T result = Open<T>(stackName);
+            T result = OpenHotFixUI<T>(stackName);
             onUIOpen?.Invoke(result);
         }
     }

@@ -5,11 +5,43 @@ using UnityEngine.Events;
 using OnErrorJsonResponse = UnityEngine.Events.UnityAction<int, string, string, LitJson.JsonData>;
 using OnErrorResponse = UnityEngine.Events.UnityAction<int, string, string, System.Collections.Generic.Dictionary<string, string>>;
 
+public static class JsonDataExtensions
+{
+    public static string GetDataFromMapper(this JsonData target, string key)
+    {
+        IDictionary mapper = target as IDictionary;
+        string result = string.Empty;
+        if (mapper.Contains(key))
+        {
+            result = mapper[key].ToString();
+        }
+        else { }
+        return result;
+    }
+
+    public static float Float(this JsonData target, string key)
+    {
+        string value = target.GetDataFromMapper(key);
+        return string.IsNullOrEmpty(value) ? 0f : float.Parse(value);
+    }
+
+    public static int Int(this JsonData target, string key)
+    {
+        string value = target.GetDataFromMapper(key);
+        return string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+    }
+
+    public static string String(this JsonData target, string key)
+    {
+        string value = target.GetDataFromMapper(key);
+        return string.IsNullOrEmpty(value) ? string.Empty : value;
+    }
+}
+
 namespace ShipDock.Network
 {
     public class RequestResponser
     {
-        public bool ShowWaiting { get; set; }
         public JsonData ResultRoot { get; set; }
         public JsonData ResultData { get; set; }
         public Action<RequestResponser> OnSuccessed { get; set; }
@@ -56,24 +88,24 @@ namespace ShipDock.Network
             Error = default;
         }
 
-        public string GetString(string key)
+        public string DataString(string key)
         {
             return GetRawFromData(key);
         }
 
-        public bool GetBool(string key)
+        public bool DataBool(string key)
         {
             string value = GetRawFromData(key);
             return bool.Parse(value);
         }
 
-        public int GetInt(string key)
+        public int DataInt(string key)
         {
             string value = GetRawFromData(key);
             return int.Parse(value);
         }
 
-        public float GetFloat(string key)
+        public float DataFloat(string key)
         {
             string value = GetRawFromData(key);
             return float.Parse(value);

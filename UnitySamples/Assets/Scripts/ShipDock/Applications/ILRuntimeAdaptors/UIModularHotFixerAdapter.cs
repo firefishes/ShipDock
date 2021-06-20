@@ -20,8 +20,6 @@ namespace ShipDock.Applications
         static CrossBindingFunctionInfo<System.String> mget_ABName_10 = new CrossBindingFunctionInfo<System.String>("get_ABName");
         static CrossBindingFunctionInfo<System.Int32> mget_UILayer_11 = new CrossBindingFunctionInfo<System.Int32>("get_UILayer");
         static CrossBindingMethodInfo<System.Int32> mset_UILayer_12 = new CrossBindingMethodInfo<System.Int32>("set_UILayer");
-        static CrossBindingMethodInfo mShowUI_13 = new CrossBindingMethodInfo("ShowUI");
-        static CrossBindingMethodInfo mHideUI_14 = new CrossBindingMethodInfo("HideUI");
         static CrossBindingFunctionInfo<System.Boolean> mget_IsExited_15 = new CrossBindingFunctionInfo<System.Boolean>("get_IsExited");
         static CrossBindingFunctionInfo<System.Boolean> mget_IsStackAdvanced_16 = new CrossBindingFunctionInfo<System.Boolean>("get_IsStackAdvanced");
         static CrossBindingFunctionInfo<System.String> mget_UIAssetName_17 = new CrossBindingFunctionInfo<System.String>("get_UIAssetName");
@@ -70,14 +68,6 @@ namespace ShipDock.Applications
 
             public ILTypeInstance ILInstance { get { return instance; } }
 
-            public override void Dispose()
-            {
-                if (mDispose_2.CheckShouldInvokeBase(this.instance))
-                    base.Dispose();
-                else
-                    mDispose_2.Invoke(this.instance);
-            }
-
             public override void OnDataProxyNotify(ShipDock.Datas.IDataProxy data, System.Int32 keyName)
             {
                 if (mOnDataProxyNotify_3.CheckShouldInvokeBase(this.instance))
@@ -92,30 +82,6 @@ namespace ShipDock.Applications
                     base.UIModularHandler(param);
                 else
                     mUIModularHandler_4.Invoke(this.instance, param);
-            }
-
-            protected override void ShowUI()
-            {
-                if (mShowUI_13.CheckShouldInvokeBase(this.instance))
-                    base.ShowUI();
-                else
-                    mShowUI_13.Invoke(this.instance);
-            }
-
-            protected override void HideUI()
-            {
-                if (mHideUI_14.CheckShouldInvokeBase(this.instance))
-                    base.HideUI();
-                else
-                    mHideUI_14.Invoke(this.instance);
-            }
-
-            public override void Interrupt()
-            {
-                if (mInterrupt_21.CheckShouldInvokeBase(this.instance))
-                    base.Interrupt();
-                else
-                    mInterrupt_21.Invoke(this.instance);
             }
 
             public override void ResetAdvance()

@@ -10,6 +10,7 @@ namespace ShipDock.Network
 
     public interface IRequesterJsonParamer
     {
+        bool ShowWaiting { get; set; }
         JsonData RequestParam { get; set; }
     }
 }
