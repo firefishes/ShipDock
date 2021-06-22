@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UICamera: {fileID: 8976732739232926415}
   m_MainCanvas: {fileID: 8495998237422655543}
+  m_CanvasScaler: {fileID: 3304475920036046420}
   m_Windows: {fileID: 1396445589339426764}
   m_Widgets: {fileID: 4472687400690764348}
   m_Popups: {fileID: 1761346179262748430}

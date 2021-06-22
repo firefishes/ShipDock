@@ -9,6 +9,7 @@ namespace ShipDock.UI
         RectTransform Widgets { get; }
         RectTransform Popups { get; }
         RectTransform Windows { get; }
+        float ScaleRatio { get; }
     }
 
 }

@@ -92,7 +92,7 @@ namespace ShipDock.Notices
             mObserver.Dispatch(noticeName, notice);
         }
 
-        public T Dispatch<T>(int noticeName, T vs)
+        public T DispatchWithParam<T>(int noticeName, T vs)
         {
             return mObserver.Dispatch(noticeName, vs);
         }

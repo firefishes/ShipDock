@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -30,6 +31,12 @@ namespace ShipDock.UI
 
         [SerializeField]
 #if ODIN_INSPECTOR
+        [LabelText("画布缩放器")]
+#endif
+        private CanvasScaler m_CanvasScaler;
+
+        [SerializeField]
+#if ODIN_INSPECTOR
         [LabelText("窗口层"), Indent(1)]
 #endif
         private RectTransform m_Windows;
@@ -57,6 +64,7 @@ namespace ShipDock.UI
         public RectTransform Popups { get; private set; }
         public RectTransform Windows { get; private set; }
         public Camera UICamera { get; private set; }
+        public float ScaleRatio { get; private set; }
 
         private void Awake()
         {
@@ -69,6 +77,8 @@ namespace ShipDock.UI
 
         private void Start()
         {
+            Vector2 resolution = m_CanvasScaler.referenceResolution;
+            ScaleRatio = resolution.x / Screen.width;
             m_OnAwaked?.Invoke(this);
         }
 

@@ -42,12 +42,12 @@ public static class ShipDockAppExtension
         }
     }
 
-    public static bool WorldToUIPosition(this Vector3 worldPosition, ref Camera worldCamera, out Vector3 localPos)
+    public static bool WorldToUIPosition(this Vector3 worldPosition, ref Camera worldCamera, out Vector3 UIPos)
     {
         Vector3 viewPos = worldCamera.WorldToViewportPoint(worldPosition);
         if (viewPos.z < 0f)
         {
-            localPos = Vector3.zero;
+            UIPos = Vector3.zero;
             return false;
         }
 
@@ -56,7 +56,7 @@ public static class ShipDockAppExtension
 
         UIManager ui = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
         Camera UICamera = ui.UIRoot.UICamera;
-        localPos = new Vector3(UICamera.pixelWidth * viewPos.x, UICamera.pixelHeight * viewPos.y, 0);
+        UIPos = new Vector3(UICamera.pixelWidth * viewPos.x, UICamera.pixelHeight * viewPos.y, 0) * ui.UIRoot.ScaleRatio;
         return true;
     }
 

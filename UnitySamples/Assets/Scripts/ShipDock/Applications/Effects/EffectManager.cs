@@ -70,7 +70,8 @@ namespace ShipDock.Applications
                 if (result == default && source != default)
                 {
                     result = Object.Instantiate(source);
-                    UniqueCache[index] = result;
+                    UniqueCache.Add(result);
+                    total++;
                 }
                 else { }
 
