@@ -135,6 +135,12 @@ namespace ShipDock.UI
                 }
                 else
                 {
+                    if (!mPopups.Contains(result))
+                    {
+                        mPopups.Add(result);
+                    }
+                    else { }
+
                     UIStackCurrentEnter(result);//非栈管理方式的界面，直接开启
                     "todo".Log("非栈管理方式的界面需要做层级管理");
                 }
@@ -157,7 +163,15 @@ namespace ShipDock.UI
                 }
                 else { }
             }
-            else { }//非栈方式管理的界面的额外处理
+            else
+            {
+                //非栈方式管理的界面的额外处理
+                if (mPopups.Contains(result))
+                {
+                    mPopups.Remove(result);
+                }
+                else { }
+            }
 
             UIStackExit(ref result, isDestroy);
         }

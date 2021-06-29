@@ -192,6 +192,9 @@ namespace ShipDock.Applications
                         case SceneNodeType.ILRUNTIME_HOTFIX_UI:
                             temp = sceneItem.keyField.Append(" HotFixer UI { ", sceneItem.hotFixerUI.UIInteractorName, sceneItem.hotFixerUI.UIModularName, "}");
                             break;
+                        case SceneNodeType.BYTES:
+                            temp = sceneItem.keyField.Append(" Text Asset { ", sceneItem.bytes.name, "}");
+                            break;
                         default:
                             temp = sceneItem.keyField.Append(" Null");
                             break;

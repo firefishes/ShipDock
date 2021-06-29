@@ -1,4 +1,5 @@
 ﻿using ShipDock.Notices;
+using ShipDock.Pooling;
 using ShipDock.Tools;
 using System;
 
@@ -105,7 +106,7 @@ public static class NoticesExtensions
         bool defaultNotice = notice == default;
         if (defaultNotice)
         {
-            notice = new Notice();
+            notice = Pooling<Notice>.From();
         }
         else { }
 
@@ -116,7 +117,7 @@ public static class NoticesExtensions
 
         if (defaultNotice)
         {
-            notice.Dispose();
+            Pooling<Notice>.To(notice as Notice);
         }
         else { }
     }

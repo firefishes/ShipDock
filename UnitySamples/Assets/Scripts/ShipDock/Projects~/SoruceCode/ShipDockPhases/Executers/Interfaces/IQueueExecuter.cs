@@ -13,7 +13,6 @@ namespace ShipDock.Interfaces
         QueueUnitExecuted OnUnitExecuted { get; set; }
         QueueUnitCompleted OnUnitCompleted { get; set; }
         Action ActionUnit { get; set; }
-        bool ImmediatelyCommitNext { get; set; }
         bool IgnoreInQueue { get; set; }
 
         int QueueSize { get; }
@@ -52,15 +51,12 @@ namespace ShipDock.Interfaces
         OnUnitCompleted = default;
     }
 
-    public virtual void Commit()
-    {
-    }
+    public virtual void Commit() { }
 
     public void QueueNext()
     {
         OnNextUnit?.Invoke(this);//让所在的队列执行器执行下一个队列单元
     }
-
     #endregion
 */
 #endregion

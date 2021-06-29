@@ -56,10 +56,10 @@ namespace DigitalRubyShared
         /// <summary>True to treat the mouse as a finger, false otherwise. Left, middle and right mouse buttons can be used as individual fingers and will all have the same location.</summary>
         [Tooltip("True to treat the mouse as a finger, false otherwise. Left, middle and right mouse buttons can be used as individual fingers and will all have the same location.")]
         public bool TreatMousePointerAsFinger = true;
-		
-		/// <summary>True to treat the mouse wheel as two fingers for rotation and scaling, false otherwise.</summary>
-		[Tooltip("True to treat the mouse wheel as two fingers for rotation and scaling, false otherwise.")]
-		public bool TreatMouseWheelAsFingers = true;
+
+        /// <summary>True to treat the mouse wheel as two fingers for rotation and scaling, false otherwise.</summary>
+        [Tooltip("True to treat the mouse wheel as two fingers for rotation and scaling, false otherwise.")]
+        public bool TreatMouseWheelAsFingers = true;
 
         /// <summary>Whether to treat touches as mouse pointer? This needs to be set before the script Awake method is called.</summary>
         [Tooltip("Whether to treat touches as mouse pointer? This needs to be set before the script Awake method is called.")]
@@ -385,7 +385,8 @@ namespace DigitalRubyShared
                             // this specific object stops any further pass through checks underneath
                             list.Add(r.gameObject);
                             return;
-                        } break;
+                        }
+                        break;
 
                     case CaptureResult.Default:
                         // if forcing pass through, only add if matches a platform specific view

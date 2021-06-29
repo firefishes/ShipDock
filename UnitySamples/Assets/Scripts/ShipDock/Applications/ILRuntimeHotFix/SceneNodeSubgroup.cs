@@ -36,6 +36,7 @@ namespace ShipDock.Applications
         AUDIO_SOURCE,
         ILRUNTIME_HOTFIX,
         ILRUNTIME_HOTFIX_UI,
+        BYTES,
     }
 
     [Serializable]
@@ -176,6 +177,11 @@ namespace ShipDock.Applications
         [ShowIf("valueType", SceneNodeType.ILRUNTIME_HOTFIX_UI), Indent(1)]
 #endif
         public HotFixerUIAgent hotFixerUI;
+
+#if ODIN_INSPECTOR
+        [ShowIf("valueType", SceneNodeType.BYTES), Indent(1)]
+#endif
+        public TextAsset bytes;
 
     }
 

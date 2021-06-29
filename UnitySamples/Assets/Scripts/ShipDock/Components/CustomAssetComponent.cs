@@ -51,7 +51,7 @@ namespace ShipDock.Loader
 #if UNITY_EDITOR
         private void Update()
         {
-            if (m_Valid)
+            if (m_Valid && !Application.isPlaying)
             {
                 int max = m_Assets.Count;
                 for (int i = 0; i < max; i++)

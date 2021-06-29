@@ -1,4 +1,5 @@
 ﻿#define G_LOG
+#define LOG_FSM_STATE_CHANGED
 
 using ShipDock.Tools;
 using System;
@@ -452,9 +453,11 @@ namespace ShipDock.FSM
 
                 if (!IsStateChanging)//防止多次跳转状态操作同时发生引起的参数错误
                 {
+#if LOG_FSM_STATE_CHANGED
                     "log:{0} FSM state changed : {1} -> {2}".Log(GetType().Name,
                                     (mPrevious != default) ? mPrevious.StateName.ToString() : DefaultState.ToString(),
                                     CurrentStateName.ToString());
+#endif
                     AfterStateChanged();
                 }
                 else { }
@@ -516,7 +519,7 @@ namespace ShipDock.FSM
         {
             return (state != default) && state.IsDeinitLater;
         }
-        #endregion
+#endregion
 
     }
 }

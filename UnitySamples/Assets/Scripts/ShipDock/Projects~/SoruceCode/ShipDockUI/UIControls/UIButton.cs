@@ -12,12 +12,17 @@ namespace ShipDock.UIControls
     /// </summary>
     public class UIButton : UIBase
     {
+        /// <summary>按钮</summary>
+        private Button mButton;
         /// <summary>按钮标签</summary>
         private Text mLabel;
         /// <summary>按钮标签值</summary>
         private string mLabelValue;
         /// <summary>按钮点击后的回调函数</summary>
         private UnityAction mOnClicked;
+
+        public bool AutoReset { get; set; }
+        public bool Interactable { get; private set; }
 
         public string Label
         {
@@ -36,9 +41,13 @@ namespace ShipDock.UIControls
             }
         }
 
-        public UIButton(Button button, UnityAction onClick, string labelValue = "", Text label = default) : base()
+        public UIButton(Button button, UnityAction onClick, string labelValue = "", Text label = default, bool autoReset = true) : base()
         {
+            mButton = button;
+            Interactable = mButton.interactable;
+
             AddReferenceUI("btn", button.gameObject);
+
             if (label != default)
             {
                 AddReferenceUI("label", label.gameObject);
@@ -56,10 +65,13 @@ namespace ShipDock.UIControls
                 (target) => {
                     button.onClick.RemoveAllListeners();
                 });
+
+            AutoReset = autoReset;
         }
 
         protected override void Purge()
         {
+            mButton = default;
             mLabel = default;
             mOnClicked = default;
         }
@@ -105,11 +117,47 @@ namespace ShipDock.UIControls
             UIValid();
         }
 
+        public void ResetClick()
+        {
+            Interactable = true;
+
+            if (mButton != default)
+            {
+                mButton.interactable = Interactable;
+            }
+            else { }
+        }
+
         protected override void InitUI() { }
 
         protected override void PropertiesChanged()
         {
-            mOnClicked?.Invoke();
+            if (Interactable)
+            {
+                mOnClicked?.Invoke();
+
+                Interactable = false;
+
+                if (AutoReset)
+                {
+                    UIValid();
+                }
+                else { }
+            }
+            else
+            {
+                if (AutoReset)
+                {
+                    Interactable = true;
+                }
+                else { }
+            }
+
+            if (mButton != default)
+            {
+                mButton.interactable = Interactable;
+            }
+            else { }
         }
 
         public override void SetVisible(bool value, string name = "")

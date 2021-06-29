@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 namespace ShipDock.Tools
 {
+    public interface IQueueExecuterCollection
+    {
+        void Executed();
+        void QueueCompleted();
+    }
+
     /// <summary>
     /// 队列执行器
     /// 
@@ -13,7 +19,7 @@ namespace ShipDock.Tools
     /// 队列单元支持范围包括：函数、实现了IQueueExecuter接口、继承此类的子类实例
     /// 
     /// </summary>
-    public class QueueExecuter : IQueueExecuter
+    public class QueueExecuter : IQueueExecuter, IQueueExecuterCollection
     {
         /// <summary>执行下一个队列单元时触发的回调</summary>
         public QueueNextUnit OnNextUnit { set; get; }
@@ -21,19 +27,21 @@ namespace ShipDock.Tools
         public QueueUnitExecuted OnUnitExecuted { set; get; }
         /// <summary>全部队列执行完毕的回调</summary>
         public QueueUnitCompleted OnUnitCompleted { set; get; }
-        /// <summary>提交操作后是否直接执行所在队列的下一个单元</summary>
-        public bool ImmediatelyCommitNext { get; set; }
         /// <summary>此执行项是否可被忽略</summary>
         public bool IgnoreInQueue { get; set; }
 
-        /// <summary>当前执行到的索引</summary>
-        private int mCurrentIndex;
-        /// <summary>流程队列</summary>
-        private Queue<IQueueExecuter> mQueue;
-        private Queue<IQueueExecuter> mQueueExecuted;
         /// <summary>是否自动销毁，开启自动销毁功能会在队列完成时自动销毁各个队列单元</summary>
         private bool mAutoDispose;
+        /// <summary>当前执行到的索引</summary>
+        private int mCurrentIndex;
+        /// <summary>当前正在执行的执行器单元</summary>
         private IQueueExecuter mCurrent;
+        /// <summary>流程队列</summary>
+        private List<IQueueExecuter> mQueue;
+        /// <summary>已执行的流程队列</summary>
+        private List<IQueueExecuter> mQueueExecuted;
+        /// <summary>方法单元</summary>
+        private Queue<Action> mActionUnits;
 
         /// <summary>获取当前执行队列的执行位置</summary>
         public virtual int CurrentIndex
@@ -48,7 +56,7 @@ namespace ShipDock.Tools
         {
             get
             {
-                return (mQueue != null) ? mQueue.Count : 0;
+                return (mActionUnits != null) ? mActionUnits.Count : 0;
             }
         }
 
@@ -60,9 +68,11 @@ namespace ShipDock.Tools
         /// <summary>构筑一个执行队列</summary>
         public QueueExecuter(bool autoDispose = true)
         {
-            mQueue = new Queue<IQueueExecuter>();
-            mQueueExecuted = new Queue<IQueueExecuter>();
+            mQueue = new List<IQueueExecuter>();
+            mQueueExecuted = new List<IQueueExecuter>();
+            mActionUnits = new Queue<Action>();
             mAutoDispose = autoDispose;
+
             Init();
         }
         
@@ -112,8 +122,9 @@ namespace ShipDock.Tools
                 {
                     while (mQueue.Count > 0)
                     {
-                        item = mQueue.Dequeue();
+                        item = mQueue[0];
                         item?.Dispose();
+                        mQueue.RemoveAt(0);
                     }
                 }
                 else { }
@@ -122,11 +133,14 @@ namespace ShipDock.Tools
                 {
                     while (mQueueExecuted.Count > 0)
                     {
-                        item = mQueueExecuted.Dequeue();
+                        item = mQueueExecuted[0];
                         item?.Dispose();
+                        mQueueExecuted.RemoveAt(0);
                     }
                 }
                 else { }
+
+                mActionUnits?.Clear();
             }
             else { }
         }
@@ -139,6 +153,7 @@ namespace ShipDock.Tools
 #if ILRUNTIME
             mQueue?.Clear();
             mQueueExecuted?.Clear();
+            mActionUnits?.Clear();
 #else
             Utils.Reclaim(ref mQueue, false);
             Utils.Reclaim(ref mQueueExecuted, false);
@@ -153,6 +168,7 @@ namespace ShipDock.Tools
             ReclaimQueues(isDisposeQueue);
             mQueue?.Clear();
             mQueueExecuted?.Clear();
+            mActionUnits?.Clear();
 #else
             Utils.Reclaim(ref mQueue, isDispose, isDispose);
             Utils.Reclaim(ref mQueueExecuted, isDispose, isDispose);
@@ -172,10 +188,11 @@ namespace ShipDock.Tools
         /// <summary>初始化</summary>
         private void Init()
         {
+            mCurrentIndex = 0;
+
             mCurrent = default;
             isRunning = false;
             IsDisposed = false;
-            mCurrentIndex = 0;
         }
 
         /// <summary>销毁后重置队列</summary>
@@ -183,41 +200,122 @@ namespace ShipDock.Tools
         {
             Dispose();
 
-            mQueue = new Queue<IQueueExecuter>();
-            mQueueExecuted = new Queue<IQueueExecuter>();
+            mQueue = new List<IQueueExecuter>();
+            mQueueExecuted = new List<IQueueExecuter>();
+            mActionUnits = new Queue<Action>();
+
             mAutoDispose = autoDispose;
+
             Init();
         }
 
         /// <summary>将一个流程执行器增加到队列末尾</summary>
         public void Add(IQueueExecuter target)
         {
-            if (target == null)
+            if (target != null)
             {
-                return;
+                mQueue.Add(target);
+                mActionUnits.Enqueue(default);
             }
             else { }
-
-            mQueue.Enqueue(target);
         }
 
         /// <summary>添加元素</summary>
-        public void Add(Action args)
+        public void Add(Action method)
         {
-            if (args == null)
+            if (method != default)
+            {
+                mActionUnits.Enqueue(method);
+            }
+            else { }
+        }
+
+        /// <summary>重置</summary>
+        public virtual void Reset()
+        {
+            ClearQueue(false, true);
+        }
+        
+        /// <summary>执行队列中的下一个执行器</summary>
+        protected void ExecuteUnit()
+        {
+            if (IgnoreInQueue)
+            {
+                QueueNext();
+            }
+            else
+            {
+                if (HasNext())
+                {
+                    Executing();
+                }
+                else
+                {
+                    if (isRunning)
+                    {
+                        isRunning = false;
+                    }
+                    else { }
+
+                    Executed();//本执行单元已执行
+                    QueueCompleted();//队列执行完成
+                    QueueNext();//继续启动外部队列的执行器
+
+                    if (mAutoDispose)
+                    {
+                        Dispose();
+                    }
+                    else { }
+                }
+            }
+        }
+
+        private void Executing()
+        {
+            if (mQueueExecuted == default || mActionUnits == default || mQueue == default)
             {
                 return;
             }
             else { }
 
-            QueueExecuter unit = new QueueExecuter();
-            unit.ActionUnit = args;
-            mQueue.Enqueue(unit);
+            mCurrentIndex++;
+            Action methodUnit = mActionUnits.Dequeue();
+            if (methodUnit == default)
+            {
+                mCurrent = mQueue[0];//设置下一个执行单元
+                mQueue.RemoveAt(0);
+
+                if (mCurrent != default)
+                {
+                    mCurrent.OnNextUnit += NextUnit;//衔接上下子项的执行顺序
+                    mCurrent.Commit();//执行子项
+                }
+                else { }
+
+                mQueueExecuted?.Add(mCurrent);
+            }
+            else
+            {
+                methodUnit.Invoke();
+                Executing();
+            }
         }
 
-        /// <summary>开始执行流程队列</summary>
-        protected void Start()
-        {   
+        private bool HasNext()
+        {
+            return (mActionUnits != default) && (mActionUnits.Count > 0);
+        }
+
+        /// <summary>衔接队列中下一个执行器事件处理函数的执行，构成队列的自动运行结构</summary>
+        protected void NextUnit(IQueueExecuter param)
+        {
+            param.OnNextUnit -= NextUnit;
+            ExecuteUnit();
+        }
+
+        /// <summary>运行队列执行器的入口</summary>
+        public virtual void Commit()
+        {
             if (isRunning)
             {
                 return;
@@ -235,94 +333,20 @@ namespace ShipDock.Tools
             ExecuteUnit();
         }
 
-        /// <summary>重置</summary>
-        public virtual void Reset()
-        {
-            ClearQueue(false, true);
-        }
-        
-        /// <summary>执行队列中的下一个执行器</summary>
-        protected void ExecuteUnit()
-        {
-            OnUnitExecuted?.Invoke(this);//本执行单元开始执行
-
-            if ((mQueue != default) && (mQueue.Count > 0))
-            {
-                mCurrent = mQueue.Dequeue();//设置当前单元为下一个执行单元
-                mQueueExecuted.Enqueue(mCurrent);
-                mCurrentIndex++;
-            }
-            else
-            {
-                if (isRunning)
-                {
-                    isRunning = false;
-
-                    OnUnitCompleted?.Invoke(this);//队列执行完成
-                    OnNextUnit?.Invoke(this);//用于继续开启下一个队列执行器的执行
-
-                    if (mAutoDispose)
-                    {
-                        Dispose();
-                    }
-                    else { }
-                }
-                else { }
-
-                return;
-            }
-
-            bool immediatelyNext = true;
-            if (!IgnoreInQueue)
-            {
-                IQueueExecuter executer = mCurrent;
-                if (executer != default)
-                {
-                    if (executer.ActionUnit != default)
-                    {
-                        executer.ActionUnit();//执行普通委托
-                    }
-                    else
-                    {
-                        immediatelyNext = executer.ImmediatelyCommitNext;//执行子项时需等待子项全部完成
-                        if (!immediatelyNext)
-                        {
-                            executer.OnNextUnit += NextUnit;//衔接上下子项的执行顺序
-                        }
-                        else { }
-                        executer.Commit();//执行子项
-                    }
-                    QueueUnitExecuted executed = executer?.OnUnitExecuted;
-                    executed?.Invoke(this);//本执行单元已执行
-                }
-                else { }
-            }
-            else { }
-
-            if (immediatelyNext)
-            {
-                ExecuteUnit();
-            }
-            else { }
-        }
-
-        /// <summary>衔接队列中下一个执行器事件处理函数的执行，构成队列的自动运行结构</summary>
-        protected void NextUnit(IQueueExecuter param)
-        {
-            param.OnNextUnit -= NextUnit;
-            ExecuteUnit();
-        }
-
-        /// <summary>运行队列执行器的入口</summary>
-        public virtual void Commit()
-        {
-            Start();
-        }
-
         /// <summary>主动调用，执行此对象所在队列的下一个队列元素</summary>
         public virtual void QueueNext()
         {
             OnNextUnit?.Invoke(this);
+        }
+
+        public void Executed()
+        {
+            OnUnitExecuted?.Invoke(this);
+        }
+
+        public void QueueCompleted()
+        {
+            OnUnitCompleted?.Invoke(this);
         }
 
         public IQueueExecuter Current()

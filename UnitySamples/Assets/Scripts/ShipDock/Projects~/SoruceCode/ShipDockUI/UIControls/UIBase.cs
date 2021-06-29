@@ -51,7 +51,6 @@ namespace ShipDock.UIControls
         /// </summary>
         public virtual void Clean()
         {
-            Debug.Log("UIBase clean is expection");
             if (mIsClean)
             {
                 return;

@@ -1,4 +1,6 @@
-﻿using ShipDock.Notices;
+﻿#define _LOG_MODULARS
+
+using ShipDock.Notices;
 using ShipDock.Tools;
 using System;
 
@@ -45,11 +47,15 @@ namespace ShipDock.Modulars
         {
             if (mNoticeDecorator.ContainsKey(noticeName))
             {
+#if LOG_MODULARS
                 "log".Log(noticeName.ToString().Append(" append handler "));
+#endif
             }
             else
             {
+#if LOG_MODULARS
                 "log".Log(noticeName.ToString().Append(" add decorator "));
+#endif
                 mNoticeDecorator[noticeName] = default;
             }
             mNoticeDecorator[noticeName] += method;
@@ -64,7 +70,9 @@ namespace ShipDock.Modulars
         {
             if (mNoticeDecorator.ContainsKey(noticeName))
             {
+#if LOG_MODULARS
                 "log".Log(noticeName.ToString().Append(" remove decorator "));
+#endif
                 mNoticeDecorator[noticeName] -= method;
             }
             else { }
@@ -77,10 +85,14 @@ namespace ShipDock.Modulars
         /// <param name="method"></param>
         public void AddNoticeCreater(int noticeName, Func<int, INoticeBase<int>> method)
         {
+#if LOG_MODULARS
             "error".Log(mNoticeCreaters.ContainsKey(noticeName), string.Format("{0}'s creater is existed..", noticeName));
+#endif
             if (!mNoticeCreaters.ContainsKey(noticeName))
             {
+#if LOG_MODULARS
                 "Creater {0} added.".Log(noticeName.ToString());
+#endif
                 mNoticeCreaters[noticeName] = method;
             }
             else { }
@@ -95,7 +107,9 @@ namespace ShipDock.Modulars
         {
             if (mNoticeCreaters.ContainsKey(noticeName))
             {
+#if LOG_MODULARS
                 "Creater {0} removed.".Log(noticeName.ToString());
+#endif
                 mNoticeCreaters.Remove(noticeName);
             }
             else { }
@@ -114,12 +128,16 @@ namespace ShipDock.Modulars
                 modular = modulars[i];
                 if (mModulars.ContainsKey(modular.ModularName))
                 {
+#if LOG_MODULARS
                     "error".Log(modular.ModularName.ToString().Append(" modular is existed"));
+#endif
                     modular.Dispose();
                 }
                 else
                 {
+#if LOG_MODULARS
                     "Modular {0} is create".Log(modular.ModularName.ToString());
+#endif
                     mModulars[modular.ModularName] = modular;
                     modular.SetModularManager(this);
                     modular.InitModular();
@@ -133,11 +151,11 @@ namespace ShipDock.Modulars
             bool applyCreater = param == default;
             notice = applyCreater ? creater?.Invoke(noticeName) : param;//调用消息体对象生成器函数
 
-            #region Logs
+#if LOG_MODULARS
             "error".Log(param == default && creater == default, "Notice creater is null..".Append(" notice = ", noticeName.ToString()));
             "warning".Log(notice == default, "Brocast notice is null..".Append(" notice = ", noticeName.ToString()));
             "warning".Log(!mNoticeDecorator.ContainsKey(noticeName), string.Format("Notice {0} decorator is empty..", noticeName));
-            #endregion
+#endif
         }
 
         private void DuringNotifyModular(int noticeName, ref INoticeBase<int> notice)
@@ -147,11 +165,15 @@ namespace ShipDock.Modulars
                 Action<int, INoticeBase<int>> decorator = mNoticeDecorator[noticeName];
                 decorator?.Invoke(noticeName, notice);//调用消息体装饰器函数
                 noticeName.Broadcast(notice);//广播模块装饰后的消息
+#if LOG_MODULARS
                 "log".Log(string.Format("Modular App brodcast {0}", noticeName.ToString()));
+#endif
             }
             else
             {
+#if LOG_MODULARS
                 "log".Log("Notify modular by default notice");
+#endif
                 noticeName.Broadcast(notice);//直接广播消息
             }
         }
@@ -184,7 +206,9 @@ namespace ShipDock.Modulars
             }
             else
             {
+#if LOG_MODULARS
                 "error".Log("Notice param type do not match..".Append(" notice = ", noticeName.ToString()));
+#endif
             }
             return result;
         }
