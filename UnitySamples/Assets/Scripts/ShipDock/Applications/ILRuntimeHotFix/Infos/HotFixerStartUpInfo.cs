@@ -25,7 +25,7 @@ namespace ShipDock.Applications
 
         [SerializeField, Tooltip("是否应用启动的热更类名")]
 #if ODIN_INSPECTOR
-        [LabelText("启用热更端类名")]
+        [LabelText("启用热更端类名 [热更UI不勾选此项]")]
 #endif
         private bool m_ApplyClassName = true;
 

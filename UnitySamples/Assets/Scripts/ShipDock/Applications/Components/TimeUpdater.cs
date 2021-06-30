@@ -12,6 +12,13 @@ namespace ShipDock.Applications
             return new TimeUpdater(totalTime, method, cancelCondition, repeats);
         }
 
+        public static TimeUpdater New(float totalTime, Action method, Func<bool> cancelCondition = default, int repeat = 1)
+        {
+            TimeUpdater timer = GetTimeUpdater(totalTime, method, cancelCondition);
+            timer.Start(true);
+            return timer;
+        }
+
         private int mRepeats;
         private Func<bool> mCancelCondition;
 
@@ -56,6 +63,13 @@ namespace ShipDock.Applications
             {
                 UpdaterNotice.AddSceneUpdater(this);
             }
+        }
+
+        public void Start(bool autoDispose)
+        {
+            IsAutoDispose = autoDispose;
+
+            Start();
         }
 
         public void Restart()

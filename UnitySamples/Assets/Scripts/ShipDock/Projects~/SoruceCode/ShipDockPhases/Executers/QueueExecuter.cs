@@ -212,12 +212,8 @@ namespace ShipDock.Tools
         /// <summary>将一个流程执行器增加到队列末尾</summary>
         public void Add(IQueueExecuter target)
         {
-            if (target != null)
-            {
-                mQueue.Add(target);
-                mActionUnits.Enqueue(default);
-            }
-            else { }
+            mQueue.Add(target);
+            mActionUnits.Enqueue(default);
         }
 
         /// <summary>添加元素</summary>
@@ -227,7 +223,10 @@ namespace ShipDock.Tools
             {
                 mActionUnits.Enqueue(method);
             }
-            else { }
+            else
+            {
+                mActionUnits.Enqueue(() => { });
+            }
         }
 
         /// <summary>重置</summary>
@@ -237,7 +236,7 @@ namespace ShipDock.Tools
         }
         
         /// <summary>执行队列中的下一个执行器</summary>
-        protected void ExecuteUnit()
+        protected void ExecuteNext()
         {
             if (IgnoreInQueue)
             {
@@ -287,10 +286,13 @@ namespace ShipDock.Tools
 
                 if (mCurrent != default)
                 {
-                    mCurrent.OnNextUnit += NextUnit;//衔接上下子项的执行顺序
+                    mCurrent.OnNextUnit += OnNext;//衔接上下子项的执行顺序
                     mCurrent.Commit();//执行子项
                 }
-                else { }
+                else
+                {
+                    ExecuteNext();
+                }
 
                 mQueueExecuted?.Add(mCurrent);
             }
@@ -307,10 +309,10 @@ namespace ShipDock.Tools
         }
 
         /// <summary>衔接队列中下一个执行器事件处理函数的执行，构成队列的自动运行结构</summary>
-        protected void NextUnit(IQueueExecuter param)
+        protected void OnNext(IQueueExecuter param)
         {
-            param.OnNextUnit -= NextUnit;
-            ExecuteUnit();
+            param.OnNextUnit -= OnNext;
+            ExecuteNext();
         }
 
         /// <summary>运行队列执行器的入口</summary>
@@ -330,7 +332,7 @@ namespace ShipDock.Tools
             }
             else { }
 
-            ExecuteUnit();
+            ExecuteNext();
         }
 
         /// <summary>主动调用，执行此对象所在队列的下一个队列元素</summary>
