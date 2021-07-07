@@ -17,6 +17,8 @@ namespace ShipDock.Datas
         public float volumnBGM = 1f;
         /// <summary>音效音量</summary>
         public float volumnSound = 1f;
+        /// <summary>构建版本次数，可用于确定是否删除本地缓存的数据或资源</summary>
+        public int builds;
 
         public bool isNewUser;
 

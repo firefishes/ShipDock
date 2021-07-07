@@ -7,7 +7,11 @@ using UnityEngine;
 namespace ShipDock.Applications
 {
     /// <summary>
-    /// UI热更代理组件，用于加载热更端的类
+    /// 
+    /// 热更端 UI 桥接组件，用于加载热更端的对象类及携带主工程中的资源绑定
+    /// 
+    /// add by Minghua.ji
+    /// 
     /// </summary>
     public class HotFixerUIAgent : HotFixerComponent, INotificationSender
     {

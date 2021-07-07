@@ -219,7 +219,7 @@ namespace ShipDock.Applications
         /// <param name="mainThreadServersReady">当服务容器初始化完成后在主线程上的回调</param>
         /// <param name="onInitedCallbacks">服务容器初始化完成后在子线程上的一组回调函数</param>
         /// <param name="onFinishedCallbacks">服务容器初始化完成后在子线程上的一组回调函数</param>
-        public void StartIOC(IServer[] servers, Action mainThreadServersReady, Action[] onInitedCallbacks = default, Action[] onFinishedCallbacks = default)
+        public void StartIoC(IServer[] servers, Action mainThreadServersReady, Action[] onInitedCallbacks = default, Action[] onFinishedCallbacks = default)
         {
             if (mainThreadServersReady != default)
             {
@@ -232,7 +232,7 @@ namespace ShipDock.Applications
             {
                 SceneUpdaterReady += () =>
                 {
-                    StartIOC(default, default);
+                    StartIoC(default, default);
                 };
             }
             else { }
@@ -253,6 +253,7 @@ namespace ShipDock.Applications
                 mMainThreadReadyChecker.Update += OnCheckMainThreadReady;
                 UpdaterNotice.AddSceneUpdater(mMainThreadReadyChecker);//将调用并入主线程调用
             }
+            else { }
         }
 
         private void SetServersCallback(ref Action[] onInitedCallbacks, ref Action[] onFinishedCallbacks)

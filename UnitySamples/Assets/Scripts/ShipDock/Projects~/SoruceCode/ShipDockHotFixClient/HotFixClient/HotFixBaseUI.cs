@@ -1,5 +1,6 @@
 ﻿
 using ShipDock.Applications;
+using ShipDock.Notices;
 
 /// <summary>
 /// 
@@ -37,6 +38,11 @@ namespace ShipDock.Applications
     /// </summary>
     public class HotFixBaseUI : HotFixerInteractor
     {
+        public INotificationSender UINotificationSender()
+        {
+            return Agent as INotificationSender;
+        }
+
         public void Close(bool isDestroy)
         {
             UIModular.Name.Close(isDestroy);

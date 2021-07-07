@@ -49,17 +49,17 @@ static public class ShipDockExtension
     /// <param name="target">目标字符串数组</param>
     /// <param name="symbol">用于分隔的字符串标识</param>
     /// <returns></returns>
-    public static string Joins(this string[] target, string symbol = ",")
+    public static string Joins<T>(this T[] target, string symbol = ",")
     {
         string connector;
         string result = string.Empty;
         int max = target.Length;
-        string temp;
+        T temp;
         for (int i = 0; i < max; i++)
         {
             connector = (i == max - 1) ? string.Empty : symbol;
             temp = target[i];
-            result = result.Append(temp, connector);
+            result = result.Append(temp.ToString(), connector);
         }
         return result;
     }
@@ -70,17 +70,17 @@ static public class ShipDockExtension
     /// <param name="target">目标字符串数组</param>
     /// <param name="symbol">用于分隔的字符串标识</param>
     /// <returns></returns>
-    public static string Joins(this List<string> target, string symbol = ",")
+    public static string Joins<T>(this List<T> target, string symbol = ",")
     {
         string connector;
         string result = string.Empty;
         int max = target.Count;
-        string temp;
+        T temp;
         for (int i = 0; i < max; i++)
         {
             connector = (i == max - 1) ? string.Empty : symbol;
             temp = target[i];
-            result = result.Append(temp, connector);
+            result = result.Append(temp.ToString(), connector);
         }
         return result;
     }

@@ -65,7 +65,6 @@
         private int mInt;
         private float mFloat;
         private double mDouble;
-        private string mValue;
 
         public virtual int Int
         {
@@ -187,24 +186,32 @@
             if (!value.Equals(Value))
             {
                 Value = value;
-                
+
                 if (!bool.TryParse(Value, out mBool))
                 {
                     mBool = default;
                 }
+                else { }
+
                 if (!int.TryParse(Value, out mInt))
                 {
                     mInt = default;
                 }
+                else { }
+
                 if (!float.TryParse(Value, out mFloat))
                 {
                     mFloat = default;
                 }
+                else { }
+
                 if (!double.TryParse(Value, out mDouble))
                 {
                     mDouble = default;
                 }
+                else { }
             }
+            else { }
         }
     }
 }

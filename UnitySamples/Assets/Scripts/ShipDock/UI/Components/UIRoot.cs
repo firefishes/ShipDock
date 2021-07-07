@@ -77,9 +77,22 @@ namespace ShipDock.UI
 
         private void Start()
         {
-            Vector2 resolution = m_CanvasScaler.referenceResolution;
-            ScaleRatio = resolution.x / Screen.width;
+            UpdateScaleRatio();
             m_OnAwaked?.Invoke(this);
+        }
+
+        public void UpdateScaleRatio()
+        {
+            Vector2 resolution = m_CanvasScaler.referenceResolution;
+            float resol = Mathf.Max(resolution.x, resolution.y);
+            float maxW = Mathf.Max(resolution.x, resolution.y);
+
+            int screenW = Screen.width;
+            int screenH = Screen.height;
+
+            bool isMatchWidth = screenW > screenH;
+            m_CanvasScaler.matchWidthOrHeight = isMatchWidth ? 0f : 1f;
+            ScaleRatio = isMatchWidth ? resolution.x / screenW : resolution.y / screenH;
         }
 
         public void AddAwakedHandler(UnityAction<IUIRoot> handler)

@@ -31,6 +31,19 @@ namespace ShipDock.Applications
 
     public class FileOperater
     {
+        public static void DeleteFileDirection(string directionName)
+        {
+            if (!string.IsNullOrEmpty(directionName))
+            {
+                if (Directory.Exists(directionName))
+                {
+                    Directory.Delete(directionName, true);//注意：这里参数"true"表示可以删除非空目录
+                }
+                else { }
+            }
+            else { }
+        }
+
         public static void WriteUTF8Text(string content, string filePath, FileOperater operater = default)
         {
             FileOperater fileOperater = (operater == null) ? new FileOperater() : operater;

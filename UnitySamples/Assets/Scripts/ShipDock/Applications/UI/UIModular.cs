@@ -62,18 +62,18 @@ namespace ShipDock.Applications
             notice.ToPool();
 
             UILayer layer = ui.GetComponent<UILayer>();
+            SetUIParent(ref layer);
+            mUI.Add(UIModularHandler);
+        }
+
+        private void SetUIParent(ref UILayer layer)
+        {
             if (layer != default)
             {
                 UILayer = layer.UILayerValue;
             }
             else { }
 
-            SetUIParent();
-            mUI.Add(UIModularHandler);
-        }
-
-        private void SetUIParent()
-        {
             Transform parent = default;
             IUIRoot root = UIs.UIRoot;
             switch (UILayer)

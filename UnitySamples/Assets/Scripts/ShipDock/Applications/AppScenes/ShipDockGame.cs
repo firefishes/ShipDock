@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using ShipDock.Testers;
+using ShipDock.Tools;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -27,12 +28,9 @@ namespace ShipDock.Applications
     [RequireComponent(typeof(UpdatesComponent))]
     public class ShipDockGame : MonoBehaviour
     {
-#if ODIN_INSPECTOR
-        [TitleGroup("模板信息")]
-#endif
         [SerializeField, Tooltip("运行帧率")]
 #if ODIN_INSPECTOR
-        [LabelText("帧率"), Indent(1)]
+        [TitleGroup("模板信息"), LabelText("目标帧率"), Indent(1)]
 #endif 
         private int m_FrameRate = 40;
 
@@ -112,12 +110,6 @@ namespace ShipDock.Applications
 
         private void Awake()
         {
-            if (m_DevelopSubgroup.isDeletePlayerPref)
-            {
-                PlayerPrefs.DeleteAll();
-            }
-            else { }
-
             CheckLogColorSettings();
 
             CreateGame();
@@ -231,11 +223,11 @@ namespace ShipDock.Applications
         private void InitServerContainers()
         {
             ShipDockApp app = ShipDockApp.Instance;
-            bool flag = m_DevelopSubgroup.startUpIOC;//根据开发参数确定是否启动IoC模块
+            bool flag = m_DevelopSubgroup.startUpIoC;//根据开发参数确定是否启动IoC模块
             IServer[] servers = flag ? GetGameServers() : default;
             Action[] onInited = flag ? new Action[] { AddResolvableConfigs } : default;
             Action[] onFinished = flag ? new Action[] { OnServersFinished } : default;
-            app.StartIOC(servers, MainThreadServerReady, onInited, onFinished);
+            app.StartIoC(servers, MainThreadServerReady, onInited, onFinished);
         }
 
         /// <summary>
@@ -475,6 +467,82 @@ namespace ShipDock.Applications
         {
             IDataProxy[] result = CommonEventInovker(m_GameAppEvents.getDataProxyEvent);
             return result;
+        }
+
+        /// <summary>
+        /// 检测本地偏好数据及资源的版本
+        /// </summary>
+        /// <param name="onClientDataChecked"></param>
+        public void CheckPlayerPrefsVersion(Action afterPlayerPrefsDel = default, Action onPersistentResChecked = default, Action onClientDataChecked = default)
+        {
+            string value = m_DevelopSubgroup.playerPrefsVersion;
+            string[] list = value.Split(StringUtils.DOT_CHAR);
+            int allPrefsCode = int.Parse(list[0]);
+            int privistionResCode = int.Parse(list[1]);
+            int clientDataCode = int.Parse(list[2]);
+
+            string identifier = Application.identifier;
+            string allPrefsKey = identifier.Append("_allPrefs");
+            string persistentResKey = identifier.Append("_persistentRes");
+            string clientInfoKey = identifier.Append("_clientData");
+
+            int codeCached;
+            bool hasDelAllPrefs = false;
+
+            if (PlayerPrefs.HasKey(allPrefsKey))
+            {
+                if (allPrefsCode >= 0)
+                {
+                    codeCached = PlayerPrefs.GetInt(allPrefsKey);
+                    hasDelAllPrefs = codeCached != allPrefsCode;//只要不同即可清空偏好
+
+                    if (hasDelAllPrefs)
+                    {
+                        PlayerPrefs.DeleteAll();//清空偏好数据
+                        afterPlayerPrefsDel?.Invoke();
+                    }
+                    else { }
+                }
+                else//小于0则忽略用户偏好的清除
+                {
+                    Debug.Log("已忽略用户偏好的清除");
+                }
+            }
+            else { }
+
+            PlayerPrefs.SetInt(allPrefsKey, allPrefsCode);
+
+            if (!hasDelAllPrefs)
+            {
+                if (PlayerPrefs.HasKey(clientInfoKey))
+                {
+                    codeCached = PlayerPrefs.GetInt(clientInfoKey);
+                    if (codeCached < clientDataCode)
+                    {
+                        onClientDataChecked?.Invoke();//变更客户端信息
+                    }
+                    else { }
+                }
+                else { }
+
+                if (PlayerPrefs.HasKey(persistentResKey))
+                {
+                    codeCached = PlayerPrefs.GetInt(persistentResKey);
+                    if (codeCached < privistionResCode)
+                    {
+                        onPersistentResChecked?.Invoke();//处理持久化目录中的资源
+                    }
+                    else { }
+                }
+                else
+                {
+                    onPersistentResChecked?.Invoke();//处理持久化目录中的资源
+                }
+
+                PlayerPrefs.SetInt(clientInfoKey, clientDataCode);
+                PlayerPrefs.SetInt(persistentResKey, privistionResCode);
+            }
+            else { }
         }
     }
 }

@@ -45,19 +45,39 @@ public static class ShipDockAppExtension
     public static bool WorldToUIPosition(this Vector3 worldPosition, ref Camera worldCamera, out Vector3 UIPos)
     {
         Vector3 viewPos = worldCamera.WorldToViewportPoint(worldPosition);
-        if (viewPos.z < 0f)
+        bool result = viewPos.z >= 0f;
+        if (result)
+        {
+            viewPos.x -= 0.5f;
+            viewPos.y -= 0.5f;
+
+            UIManager manager = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
+            Camera UICamera = manager.UIRoot.UICamera;
+            UIPos = new Vector3(UICamera.pixelWidth * viewPos.x, UICamera.pixelHeight * viewPos.y, 0f);
+            UIPos *= manager.UIRoot.ScaleRatio;
+        }
+        else
         {
             UIPos = Vector3.zero;
-            return false;
         }
+        return result;
+    }
 
-        viewPos.x -= 0.5f;
-        viewPos.y -= 0.5f;
+    public static bool ToUILocalPosition(this RectTransform translateTo, RectTransform translateFrom, out Vector2 localInTranslateTo, Camera camInTranslateTo = default)
+    {
+        UIManager manager = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
+        if (camInTranslateTo == default)
+        {
+            camInTranslateTo = manager.UIRoot.UICamera;
+        }
+        else { }
 
-        UIManager ui = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
-        Camera UICamera = ui.UIRoot.UICamera;
-        UIPos = new Vector3(UICamera.pixelWidth * viewPos.x, UICamera.pixelHeight * viewPos.y, 0) * ui.UIRoot.ScaleRatio;
-        return true;
+        Vector2 screenPos = camInTranslateTo.WorldToScreenPoint(translateFrom.position);
+        bool isSucess = RectTransformUtility.ScreenPointToLocalPointInRectangle(translateTo, screenPos, camInTranslateTo, out localInTranslateTo);
+
+        localInTranslateTo *= manager.UIRoot.ScaleRatio;
+
+        return isSucess;
     }
 
     public static T OpenFromResouce<T>(this string name) where T : Component
@@ -65,6 +85,12 @@ public static class ShipDockAppExtension
         UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
         T result = uis.OpenResourceUI<T>(name);
         return result;
+    }
+
+    public static void CloseResouceUI(this string name)
+    {
+        UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
+        uis.CloseResourceUI(name);
     }
 
     /// <summary>

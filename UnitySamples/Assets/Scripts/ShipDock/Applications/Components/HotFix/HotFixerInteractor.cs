@@ -3,7 +3,13 @@
 namespace ShipDock.Applications
 {
     /// <summary>
-    /// UI交互器抽象类，用于容纳热更端的 UI 逻辑
+    /// 
+    /// 热更端 UI 交互器抽象类，用于容纳热更端的 UI 逻辑
+    /// 
+    /// 对标于纯主工程下开发所使用的 UIModular<T> 中的泛型类 T 
+    /// 
+    /// add by Minghua.ji
+    /// 
     /// </summary>
     public abstract class HotFixerInteractor
     {
@@ -45,8 +51,6 @@ namespace ShipDock.Applications
             return Agent.Dispatch(name, vs);
         }
 
-        public virtual void UpdateInteractor()
-        {
-        }
+        public virtual void UpdateInteractor() { }
     }
 }

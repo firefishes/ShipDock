@@ -14,13 +14,32 @@ namespace ShipDock.Applications
 
         public static TimeUpdater New(float totalTime, Action method, Func<bool> cancelCondition = default, int repeat = 1)
         {
-            TimeUpdater timer = GetTimeUpdater(totalTime, method, cancelCondition);
+            TimeUpdater timer = GetTimeUpdater(totalTime, method, cancelCondition, repeat);
             timer.Start(true);
             return timer;
         }
 
         private int mRepeats;
         private Func<bool> mCancelCondition;
+
+        public int TotalRepeats { get; private set; }
+        public float Time { get; private set; }
+        public float TotalTime { get; private set; }
+        public Action Completion { get; private set; }
+        public bool Repeatable { get; private set; }
+        public bool HasStart { get; private set; }
+        public bool IsTimeCounting { get; private set; }
+        public bool IsAutoDispose { get; set; }
+        public bool IsStarted { get; private set; }
+        public bool IsPause { get; private set; }
+
+        public bool IsCompleteCycle
+        {
+            get
+            {
+                return HasStart && !IsTimeCounting;
+            }
+        }
 
         public TimeUpdater(float totalTime, Action method, Func<bool> cancelCondition = default, int repeats = 0)
         {
@@ -86,6 +105,7 @@ namespace ShipDock.Applications
                 IsTimeCounting = false;
                 IsPause = true;
             }
+            else { }
         }
 
         public void Stop()
@@ -107,6 +127,7 @@ namespace ShipDock.Applications
             {
                 TimeCountting(dTime);
             }
+            else { }
         }
 
         /// <summary>
@@ -120,6 +141,7 @@ namespace ShipDock.Applications
             {
                 Stop();
             }
+            else { }
             return result;
         }
 
@@ -137,7 +159,9 @@ namespace ShipDock.Applications
                 {
                     Dispose();
                 }
+                else { }
             }
+            else { }
             return result;
         }
 
@@ -147,6 +171,7 @@ namespace ShipDock.Applications
             {
                 return;
             }
+            else { }
 
             float t = (float)dTime / UpdatesCacher.UPDATE_CACHER_TIME_SCALE;
             Time += t;
@@ -160,6 +185,7 @@ namespace ShipDock.Applications
                     {
                         Dispose();
                     }
+                    else { }
                 }
                 else
                 {
@@ -176,6 +202,7 @@ namespace ShipDock.Applications
                     }
                 }
             }
+            else { }
         }
 
         public void SetComplete(Action method)
@@ -187,24 +214,5 @@ namespace ShipDock.Applications
         {
             Time = time;
         }
-
-        public bool IsCompleteCycle
-        {
-            get
-            {
-                return HasStart && !IsTimeCounting;
-            }
-        }
-
-        public int TotalRepeats { get; private set; }
-        public float Time { get; private set; }
-        public float TotalTime { get; private set; }
-        public Action Completion { get; private set; }
-        public bool Repeatable { get; private set; }
-        public bool HasStart { get; private set; }
-        public bool IsTimeCounting { get; private set; }
-        public bool IsAutoDispose { get; set; }
-        public bool IsStarted { get; private set; }
-        public bool IsPause { get; private set; }
     }
 }

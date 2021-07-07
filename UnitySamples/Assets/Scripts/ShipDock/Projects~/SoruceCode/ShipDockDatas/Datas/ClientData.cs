@@ -1,15 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ShipDock.Datas
 {
-    public class ClientData<DeviceT, ClientT> where DeviceT : DeviceLocalInfo, new() where ClientT : ClientLocalInfo, new()
+    public static class ClientDataConsts
     {
         public const string DEVICE_INFO = "DeviceInfo";
         public const string LAST_ACCOUNT_ID = "LastAccountID";
-        //public const string ACCOUNT_ID = "AccountID";
         public const string PLAYER_INFO = "PlayerInfo";
+    }
 
+    public class ClientData<DeviceT, ClientT> where DeviceT : DeviceLocalInfo, new() where ClientT : ClientLocalInfo, new()
+    {
         public bool IsInited { get; private set; }
         public DeviceT DeviceInfo { get; private set; }
         public ClientT ClientInfo { get; private set; }
@@ -48,7 +49,7 @@ namespace ShipDock.Datas
 
         private void InitClientInfo()
         {
-            string lastAccountID = GetLocalStringData(LAST_ACCOUNT_ID);
+            string lastAccountID = GetLocalStringData(ClientDataConsts.LAST_ACCOUNT_ID);
             if (string.IsNullOrEmpty(lastAccountID))
             {
                 ClientInfo = new ClientT();
@@ -63,7 +64,7 @@ namespace ShipDock.Datas
 
         private void InitClientInfoFromLast(ref string lastAccountID)
         {
-            UpdateLocalData(LAST_ACCOUNT_ID, lastAccountID);
+            UpdateLocalData(ClientDataConsts.LAST_ACCOUNT_ID, lastAccountID);
 
             if (ClientInfo != default)
             {
@@ -88,7 +89,7 @@ namespace ShipDock.Datas
 
         private void GetClientInfoByAccountID(ref string lastAccountID)
         {
-            string infoKey = PLAYER_INFO.Append(lastAccountID);
+            string infoKey = ClientDataConsts.PLAYER_INFO.Append(lastAccountID);
             string infoRaw = GetLocalStringData(infoKey);
 
             ClientInfo = JsonUtility.FromJson<ClientT>(infoRaw);
@@ -109,24 +110,69 @@ namespace ShipDock.Datas
         /// <summary>
         /// 更新本地字符串数据
         /// </summary>
-        public void UpdateLocalData(string keyName, string data)
+        public void UpdateLocalData(string keyName, string data, bool checkUnique = false)
         {
             if (!string.IsNullOrEmpty(keyName))
             {
-                //if (HasKey(keyName) && (data == PlayerPrefs.GetString(keyName)))
-                //{
-                //    Debug.Log("Update local info, key is null");
-                //    return;
-                //}
-                //else { }
+                if (checkUnique && HasKey(keyName) && (data == PlayerPrefs.GetString(keyName)))
+                {
+                    Debug.Log(string.Format("Player prefs key {0}'s value must be unique.", keyName));
+                    return;
+                }
+                else { }
 
                 PlayerPrefs.SetString(keyName, data);
-
-                Debug.Log(string.Format("Update local info.. {0} >> {1}", keyName, data));
+                Debug.Log(string.Format("Player prefs set string value.. {0} >> {1}", keyName, data));
             }
             else
             {
-                Debug.Log("Update local info, key is null");
+                Debug.Log(string.Format("Player prefs {0} do not exist", keyName));
+            }
+        }
+
+        /// <summary>
+        /// 更新本地字符串数据
+        /// </summary>
+        public void UpdateLocalDataInt(string keyName, int data, bool checkUnique = false)
+        {
+            if (!string.IsNullOrEmpty(keyName))
+            {
+                if (checkUnique && HasKey(keyName) && (data == PlayerPrefs.GetInt(keyName)))
+                {
+                    Debug.Log(string.Format("Player prefs key {0}'s value must be unique.", keyName));
+                    return;
+                }
+                else { }
+
+                PlayerPrefs.SetInt(keyName, data);
+                Debug.Log(string.Format("Player prefs set int value.. {0} >> {1}", keyName, data));
+            }
+            else
+            {
+                Debug.Log(string.Format("Player prefs {0} do not exist", keyName));
+            }
+        }
+
+        /// <summary>
+        /// 更新本地字符串数据
+        /// </summary>
+        public void UpdateLocalDataFloat(string keyName, int data, bool checkUnique = false)
+        {
+            if (!string.IsNullOrEmpty(keyName))
+            {
+                if (checkUnique && HasKey(keyName) && (data == PlayerPrefs.GetFloat(keyName)))
+                {
+                    Debug.Log(string.Format("Player prefs key {0}'s value must be unique.", keyName));
+                    return;
+                }
+                else { }
+
+                PlayerPrefs.SetFloat(keyName, data);
+                Debug.Log(string.Format("Player prefs set float value.. {0} >> {1}", keyName, data));
+            }
+            else
+            {
+                Debug.Log(string.Format("Player prefs {0} do not exist", keyName));
             }
         }
 
@@ -145,7 +191,37 @@ namespace ShipDock.Datas
             return result;
         }
 
-        public void DelLocalStringData(string keyName)
+        /// <summary>
+        /// 获取本地整型数据
+        /// </summary>
+        public int GetLocalIntData(string keyName)
+        {
+            int result = 0;
+            if (!string.IsNullOrEmpty(keyName) && HasKey(keyName))
+            {
+                result = PlayerPrefs.GetInt(keyName);
+            }
+            else { }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取本地浮点型数据
+        /// </summary>
+        public float GetLocalFloatData(string keyName)
+        {
+            float result = 0f;
+            if (!string.IsNullOrEmpty(keyName) && HasKey(keyName))
+            {
+                result = PlayerPrefs.GetFloat(keyName);
+            }
+            else { }
+
+            return result;
+        }
+
+        public void DeleteKey(string keyName)
         {
             PlayerPrefs.DeleteKey(keyName);
         }
@@ -176,31 +252,31 @@ namespace ShipDock.Datas
             string json = JsonUtility.ToJson(ClientInfo);
             string clientInfoKey = GetClientInfoKey();
             UpdateLocalData(clientInfoKey, json);
-            UpdateLocalData(LAST_ACCOUNT_ID, ClientInfo.account_id);
+            UpdateLocalData(ClientDataConsts.LAST_ACCOUNT_ID, ClientInfo.account_id);
         }
 
         public void DeleteClientInfo()
         {
             string clientInfoKey = GetClientInfoKey();
-            DelLocalStringData(clientInfoKey);
-            UpdateLocalData(LAST_ACCOUNT_ID, string.Empty);
+            DeleteKey(clientInfoKey);
+            UpdateLocalData(ClientDataConsts.LAST_ACCOUNT_ID, string.Empty);
         }
 
         public void CreateNewClient()
         {
             FlushInfos();
-            DelLocalStringData(LAST_ACCOUNT_ID);
+            DeleteKey(ClientDataConsts.LAST_ACCOUNT_ID);
             InitClientInfo();
         }
 
         private string GetDeviceInfoKey()
         {
-            return DEVICE_INFO.Append(ClientInfo.account_id);
+            return ClientDataConsts.DEVICE_INFO.Append(ClientInfo.account_id);
         }
 
         private string GetClientInfoKey()
         {
-            return PLAYER_INFO.Append(ClientInfo.account_id);
+            return ClientDataConsts.PLAYER_INFO.Append(ClientInfo.account_id);
         }
     }
 }

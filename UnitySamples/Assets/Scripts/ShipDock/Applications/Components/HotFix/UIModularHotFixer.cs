@@ -4,6 +4,15 @@ using System;
 
 namespace ShipDock.Applications
 {
+    /// <summary>
+    /// 
+    /// 热更端 UI 模块基类
+    /// 
+    /// 对标于纯主工程下开发所使用的 UIModular<T> 类 
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public class UIModularHotFixer : UIModular<HotFixerUIAgent>
     {
         private HotFixerUI mBridge;
@@ -22,8 +31,25 @@ namespace ShipDock.Applications
             }
         }
 
+        /// <summary>
+        /// 
+        /// 数据层消息处理器函数，子类覆盖此方法修改 UI 模块响应数据的处理逻辑
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="keyName"></param>
         public override void OnDataProxyNotify(IDataProxy data, int keyName) { }
 
+        /// <summary>
+        /// 
+        /// UI 消息处理器函数，子类覆盖此方法修改 UI 消息处理逻辑
+        /// 
+        /// 需要注意：
+        /// 由于 ILRuntime 的热更端不与主工程共享一个定义域UI消息被派发时，
+        /// 所有子类的此方法都会被调用，故 UI 消息也必须和广播消息一样保证全局唯一
+        /// 
+        /// </summary>
+        /// <param name="param"></param>
         protected override void UIModularHandler(INoticeBase<int> param) { }
 
         sealed public override void Init()
@@ -43,10 +69,8 @@ namespace ShipDock.Applications
             mBridge = UIAgent.Bridge;
             mBridge.SetHotFixInteractor(interacter);
 
-            mUIHotFixer = mBridge.HotFixerInteractor.UIModular;
-
+            mUIHotFixer = interacter.UIModular;
             ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIInit", 0);
-
         }
 
         sealed public override void Enter()
@@ -110,6 +134,5 @@ namespace ShipDock.Applications
 
             ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIShow", 0);
         }
-
     }
 }

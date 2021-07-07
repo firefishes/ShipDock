@@ -10,28 +10,60 @@ namespace ShipDock.Editors
 {
     public class AssetBundleBuilder
     {
-        public Action OnABBuilt;
+        /// <summary>
+        /// 批量删除 Persistent 文件
+        /// </summary>
+        [MenuItem("ShipDock/Delete PlayerPrefs")]
+        public static void DelPlayerPrefs()
+        {
+            if (EditorUtility.DisplayDialog("警告", string.Format("即将删除用户偏好缓存，操作不可逆，是否继续？", Application.persistentDataPath), "立刻、马上", "我再想想"))
+            {
+                PlayerPrefs.DeleteAll();
+            }
+            else { }
+        }
+        /// <summary>
+        /// 批量删除 Persistent 文件
+        /// </summary>
+        [MenuItem("ShipDock/Delete Persistent Resouce")]
+        public static void DelPersistentResource()
+        {
+            if (EditorUtility.DisplayDialog("警告", string.Format("即将删除 {0} 目录下的资源文件，操作不可逆，是否继续？", Application.persistentDataPath), "立刻、马上", "我再想想"))
+            {
+                FileOperater.DeleteFileDirection(AppPaths.PersistentResDataRoot);
+                AssetDatabase.Refresh();//刷新
+            }
+            else { }
+        }
 
         /// <summary>
-        /// 批量删除AB包文件
+        /// 批量删除 Streaming 文件
         /// </summary>
-        [MenuItem("ShipDock/Delete Asset Bundles")]
-        public static void DelAssetBundle()
+        [MenuItem("ShipDock/Delete Streaming Resouce")]
+        public static void DelStreamingResource()
         {
+            if (EditorUtility.DisplayDialog("警告", string.Format("即将删除 {0} 目录下所有文件，操作不可逆，是否继续？", Application.streamingAssetsPath), "立刻、马上", "我再想想"))
+            {
+                Action<BuildTarget> method = (buildTarget) =>
+                {
+                    string resRoot = AppPaths.StreamingResDataRoot;
+                    string platformRoot = GetSuffix(buildTarget);
+                    FileOperater.DeleteFileDirection(resRoot.Append(platformRoot));
+                    FileOperater.DeleteFileDirection(resRoot.Append(platformRoot.Append(",meta")));
+                };
 
-            DeleteABRes(AppPaths.StreamingResDataRoot);
+                method.Invoke(BuildTarget.Android);
+                method.Invoke(BuildTarget.iOS);
+                method.Invoke(BuildTarget.StandaloneOSX);
+                method.Invoke(BuildTarget.StandaloneWindows);
+                method.Invoke(BuildTarget.StandaloneWindows64);
 
-            string resRoot = AppPaths.StreamingResDataRoot;
-            string platformRoot = GetSuffix(BuildTarget.Android);
-            DeleteABRes(resRoot + platformRoot);
-            platformRoot = GetSuffix(BuildTarget.iOS);
-            DeleteABRes(resRoot + platformRoot);
-            platformRoot = GetSuffix(BuildTarget.StandaloneOSX);
-            DeleteABRes(resRoot + platformRoot);
-            platformRoot = GetSuffix(BuildTarget.StandaloneWindows);
-            DeleteABRes(resRoot + platformRoot);
-            platformRoot = GetSuffix(BuildTarget.StandaloneWindows64);
-            DeleteABRes(resRoot + platformRoot);
+                FileOperater.DeleteFileDirection(AppPaths.StreamingResDataRoot);
+                FileOperater.DeleteFileDirection(AppPaths.StreamingResDataRoot.Append(",meta"));
+
+                AssetDatabase.Refresh();//刷新
+            }
+            else { }
         }
 
         /// <summary>
@@ -40,21 +72,24 @@ namespace ShipDock.Editors
         [MenuItem("ShipDock/Clear Asset Bundles")]
         public static void ClearAssetBundleName()
         {
-            if (EditorUtility.DisplayDialog("提示", "即将清除所有资源包标签，是否继续？", "必须的", "我再想想"))
+            if (EditorUtility.DisplayDialog("警告", "即将清除所有资源包标签，操作不可逆，是否继续？", "必须的", "我再想想"))
             {
                 // UnityEngine.Object[] arr = Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.TopLevel);
-                int length = AssetDatabase.GetAllAssetBundleNames().Length;
+                string[] names = AssetDatabase.GetAllAssetBundleNames();
+                int length = names.Length;
                 string[] oldAssetBundleNames = new string[length];
                 for (int i = 0; i < length; i++)
                 {
-                    oldAssetBundleNames[i] = AssetDatabase.GetAllAssetBundleNames()[i];
+                    oldAssetBundleNames[i] = names[i];
                 }
+
                 for (int j = 0; j < oldAssetBundleNames.Length; j++)
                 {
+                    Debug.Log("Asset bundle name " + oldAssetBundleNames[j] + " has remove.");
                     AssetDatabase.RemoveAssetBundleName(oldAssetBundleNames[j], true);
                 }
-                length = AssetDatabase.GetAllAssetBundleNames().Length;
             }
+            else { }
         }
 
         #region 资源打包相关
@@ -145,15 +180,18 @@ namespace ShipDock.Editors
             string rootPath = AppPaths.DataPathResDataRoot;
             if (!Directory.Exists(rootPath))
             {
-                EditorUtility.DisplayDialog("警告！", "所需资源目录不存在：" + rootPath, "确定");
+                EditorUtility.DisplayDialog("警告", "所需资源目录不存在：" + rootPath, "确定");
                 return;
             }
+            else { }
+
             string[] assetLabelRoots = Directory.GetDirectories(rootPath);
             if (assetLabelRoots.Length == 0)
             {
-                EditorUtility.DisplayDialog("提示！", "没有需要打包的资源！！！", "确定");
+                EditorUtility.DisplayDialog("提示", "没有需要打包的资源！！！", "确定");
                 return;
             }
+            else { }
 
             ShipDockEditorData editorData = ShipDockEditorData.Instance;
             editorData.platformPath = GetSuffix(buildPlatform);
@@ -164,21 +202,24 @@ namespace ShipDock.Editors
             AssetBundleInfoPopupEditor.Popup();
         }
 
-        private static void DeleteABRes(string strNeedDeleteDIR)
+        private static void DeleteFileDirection(string directionName)
         {
-            if (!string.IsNullOrEmpty(strNeedDeleteDIR))
+            if (!string.IsNullOrEmpty(directionName))
             {
-                if (!Directory.Exists(strNeedDeleteDIR))
+                if (Directory.Exists(directionName))
                 {
-                    return;
+                    Directory.Delete(directionName, true);//注意：这里参数"true"表示可以删除非空目录
+
+                    string metaFileName = directionName.Append(".meta");
+                    if (File.Exists(metaFileName))
+                    {
+                        File.Delete(metaFileName);//删除 .meta 文件
+                    }
+                    else { }
                 }
-                if (File.Exists(strNeedDeleteDIR + ".meta"))
-                {
-                    File.Delete(strNeedDeleteDIR + ".meta");
-                }
-                Directory.Delete(strNeedDeleteDIR, true);//注意： 这里参数"true"表示可以删除非空目录
-                AssetDatabase.Refresh();//刷新
+                else { }
             }
+            else { }
         }
     }
 }

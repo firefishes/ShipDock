@@ -7,7 +7,7 @@ namespace ShipDock.Applications
 {
     /// <summary>
     /// 
-    /// UI热更中间类
+    /// 热更端 UI 中间显示类
     /// 
     /// 为兼顾ILRuntime中尽量不继承 MonoBehaviour 的原则、同时获得框架的UI类功能而设计
     /// 
