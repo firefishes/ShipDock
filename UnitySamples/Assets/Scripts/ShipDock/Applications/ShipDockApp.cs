@@ -595,6 +595,11 @@ namespace ShipDock.Applications
             }
         }
 
+        /// <summary>
+        /// 初始化 ILRuntime 热更
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="config"></param>
         public void SetHotFixSetting(ILRuntimeHotFix value, IHotFixConfig config)
         {
             if (value != default)
@@ -602,13 +607,25 @@ namespace ShipDock.Applications
                 ILRuntimeHotFix = value;//新建IL热更方案的管理器
                 if (ILRuntimeHotFix.GetAppILRuntime() == default)
                 {
-                    ILRuntimeHotFix.InitFromApp(this);
+                    ILRuntimeHotFix.SetOwner(this);
                 }
                 else { }
             }
             else { }
 
             HotFixConfig = config;
+        }
+
+        /// <summary>
+        /// 以传入热更配置的泛型参数作为方式初始化 ILRuntime 热更
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public void InitILRuntime<T>() where T : IHotFixConfig, new()
+        {
+            T hotFixConfig = new T();
+            ILRuntimeHotFix hotFixCore = new ILRuntimeHotFix(this);
+
+            SetHotFixSetting(hotFixCore, hotFixConfig);
         }
 
         public IHotFixConfig GetHotFixConfig()

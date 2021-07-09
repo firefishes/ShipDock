@@ -1,6 +1,7 @@
 ﻿#define G_LOG
 
 using ShipDock.Testers;
+using UnityEngine;
 
 public static class ShipDockLogExtension
 {
@@ -44,26 +45,20 @@ public static class ShipDockLogExtension
     }
 
     [System.Diagnostics.Conditional("G_LOG")]
-    public static void Log(this object target, params string[] logs)
+    public static void Log(this object target, params string[] args)
     {
-        target.ToString().Log(logs);
+        target.ToString().Log(args);
     }
 
     [System.Diagnostics.Conditional("G_LOG")]
-    public static void Log(this object target, bool filters, params string[] logs)
+    public static void LogAndLocated(this Object target, string logID, params string[] args)
     {
-        target.ToString().Log(filters, logs);
+        Tester.Instance.Log(logID, target, args);
     }
 
     [System.Diagnostics.Conditional("G_LOG")]
-    public static void LogWithoutType(this object target, params string[] logs)
+    public static void LogWithoutType(this object target, bool filters, params string[] args)
     {
-        string.Empty.Log(logs);
-    }
-
-    [System.Diagnostics.Conditional("G_LOG")]
-    public static void LogWithoutType(this object target, bool filters, params string[] logs)
-    {
-        string.Empty.Log(filters, logs);
+        string.Empty.Log(filters, args);
     }
 }

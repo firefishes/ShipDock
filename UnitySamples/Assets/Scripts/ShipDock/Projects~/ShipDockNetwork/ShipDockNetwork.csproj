@@ -43,6 +43,13 @@
     <Reference Include="ShipDockLoader">
       <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockLoader.dll</HintPath>
     </Reference>
+    <Reference Include="ShipDockNotices">
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockTester, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -90,9 +97,6 @@
     </Compile>
     <Compile Include="..\SoruceCode\ShipDockNetwork\Network\NetDistributer.cs">
       <Link>ShipDockNetwork\NetDistributer.cs</Link>
-    </Compile>
-    <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Requester\NotificationJsonRequester.cs">
-      <Link>ShipDockNetwork\NotificationJsonRequester.cs</Link>
     </Compile>
     <Compile Include="..\SoruceCode\ShipDockNetwork\Network\Requester\RequestBase.cs">
       <Link>ShipDockNetwork\RequestBase.cs</Link>

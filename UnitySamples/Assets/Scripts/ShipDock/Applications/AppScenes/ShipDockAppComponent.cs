@@ -128,9 +128,9 @@ namespace ShipDock.Applications
             ShipDockApp.Instance.Clean();
         }
 
-        protected virtual AppHotFixConfigBase GetAppHotFixConfig()
+        protected virtual void StartILRuntime()
         {
-            return new AppHotFixConfigBase();
+            ShipDockApp.Instance.InitILRuntime<AppHotFixConfigBase>();
         }
 
         /// <summary>
@@ -142,10 +142,8 @@ namespace ShipDock.Applications
             if (hotFixSubgroup.applyILRuntime && !string.IsNullOrEmpty(hotFixSubgroup.initerNameInResource))
             {
 #if ILRUNTIME
-                IAppILRuntime app = ShipDockApp.Instance;
-                app.SetHotFixSetting(new ILRuntimeHotFix(app), GetAppHotFixConfig());
+                StartILRuntime();
 #endif
-
                 GameObject mainBridge = Resources.Load<GameObject>(hotFixSubgroup.initerNameInResource);
                 mainBridge = Instantiate(mainBridge);
 

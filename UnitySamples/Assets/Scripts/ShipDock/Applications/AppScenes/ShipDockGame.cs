@@ -491,7 +491,7 @@ namespace ShipDock.Applications
 
             if (PlayerPrefs.HasKey(allPrefsKey))
             {
-                if (allPrefsCode >= 0)
+                if (allPrefsCode > 0)
                 {
                     codeCached = PlayerPrefs.GetInt(allPrefsKey);
                     hasDelAllPrefs = codeCached != allPrefsCode;//只要不同即可清空偏好

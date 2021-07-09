@@ -43,7 +43,11 @@ namespace ShipDock.Applications
 
     /// <summary>
     /// 
-    /// 运行时热更管理器，用于实现全局可访问的 AppDomain
+    /// ILRuntime 热更核心类
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// 用于实现全局可访问的 AppDomain 并创建以反射方式访问主工程的方法缓存对象
     /// 
     /// </summary>
     public class ILRuntimeHotFix
@@ -100,7 +104,7 @@ namespace ShipDock.Applications
 
         public ILRuntimeHotFix(IAppILRuntime app)
         {
-            this.InitFromApp(app);
+            this.SetOwner(app);
 
             ILAppDomain = new AppDomain();
             MethodCacher = new ILMethodCacher();
@@ -135,7 +139,10 @@ namespace ShipDock.Applications
         }
 
         /// <summary>
-        /// 重新读取热更脚本时调用此方法（未完成，需要在ILRuntime中增加统一释放的代码）
+        /// 重新读取热更脚本时调用此方法
+        /// 
+        /// TODO 需要在ILRuntime中增加统一释放的代码）
+        /// 
         /// </summary>
         public void Reset()
         {
@@ -154,7 +161,7 @@ namespace ShipDock.Applications
         {
             Reset();
 
-            this.ClearExtension();
+            this.ClearGlobal();
 
             MethodCacher = default;
             ILAppDomain = default;

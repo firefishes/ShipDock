@@ -104,7 +104,7 @@ namespace ShipDock.HotFix
 
         private HotFixClient()
         {
-            "log".Log("HotFixClient");
+            "log".Log("Application run with all in hot fix client..");
 
             mStateMapper = new KeyValueList<IState, IUpdate>();
             mFSMMapper = new KeyValueList<IStateMachine, IUpdate>();

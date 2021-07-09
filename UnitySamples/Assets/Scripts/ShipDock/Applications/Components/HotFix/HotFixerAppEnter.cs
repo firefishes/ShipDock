@@ -41,7 +41,8 @@ namespace ShipDock.Applications
 
 #if ILRUNTIME
             ShipDockApp app = ShipDockApp.Instance;
-            app.SetHotFixSetting(new ILRuntimeHotFix(ShipDockApp.Instance), new T());
+            //app.SetHotFixSetting(new ILRuntimeHotFix(ShipDockApp.Instance), new T());
+            app.InitILRuntime<T>();
             app.ILRuntimeHotFix.Start();
 #endif
             base.Init();

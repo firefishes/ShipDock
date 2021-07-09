@@ -9,23 +9,23 @@ using ParamBuilderAction = System.Action<ILRuntime.Runtime.Enviorment.Invocation
 
 public static class ILRuntimeUtils
 {
-    private static IAppILRuntime frameworkApp;
+    private static IAppILRuntime ownerApp;
     private static AppDomain appDomain;
     private static ILMethodCacher methodCacher;
 
-    public static void InitFromApp(this ILRuntimeHotFix target, IAppILRuntime app)
+    public static void SetOwner(this ILRuntimeHotFix target, IAppILRuntime app)
     {
-        frameworkApp = app;
+        ownerApp = app;
     }
 
     public static IAppILRuntime GetAppILRuntime(this ILRuntimeHotFix target)
     {
-        return frameworkApp;
+        return ownerApp;
     }
 
     public static ILRuntimeHotFix GetILRuntimeHotFix()
     {
-        return frameworkApp.ILRuntimeHotFix;
+        return ownerApp.ILRuntimeHotFix;
     }
 
     private static AppDomain ILAppDomain()
@@ -50,11 +50,11 @@ public static class ILRuntimeUtils
         return methodCacher;
     }
 
-    public static void ClearExtension(this ILRuntimeHotFix target)
+    public static void ClearGlobal(this ILRuntimeHotFix target)
     {
         appDomain = default;
         methodCacher = default;
-        frameworkApp = default;
+        ownerApp = default;
     }
 
     /// <summary>

@@ -43,9 +43,11 @@ namespace ShipDock.Network
         protected List<HTTPJsonRequestInfo> mRequestInfoList;//客户端请求队列
         protected List<HTTPJsonRequestInfo> mRequestInfosNoWaiting;//客户端请求队列(不需要转圈的)
 
+        protected IEncryptionHelper EncryptionHelper { get; private set; }
+
         public ServiceURL Services { get; protected set; }
         public Action<bool> onLoadingAlert { get; set; }
-        public Func<string> OnGetTokenKey { get; set; }
+        public Func<string> OnGetTokenAuthorization { get; set; }
         public Action<string> onNetError { get; set; }
         public Action<string> onServiceError { get; set; }
         public MonoBehaviour ComponentOnwer { get; set; }
@@ -57,6 +59,8 @@ namespace ShipDock.Network
             "log".Log("Http driver singleton inited.");
             mRequestInfoList = new List<HTTPJsonRequestInfo>();
             mRequestInfosNoWaiting = new List<HTTPJsonRequestInfo>();
+
+            InitEncryptionHelper();
 
             StartUpdater?.Invoke(true, Update);
         }
@@ -75,6 +79,11 @@ namespace ShipDock.Network
         {
             Services = services;
         }
+
+        protected virtual void InitEncryptionHelper()
+        {
+            EncryptionHelper = new RSACryptoHelper();
+        }
         #endregion
 
         #region 销毁
@@ -85,7 +94,7 @@ namespace ShipDock.Network
             onLoadingAlert = default;
             StartUpdater = default;
             ComponentOnwer = default;
-            OnGetTokenKey = default;
+            OnGetTokenAuthorization = default;
         }
         #endregion
 
@@ -454,13 +463,13 @@ namespace ShipDock.Network
                     engine = CreateRequestByWWWForm(requestURL, data);
                     engine.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 }
-                engine.SetRequestHeader("Authorization", "Basic ".Append(appCode));
+                SetAppCodeAuthorization(ref engine);
             }
             else
             {
                 engine = CreateRequestByDictionary(requestURL, data);
                 engine.SetRequestHeader("Content-Type", "application/json");
-                engine.SetRequestHeader("Authorization", "Bearer ".Append(OnGetTokenKey?.Invoke()));
+                SetTokenKeyAuthorization(ref engine);
             }
             return engine;
         }
@@ -472,13 +481,32 @@ namespace ShipDock.Network
 
             if (mURLRequestBasic.Contains(requestURL))
             {
-                engine.SetRequestHeader("Authorization", "Basic ".Append(appCode));
+                SetAppCodeAuthorization(ref engine);
             }
             else
             {
-                engine.SetRequestHeader("Authorization", "Bearer ".Append(OnGetTokenKey?.Invoke()));
+                SetTokenKeyAuthorization(ref engine);
             }
             return engine;
+        }
+
+        private void SetAppCodeAuthorization(ref UnityWebRequest engine)
+        {
+            if (!string.IsNullOrEmpty(appCode))
+            {
+                engine.SetRequestHeader("Authorization", "Basic ".Append(appCode));
+            }
+            else { }
+        }
+
+        private void SetTokenKeyAuthorization(ref UnityWebRequest engine)
+        {
+            if (OnGetTokenAuthorization != default)
+            {
+                string tokenKey = OnGetTokenAuthorization.Invoke();
+                engine.SetRequestHeader("Authorization", "Bearer ".Append(tokenKey));
+            }
+            else { }
         }
 
         private UnityWebRequest CreateRequestByDictionary(string requestURL, Dictionary<string, string> data)
@@ -523,7 +551,7 @@ namespace ShipDock.Network
             dataByte = default;
             try
             {
-                string str = StaticFunction.Instance.RSAEncrypt(source, publicKey);
+                string str = EncryptionHelper.Encrypt(source, publicKey);
                 dataByte = Encoding.UTF8.GetBytes(str);
             }
             catch

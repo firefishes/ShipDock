@@ -228,13 +228,6 @@ namespace ShipDock.Testers
         }
 
         [System.Diagnostics.Conditional("G_LOG")]
-        public void Log(UnityEngine.Object logSignTarget, params string[] args)
-        {
-            mLogSignTarget = logSignTarget;
-            Log(string.Empty, args);
-        }
-
-        [System.Diagnostics.Conditional("G_LOG")]
         public void Log(string logID, UnityEngine.Object logSignTarget, params string[] args)
         {
             mLogSignTarget = logSignTarget;

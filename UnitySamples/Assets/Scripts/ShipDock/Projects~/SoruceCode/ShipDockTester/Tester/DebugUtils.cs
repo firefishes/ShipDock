@@ -210,17 +210,6 @@ namespace ShipDock.Testers
             }
         }
 
-        public static void LogInColorAndLocation(UnityEngine.Object target, params string[] contents)
-        {
-#if !RELEASE
-            LogInColor(contents);
-            if (target != null)
-            {
-                Debug.Log("点击以定位", target);
-            }
-#endif
-        }
-
         public static void SetLogTextUI(ref Text target)
         {
             logText = target;
