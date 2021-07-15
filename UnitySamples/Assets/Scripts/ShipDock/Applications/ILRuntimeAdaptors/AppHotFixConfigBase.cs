@@ -93,7 +93,7 @@ public class AppHotFixConfigBase : IHotFixConfig
         appdomain.DelegateManager.RegisterFunctionDelegate<Dictionary<int, Dictionary<int, ShipDock.Config.IConfig>>>();
         appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean>();
         appdomain.DelegateManager.RegisterMethodDelegate<System.String[]>();
-        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.UI.UIManager, ShipDock.UI.IUIStack>();
+        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.UI.UIManager, ShipDock.UI.IUIStack>();        appdomain.DelegateManager.RegisterMethodDelegate<System.Single, System.Int32, System.Int32>();
         appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.Boolean>>((act) =>
         {
             return new UnityEngine.Events.UnityAction<System.Boolean>((arg0) =>

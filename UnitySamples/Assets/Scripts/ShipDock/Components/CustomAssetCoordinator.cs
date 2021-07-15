@@ -18,6 +18,7 @@ namespace ShipDock.Loader
         [SerializeField]
         private bool m_RemoveEmptyAssets;
 
+        private ComponentBridge mBridge;
         private CustomAssetBundle mCustomAssetBundle;
 
         private void Awake()
@@ -26,13 +27,15 @@ namespace ShipDock.Loader
             {
                 mCustomAssetBundle = new CustomAssetBundle();
 
-                ComponentBridge bridge = new ComponentBridge(OnAppReady);
-                bridge.Start();
+                mBridge = new ComponentBridge(OnAppReady);
+                mBridge.Start();
             }
+            else { }
         }
 
         private void OnDestroy()
         {
+            Utils.Reclaim(mBridge);
             Utils.Reclaim(mCustomAssetBundle);
             Utils.Reclaim(ref m_Assets);
         }
@@ -52,6 +55,8 @@ namespace ShipDock.Loader
                     m_Assets.Add(list[i]);
                 }
             }
+            else { }
+
             if (m_RemoveEmptyAssets)
             {
                 m_RemoveEmptyAssets = false;
@@ -63,10 +68,12 @@ namespace ShipDock.Loader
                     {
                         list.Add(m_Assets[i]);
                     }
+                    else { }
                 }
                 m_Assets.Clear();
                 m_Assets = list;
             }
+            else { }
         }
 #endif
 
@@ -115,6 +122,7 @@ namespace ShipDock.Loader
             {
                 m_Assets.Add(item);
             }
+            else { }
         }
 
         [ContextMenu("写入信息体")]

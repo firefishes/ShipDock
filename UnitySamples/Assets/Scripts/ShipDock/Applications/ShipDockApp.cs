@@ -494,7 +494,7 @@ namespace ShipDock.Applications
 
         public void Clean()
         {
-            Framework.Instance.IsStarted = false;
+            IsStarted = false;
 
             ShipDockConsts.NOTICE_APPLICATION_CLOSE.Broadcast();
 

@@ -244,5 +244,13 @@ namespace ShipDock.Applications
         {
             GameComponent = comp;
         }
+
+        /// <summary>
+        /// 重启
+        /// </summary>
+        public virtual void ReloadFrameworkScene()
+        {
+            GameComponent.RestartAndReloadScene();
+        }
     }
 }

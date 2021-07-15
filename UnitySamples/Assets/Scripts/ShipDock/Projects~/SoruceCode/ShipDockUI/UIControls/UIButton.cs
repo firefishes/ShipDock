@@ -22,7 +22,22 @@ namespace ShipDock.UIControls
         private UnityAction mOnClicked;
 
         public bool AutoReset { get; set; }
-        public bool Interactable { get; private set; }
+
+        public bool Interactable
+        {
+            get
+            {
+                return mButton != default ? mButton.interactable : false;
+            }
+            set
+            {
+                if (mButton != default)
+                {
+                    mButton.interactable = value;
+                }
+                else { }
+            }
+        }
 
         public string Label
         {
@@ -44,7 +59,6 @@ namespace ShipDock.UIControls
         public UIButton(Button button, UnityAction onClick, string labelValue = "", Text label = default, bool autoReset = true) : base()
         {
             mButton = button;
-            Interactable = mButton.interactable;
 
             AddReferenceUI("btn", button.gameObject);
 
@@ -120,44 +134,19 @@ namespace ShipDock.UIControls
         public void ResetClick()
         {
             Interactable = true;
-
-            if (mButton != default)
-            {
-                mButton.interactable = Interactable;
-            }
-            else { }
         }
 
         protected override void InitUI() { }
 
         protected override void PropertiesChanged()
         {
-            if (Interactable)
+            if (!AutoReset)
             {
-                mOnClicked?.Invoke();
-
                 Interactable = false;
-
-                if (AutoReset)
-                {
-                    UIValid();
-                }
-                else { }
-            }
-            else
-            {
-                if (AutoReset)
-                {
-                    Interactable = true;
-                }
-                else { }
-            }
-
-            if (mButton != default)
-            {
-                mButton.interactable = Interactable;
             }
             else { }
+
+            mOnClicked?.Invoke();
         }
 
         public override void SetVisible(bool value, string name = "")

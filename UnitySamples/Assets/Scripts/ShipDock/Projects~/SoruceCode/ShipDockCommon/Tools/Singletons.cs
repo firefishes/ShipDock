@@ -15,19 +15,20 @@ namespace ShipDock.Tools
         private string SINGLETON_ERROR = "'s singleton is exsited.";
         private static T instance;
 
-        private static void CheckInstanceNull()
+        private static void CheckInstanceEmpty()
         {
             if (instance == null)
             {
                 instance = new T();
             }
+            else { }
         }
 
         public static T Instance
         {
             get
             {
-                CheckInstanceNull();
+                CheckInstanceEmpty();
                 return instance;
             }
         }
@@ -39,6 +40,7 @@ namespace ShipDock.Tools
             {
                 throw new Exception(typeof(T).Name.Append(SINGLETON_ERROR));
             }
+            else { }
         }
 
         public virtual void Dispose()

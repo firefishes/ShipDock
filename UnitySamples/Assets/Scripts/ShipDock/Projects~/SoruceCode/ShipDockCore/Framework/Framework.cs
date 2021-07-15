@@ -71,8 +71,11 @@ namespace ShipDock
         /// <summary>清除定制框架</summary>
         public void Clean()
         {
+            IsStarted = false;
             App?.Clean();
+            App = default;
             Utils.Reclaim(ref mUnits);
+            mUnits = new KeyValueList<int, IFrameworkUnit>();
         }
 
         /// <summary>为定制框架创建桥接单元</summary>
@@ -144,6 +147,7 @@ namespace ShipDock
         /// <param name="onStartUp">定制框架启动后的回调函数</param>
         public void InitCustomFramework(ICustomFramework app, int ticks, Action onStartUp = default)
         {
+            UnityEngine.Debug.Log("App " + App == default);
             if (App == default)
             {
                 App = app;

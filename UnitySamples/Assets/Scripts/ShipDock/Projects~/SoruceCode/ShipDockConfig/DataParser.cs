@@ -65,7 +65,7 @@ namespace ShipDock.Config
             return result;
         }
 
-        public static float[] ParseParamToFloats(ref string data, float multiplying = -1f)
+        public static float[] ParseParamToFloats(ref string data, float multiplying = 0f)
         {
             string temp = data;
 
@@ -77,7 +77,7 @@ namespace ShipDock.Config
             float[] result = new float[max];
             for (int i = 0; i < max; i++)
             {
-                if (multiplying >= 0f)
+                if (multiplying != 0f)
                 {
                     value = int.Parse(splits[i]);
                     result[i] = value * multiplying;
@@ -129,7 +129,7 @@ namespace ShipDock.Config
             }
         }
 
-        public static Vector3 ParseParamToVector3(ref string data, float multiplying = -1f)
+        public static Vector3 ParseParamToVector3(ref string data, float multiplying = 0f)
         {
             float[] values = ParseParamToFloats(ref data, multiplying);
             return new Vector3(values[0], values[1], values[2]);

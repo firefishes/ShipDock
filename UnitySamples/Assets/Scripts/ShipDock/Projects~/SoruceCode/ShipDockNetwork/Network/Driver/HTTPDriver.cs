@@ -43,6 +43,7 @@ namespace ShipDock.Network
         protected List<HTTPJsonRequestInfo> mRequestInfoList;//客户端请求队列
         protected List<HTTPJsonRequestInfo> mRequestInfosNoWaiting;//客户端请求队列(不需要转圈的)
 
+        /// <summary>加解密辅助器</summary>
         protected IEncryptionHelper EncryptionHelper { get; private set; }
 
         public ServiceURL Services { get; protected set; }
@@ -50,7 +51,7 @@ namespace ShipDock.Network
         public Func<string> OnGetTokenAuthorization { get; set; }
         public Action<string> onNetError { get; set; }
         public Action<string> onServiceError { get; set; }
-        public MonoBehaviour ComponentOnwer { get; set; }
+        public MonoBehaviour ComponentOwner { get; set; }
         #endregion
 
         #region 初始化
@@ -93,7 +94,7 @@ namespace ShipDock.Network
 
             onLoadingAlert = default;
             StartUpdater = default;
-            ComponentOnwer = default;
+            ComponentOwner = default;
             OnGetTokenAuthorization = default;
         }
         #endregion
@@ -119,7 +120,7 @@ namespace ShipDock.Network
                 if (allowSend)
                 {
                     IEnumerator enumerator = SendRequest(requestType, requestURL, successResponse, errorResponse, data, timeOut, headerAPI);
-                    ComponentOnwer.StartCoroutine(enumerator);
+                    ComponentOwner.StartCoroutine(enumerator);
                 }
                 else { }
             }
@@ -207,7 +208,7 @@ namespace ShipDock.Network
                 if (allowSend)
                 {
                     IEnumerator enumerator = SendRequestNoWaiting(info);
-                    ComponentOnwer.StartCoroutine(enumerator);
+                    ComponentOwner.StartCoroutine(enumerator);
                 }
                 else { }
             }
@@ -230,7 +231,7 @@ namespace ShipDock.Network
                 if (allowSend)
                 {
                     IEnumerator enumerator = SendRequestWaiting(info);
-                    ComponentOnwer.StartCoroutine(enumerator);
+                    ComponentOwner.StartCoroutine(enumerator);
                 }
                 else { }
             }

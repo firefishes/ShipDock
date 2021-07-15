@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using ShipDock.Testers;
 using ShipDock.Tools;
+using UnityEngine.SceneManagement;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -58,6 +59,8 @@ namespace ShipDock.Applications
 #endif 
         private GameApplicationEvents m_GameAppEvents;
 
+        private string mFrameworkSceneName;
+
         public DevelopSubgroup DevelopSetting
         {
             get
@@ -90,9 +93,6 @@ namespace ShipDock.Applications
 
         private void OnDestroy()
         {
-            m_GameAppEvents.frameworkCloseEvent.Invoke();
-
-            m_GameAppEvents.frameworkCloseEvent.RemoveAllListeners();
             m_GameAppEvents.createTestersEvent.RemoveAllListeners();
             m_GameAppEvents.enterGameEvent.RemoveAllListeners();
             m_GameAppEvents.getDataProxyEvent.RemoveAllListeners();
@@ -104,15 +104,60 @@ namespace ShipDock.Applications
             m_GameAppEvents.serversFinishedEvent.RemoveAllListeners();
 
             ShipDockApp.Close();
-
             "debug".Log("ShipDock close.");
+
+            m_GameAppEvents.frameworkCloseEvent.Invoke();
+            m_GameAppEvents.frameworkCloseEvent.RemoveAllListeners();
         }
 
         private void Awake()
         {
+            mFrameworkSceneName = SceneManager.GetActiveScene().name;
+
             CheckLogColorSettings();
 
             CreateGame();
+        }
+
+        public void RestartAndReloadScene()
+        {
+            m_GameAppEvents.frameworkCloseEvent.AddListener(OnFrameworkCloseHandler);
+
+            Destroy(this);
+        }
+
+        private void OnFrameworkCloseHandler()
+        {
+            Scene scene = SceneManager.CreateScene("ShipDockScene_UnloadFramework");
+            SceneManager.SetActiveScene(scene);
+            SceneManager.MergeScenes(SceneManager.GetActiveScene(), scene);
+            GameObject[] list = scene.GetRootGameObjects();
+            int max = list.Length;
+            for (int i = 0; i < max; i++)
+            {
+                Destroy(list[i]);
+            }
+
+            SceneManager.sceneUnloaded += RemoveUnloadFrameworkScene;
+            SceneManager.UnloadSceneAsync(scene);
+        }
+
+        private void RemoveUnloadFrameworkScene(Scene scene)
+        {
+            SceneManager.sceneUnloaded -= RemoveUnloadFrameworkScene;
+
+            if (Application.isPlaying)
+            {
+                SceneManager.sceneLoaded += OnReloadStartUpScene;
+                SceneManager.LoadScene(mFrameworkSceneName);
+            }
+            else { }
+        }
+
+        private void OnReloadStartUpScene(Scene scene, LoadSceneMode mode)
+        {
+            SceneManager.sceneLoaded -= OnReloadStartUpScene;
+            SceneManager.SetActiveScene(scene);
         }
 
         public void CheckLogColorSettings()

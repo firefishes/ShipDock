@@ -1,4 +1,5 @@
 ﻿using ShipDock.Notices;
+using ShipDock.Tools;
 using UnityEngine;
 
 namespace ShipDock.Applications
@@ -33,13 +34,12 @@ namespace ShipDock.Applications
 
         private void OnDestroy()
         {
+            Utils.Reclaim(mCompBridge);
             mIsDestroyed = true;
         }
 
         private void OnInited()
         {
-            mCompBridge.Dispose();
-
             ShipDockConsts.NOTICE_APPLICATION_CLOSE.Add(OnAppClose);
 
             ShipDockApp.Instance.AssetsPooling.SetAssetsPoolComp(this);
@@ -51,6 +51,8 @@ namespace ShipDock.Applications
             {
                 return;
             }
+            else { }
+
             GameObject item;
             int count = transform.childCount;
             for (int i = 0; i < count; i++)
@@ -66,6 +68,7 @@ namespace ShipDock.Applications
             {
                 target.transform.SetParent(null);
             }
+            else { }
         }
 
         public void Collect(GameObject target, bool visible = false)
@@ -76,6 +79,7 @@ namespace ShipDock.Applications
             {
                 target.transform.SetParent(transform);
             }
+            else { }
 #endif
         }
     }

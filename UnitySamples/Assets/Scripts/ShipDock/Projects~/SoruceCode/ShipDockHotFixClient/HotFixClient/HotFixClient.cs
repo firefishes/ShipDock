@@ -3,6 +3,7 @@ using ShipDock.Commons;
 using ShipDock.Config;
 using ShipDock.Datas;
 using ShipDock.FSM;
+using ShipDock.HotFix;
 using ShipDock.Modulars;
 using ShipDock.Network;
 using ShipDock.Notices;
@@ -16,11 +17,11 @@ public static class HotFixClientExtensions
     public static Dictionary<int, ConfigT> GetConfig<ConfigT>(this string configName) where ConfigT : IConfig, new()
     {
         Dictionary<int, ConfigT> result = default;
-        int dataName = ShipDock.HotFix.HotFixClient.configsDataName;
-        int modularName = ShipDock.HotFix.HotFixClient.configsModularName;
+        int dataName = HotFixClient.configsDataName;
+        int modularName = HotFixClient.configsModularName;
         if (dataName != int.MaxValue && modularName != int.MaxValue)
         {
-            result = ShipDock.HotFix.HotFixClient.Instance.GetConfig<ConfigT>(dataName, modularName, configName, out _);
+            result = HotFixClient.Instance.GetConfig<ConfigT>(dataName, modularName, configName, out _);
         }
         else { }
 
@@ -31,11 +32,11 @@ public static class HotFixClientExtensions
     {
         if (isAdd)
         {
-            ShipDock.HotFix.HotFixClient.Instance.AddUpdate(handler);
+            HotFixClient.Instance.AddUpdate(handler);
         }
         else
         {
-            ShipDock.HotFix.HotFixClient.Instance.RemoveUpdate(handler);
+            HotFixClient.Instance.RemoveUpdate(handler);
         }
     }
 }
@@ -44,7 +45,7 @@ namespace ShipDock.HotFix
 {
     /// <summary>
     /// 
-    /// 完全热更新客户端
+    /// 完全热更新客户端单例类
     /// 
     /// 用于支持完全使用ILRuntime热更方式运行应用程序
     /// 
@@ -53,7 +54,9 @@ namespace ShipDock.HotFix
     /// </summary>
     public class HotFixClient
     {
+        /// <summary>配置相关的数据代理名</summary>
         public static int configsDataName = int.MaxValue;
+        /// <summary>配置相关的模块名</summary>
         public static int configsModularName = int.MaxValue;
 
         private static HotFixClient instance;
@@ -104,7 +107,7 @@ namespace ShipDock.HotFix
 
         private HotFixClient()
         {
-            "log".Log("Application run with all in hot fix client..");
+            "log".Log("Application will run almost in hot fix client..");
 
             mStateMapper = new KeyValueList<IState, IUpdate>();
             mFSMMapper = new KeyValueList<IStateMachine, IUpdate>();
@@ -122,7 +125,7 @@ namespace ShipDock.HotFix
             Sounds = new SoundEffects();
             Sounds.Init();
 
-            #region 对主工程框架重填充各热更端的功能单元，以使热更端获得原框架相同的所有功能
+            #region 对主工程框架中热更端需要覆盖的各功能单元做重填充，以使得相同功能的代码定义转移到热更端
             Framework framework = Framework.Instance;
             framework.ReloadUnit(new IFrameworkUnit[] {
                 framework.CreateUnitByBridge(Framework.UNIT_MODULARS, Modulars),

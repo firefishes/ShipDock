@@ -56,20 +56,22 @@ namespace ShipDock.Applications
         {
             base.Init();
 
+            mUIHotFixer = this;
+
+            HotFixerInteractor interacter = UIInteracterCreater?.Invoke();
+            interacter.SetUIModular(mUIHotFixer);
+
             if (UIInteracterHandler != default)
             {
                 mUI.Remove(UIModularHandler);
                 mUI.Add(UIInteracterHandler);
+                "log: UI {0} add modular handler (UIInteracterHandler), UI type is ".Log(mUI.ToString());
             }
             else { }
-
-            HotFixerInteractor interacter = UIInteracterCreater?.Invoke();
-            interacter.SetUIModular(this);
 
             mBridge = UIAgent.Bridge;
             mBridge.SetHotFixInteractor(interacter);
 
-            mUIHotFixer = interacter.UIModular;
             ILRuntimeUtils.InvokeMethodILR(mUIHotFixer, UIAgent.UIModularName, "UIInit", 0);
         }
 

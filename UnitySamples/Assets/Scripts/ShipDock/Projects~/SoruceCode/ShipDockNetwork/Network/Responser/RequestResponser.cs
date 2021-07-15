@@ -31,6 +31,12 @@ public static class JsonDataExtensions
         return string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
     }
 
+    public static bool Bool(this JsonData target, string key)
+    {
+        string value = target.GetDataFromMapper(key);
+        return bool.Parse(value);
+    }
+
     public static string String(this JsonData target, string key)
     {
         string value = target.GetDataFromMapper(key);
@@ -42,6 +48,8 @@ namespace ShipDock.Network
 {
     public class RequestResponser
     {
+        public string FailedKeyField { get; set; }
+        public string DataKeyField { get; set; }
         public JsonData ResultRoot { get; set; }
         public JsonData ResultData { get; set; }
         public Action<RequestResponser> OnSuccessed { get; set; }
@@ -57,9 +65,9 @@ namespace ShipDock.Network
             ResultRoot = JsonMapper.ToObject(data);
 
             IDictionary mapper = ResultRoot as IDictionary;
-            if (mapper.Contains("error_code"))
+            if (mapper.Contains(FailedKeyField))
             {
-                string errorCodeValue = ResultRoot["error_code"].ToString();
+                string errorCodeValue = ResultRoot[FailedKeyField].ToString();
                 int errorCode = int.Parse(errorCodeValue);
                 Failed?.Invoke(errorCode);
             }

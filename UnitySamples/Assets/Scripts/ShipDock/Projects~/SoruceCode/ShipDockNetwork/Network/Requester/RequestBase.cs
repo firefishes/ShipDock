@@ -11,6 +11,8 @@ namespace ShipDock.Network
         public string ServiceURL { get; private set; }
         public string KeyInURLServices { get; private set; }
         public string HeaderAPIKey { get; set; }
+        public string ResponseFailedKeyField { get; set; } = "error_code";
+        public string ResponseDataKeyField { get; set; } = "data";
         public ResponserIniter ResponserIniter { get; set; }
         public RequestResponser Resposer { get; set; }
         public Action BeforeSend { get; set; }
@@ -51,7 +53,11 @@ namespace ShipDock.Network
         {
             if (Resposer == default)
             {
-                Resposer = new RequestResponser();
+                Resposer = new RequestResponser()
+                {
+                    DataKeyField = ResponseDataKeyField,
+                    FailedKeyField = ResponseFailedKeyField,
+                };
             }
             else { }
 
