@@ -250,7 +250,7 @@ namespace ShipDock.Applications
         /// </summary>
         public virtual void ReloadFrameworkScene()
         {
-            GameComponent.RestartAndReloadScene();
+            GameComponent?.RestartAndReloadScene();
         }
     }
 }

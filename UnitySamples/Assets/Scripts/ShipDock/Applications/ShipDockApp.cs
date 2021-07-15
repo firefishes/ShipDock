@@ -527,6 +527,7 @@ namespace ShipDock.Applications
             StateMachines = default;
             AssetsPooling = default;
             ABs = default;
+            UIs = default;
             Locals = default;
             Effects = default;
             Tester = default;

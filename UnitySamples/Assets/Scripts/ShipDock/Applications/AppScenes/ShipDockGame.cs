@@ -128,15 +128,8 @@ namespace ShipDock.Applications
 
         private void OnFrameworkCloseHandler()
         {
-            Scene scene = SceneManager.CreateScene("ShipDockScene_UnloadFramework");
-            SceneManager.SetActiveScene(scene);
-            SceneManager.MergeScenes(SceneManager.GetActiveScene(), scene);
-            GameObject[] list = scene.GetRootGameObjects();
-            int max = list.Length;
-            for (int i = 0; i < max; i++)
-            {
-                Destroy(list[i]);
-            }
+            Scene scene = SceneManager.CreateScene("ShipDockScene_FrameworkClose");
+            SceneManager.SetActiveScene(scene);//使用新场景做为卸载中转，防止停止编辑器的运行后发生场景文件无法覆盖的报错
 
             SceneManager.sceneUnloaded += RemoveUnloadFrameworkScene;
             SceneManager.UnloadSceneAsync(scene);

@@ -51,6 +51,12 @@ namespace ShipDock.Applications
             Framework.Instance.Updates = this;
         }
 
+        private void OnDestroy()
+        {
+            mUpdatesCacher?.Dispose();
+            mUpdatesCacher = default;
+        }
+
         public void Init()
         {
             if ((int.MaxValue != m_AddItemNoticeName) && (int.MinValue != m_RemoveItemNoticeName))

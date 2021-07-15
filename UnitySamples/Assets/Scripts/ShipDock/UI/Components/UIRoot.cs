@@ -81,6 +81,12 @@ namespace ShipDock.UI
             m_OnAwaked?.Invoke(this);
         }
 
+        private void OnDestroy()
+        {
+            m_OnAwaked?.RemoveAllListeners();
+            m_OnAwaked = default;
+        }
+
         public void UpdateScaleRatio()
         {
             Vector2 resolution = m_CanvasScaler.referenceResolution;
