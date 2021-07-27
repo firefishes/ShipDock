@@ -24,6 +24,8 @@
         public const int NOTICE_CONFIG_PRELOADED = -1009;
         /// <summary>应用暂停</summary>
         public const int NOTICE_APPLICATION_PAUSE = -1010;
+        /// <summary>显示帧率</summary>
+        public const int NOTICE_FPS_SHOW = -1011;
 
         /// <summary>配置功能相关的服务容器名</summary>
         public const string SERVER_CONFIG = "ShipDockConfigServer";

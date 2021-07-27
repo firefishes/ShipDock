@@ -66,16 +66,31 @@ public static class NoticesExtensions
         else { }
     }
 
-    public static T BroadcastWithParam<T>(this int noticeName, T vs)
+    public static T BroadcastWithParam<T>(this int noticeName, T vs, bool applyPooling = false)
     {
-        ParamNotice<T> notice = new ParamNotice<T>
+        ParamNotice<T> notice;
+        if (applyPooling)
         {
-            ParamValue = vs
-        };
+            notice = Pooling<ParamNotice<T>>.Instance.FromPool();
+        }
+        else
+        {
+            notice = new ParamNotice<T>();
+        }
+        notice.ParamValue = vs;
+
         notice.SetNoticeName(noticeName);
         NotificatonsInt.Instance.Notificater?.Broadcast(notice);
         T result = notice.ParamValue;
-        notice.Dispose();
+
+        if (applyPooling)
+        {
+            Pooling<ParamNotice<T>>.Instance.ToPool(notice);
+        }
+        else
+        {
+            notice.Dispose();
+        }
         return result;
     }
 

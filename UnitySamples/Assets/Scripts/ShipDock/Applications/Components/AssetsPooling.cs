@@ -273,7 +273,8 @@ namespace ShipDock.Pooling
                 }
                 else
                 {
-                    Object.DestroyImmediate(target.gameObject);
+                    Debug.Log(target);
+                    Object.DestroyImmediate(target);
                 }
             }
             else

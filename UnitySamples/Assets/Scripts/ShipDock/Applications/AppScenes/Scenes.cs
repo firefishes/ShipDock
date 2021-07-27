@@ -11,10 +11,10 @@ namespace ShipDock.Applications
         private LoadSceneMode mLoadSceneMode;
         private Scene mPrevScene;
         private bool mSceneLoading;
-        private int mSceneBuildIndex;
-        private int mSceneBuildIndexWillClean;
-        private string mSceneNameWillLoad;
-        private string mSceneNameWillClean;
+        private int mSceneIndexLoad;
+        private int mSceneIndexClean;
+        private string mSceneNameLoad;
+        private string mSceneNameClean;
 
         public Scenes() { }
 
@@ -28,7 +28,7 @@ namespace ShipDock.Applications
         /// 清除指定场景，并根据场景名称加载新场景
         /// </summary>
         /// <param name="sceneName"></param>
-        public void LoadAndClearActivedScene(string sceneName, string cleanSceneName = "", LoadSceneMode sceneMode = LoadSceneMode.Additive)
+        public void ClearAndLoadScene(string sceneName, string cleanSceneName = "", LoadSceneMode sceneMode = LoadSceneMode.Additive)
         {
             if (mSceneLoading)
             {
@@ -39,8 +39,8 @@ namespace ShipDock.Applications
             mSceneLoading = true;
 
             mLoadSceneMode = sceneMode;
-            mSceneNameWillLoad = sceneName;
-            mSceneNameWillClean = cleanSceneName;
+            mSceneNameLoad = sceneName;
+            mSceneNameClean = cleanSceneName;
 
             LoadScene();
         }
@@ -49,7 +49,7 @@ namespace ShipDock.Applications
         /// 清除指定场景，并根据场景构建索引加载新场景
         /// </summary>
         /// <param name="sceneName"></param>
-        public void LoadAndClearActivedScene(int sceneIndex, int cleanSceneIndex = -1, LoadSceneMode sceneMode = LoadSceneMode.Additive)
+        public void ClearAndLoadScene(int sceneIndex, int cleanSceneIndex = -1, LoadSceneMode sceneMode = LoadSceneMode.Additive)
         {
             if (mSceneLoading)
             {
@@ -60,8 +60,8 @@ namespace ShipDock.Applications
             mSceneLoading = true;
 
             mLoadSceneMode = sceneMode;
-            mSceneBuildIndex = sceneIndex;
-            mSceneBuildIndexWillClean = cleanSceneIndex;
+            mSceneIndexLoad = sceneIndex;
+            mSceneIndexClean = cleanSceneIndex;
 
             LoadScene();
         }
@@ -70,13 +70,13 @@ namespace ShipDock.Applications
         {
             mPrevScene = default;
 
-            if (!string.IsNullOrEmpty(mSceneNameWillClean))
+            if (!string.IsNullOrEmpty(mSceneNameClean))
             {
-                mPrevScene = SceneManager.GetSceneByName(mSceneNameWillClean);
+                mPrevScene = SceneManager.GetSceneByName(mSceneNameClean);
             }
-            else if (mSceneBuildIndexWillClean != -1)
+            else if (mSceneIndexClean != -1)
             {
-                mPrevScene = SceneManager.GetSceneByBuildIndex(mSceneBuildIndexWillClean);
+                mPrevScene = SceneManager.GetSceneByBuildIndex(mSceneIndexClean);
             }
             else { }
 
@@ -85,11 +85,13 @@ namespace ShipDock.Applications
                 Scene scene = SceneManager.CreateScene("ShipDockScene_Unload");
                 SceneManager.SetActiveScene(scene);
 
+                GameObject item;
                 GameObject[] list = mPrevScene.GetRootGameObjects();
                 int max = list.Length;
                 for (int i = 0; i < max; i++)
                 {
-                    SceneManager.MoveGameObjectToScene(list[i], scene);
+                    item = list[i];
+                    SceneManager.MoveGameObjectToScene(item, scene);
                 }
 
                 SceneManager.sceneUnloaded += RemoveUnloadScene;
@@ -123,13 +125,13 @@ namespace ShipDock.Applications
                 }
                 else { }
 
-                if (!string.IsNullOrEmpty(mSceneNameWillLoad))
+                if (!string.IsNullOrEmpty(mSceneNameLoad))
                 {
-                    SceneManager.LoadScene(mSceneNameWillLoad, mLoadSceneMode);
+                    SceneManager.LoadSceneAsync(mSceneNameLoad, mLoadSceneMode);
                 }
-                else if (mSceneBuildIndex >= 0)
+                else if (mSceneIndexLoad >= 0)
                 {
-                    SceneManager.LoadScene(mSceneBuildIndex, mLoadSceneMode);
+                    SceneManager.LoadSceneAsync(mSceneIndexLoad, mLoadSceneMode);
                 }
                 else { }
             }
@@ -149,10 +151,10 @@ namespace ShipDock.Applications
             SceneManager.SetActiveScene(scene);
             mSceneLoading = false;
 
-            mSceneBuildIndex = -1;
-            mSceneBuildIndexWillClean = -1;
-            mSceneNameWillLoad = string.Empty;
-            mSceneNameWillClean = string.Empty;
+            mSceneIndexLoad = -1;
+            mSceneIndexClean = -1;
+            mSceneNameLoad = string.Empty;
+            mSceneNameClean = string.Empty;
         }
     }
 

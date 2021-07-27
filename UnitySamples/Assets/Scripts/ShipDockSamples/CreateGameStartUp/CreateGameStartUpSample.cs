@@ -2,11 +2,10 @@
 
 public class CreateGameStartUpSample : ShipDockAppComponent
 {
-    private static int reloadTime = 3;
-
+    private int mReloadTime = 3;
     private string mLog = "Hello ShipDock..";
     private string mSampleExplain = "\n点击编辑器菜单栏中的 ShipDock/Create Application 菜单自动生成框架应用预制体，\n并挂一个继承自 ShipDockAppComponent 的组件（例如本案例的 CreateGameStartUpSample 组件），\n即可开始使用 ShpiDock 框架）";
-    private string mLogWithParam = "log:\n|--------------------\n| 即将演示 {0} 重启，并在最后一次重启关闭 ShipDock 框架\n|--------------------";
+    private string mLogWithParam = "log:\n|--------------------\n| 即将演示 {0} 次重启，并在最后一次重启关闭 ShipDock 框架\n|--------------------";
 
     protected override string GetLocalsDescription<T>(ref string locals, ref T item)
     {
@@ -18,11 +17,9 @@ public class CreateGameStartUpSample : ShipDockAppComponent
         base.EnterGameHandler();
 
         //从这里开始，编写游戏逻辑
-        bool logFilters = reloadTime == 3;
-
         "log".Log(mLog);
         this.LogAndLocated("log", mSampleExplain);
-        mLogWithParam.Log(reloadTime.ToString());
+        mLogWithParam.Log(mReloadTime.ToString());
         //GameObject raw = ShipDockApp.Instance.ABs.Get("aa", "a");
         //Instantiate(raw);
 
@@ -31,8 +28,8 @@ public class CreateGameStartUpSample : ShipDockAppComponent
 
         TimeUpdater.New(5f, () =>
         {
-            reloadTime--;
-            if (reloadTime <= 0)
+            mReloadTime--;
+            if (mReloadTime <= 0)
             {
                 Destroy(GameComponent.gameObject);//通过销毁框架模板组件所在的物体，达到关闭框架的目的
             }

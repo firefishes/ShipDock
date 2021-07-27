@@ -92,6 +92,7 @@ namespace ShipDock.Pooling
             {
                 instance = this;
             }
+            else { }
 
             if (pool != default)
             {
@@ -109,6 +110,8 @@ namespace ShipDock.Pooling
             {
                 AllPools.AddReset(ClearPool);
             }
+            else { }
+
             mLock = new object();
         }
 
@@ -161,6 +164,7 @@ namespace ShipDock.Pooling
                 {
                     result = new T();
                 }
+                else { }
 
                 return result;
             }
@@ -173,6 +177,7 @@ namespace ShipDock.Pooling
             {
                 return;
             }
+            else { }
 
             target.Revert();
 
@@ -182,6 +187,7 @@ namespace ShipDock.Pooling
                 mInstanceCount++;
                 UsedCount--;
             }
+            else { }
 #if UNITY_EDITOR
             //if (AllPools.used.Contains(target))
             //{
@@ -197,6 +203,7 @@ namespace ShipDock.Pooling
             {
                 return false;
             }
+            else { }
 
             bool result = true;
             if (mPool != default)
@@ -205,7 +212,9 @@ namespace ShipDock.Pooling
                 {
                     result = false;
                 }
+                else { }
             }
+            else { }
             return result;
         }
 
@@ -224,9 +233,11 @@ namespace ShipDock.Pooling
                     {
                         (item as IDisposable).Dispose();
                     }
+                    else { }
                 }
                 mPool.Clear();
             }
+            else { }
             UsedCount = 0;
         }
 

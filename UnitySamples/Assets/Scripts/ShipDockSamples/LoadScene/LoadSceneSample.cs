@@ -17,9 +17,9 @@ public class LoadSceneSample : ShipDockAppComponent
             scenes.OnSceneLoaded = default;
             TimeUpdater.New(5f, () =>
             {
-                scenes.LoadAndClearActivedScene("LoadSceneSampleB", "LoadSceneSampleA");
+                scenes.ClearAndLoadScene("LoadSceneSampleB", "LoadSceneSampleA");
             });
         };
-        scenes.LoadAndClearActivedScene("LoadSceneSampleA", string.Empty);
+        scenes.ClearAndLoadScene("LoadSceneSampleA", string.Empty);
     }
 }

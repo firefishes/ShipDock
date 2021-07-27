@@ -41,6 +41,58 @@ public static class HotFixClientExtensions
     }
 }
 
+//namespace ShipDock.Applications
+//{
+//    public class CommonUpdaters
+//    {
+//        /// <summary>普通帧更新器的映射</summary>
+//        private KeyValueList<Action<int>, MethodUpdater> mUpdaterMapper;
+
+//        public CommonUpdaters()
+//        {
+//            mUpdaterMapper = new KeyValueList<Action<int>, MethodUpdater>();
+//        }
+
+//        public void Clean()
+//        {
+//            MethodUpdater updater;
+//            int max = mUpdaterMapper.Size;
+//            for (int i = 0; i < max; i++)
+//            {
+//                updater = mUpdaterMapper.GetValueByIndex(i);
+//                UpdaterNotice.RemoveSceneUpdater(updater);
+//                updater.Dispose();
+//            }
+//            mUpdaterMapper?.Clear();
+//        }
+
+//        public void AddUpdate(Action<int> method)
+//        {
+//            if (!mUpdaterMapper.ContainsKey(method))
+//            {
+//                MethodUpdater updater = new MethodUpdater
+//                {
+//                    Update = method
+//                };
+//                mUpdaterMapper[method] = updater;
+//                UpdaterNotice.AddSceneUpdater(updater);
+//            }
+//            else { }
+//        }
+
+//        public void RemoveUpdate(Action<int> method)
+//        {
+//            if (mUpdaterMapper.ContainsKey(method))
+//            {
+//                MethodUpdater updater = mUpdaterMapper.GetValue(method, true);
+//                UpdaterNotice.RemoveSceneUpdater(updater);
+//                updater.Dispose();
+//            }
+//            else { }
+//        }
+//    }
+//}
+
 namespace ShipDock.HotFix
 {
     /// <summary>
@@ -78,8 +130,8 @@ namespace ShipDock.HotFix
         private KeyValueList<IState, IUpdate> mStateMapper;
         /// <summary>各个状态机帧更新器的映射</summary>
         private KeyValueList<IStateMachine, IUpdate> mFSMMapper;
-        /// <summary>普通帧更新器的映射</summary>
-        private KeyValueList<Action<int>, MethodUpdater> mUpdaterMapper;
+        /// <summary>通用的帧更新管理器</summary>
+        private CommonUpdaters mCommonUpdaters;
         /// <summary>业务逻辑的全局配置</summary>
         private IConfig SettingsConfig { get; set; }
 
@@ -108,10 +160,10 @@ namespace ShipDock.HotFix
         private HotFixClient()
         {
             "log".Log("Application will run almost in hot fix client..");
+            mCommonUpdaters = new CommonUpdaters();
 
             mStateMapper = new KeyValueList<IState, IUpdate>();
             mFSMMapper = new KeyValueList<IStateMachine, IUpdate>();
-            mUpdaterMapper = new KeyValueList<Action<int>, MethodUpdater>();
 
             Modulars = new DecorativeModulars();
             Configs = new ConfigHelper();
@@ -314,27 +366,12 @@ namespace ShipDock.HotFix
 
         public void AddUpdate(Action<int> method)
         {
-            if (!mUpdaterMapper.ContainsKey(method))
-            {
-                MethodUpdater updater = new MethodUpdater
-                {
-                    Update = method
-                };
-                mUpdaterMapper[method] = updater;
-                UpdaterNotice.AddSceneUpdater(updater);
-            }
-            else { }
+            mCommonUpdaters.AddUpdate(method);
         }
 
         public void RemoveUpdate(Action<int> method)
         {
-            if (mUpdaterMapper.ContainsKey(method))
-            {
-                MethodUpdater updater = mUpdaterMapper.GetValue(method, true);
-                UpdaterNotice.RemoveSceneUpdater(updater);
-                updater.Dispose();
-            }
-            else { }
+            mCommonUpdaters.RemoveUpdate(method);
         }
 
         public void StartCorutine(System.Collections.IEnumerator target)
