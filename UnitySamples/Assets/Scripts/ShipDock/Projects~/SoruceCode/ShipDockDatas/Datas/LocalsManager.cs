@@ -22,6 +22,8 @@ namespace ShipDock.Datas
         private string[] mKeyPair;
         private Dictionary<string, string> mLanguage;
 
+        public string Local { get; private set; }
+
         public Locals()
         {
             mPairKeyIndex = 0;
@@ -36,6 +38,7 @@ namespace ShipDock.Datas
                 mLanguage.Clear();
                 mLanguage = null;
             }
+            else { }
         }
         
         public void SetLocal(string localKey = "")
@@ -44,13 +47,16 @@ namespace ShipDock.Datas
             {
                 SetLocalName(localKey);
             }
-            string fileName = "local_".Append(Local, ".txt");
+            else { }
+
             if (languageAssetBundle != default)
             {
+                string fileName = "local_".Append(Local, ".txt");
                 TextAsset data = languageAssetBundle.LoadAsset<TextAsset>(fileName);
                 string localsData = data.text;
                 FillLanguagesData(ref localsData, AddLocalsLanguageData);
             }
+            else { }
         }
 
         public void SetLocalName(string localKey)
@@ -64,25 +70,30 @@ namespace ShipDock.Datas
             {
                 SetLocalName(localKey);
             }
-            if (mLanguage == null)
+            else { }
+
+            if (mLanguage == default)
             {
                 mLanguage = new Dictionary<string, string>();
             }
+            else { }
 
             if (data != default)
             {
                 FillLanguagesData(ref data, AddLocalsLanguageData);
             }
+            else { }
         }
 
-        public string Language(string id, params string[] formats)
+        public void InitDefaultLanguages()
         {
-            if (mLanguage == null)
+            if (mLanguage == default)
             {
-                if (mLanguage == null)
+                if (mLanguage == default)
                 {
                     mLanguage = new Dictionary<string, string>();
                 }
+                else { }
 
                 TextAsset asset = Resources.Load<TextAsset>("local_default");//如果本地化数据未初始化则先从默认的本地化文本获取数据
                 if (asset != default)
@@ -90,7 +101,14 @@ namespace ShipDock.Datas
                     string data = asset.text;
                     FillLanguagesData(ref data, AddDefaultLanguageData);
                 }
+                else { }
             }
+            else { }
+        }
+
+        public string Language(string id, params string[] formats)
+        {
+            InitDefaultLanguages();
 
             string result = IsContainsLanguageID(ref id) ? mLanguage[id] : id;
 
@@ -99,6 +117,8 @@ namespace ShipDock.Datas
             {
                 result = string.Format(result, formats);
             }
+            else { }
+
             return result;
         }
 
@@ -116,6 +136,7 @@ namespace ShipDock.Datas
                 {
                     continue;
                 }
+                else { }
 
                 mKey = mKeyPair[mPairKeyIndex].Trim();
                 mValue = mKeyPair[mPairValueIndex].Trim();
@@ -144,6 +165,7 @@ namespace ShipDock.Datas
             {
                 mLanguage[mKey] = mValue;
             }
+            else { }
         }
 
         private void AddDefaultLanguageData()
@@ -153,6 +175,7 @@ namespace ShipDock.Datas
                 mKey = mKey.Substring(0, mKey.Length - mTail.Length);
                 mLanguage[mKey] = mValue;
             }
+            else { }
         }
 
         private bool IsInvalidPair(int len)
@@ -166,6 +189,8 @@ namespace ShipDock.Datas
             {
                 return true;
             }
+            else { }
+
             return key.IndexOf(tail, StringComparison.Ordinal) != -1;
         }
 
@@ -173,8 +198,6 @@ namespace ShipDock.Datas
         {
             return mLanguage != null && mLanguage.ContainsKey(id);
         }
-        
-        public string Local { get; private set; }
     }
 
 }

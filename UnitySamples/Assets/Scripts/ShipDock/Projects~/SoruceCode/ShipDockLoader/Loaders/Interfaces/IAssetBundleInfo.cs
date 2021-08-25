@@ -3,9 +3,16 @@ using UnityEngine;
 
 namespace ShipDock.Loader
 {
+    /// <summary>
+    /// 
+    /// 资源包信息接口
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public interface IAssetBundleInfo : IDispose
     {
-        int LoadCount { get; set; }
+        int BeingUsed { get; set; }
         T GetAsset<T>(string path) where T : Object;
         GameObject GetAsset(string path);
         AssetBundle Asset { get; }

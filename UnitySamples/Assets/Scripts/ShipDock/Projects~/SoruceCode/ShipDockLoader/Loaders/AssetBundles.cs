@@ -20,18 +20,26 @@ namespace ShipDock.Loader
         /// <summary>资源包的依赖清单</summary>
         public const string ASSET_BUNDLE_MANIFEST = "AssetBundleManifest";
 
+        /// <summary>资源引用ID列数，用于以引用方式获取资源的功能</summary>
         private const int IDColumnSize = 10;
 
+        /// <summary>定制资源对象</summary>
         private ICustomAssetBundle mCustomAssets;
+        /// <summary>资源包缓存</summary>
         private KeyValueList<string, IAssetBundleInfo> mCaches;
+        /// <summary>资源包依赖清单缓存</summary>
         private KeyValueList<string, AssetBundleManifest> mABManifests;
+        /// <summary>资源包名自动 id 集合</summary>
         private IntegerID<string> mABNameIDs = new IntegerID<string>();
+        /// <summary>资源名自动 id 集合</summary>
         private IntegerID<string> mAssetNameIDs = new IntegerID<string>();
+        /// <summary>资源母本对象的数据映射</summary>
         private KeyValueList<int, Object> mRawMapper = new KeyValueList<int, Object>();
+        /// <summary>资源副本对应的资源引用对象数据映射</summary>
         private KeyValueList<Object, AssetQuoteder> mAssetMapper = new KeyValueList<Object, AssetQuoteder>();
+        /// <summary>资源引用对象的集合</summary>
         private KeyValueList<int, AssetQuoteder> mQuotederMapper = new KeyValueList<int, AssetQuoteder>();
-        private KeyValueList<string, int> mBundlesCounter = new KeyValueList<string, int>();
-
+        /// <summary>资源主依赖清单名</summary>
         public string MainManifestName { get; private set; }
 
         public AssetBundles()
@@ -42,8 +50,14 @@ namespace ShipDock.Loader
 
         public void Dispose()
         {
+            mCustomAssets = default;
             Utils.Reclaim(ref mCaches, false, true);
             Utils.Reclaim(ref mABManifests, false, true);
+            Utils.Reclaim(ref mAssetMapper, false, true);
+            Utils.Reclaim(ref mQuotederMapper, false, true);
+            Utils.Reclaim(mABNameIDs);
+            Utils.Reclaim(mAssetNameIDs);
+            Utils.Reclaim(mRawMapper);
         }
 
         public void SetCustomBundles(ref ICustomAssetBundle value)
@@ -59,7 +73,7 @@ namespace ShipDock.Loader
         public T Get<T>(string name, string path) where T : Object
         {
             T result = (mCustomAssets != default) ? mCustomAssets.GetCustomAsset<T>(name, path) : default;
-            if((result == default) && HasBundel(name))
+            if ((result == default) && HasBundel(name))
             {
                 IAssetBundleInfo assetBundleInfo = mCaches[name];
                 result = assetBundleInfo.GetAsset<T>(path);
@@ -84,7 +98,7 @@ namespace ShipDock.Loader
 
         public bool Add(AssetBundle bundle)
         {
-            if(bundle == default)
+            if (bundle == default)
             {
                 return false;
             }
@@ -113,7 +127,7 @@ namespace ShipDock.Loader
             if (result)
             {
                 info = mCaches[name];
-                info.LoadCount++;
+                info.BeingUsed++;
             }
             else
             {
@@ -154,15 +168,15 @@ namespace ShipDock.Loader
                 IAssetBundleInfo info = mCaches.GetValue(name, unloadAllLoaded);
                 if (unloadAllLoaded)
                 {
-                    info.LoadCount = 0;
+                    info.BeingUsed = 0;
                 }
                 else
                 {
-                    info.LoadCount--;
+                    info.BeingUsed--;
                 }
 
-                "log:Asset bundle still relate {0}".Log(info.LoadCount > 0);
-                if (info.LoadCount <= 0)
+                "log:Asset bundle still relate {0}".Log(info.BeingUsed > 0);
+                if (info.BeingUsed <= 0)
                 {
                     "log:Asset bundle {0} removed".Log(name);
                     mABManifests.Remove(name);
@@ -234,38 +248,53 @@ namespace ShipDock.Loader
             }
             else
             {
-                quoteder = new AssetQuoteder(mAssetMapper, mQuotederMapper, mBundlesCounter, mRawMapper);
+                quoteder = new AssetQuoteder(ABBundleQuotedChanged, mAssetMapper, mQuotederMapper, mRawMapper);
                 quoteder.SetRaw(mapperID, ref abName, ref assetName, raw);
 #if LOG_ASSET_QUOTEDER
-                "log:New quote {0}, id is {1}, ab name is {2}, asset name is {3}"
-                    .Log(typeof(T).Name, id.ToString(), abName, assetName);
+                "log:New quote {0}, id is {1}, ab name is {2}, asset name is {3}".Log(typeof(T).Name, id.ToString(), abName, assetName);
 #endif
             }
             T result = quoteder.Instantiate<T>();
             return result;
         }
 
+        private int ABBundleQuotedChanged(string abName, bool isIncreaced)
+        {
+            IAssetBundleInfo info = mCaches[abName];
+            if (isIncreaced)
+            {
+                info.BeingUsed++;
+            }
+            else
+            {
+                info.BeingUsed--;
+            }
+            return info.BeingUsed;
+        }
+
         public void UnloadUselessAssetBundles(params string[] abNames)
         {
             bool isCustome = abNames.Length > 0;
-            List<string> list = isCustome ? new List<string>(abNames) : mBundlesCounter.Keys;
+            List<string> list = isCustome ? new List<string>(abNames) : mCaches.Keys;
 
-            string key;
+            string abName;
+            IAssetBundleInfo info;
             List<string> deletes = new List<string>();
             int max = list.Count;
             for (int i = 0; i < max; i++)
             {
-                key = list[i];
-                if (mBundlesCounter[key] == 0)
+                abName = list[i];
+                info = mCaches[abName];
+                if (info.BeingUsed == 0)
                 {
-                    deletes.Add(key);
+                    deletes.Add(abName);
                 }
                 else
                 {
 #if LOG_ASSET_QUOTEDER
                     if (isCustome)
                     {
-                        "error: {0} is using, count is {1}".Log(key, bundlesCounter[key].ToString());
+                        "error: {0} is using, count is {1}".Log(abName, mCaches[abName].BeingUsed.ToString());
                     }
                     else { }
 #endif
@@ -274,9 +303,8 @@ namespace ShipDock.Loader
             max = deletes.Count;
             for (int i = 0; i < max; i++)
             {
-                key = deletes[i];
-                mBundlesCounter.Remove(deletes[i]);
-                Remove(key, true);
+                abName = deletes[i];
+                Remove(abName, true);
             }
         }
 
@@ -311,8 +339,20 @@ namespace ShipDock.Loader
     }
 }
 
+/// <summary>
+/// 
+/// 资源包管理器相关的扩展方法类
+/// 
+/// add by Minghua.ji
+/// 
+/// </summary>
 public static class AssetBundlesExtensions
 {
+    /// <summary>
+    /// 从资源引用器销毁资源
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="isAutoDispose"></param>
     public static void DestroyFromQuote(this Object target, bool isAutoDispose = false)
     {
         AssetBundles abs = Framework.Instance.GetUnit<AssetBundles>(Framework.UNIT_AB);

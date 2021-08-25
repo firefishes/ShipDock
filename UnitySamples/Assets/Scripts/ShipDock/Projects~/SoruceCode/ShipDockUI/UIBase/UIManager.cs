@@ -65,10 +65,10 @@ namespace ShipDock.UI
             return mUICacher.GetUICache<T>(stackName);
         }
 
-        public T OpenResourceUI<T>(string resName) where T : Component
+        public T OpenResourceUI<T>(string resName, bool isUnique = true) where T : Component
         {
             T result;
-            if (mResourceUIMapper.TryGetValue(resName, out GameObject raw))
+            if (mResourceUIMapper.TryGetValue(resName, out GameObject raw) && !isUnique)
             {
                 if (raw != default)
                 {
@@ -85,7 +85,12 @@ namespace ShipDock.UI
                 raw = Resources.Load<GameObject>("ui/".Append(resName));
                 raw = UnityEngine.Object.Instantiate(raw, UIRoot.MainCanvas.transform);
                 result = raw.GetComponent<T>();
-                mResourceUIMapper[resName] = raw;
+
+                if (isUnique)
+                {
+                    mResourceUIMapper[resName] = raw;
+                }
+                else { }
             }
             return result;
         }

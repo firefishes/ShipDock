@@ -37,7 +37,7 @@ namespace ShipDock.Applications
 
         [SerializeField, Tooltip("多语言本地化标识")]
 #if ODIN_INSPECTOR
-        [LabelText("语言本地化参数"), Indent(1), ShowIf("@this.m_DevelopSubgroup.hasLocalsConfig == true")]
+        [LabelText("语言本地化参数"), Indent(1)]//, ShowIf("@this.m_DevelopSubgroup.hasLocalsConfig == true")]
 #endif 
         private string m_Locals = "CN";
 
@@ -229,10 +229,7 @@ namespace ShipDock.Applications
             }
             else { }
 
-            ParamNotice<bool> notice = Pooling<ParamNotice<bool>>.From();
-            notice.ParamValue = focus;
-            ShipDockConsts.NOTICE_APPLICATION_PAUSE.Broadcast(notice);
-            Pooling<ParamNotice<bool>>.To(notice);
+            ShipDockConsts.NOTICE_APPLICATION_PAUSE.BroadcastWithParam(focus, true);
         }
 
         protected virtual void BackgroundOperation(bool isCleanVersionCache)
@@ -306,7 +303,7 @@ namespace ShipDock.Applications
             "log".AssertLog("game", "ServerFinished");
 
             int configInitedNoticeName = m_DevelopSubgroup.configInitedNoticeName;
-            if (m_DevelopSubgroup.hasLocalsConfig && (configInitedNoticeName != int.MaxValue))
+            if (m_DevelopSubgroup.applyIoCLoadConfigs && (configInitedNoticeName != int.MaxValue))
             {
                 configInitedNoticeName.Add(OnConfigLoaded);//订阅一个配置初始化完成的消息
                 ServerContainerSubgroup server = m_DevelopSubgroup.loadConfig;

@@ -6,7 +6,13 @@ using UnityEngine;
 
 namespace ShipDock.Loader
 {
-
+    /// <summary>
+    /// 
+    /// 资源引用器
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public sealed class AssetQuoteder
     {
         public int MapperID { get; private set; }
@@ -14,23 +20,23 @@ namespace ShipDock.Loader
         public string ABName { get; private set; }
         public string AssetName { get; private set; }
 
-        private Object mRaw;
-
-        public KeyValueList<Object, AssetQuoteder> AssetMapper { get; private set; }
-        public KeyValueList<int, AssetQuoteder> QuotederMapper { get; private set; }
-        public KeyValueList<string, int> BundlesCounter { get; private set; }
-        public KeyValueList<int, Object> RawMapper { get; private set; }
+        /// <summary>资源母本</summary>
+        private Object Raw { get; set; }
+        private System.Func<string, bool, int> OnABBundleInUsed { get; set; }
+        private KeyValueList<Object, AssetQuoteder> AssetMapper { get; set; }
+        private KeyValueList<int, AssetQuoteder> QuotederMapper { get; set; }
+        private KeyValueList<int, Object> RawMapper { get; set; }
 
         public AssetQuoteder(
+            System.Func<string, bool, int> onABBundleInUsed,
             KeyValueList<Object, AssetQuoteder> assetMapper,
             KeyValueList<int, AssetQuoteder> quotederMapper,
-            KeyValueList<string, int> bundlesCounter,
             KeyValueList<int, Object> rawMapper)
         {
             AssetMapper = assetMapper;
             QuotederMapper = quotederMapper;
-            BundlesCounter = bundlesCounter;
             RawMapper = rawMapper;
+            OnABBundleInUsed = onABBundleInUsed;
         }
 
         public void Dispose()
@@ -46,21 +52,17 @@ namespace ShipDock.Loader
                 {
                     QuotederMapper.Remove(id);
                     CleanAllAsset();
-                    if (BundlesCounter.ContainsKey(ABName) && BundlesCounter[ABName] > 0)
-                    {
-                        BundlesCounter[ABName]--;
-                    }
-                    else { }
+                    RemoveAssetQuoted();
                 }
                 else { }
             }
             else { }
 
-            mRaw = default;
+            Raw = default;
             RawMapper = default;
             QuotederMapper = default;
             AssetMapper = default;
-            BundlesCounter = default;
+            OnABBundleInUsed = default;
             Count = 0;
         }
 
@@ -97,16 +99,18 @@ namespace ShipDock.Loader
 
         public void SetRaw(int id, ref string abName, ref string assetName, Object value)
         {
-            if (mRaw == default)
+            if (Raw == default)
             {
                 MapperID = id;
-                mRaw = value;
+                Raw = value;
                 ABName = abName;
                 AssetName = assetName;
                 Count = 0;
 
-                int rawID = mRaw.GetInstanceID();
+                int rawID = Raw.GetInstanceID();
                 QuotederMapper[rawID] = this;
+
+                AddAssetQuoted();
             }
             else { }
         }
@@ -114,53 +118,20 @@ namespace ShipDock.Loader
         public T Instantiate<T>() where T : Object
         {
             T result = default;
-            bool flag = mRaw != default;
+            bool flag = Raw != default;
             if (flag)
             {
-                result = Object.Instantiate((T)mRaw);
+                result = Object.Instantiate((T)Raw);
                 AssetMapper[result] = this;
                 Count++;
 
-                AddAssetBundleQuoted();
+                AddAssetQuoted();
 #if LOG_ASSET_QUOTEDER
                 "log:Get asset from quote {0}, total is {1}".Log(mRaw.name, Count.ToString());
 #endif
             }
             else { }
             return result;
-        }
-
-        private void AddAssetBundleQuoted()
-        {
-            if (BundlesCounter.ContainsKey(ABName))
-            {
-                BundlesCounter[ABName]++;
-            }
-            else
-            {
-                BundlesCounter[ABName] = 1;
-            }
-#if LOG_ASSET_QUOTEDER
-            "log:Asset bundle {0} quoted increaced to {1}".Log(ABName, BundlesCounter[ABName].ToString());
-#endif
-        }
-
-        private void RemoveAssetBundleQuoted()
-        {
-            if (BundlesCounter.ContainsKey(ABName))
-            {
-                int value = BundlesCounter[ABName];
-                if (value > 0)
-                {
-                    value--;
-                    BundlesCounter[ABName] = value;
-#if LOG_ASSET_QUOTEDER
-                    "log:Asset bundle {0} quoted reduced to {1}".Log(ABName, value.ToString());
-#endif
-                }
-                else { }
-            }
-            else { }
         }
 
         public void Destroy(Object target, bool checkIsExists = true, bool isAutoDispose = false)
@@ -182,12 +153,16 @@ namespace ShipDock.Loader
                 else { }
             }
             else { }
+
             AssetMapper.Remove(target);
+
 #if LOG_ASSET_QUOTEDER
             "log".Log("Destroy asset".Append(target.name, " count remains ", Count.ToString()));
 #endif
             Object.Destroy(target);
-            RemoveAssetBundleQuoted();
+
+            RemoveAssetQuoted();
+
             Count--;
             if (Count <= 0)
             {
@@ -198,6 +173,28 @@ namespace ShipDock.Loader
                 else { }
             }
             else { }
+        }
+
+        /// <summary>
+        /// 增加资源引用
+        /// </summary>
+        private void AddAssetQuoted()
+        {
+            int used = OnABBundleInUsed.Invoke(ABName, true);
+#if LOG_ASSET_QUOTEDER
+            "log:Asset bundle {0} quoted increaced {1}".Log(ABName, used.ToString());
+#endif
+        }
+
+        /// <summary>
+        /// 移除资源引用
+        /// </summary>
+        private void RemoveAssetQuoted()
+        {
+            int used = OnABBundleInUsed.Invoke(ABName, false);
+#if LOG_ASSET_QUOTEDER
+            "log:Asset bundle {0} quoted reduced to {1}".Log(ABName, used.ToString());
+#endif
         }
     }
 }

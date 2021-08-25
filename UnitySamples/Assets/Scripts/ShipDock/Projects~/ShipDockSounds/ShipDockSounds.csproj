@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C30FCAD-1031-418B-82EA-D95E11E833C4}</ProjectGuid>
+    <ProjectGuid>{B8E0747A-D236-4DFA-823D-7C8A3267BB03}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ShipDockUILib</RootNamespace>

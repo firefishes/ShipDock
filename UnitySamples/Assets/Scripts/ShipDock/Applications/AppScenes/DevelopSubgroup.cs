@@ -66,13 +66,13 @@ namespace ShipDock.Applications
 
         [Tooltip("是否包含多语言本地化配置")]
 #if ODIN_INSPECTOR
-        [LabelText("启用多语言本地化配置"), ShowIf("@this.startUpIoC")]
+        [LabelText("启用IoC初始化配置"), ShowIf("@this.startUpIoC")]
 #endif
-        public bool hasLocalsConfig = false;
+        public bool applyIoCLoadConfigs = false;
 
         [Tooltip("配置初始化完成的消息名")]
 #if ODIN_INSPECTOR
-        [LabelText("消息名 - 配置预加载"), ShowIf("@this.hasLocalsConfig == true && startUpIoC == true")]
+        [LabelText("消息名 - 配置预加载"), ShowIf("@this.applyIoCLoadConfigs == true && startUpIoC == true")]
 #endif 
         public int configInitedNoticeName = ShipDockConsts.NOTICE_CONFIG_PRELOADED;
 

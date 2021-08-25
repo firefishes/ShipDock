@@ -17,11 +17,12 @@ public static class HotFixClientExtensions
     public static Dictionary<int, ConfigT> GetConfig<ConfigT>(this string configName) where ConfigT : IConfig, new()
     {
         Dictionary<int, ConfigT> result = default;
-        int dataName = HotFixClient.configsDataName;
-        int modularName = HotFixClient.configsModularName;
+        HotFixClient hotFixClient = HotFixClient.Instance;
+        int dataName = hotFixClient.configsDataName;
+        int modularName = hotFixClient.configsModularName;
         if (dataName != int.MaxValue && modularName != int.MaxValue)
         {
-            result = HotFixClient.Instance.GetConfig<ConfigT>(dataName, modularName, configName, out _);
+            result = hotFixClient.GetConfig<ConfigT>(dataName, modularName, configName, out _);
         }
         else { }
 
@@ -41,58 +42,6 @@ public static class HotFixClientExtensions
     }
 }
 
-//namespace ShipDock.Applications
-//{
-//    public class CommonUpdaters
-//    {
-//        /// <summary>普通帧更新器的映射</summary>
-//        private KeyValueList<Action<int>, MethodUpdater> mUpdaterMapper;
-
-//        public CommonUpdaters()
-//        {
-//            mUpdaterMapper = new KeyValueList<Action<int>, MethodUpdater>();
-//        }
-
-//        public void Clean()
-//        {
-//            MethodUpdater updater;
-//            int max = mUpdaterMapper.Size;
-//            for (int i = 0; i < max; i++)
-//            {
-//                updater = mUpdaterMapper.GetValueByIndex(i);
-//                UpdaterNotice.RemoveSceneUpdater(updater);
-//                updater.Dispose();
-//            }
-//            mUpdaterMapper?.Clear();
-//        }
-
-//        public void AddUpdate(Action<int> method)
-//        {
-//            if (!mUpdaterMapper.ContainsKey(method))
-//            {
-//                MethodUpdater updater = new MethodUpdater
-//                {
-//                    Update = method
-//                };
-//                mUpdaterMapper[method] = updater;
-//                UpdaterNotice.AddSceneUpdater(updater);
-//            }
-//            else { }
-//        }
-
-//        public void RemoveUpdate(Action<int> method)
-//        {
-//            if (mUpdaterMapper.ContainsKey(method))
-//            {
-//                MethodUpdater updater = mUpdaterMapper.GetValue(method, true);
-//                UpdaterNotice.RemoveSceneUpdater(updater);
-//                updater.Dispose();
-//            }
-//            else { }
-//        }
-//    }
-//}
-
 namespace ShipDock.HotFix
 {
     /// <summary>
@@ -106,11 +55,6 @@ namespace ShipDock.HotFix
     /// </summary>
     public class HotFixClient
     {
-        /// <summary>配置相关的数据代理名</summary>
-        public static int configsDataName = int.MaxValue;
-        /// <summary>配置相关的模块名</summary>
-        public static int configsModularName = int.MaxValue;
-
         private static HotFixClient instance;
 
         public static HotFixClient Instance
@@ -125,6 +69,11 @@ namespace ShipDock.HotFix
                 return instance;
             }
         }
+
+        /// <summary>配置相关的数据代理名</summary>
+        public int configsDataName = int.MaxValue;
+        /// <summary>配置相关的模块名</summary>
+        public int configsModularName = int.MaxValue;
 
         /// <summary>状态机中各个状态帧更新器的映射</summary>
         private KeyValueList<IState, IUpdate> mStateMapper;
