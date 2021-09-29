@@ -12,6 +12,9 @@ namespace ShipDock.Notices
     /// </summary>
     public class Notice : INotice, IPoolable
     {
+        public virtual bool IsRecivedNotice { get; set; }
+        public virtual int Name { get; private set; }
+        public virtual INotificationSender NotifcationSender { get; set; }
 
         public Notice() { }
 
@@ -56,9 +59,5 @@ namespace ShipDock.Notices
         {
             return target == NotifcationSender;
         }
-
-        public virtual bool IsRecivedNotice { get; set; }
-        public virtual int Name { get; private set; }
-        public virtual INotificationSender NotifcationSender { get; set; }
     }
 }

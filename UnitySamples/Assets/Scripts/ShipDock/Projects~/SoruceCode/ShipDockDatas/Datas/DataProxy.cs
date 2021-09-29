@@ -25,7 +25,7 @@ namespace ShipDock.Datas
             mOnDataProxyNotify = default;
         }
 
-        public void DataNotify(params int[] keys)
+        public void DataNotifies(params int[] keys)
         {
             int max = keys.Length;
             if (max > 0)
@@ -41,6 +41,11 @@ namespace ShipDock.Datas
             {
                 mOnDataProxyNotify?.Invoke(this, int.MaxValue);
             }
+        }
+
+        public void DataNotify(int keyName)
+        {
+            mOnDataProxyNotify?.Invoke(this, keyName);
         }
 
         public virtual void Register(IDataExtracter dataHandler)

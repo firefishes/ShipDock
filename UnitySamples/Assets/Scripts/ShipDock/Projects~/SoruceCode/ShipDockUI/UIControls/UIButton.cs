@@ -1,4 +1,6 @@
-﻿using UnityEngine.Events;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace ShipDock.UIControls
@@ -18,11 +20,27 @@ namespace ShipDock.UIControls
         private Text mLabel;
         /// <summary>按钮标签值</summary>
         private string mLabelValue;
+        /// <summary>按钮索引</summary>
+        private int mIndex = -1;
         /// <summary>按钮点击后的回调函数</summary>
-        private UnityAction mOnClicked;
+        private UnityAction<UIButton> mButtonClickHandler;
+        /// <summary>按钮是否已被按下</summary>
+        private bool mClicked;
 
-        public bool AutoReset { get; set; }
+        public int Index
+        {
+            get
+            {
+                return mIndex;
+            }
+            set
+            {
+                mIndex = value;
+                UIValid();
+            }
+        }
 
+        /// <summary>按钮是否可交互</summary>
         public bool Interactable
         {
             get
@@ -39,6 +57,7 @@ namespace ShipDock.UIControls
             }
         }
 
+        /// <summary>按钮标题</summary>
         public string Label
         {
             get
@@ -56,56 +75,96 @@ namespace ShipDock.UIControls
             }
         }
 
-        public UIButton(Button button, UnityAction onClick, string labelValue = "", Text label = default, bool autoReset = true) : base()
+        /// <summary>按钮在交互后是否自动重置可用性</summary>
+        public bool AutoReset { get; set; }
+
+        public UIButton(Button button, UnityAction<UIButton> onClick, string labelValue = "", Text label = default, bool autoReset = true) : base()
         {
-            mButton = button;
-
-            AddReferenceUI("btn", button.gameObject);
-
-            if (label != default)
-            {
-                AddReferenceUI("label", label.gameObject);
-            }
-            else { }
-
             mLabel = label;
+            mButton = button;
             Label = labelValue;
+            AutoReset = autoReset;
 
             AddClick(onClick);
 
-            button.onClick.AddListener(OnClick);
-
-            AddClean(
-                (target) => {
-                    button.onClick.RemoveAllListeners();
-                });
-
-            AutoReset = autoReset;
+            Init();
         }
 
         protected override void Purge()
         {
             mButton = default;
             mLabel = default;
-            mOnClicked = default;
+            mButtonClickHandler = default;
+        }
+
+        protected override void InitUI()
+        {
+            UITransform = mButton.transform as RectTransform;
+
+            AddReferenceUI(UIControlReferenceName.UI_BTN, mButton.gameObject);
+            AddReferenceUI(UIControlReferenceName.UI_LABEL, mLabel != default ? mLabel.gameObject : default);
+        }
+
+        protected override void InitEvents()
+        {
+            mButton.onClick.AddListener(OnClick);
+            AddClean<UIBase>(OnCleanBtn);
+        }
+
+        private void OnCleanBtn(UIBase ui)
+        {
+            mButton.onClick.RemoveAllListeners();
+        }
+
+        /// <summary>
+        /// 重定向组件
+        /// </summary>
+        public void RedirectControl(Button button, Text label = default)
+        {
+            RedirectControl();
+
+            mLabel = label;
+            mButton = button;
+
+            if (mLabel != default)
+            {
+                mLabel.text = Label;
+            }
+            else { }
+
+            Init();
+        }
+
+        protected override void OnRedirect(UIBase control)
+        {
+            base.OnRedirect(control);
+
+            mButton.onClick.RemoveAllListeners();
+            RemoveClean<UIBase>(OnCleanBtn);
+
+            RemoveReferenceUI(UIControlReferenceName.UI_BTN, mButton.gameObject);
+            RemoveReferenceUI(UIControlReferenceName.UI_LABEL, mLabel != default ? mLabel.gameObject : default);
+
+            mButton = default;
+            mLabel = default;
         }
 
         /// <summary>
         /// 添加点击后的回调函数
         /// </summary>
         /// <param name="onClick"></param>
-        public void AddClick(UnityAction onClick)
+        public void AddClick(UnityAction<UIButton> onClick)
         {
-            mOnClicked += onClick;
+            mButtonClickHandler += onClick;
         }
 
         /// <summary>
         /// 移除点击后的回调函数
         /// </summary>
         /// <param name="onClick"></param>
-        public void RemoveClick(UnityAction onClick)
+        public void RemoveClick(UnityAction<UIButton> onClick)
         {
-            mOnClicked -= onClick;
+            mButtonClickHandler -= onClick;
         }
 
         /// <summary>
@@ -118,7 +177,7 @@ namespace ShipDock.UIControls
             {
                 mLabel = target;
                 mLabel.text = Label;
-                AddReferenceUI("label", target.gameObject);
+                AddReferenceUI(UIControlReferenceName.UI_LABEL, target.gameObject);
             }
             else { }
         }
@@ -128,6 +187,14 @@ namespace ShipDock.UIControls
         /// </summary>
         private void OnClick()
         {
+            if (mClicked)
+            {
+                return;
+            }
+            else { }
+
+            mClicked = true;
+
             UIValid();
         }
 
@@ -136,24 +203,28 @@ namespace ShipDock.UIControls
             Interactable = true;
         }
 
-        protected override void InitUI() { }
-
         protected override void PropertiesChanged()
         {
-            if (!AutoReset)
+            if (mClicked)
             {
-                Interactable = false;
+                if (!AutoReset)
+                {
+                    Interactable = false;
+                }
+                else { }
+
+                mButtonClickHandler?.Invoke(this);
             }
             else { }
 
-            mOnClicked?.Invoke();
+            mClicked = false;
         }
 
         public override void SetVisible(bool value, string name = "")
         {
             if (string.IsNullOrEmpty(name))
             {
-                name = "btn";
+                name = UIControlReferenceName.UI_BTN;
             }
             else { }
 

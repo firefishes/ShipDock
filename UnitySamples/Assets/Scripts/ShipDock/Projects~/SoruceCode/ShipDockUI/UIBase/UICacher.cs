@@ -1,6 +1,4 @@
-﻿#define _G_LOG
-
-using ShipDock.Tools;
+﻿using ShipDock.Tools;
 using System;
 using System.Collections.Generic;
 

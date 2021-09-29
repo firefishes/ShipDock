@@ -152,11 +152,13 @@ namespace ShipDock.Datas
             Dictionary<K, string>.Enumerator enumerator = data.GetEnumerator();
             for (int i = 0; i < max; i++)
             {
+                enumerator.MoveNext();
+
                 mKey = enumerator.Current.Key.ToString();
                 mValue = enumerator.Current.Value;
                 onAddLanguageData?.Invoke();
-                enumerator.MoveNext();
             }
+            enumerator.Dispose();
         }
 
         private void AddLocalsLanguageData()

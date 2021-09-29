@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="ShipDockTester">
       <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

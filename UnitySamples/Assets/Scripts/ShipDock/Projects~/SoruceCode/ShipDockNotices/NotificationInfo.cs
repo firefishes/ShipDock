@@ -8,6 +8,9 @@ namespace ShipDock.Notices
     public class NoticeHandlerEvent : UnityEvent<INoticeBase<int>> { }
 
     [Serializable]
+    public class NoticeBroadcastHandlerEvent : UnityEvent<INoticeBase<int>> { }
+
+    [Serializable]
     public class NotificationInfo
     {
         [SerializeField]
@@ -15,6 +18,14 @@ namespace ShipDock.Notices
         
         [SerializeField]
         private NoticeHandlerEvent m_NoticeEvent = new NoticeHandlerEvent();
+
+        public int NoticeName
+        {
+            get
+            {
+                return m_Notice;
+            }
+        }
 
         public void Init()
         {
@@ -29,14 +40,6 @@ namespace ShipDock.Notices
         private void OnNoticeListenerHandler(INoticeBase<int> param)
         {
             m_NoticeEvent?.Invoke(param);
-        }
-
-        public int NoticeName
-        {
-            get
-            {
-                return m_Notice;
-            }
         }
     }
 }

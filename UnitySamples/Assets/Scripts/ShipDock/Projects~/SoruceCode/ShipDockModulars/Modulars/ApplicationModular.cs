@@ -1,12 +1,49 @@
 ﻿using ShipDock.Notices;
+using System;
 
 namespace ShipDock.Modulars
 {
+    public sealed class ModularNoticeCreater
+    {
+        public int NoticeName { get; set; }
+        public Func<int, INoticeBase<int>> Handler { get; set; }
+
+        public ModularNoticeCreater(int noticeName, Func<int, INoticeBase<int>> handler)
+        {
+            NoticeName = noticeName;
+            Handler = handler;
+        }
+    }
+
+    public sealed class ModularNoticeDecorater
+    {
+        public int NoticeName { get; set; }
+        public Action<int, INoticeBase<int>> Handler { get; set; }
+
+        public ModularNoticeDecorater(int noticeName, Action<int, INoticeBase<int>> handler)
+        {
+            NoticeName = noticeName;
+            Handler = handler;
+        }
+    }
+
+    public sealed class ModularNoticeListener
+    {
+        public int NoticeName { get; set; }
+        public Action<INoticeBase<int>> Handler { get; set; }
+
+        public ModularNoticeListener(int noticeName, Action<INoticeBase<int>> handler)
+        {
+            NoticeName = noticeName;
+            Handler = handler;
+        }
+    }
+
     public abstract class ApplicationModular : IModular
     {
-        public virtual int[] ModularNoticeCreate { get; }
-        public virtual int[] ModularNoticeDecorater { get; }
-        public virtual int[] ModularNoticeListener { get; }
+        public virtual ModularNoticeCreater[] NoticeCreates { get; protected set; }
+        public virtual ModularNoticeDecorater[] NoticeDecoraters { get; protected set; }
+        public virtual ModularNoticeListener[] NoticeListeners { get; protected set; }
         public virtual int ModularName { get; protected set; }
 
         protected virtual IAppModulars Modulars { get; set; }
@@ -14,26 +51,32 @@ namespace ShipDock.Modulars
         public virtual void Dispose()
         {
             int noticeName;
-            int[] list = ModularNoticeCreate;
-            int max = list != default ? list.Length : 0;
+            ModularNoticeCreater creater;
+            ModularNoticeCreater[] createrList = NoticeCreates;
+            int max = createrList != default ? createrList.Length : 0;
             for (int i = 0; i < max; i++)
             {
-                noticeName = list[i];
-                Modulars.RemoveNoticeCreater(noticeName, NoticeCreater);
+                creater = createrList[i];
+                noticeName = creater.NoticeName;
+                Modulars.RemoveNoticeCreater(noticeName, creater.Handler);
             }
-            list = ModularNoticeDecorater;
-            max = list != default ? list.Length : 0;
+            ModularNoticeDecorater decorater;
+            ModularNoticeDecorater[] decoraterList = NoticeDecoraters;
+            max = decoraterList != default ? decoraterList.Length : 0;
             for (int i = 0; i < max; i++)
             {
-                noticeName = list[i];
-                Modulars.RemoveNoticeDecorator(noticeName, NoticeDecorator);
+                decorater = decoraterList[i];
+                noticeName = decorater.NoticeName;
+                Modulars.RemoveNoticeDecorator(noticeName, decorater.Handler);
             }
-            list = ModularNoticeListener;
-            max = list != default ? list.Length : 0;
+            ModularNoticeListener listener;
+            ModularNoticeListener[] listenerList = NoticeListeners;
+            max = listenerList != default ? listenerList.Length : 0;
             for (int i = 0; i < max; i++)
             {
-                noticeName = list[i];
-                noticeName.Remove(NoticesHandler);
+                listener = listenerList[i];
+                noticeName = listener.NoticeName;
+                noticeName.Remove(listener.Handler);
             }
 
             Purge();
@@ -44,36 +87,36 @@ namespace ShipDock.Modulars
         public virtual void InitModular()
         {
             int noticeName;
-            int[] list = ModularNoticeCreate;
-            int max = list != default ? list.Length : 0;
+            ModularNoticeCreater creater;
+            ModularNoticeCreater[] createrList = NoticeCreates;
+            int max = createrList != default ? createrList.Length : 0;
             for (int i = 0; i < max; i++)
             {
-                noticeName = list[i];
-                Modulars.AddNoticeCreater(noticeName, NoticeCreater);
+                creater = createrList[i];
+                noticeName = creater.NoticeName;
+                Modulars.AddNoticeCreater(noticeName, creater.Handler);
             }
-            list = ModularNoticeDecorater;
-            max = list != default ? list.Length : 0;
+            ModularNoticeDecorater decorater;
+            ModularNoticeDecorater[] decoraterList = NoticeDecoraters;
+            max = decoraterList != default ? decoraterList.Length : 0;
             for (int i = 0; i < max; i++)
             {
-                noticeName = list[i];
-                Modulars.AddNoticeDecorator(noticeName, NoticeDecorator);
+                decorater = decoraterList[i];
+                noticeName = decorater.NoticeName;
+                Modulars.AddNoticeDecorator(noticeName, decorater.Handler);
             }
-            list = ModularNoticeListener;
-            max = list != default ? list.Length : 0;
+            ModularNoticeListener listener;
+            ModularNoticeListener[] listenerList = NoticeListeners;
+            max = listenerList != default ? listenerList.Length : 0;
             for (int i = 0; i < max; i++)
             {
-                noticeName = list[i];
-                noticeName.Add(NoticesHandler);
+                listener = listenerList[i];
+                noticeName = listener.NoticeName;
+                noticeName.Add(listener.Handler);
             }
         }
 
         public abstract void Purge();
-
-        protected virtual void NoticesHandler(INoticeBase<int> param) { }
-
-        protected virtual INoticeBase<int> NoticeCreater(int name) { return default; }
-
-        protected virtual void NoticeDecorator(int noticeName, INoticeBase<int> param) { }
 
         public virtual INoticeBase<int> NotifyModular(int name, INoticeBase<int> notice = default)
         {

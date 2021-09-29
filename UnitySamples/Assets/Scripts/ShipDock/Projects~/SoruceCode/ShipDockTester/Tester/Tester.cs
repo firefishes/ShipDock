@@ -4,9 +4,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-#if ASSERT
-using UnityEngine.Assertions;
-#endif
 using AsserterMapper = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<ShipDock.Testers.Asserter>>;
 using LogsMapper = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, ShipDock.Testers.LogItem>>;
 using TesterIndxMapper = System.Collections.Generic.Dictionary<string, int>;
@@ -31,6 +28,22 @@ namespace ShipDock.Testers
         public string format;
         public string logColor;
         public Action<string[]> onLoged;
+        public LogEnabledSubgroup enabledSubgroup;
+    }
+
+    [Serializable]
+    public class LogEnabledSubgroup
+    {
+        public string logID;
+        public string decs;
+        public string testerName;
+        public bool enabled;
+        public Action<string[]> onLoged;
+
+        public void Commit()
+        {
+            Tester.Instance.LogEnabled(logID, enabled, testerName);
+        }
     }
 
     public class Tester
@@ -64,6 +77,9 @@ namespace ShipDock.Testers
 
         private Action<string, string[]> TestBrokers { get; set; }
 
+        public Action<string, string> OnUnityAssert { get; set; }
+        public Func<string, LogItem, LogEnabledSubgroup> OnLogItemAdded { get; set; }
+
         public Tester()
         {
             mTesterIndexs = new TesterIndxMapper();
@@ -75,9 +91,11 @@ namespace ShipDock.Testers
 
         public void Dispose()
         {
-            UnityEngine.Application.logMessageReceived -= OnLogMessageReceived;
+            Application.logMessageReceived -= OnLogMessageReceived;
             TestBrokers = default;
             mDefaultTester = default;
+            OnLogItemAdded = default;
+            OnUnityAssert = default;
 
             mTesterIndexs?.Clear();
             mAsserterMapper?.Clear();
@@ -86,16 +104,16 @@ namespace ShipDock.Testers
             mTesters?.Clear();
         }
 
-        public void Init<T>(T defaultTester) where T : ITester
+        public void Init(ITester defaultTester)
         {
             SetDefaultTester(defaultTester);
-            UnityEngine.Application.logMessageReceived += OnLogMessageReceived;
+            Application.logMessageReceived += OnLogMessageReceived;
         }
 
         [System.Diagnostics.Conditional("G_LOG")]
         public void SetDefaultTester(ITester tester)
         {
-            if(mDefaultTester == null)
+            if(mDefaultTester == default)
             {
                 mDefaultTester = tester;
                 AddTester(mDefaultTester);
@@ -118,6 +136,16 @@ namespace ShipDock.Testers
                 case LogType.Error:
                     break;
             }
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        public void LogEnabled(string logID, bool value, string name)
+        {
+            if (mTesters.TryGetValue(name, out ITester tester))
+            {
+                LogEnabled(logID, value, tester);
+            }
+            else { }
         }
 
         [System.Diagnostics.Conditional("G_LOG")]
@@ -208,6 +236,12 @@ namespace ShipDock.Testers
             else { }
 
             string testerName = tester.Name;
+            CreateLogger(testerName, ref logID, ref format, tester, logColor, onLogedMethod);
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void CreateLogger(string testerName, ref string logID, ref string format, ITester tester = default, string logColor = "", Action<string[]> onLogedMethod = default)
+        {
             if (!mLoggerMapper.ContainsKey(testerName))
             {
                 mLoggerMapper[testerName] = new Dictionary<string, LogItem>();
@@ -223,8 +257,31 @@ namespace ShipDock.Testers
             }
             else
             {
-                list[logID] = new LogItem() { format = format, logColor = logColor, onLoged = onLogedMethod };
+                item = new LogItem()
+                {
+                    format = format,
+                    logColor = logColor,
+                    onLoged = onLogedMethod,
+                };
+
+                list[logID] = item;
+
+                SetLogEnabledSetting(ref logID, ref item, tester);
             }
+        }
+
+        private void SetLogEnabledSetting(ref string logID, ref LogItem item, ITester tester)
+        {
+            LogEnabledSubgroup subgroup = OnLogItemAdded?.Invoke(logID, item);
+            if (subgroup != default)
+            {
+                subgroup.testerName = tester != default ? tester.Name : "Empty";
+                subgroup.onLoged = item.onLoged;
+
+                item.enabledSubgroup = subgroup;
+                item.enabled = subgroup.enabled;
+            }
+            else { }
         }
 
         [System.Diagnostics.Conditional("G_LOG")]
@@ -265,7 +322,7 @@ namespace ShipDock.Testers
         {
             if (mAsserterMapper.ContainsKey(title))
             {
-                LogFromTester(logID, args);
+                //LogFromTester(logID, args);
                 Asserting(title, assertTarget);
             }
             else { }
@@ -281,32 +338,26 @@ namespace ShipDock.Testers
         private void LogFromTester(string logID, params string[] args)
         {
             ITester tester = mTesterMapper.ContainsKey(logID) ? mTesterMapper[logID] : default;
-            ITester target = tester ?? mDefaultTester;
-            LogItem logger;
-            if (target == null)
+            ITester logOwner = tester;
+            if (logOwner == default)
+            {
+                AddLogger(logID, logID);
+                logOwner = tester ?? mDefaultTester;
+            }
+            else { }
+
+            LogItem logger = default;
+            if (logOwner != default)
+            {
+                string testName = logOwner.Name;
+                logger = mLoggerMapper[testName][logID];
+            }
+            else
             {
                 if (logID.Contains("{0}"))
                 {
-                    if (!mLoggerMapper.ContainsKey(string.Empty))
-                    {
-                        mLoggerMapper[string.Empty] = new Dictionary<string, LogItem>();
-                    }
-                    else { }
-
-                    Dictionary<string, LogItem> list = mLoggerMapper[string.Empty];
-
-                    if (list.ContainsKey(logID))
-                    {
-                        logger = list[logID];
-                    }
-                    else
-                    {
-                        logger = new LogItem
-                        {
-                            format = logID,
-                        };
-                        list[logID] = logger;
-                    }
+                    CreateLogger(string.Empty, ref logID, ref logID);
+                    logger = mLoggerMapper[string.Empty][logID];
                 }
                 else
                 {
@@ -320,41 +371,18 @@ namespace ShipDock.Testers
                     return;
                 }
             }
-            else
-            {
-                Dictionary<string, LogItem> list = mLoggerMapper.ContainsKey(target.Name) ? mLoggerMapper[target.Name] : default;
-                bool hasLogger = (list != default) && list.ContainsKey(logID);
-                if (hasLogger)
-                {
-                    logger = list[logID];
-                    if (!logger.enabled)
-                    {
-                        Debug.Log(logID + " disabled ");
-                        return;
-                    }
-                    else { }
-                }
-                else
-                {
-                    if (logID.Contains("{0}"))
-                    {
-                        logger = new LogItem
-                        {
-                            format = logID,
-                        };
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-            }
             CheckLogger(ref logID, ref logger, ref args);
         }
 
         [System.Diagnostics.Conditional("G_LOG")]
         private void CheckLogger(ref string logID, ref LogItem logger, ref string[] args)
         {
+            if (!logger.enabled)
+            {
+                return;
+            }
+            else { }
+
             string log;
             logger.onLoged?.Invoke(args);
             if (isShowLogCount)
@@ -426,27 +454,27 @@ namespace ShipDock.Testers
                     int index = mTesterIndexs[title];
                     Asserter asserter = list[index];
                     string correct = asserter.content;
-#if ASSERT && UNITY_EDITOR
-                    try
+
+                    if (OnUnityAssert != default)
                     {
-                        Assert.AreEqual(target, correct);
-                        MoveNextAsserter(ref index, max, moveNext, ref title);
-                    }
-                    catch (System.Exception _) { }
-#else
-                    bool result = target != correct;
-                    if (result)
-                    {
-                        "ast do not pass".Log(asserter.title, index.ToString());
-                        "ast not correct".Log(correct, target);
+                        ShouldMoveNextAsserter(ref index, max, moveNext, ref title);
+                        OnUnityAssert(target, correct);
                     }
                     else
                     {
-                        int next = index + 1;
-                        "tester hited".Log(asserter.title, next.ToString(), max.ToString(), target);
-                        ShouldMoveNextAsserter(ref index, max, moveNext, ref title);
+                        bool result = target != correct;
+                        if (result)
+                        {
+                            "ast do not pass".Log(asserter.title, index.ToString());
+                            "ast not correct".Log(correct, target);
+                        }
+                        else
+                        {
+                            int next = index + 1;
+                            "tester hited".Log(asserter.title, next.ToString(), max.ToString(), target);
+                            ShouldMoveNextAsserter(ref index, max, moveNext, ref title);
+                        }
                     }
-#endif
                 }
                 else { }
             }

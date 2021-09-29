@@ -5,6 +5,8 @@ namespace ShipDock.UI
     /// <summary>UI堆栈接口</summary>
     public interface IUIStack
     {
+        Action<bool> OnExit { get; set; }
+
         void Init();//初始化
         void Enter();//开启
         void Interrupt();//中断

@@ -261,15 +261,19 @@ namespace ShipDock.Loader
         private int ABBundleQuotedChanged(string abName, bool isIncreaced)
         {
             IAssetBundleInfo info = mCaches[abName];
-            if (isIncreaced)
+            if (info != default)
             {
-                info.BeingUsed++;
+                if (isIncreaced)
+                {
+                    info.BeingUsed++;
+                }
+                else
+                {
+                    info.BeingUsed--;
+                }
             }
-            else
-            {
-                info.BeingUsed--;
-            }
-            return info.BeingUsed;
+            else { }
+            return info != default ? info.BeingUsed : 0;
         }
 
         public void UnloadUselessAssetBundles(params string[] abNames)

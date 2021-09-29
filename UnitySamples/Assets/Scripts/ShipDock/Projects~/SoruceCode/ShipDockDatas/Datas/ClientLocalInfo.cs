@@ -10,9 +10,9 @@ namespace ShipDock.Datas
         /// <summary>是否已注册</summary>
         public bool isRegistered;
         /// <summary>用户id</summary>
-        public string account_id;
+        public string accountID;
         /// <summary>客户端id</summary>
-        public string client_account_id;
+        public string clientID;
         /// <summary>背景音量</summary>
         public float volumnBGM = 1f;
         /// <summary>音效音量</summary>

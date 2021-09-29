@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEngine;
 
 /// <summary>
-/// 对线程协同组件
+/// 多线程协同组件
 /// </summary>
 public class Loom : MonoBehaviour
 {

@@ -4,7 +4,7 @@ namespace ShipDock.Datas
 {
     public interface IFieldableData
     {
-        float GetIntData(int fieldName);
+        int GetIntData(int fieldName);
         void SetIntData(int fieldName, int value);
         float GetFloatData(int fieldName);
         void SetFloatData(int fieldName, float value);

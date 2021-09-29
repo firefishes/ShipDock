@@ -34,6 +34,7 @@ namespace ShipDock.Network
                         formData = formData.Append(k, KEY_EQ, UnityWebRequest.EscapeURL(data[k]));
                     }
                 }
+                enumer.Dispose();
             }
             return formData;
         }

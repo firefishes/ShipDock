@@ -14,7 +14,7 @@ namespace ShipDock.Applications
         private Queue<string> mWillLoadNames;
         private List<string> mConfigReady;
         private KeyValueList<string, IConfigHolder> mConfigHolders;
-        private KeyValueList<string, Func<IConfigHolder>> mConfigHolderCreater;
+        private readonly KeyValueList<string, Func<IConfigHolder>> mConfigHolderCreater;
 
         public string ConfigResABName { get; set; }
         public List<string> HolderTypes { get; private set; }
@@ -30,10 +30,10 @@ namespace ShipDock.Applications
         {
             if (!HolderTypes.Contains(name))
             {
-                Func<IConfigHolder> creater = () =>
+                IConfigHolder creater()
                 {
                     return new ConfigHolder<T>();
-                };
+                }
                 AddHolderType(name, creater);
             }
             else { }
@@ -53,7 +53,7 @@ namespace ShipDock.Applications
         {
             if (string.IsNullOrEmpty(ConfigResABName))
             {
-                "error".Log("ConfigHelper need set ConfigResABName for get config res.");
+                LogLoadConfigResABNameEmpty();
                 return;
             }
             else { }
@@ -104,7 +104,9 @@ namespace ShipDock.Applications
         private IConfigHolder GetHolder(string name)
         {
             Func<IConfigHolder> func = mConfigHolderCreater[name];
-            "error: Config holder creater is null, name is {0}".Log(func == default, name);
+
+            LogConfigHolderEmpty(func == default, ref name);
+
             return func.Invoke();
         }
 
@@ -138,7 +140,7 @@ namespace ShipDock.Applications
             AssetBundles abs = Framework.Instance.GetUnit<AssetBundles>(Framework.UNIT_AB);
             TextAsset data = abs.Get<TextAsset>(ConfigResABName, mConfigLoading);
 
-            "log:Config data is null, name is {0}".Log(data == default, mConfigLoading);
+            LogConfigEmptyAfterLoaded(data == default, ref mConfigLoading);
             LoaderConfirm(data.bytes);
         }
 
@@ -172,5 +174,25 @@ namespace ShipDock.Applications
             mLoadConfigNotice?.Invoke(configsResult);
             mLoadConfigNotice = default;
         }
+
+        #region 日志相关
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogLoadConfigResABNameEmpty()
+        {
+            "error".Log("ConfigHelper need set property ConfigResABName for get config res.");
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogConfigHolderEmpty(bool isHandlerEmpty, ref string name)
+        {
+            "error: Config holder creater is null, name is {0}".Log(isHandlerEmpty, name);
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogConfigEmptyAfterLoaded(bool isConfigEmpty, ref string name)
+        {
+            "log:Config data is null, name is {0}".Log(isConfigEmpty, mConfigLoading);
+        }
+        #endregion
     }
 }

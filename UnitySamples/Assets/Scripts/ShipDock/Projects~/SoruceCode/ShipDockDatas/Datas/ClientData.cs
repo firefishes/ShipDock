@@ -42,7 +42,6 @@ namespace ShipDock.Datas
             else
             {
                 DeviceInfo = JsonUtility.FromJson<DeviceT>(infoRaw);
-                Debug.Log("ClientInfo " + DeviceInfo);
                 Debug.Log(string.Format("Last device info init success, account id is {0}", infoRaw));
             }
         }
@@ -68,7 +67,7 @@ namespace ShipDock.Datas
 
             if (ClientInfo != default)
             {
-                if (ClientInfo.account_id != lastAccountID)
+                if (ClientInfo.accountID != lastAccountID)
                 {
                     ClientInfo.CheckInfoPatch();
 
@@ -93,14 +92,13 @@ namespace ShipDock.Datas
             string infoRaw = GetLocalStringData(infoKey);
 
             ClientInfo = JsonUtility.FromJson<ClientT>(infoRaw);
-            Debug.Log("ClientInfo " + ClientInfo);
             Debug.Log(string.Format("Last client info init success, account id is {0}", infoRaw));
 
             if (ClientInfo == default)
             {
                 ClientInfo = new ClientT()
                 {
-                    account_id = lastAccountID,
+                    accountID = lastAccountID,
                 };
                 ClientInfo.CheckInfoPatch();
             }
@@ -238,6 +236,7 @@ namespace ShipDock.Datas
         {
             FlushDeviceInfo();
             FlushClientInfo();
+            PlayerPrefs.Save();
         }
 
         public void FlushDeviceInfo()
@@ -252,7 +251,7 @@ namespace ShipDock.Datas
             string json = JsonUtility.ToJson(ClientInfo);
             string clientInfoKey = GetClientInfoKey();
             UpdateLocalData(clientInfoKey, json);
-            UpdateLocalData(ClientDataConsts.LAST_ACCOUNT_ID, ClientInfo.account_id);
+            UpdateLocalData(ClientDataConsts.LAST_ACCOUNT_ID, ClientInfo.accountID);
         }
 
         public void DeleteClientInfo()
@@ -271,12 +270,12 @@ namespace ShipDock.Datas
 
         private string GetDeviceInfoKey()
         {
-            return ClientDataConsts.DEVICE_INFO.Append(ClientInfo.account_id);
+            return ClientDataConsts.DEVICE_INFO.Append(ClientInfo.accountID);
         }
 
         private string GetClientInfoKey()
         {
-            return ClientDataConsts.PLAYER_INFO.Append(ClientInfo.account_id);
+            return ClientDataConsts.PLAYER_INFO.Append(ClientInfo.accountID);
         }
     }
 }

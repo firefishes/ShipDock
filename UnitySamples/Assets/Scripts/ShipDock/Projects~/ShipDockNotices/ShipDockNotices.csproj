@@ -57,6 +57,9 @@
     <Compile Include="..\SoruceCode\ShipDockNotices\Interfaces\IUpdate.cs">
       <Link>ShipDockNotices\IUpdate.cs</Link>
     </Compile>
+    <Compile Include="..\SoruceCode\ShipDockNotices\NoticeBroadcaster.cs">
+      <Link>ShipDockNotices\NoticeBroadcaster.cs</Link>
+    </Compile>
     <Compile Include="..\SoruceCode\ShipDockNotices\NoticesObserver.cs">
       <Link>ShipDockNotices\NoticesObserver.cs</Link>
     </Compile>

@@ -52,7 +52,7 @@ namespace ShipDock.Server
             mBinderMapper = new Dictionary<int, ResolvableBinder>();
             mResolvablesMapper = new Dictionary<int, IResolvable>();
             mResolvableConfigs = new KeyValueList<int, IResolvableConfig>();
-            
+
             int max = onInites.Length;
             for (int i = 0; i < max; i++)
             {
@@ -87,12 +87,16 @@ namespace ShipDock.Server
             {
                 return;
             }
-            if(!IsInited)
+            else { }
+
+            if (!IsInited)
             {
                 IsInited = true;
                 OnInit?.Invoke();
                 OnInit = default;
             }
+            else { }
+
             string serverName = (server != default) ? server.ServerName : string.Empty;
             if (!string.IsNullOrEmpty(serverName) && !mServerMapper.IsContainsKey(serverName))
             {
@@ -105,8 +109,11 @@ namespace ShipDock.Server
                     mCanCheckServers = true;
                     ShipDockTicks.Instance.TicksUpdater.CallLater(CheckServerList);
                 }
+                else { }
+
                 mServerPriorAttrs = default;
             }
+            else { }
         }
 
         private void SetAndInitServer(ref IServer server)
@@ -115,6 +122,7 @@ namespace ShipDock.Server
             {
                 server = new Server();
             }
+            else { }
 
             server.SetServerHolder(this);
         }
@@ -131,7 +139,9 @@ namespace ShipDock.Server
                     int prioriity = mPriorAttributesItem.Priority;
                     server.Prioriity = prioriity;
                 }
+                else { }
             }
+            else { }
         }
 
         public void Remove(IServer server)
@@ -141,6 +151,7 @@ namespace ShipDock.Server
                 mServerMapper.Remove(server.ServerName);
                 Utils.Reclaim(server);
             }
+            else { }
         }
 
         /// <summary>
@@ -161,8 +172,11 @@ namespace ShipDock.Server
                     {
                         mServersWillSort.Add(server);
                     }
+                    else { }
                 }
             }
+            else { }
+
             mServersWillCheck.Clear();
             mCanCheckServers = false;
 
@@ -178,6 +192,8 @@ namespace ShipDock.Server
             {
                 return;
             }
+            else { }
+
             mServersWillSort.Sort(ComparerPriority);
 
             int statu;
@@ -249,9 +265,12 @@ namespace ShipDock.Server
                         OnFinished.Invoke();
                         OnFinished = default;
                     }
+                    else { }
                 }
+                else { }
                 mServersWillSort.Clear();
             }
+            else { }
         }
 
         public void AddOnServerInited(Action method)
@@ -260,11 +279,12 @@ namespace ShipDock.Server
             {
                 OnInit += method;
             }
+            else { }
         }
 
         public void AddOnServerFinished(Action method)
         {
-            if(IsServersReady)
+            if (IsServersReady)
             {
                 method?.Invoke();
             }
@@ -297,7 +317,7 @@ namespace ShipDock.Server
 
         public void CheckAndCacheType(ref Type target, out int id)
         {
-            if(mTypeMapper == default)
+            if (mTypeMapper == default)
             {
                 id = -1;
             }
@@ -321,7 +341,7 @@ namespace ShipDock.Server
             {
                 confItem = args[i];
                 id = mResolvableNameMapper.Add(confItem.Alias, out statu);
-                if(statu == 0)
+                if (statu == 0)
                 {
                     if ((confItem != default) && !mResolvableConfigs.IsContainsKey(id))
                     {
@@ -337,10 +357,12 @@ namespace ShipDock.Server
                 {
                     statu = 2;
                 }
-                if(statu > 0)
+
+                if (statu > 0)
                 {
                     confItem.Dispose();
                 }
+                else { }
             }
         }
 
@@ -353,10 +375,12 @@ namespace ShipDock.Server
 
             IResolvable[] result = default;
             int max = attributes.Length;
-            if(max == 0)
+            if (max == 0)
             {
                 return result;
             }
+            else { }
+
             int id;
             string alias;
             IResolvableConfig item;
@@ -382,8 +406,11 @@ namespace ShipDock.Server
                             statu = CheckAndFillResolvable(ref resolvableRef, out IResolvable resolvable, target);
                             result[i] = resolvable;
                         }
+                        else { }
                     }
+                    else { }
                 }
+                else { }
             }
             return result;
         }
@@ -438,7 +465,7 @@ namespace ShipDock.Server
         {
             errorResult = 0;
             IResolvable result = default;
-            if(mResolvablesMapper.ContainsKey(binderID))
+            if (mResolvablesMapper.ContainsKey(binderID))
             {
                 result = mResolvablesMapper[binderID];
             }
@@ -481,6 +508,7 @@ namespace ShipDock.Server
                     }
                 }
             }
+            else { }
             return result;
         }
 

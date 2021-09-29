@@ -539,6 +539,7 @@ namespace ShipDock.Network
                 current = enumer.Current;
                 postData.AddField(current.Key, current.Value);
             }
+            enumer.Dispose();
 
             string textParam = Encoding.UTF8.GetString(postData.data);
 
@@ -714,16 +715,19 @@ namespace ShipDock.Network
         #endregion
 
         #region 日志相关
+        [System.Diagnostics.Conditional("G_LOG")]
         private void LogResponsed(ref string debug, ref string result)
         {
             "log:请求成功: {0}, 服务端返回值：{1}".Log(debug, result);
         }
 
+        [System.Diagnostics.Conditional("G_LOG")]
         private void LogServiceError(ref string debug, ref UnityWebRequest engine)
         {
-            "error:服务端报错（{0}） UnityWebRequest error: {1}, 详情：{2}".Log(engine.responseCode.ToString(), engine.error.ToString(), debug);
+            "error:服务端报错（{0}） services error: {1}, 详情：{2}".Log(engine.responseCode.ToString(), engine.error.ToString(), debug);
         }
 
+        [System.Diagnostics.Conditional("G_LOG")]
         private void LogNetError(ref string debug, ref UnityWebRequest engine)
         {
             "error:网络错误：{0}， 详情：{1}".Log(engine.error.ToString(), debug);
@@ -731,17 +735,20 @@ namespace ShipDock.Network
             "error".Log(engine.error == "Request timeout", "网络连接超时！");
         }
 
+        [System.Diagnostics.Conditional("G_LOG")]
         private void LogTimeUsed(ref string debug, ref UnityWebRequest engine, DateTime debugTime)
         {
             "log:URL请求：{0} 消耗时间：{1}".Log(engine.url, ((DateTime.UtcNow - debugTime).TotalMilliseconds / 1000).ToString());
         }
 
+        [System.Diagnostics.Conditional("G_LOG")]
         private void LogBeforeSend(ref string debug, ref HttpRequestType requestType, ref string requestURL, ref JsonData data)
         {
             debug = "URL：".Append(requestURL, " 数据：", JsonMapper.ToJson(data), " 请求类型：", requestType.ToString().ToUpper());
             "log:客户端即将发送请求，{0}".Log(debug);
         }
 
+        [System.Diagnostics.Conditional("G_LOG")]
         private void LogBeforeSend(ref string debug, ref HttpRequestType requestType, ref string requestURL, ref HTTPParam data)
         {
             debug = "URL：".Append(requestURL, " 数据：", JsonMapper.ToJson(data), " 请求类型：", requestType.ToString().ToUpper());

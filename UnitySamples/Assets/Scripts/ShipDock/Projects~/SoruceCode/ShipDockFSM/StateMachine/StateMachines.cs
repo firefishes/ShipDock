@@ -15,6 +15,9 @@ namespace ShipDock.FSM
 
         private KeyValueList<int, IStateMachine> mFSMMapper;
 
+        public Action<IStateMachine, bool> FSMFrameUpdater { get; set; }
+        public Action<IState, bool> StateFrameUpdater { get; set; }
+
         public StateMachines()
         {
             mFSMMapper = new KeyValueList<int, IStateMachine>();
@@ -84,9 +87,6 @@ namespace ShipDock.FSM
         {
             return mFSMMapper.IsContainsKey(name);
         }
-
-        public Action<IStateMachine, bool> FSMFrameUpdater { get; set; }
-        public Action<IState, bool> StateFrameUpdater { get; set; }
     }
 
 }

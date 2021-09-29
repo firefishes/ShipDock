@@ -94,7 +94,7 @@ namespace ShipDock.FSM
 
         public int SubStateWillChange { get; set; }
         public int CurrentStateName { get; private set; }
-        public bool IsRun { get; private set; }
+        public bool IsRun { get; protected set; }
         public bool IsApplyFastChange { get; set; }
         public bool IsStateChanging { get; private set; }
         public Action<IStateMachine, bool> FSMFrameUpdater { get; set; }
@@ -287,7 +287,7 @@ namespace ShipDock.FSM
 
         #region 状态修改
         /// <summary>更改至下一个状态</summary>
-        public void ChangeToNextState(IStateParam param = null)
+        public virtual void ChangeToNextState(IStateParam param = null)
         {
             if (Current == default)
             {
@@ -295,7 +295,7 @@ namespace ShipDock.FSM
             }
             else
             {
-                if (Current.NextState == int.MaxValue)
+                if (Current.NextState != int.MaxValue)
                 {
                     mNext = mStates.GetValue(Current.NextState);
                 }
@@ -318,11 +318,11 @@ namespace ShipDock.FSM
         }
 
         /// <summary>更改至上一个状态</summary>
-        public void ChangeToPreviousState(IStateParam param = default)
+        public virtual void ChangeToPreviousState(IStateParam param = default)
         {
             if (mPrevious == default)
             {
-                if ((Current != default) && (Current.PreviousState == int.MaxValue))
+                if ((Current != default) && (Current.PreviousState != int.MaxValue))
                 {
                     mPrevious = mStates.GetValue(Current.PreviousState);
                 }

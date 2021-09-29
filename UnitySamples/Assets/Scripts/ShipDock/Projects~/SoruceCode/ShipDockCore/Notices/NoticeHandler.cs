@@ -18,6 +18,10 @@ namespace ShipDock.Notices
         
         private Action<INoticeBase<NameT>> mHandler;
 
+        public NameT Name { get; set; }
+        public int NoticeCount { get; private set; }
+        public INotificationSender Sender { get; set; }
+
         public NoticeHandler()
         {
             NoticeCount = 0;
@@ -28,8 +32,8 @@ namespace ShipDock.Notices
         public bool HasHandler(Action<INoticeBase<NameT>> handler)
         {
             bool result = false;
-            Delegate[] delegates = mHandler.GetInvocationList();
-            int max = delegates.Length;
+            Delegate[] delegates = mHandler != default ? mHandler.GetInvocationList() : default;
+            int max = delegates != default ? delegates.Length : 0;
             for (int i = 0; i < max; i++)
             {
                 if (delegates[i].Method == handler.Method)
@@ -72,14 +76,10 @@ namespace ShipDock.Notices
         {
             NoticeCount = 0;
 
-            mHandler = null;
+            mHandler = default;
             Name = default;
             Sender = default;
         }
-
-        public NameT Name { get; set; }
-        public int NoticeCount { get; private set; }
-        public INotificationSender Sender { get; set; }
     }
 
 }

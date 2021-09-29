@@ -64,6 +64,9 @@
     <Compile Include="..\SoruceCode\ShipDockDatas\Datas\DataProxy.cs">
       <Link>ShipDockDatas\DataProxy.cs</Link>
     </Compile>
+    <Compile Include="..\SoruceCode\ShipDockDatas\Datas\DataProxyCacher.cs">
+      <Link>ShipDockDatas\DataProxyCacher.cs</Link>
+    </Compile>
     <Compile Include="..\SoruceCode\ShipDockDatas\Datas\DatasExtension.cs">
       <Link>ShipDockDatas\DatasExtension.cs</Link>
     </Compile>

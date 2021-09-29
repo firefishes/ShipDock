@@ -16,6 +16,18 @@ public static class DatasExtension
         return datas.GetData<T>(target);
     }
 
+    public static void DataNotifies(this int target, params int[] names)
+    {
+        DataProxy dataProxy = target.GetData<DataProxy>();
+        dataProxy?.DataNotifies(names);
+    }
+
+    public static void DataNotify(this int target, int name)
+    {
+        DataProxy dataProxy = target.GetData<DataProxy>();
+        dataProxy?.DataNotify(name);
+    }
+
     public static KeyValueList<int, IDataProxy> DataProxyLink(this IDataExtracter target, params int[] dataNames)
     {
         IDataProxy proxy;

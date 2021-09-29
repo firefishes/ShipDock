@@ -86,6 +86,7 @@ namespace ShipDock.Tools
             {
                 Array.Reverse(bytes);
             }
+            else { }
             return bytes;
         }
 
@@ -114,6 +115,7 @@ namespace ShipDock.Tools
                 currLen = newbuf.Length;
                 FixSizeAndReset(currLen, futureLen);
             }
+            else { }
             return futureLen;
         }
 
@@ -132,6 +134,7 @@ namespace ShipDock.Tools
                 {
                     return;
                 }
+                else { }
 
                 int total = offset + writeIndex;
                 int len = buf.Length;
@@ -173,11 +176,13 @@ namespace ShipDock.Tools
             {
                 return;
             }
+            else { }
 
             if (buffer.ReadableBytes() <= 0)
             {
                 return;
             }
+            else { }
 
             WriteBytes(buffer.ToArray());
         }
@@ -282,6 +287,7 @@ namespace ShipDock.Tools
             {
                 readIndex++;
             }
+            else { }
             return b;
         }
 
@@ -298,6 +304,7 @@ namespace ShipDock.Tools
             {
                 Array.Reverse(bytes);
             }
+            else { }
             readIndex += len;
             return bytes;
         }
@@ -384,6 +391,8 @@ namespace ShipDock.Tools
             {
                 return string.Empty;
             }
+            else { }
+
             int len = ReadShort();
             byte[] buffer = new byte[len];
             ReadBytes(ref buffer, readIndex, len);
@@ -392,10 +401,10 @@ namespace ShipDock.Tools
 
         public void WriteString(string value)
         {
-            short len = (short)value.Length;
-            WriteShort(len);
-
             byte[] vs = Encoding.UTF8.GetBytes(value);
+            int slen = vs.Length;
+            short len = (short)slen;
+            WriteShort(len);
             WriteBytes(vs);
         }
 
@@ -407,7 +416,6 @@ namespace ShipDock.Tools
         public void ReadBytes(ref byte[] disbytes, int disstart, int len)
         {
             int size = disstart + len - 1;
-            //for (int i = disstart; i < size; i++)
             for (int i = 0; i < len; i++)
             {
                 disbytes[i] = ReadByte();
@@ -423,6 +431,7 @@ namespace ShipDock.Tools
             {
                 return;
             }
+            else { }
 
             int len = buf.Length - readIndex;
             byte[] newbuf = new byte[len];
@@ -434,11 +443,14 @@ namespace ShipDock.Tools
             {
                 markReadIndex = readIndex;
             }
+            else { }
+
             markWirteIndex -= readIndex;
             if (markWirteIndex < 0 || markWirteIndex < readIndex || markWirteIndex < markReadIndex)
             {
                 markWirteIndex = writeIndex;
             }
+            else { }
             readIndex = 0;
         }
 
@@ -464,6 +476,7 @@ namespace ShipDock.Tools
             {
                 return;
             }
+            else { }
 
             readIndex = index;
         }
