@@ -20,7 +20,7 @@ namespace ShipDock.Applications
         }
 
         private int mRepeats;
-        private Func<bool> mCancelCondition;
+        private Func<bool> mCancelChecker;
 
         public int TotalRepeats { get; private set; }
         public float Time { get; private set; }
@@ -54,7 +54,7 @@ namespace ShipDock.Applications
 
             TotalRepeats = 0;
             Completion = default;
-            mCancelCondition = default;
+            mCancelChecker = default;
         }
 
         public void Recreate(float totalTime, Action method, Func<bool> cancelCondition = default, int repeats = 0)
@@ -64,7 +64,7 @@ namespace ShipDock.Applications
             Completion = method;
             mRepeats = repeats;
             Repeatable = mRepeats > 0;
-            mCancelCondition = cancelCondition;
+            mCancelChecker = cancelCondition;
 
             UpdaterNotice.RemoveSceneUpdater(this);
         }
@@ -93,7 +93,7 @@ namespace ShipDock.Applications
 
         public void Restart()
         {
-            Recreate(TotalTime, Completion, mCancelCondition, TotalRepeats);
+            Recreate(TotalTime, Completion, mCancelChecker, TotalRepeats);
             Start();
         }
 
@@ -148,18 +148,13 @@ namespace ShipDock.Applications
         /// <summary>
         /// 检测定时器退出条件
         /// </summary>
-        private bool CheckCancelCondition()
+        private bool CheckCancel()
         {
             bool result = false;
-            if (mCancelCondition.Invoke())
+            if (mCancelChecker.Invoke())
             {
                 result = true;
                 Stop();
-                if (IsAutoDispose)
-                {
-                    Dispose();
-                }
-                else { }
             }
             else { }
             return result;
@@ -189,17 +184,76 @@ namespace ShipDock.Applications
                 }
                 else
                 {
-                    if (mCancelCondition != default)
+                    if (mCancelChecker != default)
                     {
-                        CheckCancelCondition();//附带退出条件的定时器
+                        CheckCancelInNoRepeats();
                     }
                     else
                     {
-                        //未完成指定的重复次数、永久重复的计时器开始新一轮定时器周期
-                        IsTimeCounting = true;
-                        Completion?.Invoke();
-                        Time -= TotalTime;
+                        TimerPermanent();
                     }
+                }
+            }
+            else
+            {
+                if (mCancelChecker != default)
+                {
+                    CheckCancelInTimeCounting();
+                }
+                else { }
+            }
+        }
+
+        /// <summary>
+        /// 设置定时器永久重复的计时器持续新一轮周期所需的值
+        /// </summary>
+        private void TimerPermanent()
+        {
+            IsTimeCounting = true;
+            Completion?.Invoke();
+            Time -= TotalTime;
+        }
+
+        /// <summary>
+        /// 在定时器计时完成一个周期检测取消条件
+        /// </summary>
+        private void CheckCancelInNoRepeats()
+        {
+            bool flag = CheckCancel();//附带退出条件的定时器
+
+            if (flag)
+            {
+                if (IsAutoDispose)
+                {
+                    Dispose();
+                }
+                else
+                {
+                    Stop();
+                }
+            }
+            else
+            {
+                TimerPermanent();
+            }
+        }
+
+        /// <summary>
+        /// 在定时器计时过程中检测取消条件
+        /// </summary>
+        private void CheckCancelInTimeCounting()
+        {
+            bool flag = CheckCancel();//附带退出条件的定时器
+
+            if (flag)
+            {
+                if (IsAutoDispose)
+                {
+                    Dispose();
+                }
+                else
+                {
+                    Stop();
                 }
             }
             else { }

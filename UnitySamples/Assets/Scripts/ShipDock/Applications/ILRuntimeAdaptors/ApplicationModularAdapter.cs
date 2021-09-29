@@ -82,30 +82,6 @@ namespace ShipDock.Applications
                 mPurge_9.Invoke(this.instance);
             }
 
-            protected override void NoticesHandler(ShipDock.Notices.INoticeBase<System.Int32> param)
-            {
-                if (mNoticesHandler_10.CheckShouldInvokeBase(this.instance))
-                    base.NoticesHandler(param);
-                else
-                    mNoticesHandler_10.Invoke(this.instance, param);
-            }
-
-            protected override ShipDock.Notices.INoticeBase<System.Int32> NoticeCreater(System.Int32 name)
-            {
-                if (mNoticeCreater_11.CheckShouldInvokeBase(this.instance))
-                    return base.NoticeCreater(name);
-                else
-                    return mNoticeCreater_11.Invoke(this.instance, name);
-            }
-
-            protected override void NoticeDecorator(System.Int32 noticeName, ShipDock.Notices.INoticeBase<System.Int32> param)
-            {
-                if (mNoticeDecorator_12.CheckShouldInvokeBase(this.instance))
-                    base.NoticeDecorator(noticeName, param);
-                else
-                    mNoticeDecorator_12.Invoke(this.instance, noticeName, param);
-            }
-
             public override ShipDock.Notices.INoticeBase<System.Int32> NotifyModular(System.Int32 name, ShipDock.Notices.INoticeBase<System.Int32> param)
             {
                 if (mNotifyModular_13.CheckShouldInvokeBase(this.instance))
@@ -120,42 +96,6 @@ namespace ShipDock.Applications
                     base.SetModularManager(modulars);
                 else
                     mSetModularManager_14.Invoke(this.instance, modulars);
-            }
-
-            public override System.Int32[] ModularNoticeCreate
-            {
-                get
-                {
-                    if (mget_ModularNoticeCreate_0.CheckShouldInvokeBase(this.instance))
-                        return base.ModularNoticeCreate;
-                    else
-                        return mget_ModularNoticeCreate_0.Invoke(this.instance);
-
-                }
-            }
-
-            public override System.Int32[] ModularNoticeDecorater
-            {
-                get
-                {
-                    if (mget_ModularNoticeDecorater_1.CheckShouldInvokeBase(this.instance))
-                        return base.ModularNoticeDecorater;
-                    else
-                        return mget_ModularNoticeDecorater_1.Invoke(this.instance);
-
-                }
-            }
-
-            public override System.Int32[] ModularNoticeListener
-            {
-                get
-                {
-                    if (mget_ModularNoticeListener_2.CheckShouldInvokeBase(this.instance))
-                        return base.ModularNoticeListener;
-                    else
-                        return mget_ModularNoticeListener_2.Invoke(this.instance);
-
-                }
             }
 
             public override System.Int32 ModularName

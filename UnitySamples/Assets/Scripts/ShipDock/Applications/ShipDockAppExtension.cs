@@ -5,6 +5,7 @@ using ShipDock.Loader;
 using ShipDock.Server;
 using ShipDock.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class ShipDockAppExtension
 {
@@ -42,7 +43,7 @@ public static class ShipDockAppExtension
         }
     }
 
-    public static bool WorldToUIPosition(this Vector3 worldPosition, ref Camera worldCamera, out Vector3 UIPos)
+    public static bool ToUIPosition(this Vector3 worldPosition, ref Camera worldCamera, out Vector3 UIPos, Camera camerInUI = default)
     {
         Vector3 viewPos = worldCamera.WorldToViewportPoint(worldPosition);
         bool result = viewPos.z >= 0f;
@@ -52,8 +53,8 @@ public static class ShipDockAppExtension
             viewPos.y -= 0.5f;
 
             UIManager manager = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
-            Camera UICamera = manager.UIRoot.UICamera;
-            UIPos = new Vector3(UICamera.pixelWidth * viewPos.x, UICamera.pixelHeight * viewPos.y, 0f);
+            Camera camera = camerInUI == default ? manager.UIRoot.UICamera : camerInUI;
+            UIPos = new Vector3(camera.pixelWidth * viewPos.x, camera.pixelHeight * viewPos.y, 0f);
             UIPos *= manager.UIRoot.ScaleRatio;
         }
         else
@@ -80,17 +81,17 @@ public static class ShipDockAppExtension
         return isSucess;
     }
 
-    public static T OpenFromResouce<T>(this string name) where T : Component
+    public static T OpenFromResouce<T>(this string name, bool isUnique = true, bool isShow = true, bool activeSelfControlShow = true) where T : Component
     {
         UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
-        T result = uis.OpenResourceUI<T>(name);
+        T result = uis.OpenResourceUI<T>(name, isUnique, isShow, activeSelfControlShow);
         return result;
     }
 
-    public static void CloseResouceUI(this string name)
+    public static void CloseResouceUI(this string name, bool willDestroy = true, bool activeSelfControlHide = true)
     {
         UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
-        uis.CloseResourceUI(name);
+        uis.CloseResourceUI(name, willDestroy, activeSelfControlHide);
     }
 
     /// <summary>
@@ -133,7 +134,7 @@ public static class ShipDockAppExtension
                     if (suc)
                     {
                         ld?.Dispose();
-                        uis.OnLoadingAlert?.Invoke(false);
+                        uis.OnLoadingShower?.Invoke(false);
 
                         T result = OpenUI<T>(stackName);
                         onUIOpen?.Invoke(result);
@@ -152,7 +153,7 @@ public static class ShipDockAppExtension
                 }
                 if (loader.ResList.Count > 0)
                 {
-                    uis.OnLoadingAlert?.Invoke(true);
+                    uis.OnLoadingShower?.Invoke(true);
                 }
                 else { }
                 loader.Load(out _);
@@ -164,5 +165,23 @@ public static class ShipDockAppExtension
             T result = OpenUI<T>(stackName);
             onUIOpen?.Invoke(result);
         }
+    }
+
+    public static void SyncMatchWidthOrHeight(this CanvasScaler target)
+    {
+        UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
+        target.matchWidthOrHeight = uis.UIRoot.MatchWidthOrHeight;
+    }
+
+    public static void SyncOorthographicSize(this Camera target, float rawSize)
+    {
+        UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
+        target.orthographicSize = rawSize * uis.UIRoot.FOVRatio;
+    }
+
+    public static void SyncFOVByRatio(this Camera target, float FOVRaw)
+    {
+        UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
+        target.fieldOfView = FOVRaw * uis.UIRoot.FOVRatio;
     }
 }

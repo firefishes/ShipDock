@@ -10,6 +10,13 @@ using UnityEngine;
 
 namespace ShipDock.Editors
 {
+    /// <summary>
+    /// 
+    /// Excel表格转配置文件工具
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public class ExcelTool
     {
         /// <summary>
@@ -40,15 +47,18 @@ namespace ShipDock.Editors
             public int row;
             public int column;
 
-            public ExeclDefination(int y, int x)
+            public ExeclDefination(int rowValue, int colValue)
             {
-                row = y;
-                column = x;
+                row = rowValue;
+                column = colValue;
             }
         }
 
         public static ExeclSetting Setting { get; set; }
 
+        /// <summary>
+        /// 初始化表格中特殊单元格的含义
+        /// </summary>
         private static void InitExeclDefs()
         {
             Setting = new ExeclSetting
@@ -64,6 +74,9 @@ namespace ShipDock.Editors
             };
         }
 
+        /// <summary>
+        /// 类文件模板信息
+        /// </summary>
         public class ClassTemplateInfo
         {
             public StringBuilder sb;
@@ -85,8 +98,33 @@ namespace ShipDock.Editors
             public string parseCode = "%parseCode%";
             /// <summary>其他代码段落标记（类的字段等代码）</summary>
             public string codes = "%codes%";
-            /// <summary注释标记</summary>
+            /// <summary>注释标记</summary>
             public string notes = "%notes%";
+        }
+
+        /// <summary>生成配置文件的基础路径</summary>
+        public static string configFileBasePath = string.Empty;
+        /// <summary>生成配置文件的相对路径</summary>
+        public static string configFileRelativePath = "configs/";
+        /// <summary>生成配置文件代码类的基础路径</summary>
+        public static string configCSharpCodeFileBasePath = string.Empty;
+        /// <summary>生成配置文件代码类的相对路径</summary>
+        public static string configCSharpCodeFileRelativePath = "/HotFix~/StaticConfigs/";
+
+        public static string GetCSharpCodeFilePath(string className)
+        {
+            string relativePath = configCSharpCodeFileRelativePath.Append(className, ".cs");
+            string result = string.IsNullOrEmpty(configCSharpCodeFileBasePath) ? Application.dataPath : configCSharpCodeFileBasePath;
+            result = result.Append(relativePath);
+            return result;
+        }
+
+        public static string GetConfigFilePath(string fileName, out string relativeName)
+        {
+            relativeName = configFileRelativePath.Append(fileName.ToLower(), ".bytes");
+            string result = string.IsNullOrEmpty(configFileBasePath) ? AppPaths.DataPathResDataRoot : configFileBasePath;
+            result = result.Append(relativeName);
+            return result;
         }
 
         /// <summary>
@@ -94,38 +132,62 @@ namespace ShipDock.Editors
         /// </summary>
         /// <param name="filePath">excel文件全路径</param>
         /// <returns>Item数组</returns>
-        public static void CreateItemArrayWithExcel(string filePath, out string relativeName)
+        public static void CreateItemArrayWithExcel(string filePath, out string relativeName, ref string log)
         {
             InitExeclDefs();
+            log += filePath + "开始解析... \r\n";
 
             DataRowCollection collect = ReadExcel(filePath, out int rowSize, out int colSize);//获得表数据
-            int col = Setting.classDefine.column, row = Setting.classDefine.row;
+            ExeclDefination defination = Setting.classDefine;
+            int col = defination.column, row = defination.row;
             string className = collect[row][col].ToString();//类名
 
-            col = Setting.generateFileName.column;
-            row = Setting.generateFileName.row;
+            defination = Setting.generateFileName;
+            col = defination.column;
+            row = defination.row;
             string fileName = collect[row][col].ToString();//生成的配置文件名
             fileName = string.IsNullOrEmpty(fileName) ? className : fileName;
 
-            col = Setting.classType.column;
-            row = Setting.classType.row;
+            defination = Setting.classType;
+            col = defination.column;
+            row = defination.row;
             string classType = collect[row][col].ToString();//类模板的类别
 
-            col = Setting.IDFieldName.column;
-            row = Setting.IDFieldName.row;
+            defination = Setting.IDFieldName;
+            col = defination.column;
+            row = defination.row;
             string IDName = collect[row][col].ToString();//id字段的名称
 
-            int dataStartRow = Setting.dataStart.row;
-            int dataStartCol = Setting.dataStart.column;
+            defination = Setting.dataStart;
+            int dataStartRow = defination.row;
+            int dataStartCol = defination.column;
+
+            Debug.Log(rowSize);
+
+            string cellData;
+            for (int i = dataStartRow; i < rowSize; i++)
+            {
+                cellData = collect[i][dataStartCol].ToString();
+                if (string.IsNullOrEmpty(cellData))
+                {
+                    rowSize = i;//找到数据起始列为空的一行，作为数据最终行
+                    Debug.Log(rowSize);
+                    break;
+                }
+                else { }
+            }
 
             StringBuilder sb = new StringBuilder();
 
             int typeRow = Setting.dataType.row;//类型名所在行
             int keyRow = Setting.keyFieldDef.row;//字段名所在行
             int notesRow = Setting.noteFieldDef.row;//注释所在行
-            object IDTypeCell = collect[typeRow][dataStartCol];
-            string typeValue = GetTypeValueByCell(IDTypeCell.ToString());
 
+            DataRow rowData = collect[typeRow];
+            object colData = rowData[dataStartCol];
+            object IDTypeCell = collect[typeRow][dataStartCol];
+
+            string typeValue = GetCSharpForTypeValueCode(IDTypeCell.ToString());
             ClassTemplateInfo info = new ClassTemplateInfo
             {
                 sb = sb,
@@ -140,7 +202,7 @@ namespace ShipDock.Editors
             switch (classType)
             {
                 case "mapper":
-                    TemplateMapperConfig(info);
+                    TranslateConfigCSharpClassCode(info);
                     break;
                 case "const"://常量类
                     sb.Append("namespace StaticConfig");
@@ -151,70 +213,99 @@ namespace ShipDock.Editors
                     sb.Append("}");
                     break;
             }
-            string field;
-            string script = sb.ToString();
+            string field, notes, valueInitCode;
+            string CSharpScript = sb.ToString();
             sb.Clear();
 
             object item;
-            string parserCode = IDName.Append(GetParseMethodByType(IDTypeCell.ToString()));
+            string parserCode = IDName.Append(GetCSharpForSetValueCode(IDTypeCell.ToString()));//获取到翻译后的 id 赋值语句
+
             for (int i = dataStartCol + 1; i < colSize; i++)//从id列顺延下一个字段开始构建剩余的脚本
             {
                 item = collect[typeRow][i];//类型
                 typeValue = item.ToString();
+
                 if (string.IsNullOrEmpty(typeValue))
                 {
-                    colSize = i;//读取到无效的表头
+                    colSize = i;//读取到无效的表头，此前的所有字段为完整的类成员字段，并更新到列数
                     break;
                 }
-                typeValue = GetTypeValueByCell(typeValue);
+                else { }
+
+                typeValue = GetCSharpForTypeValueCode(typeValue);
 
                 item = collect[keyRow][i];//字段名
                 field = item.ToString();
+                notes = collect[notesRow][i].ToString();
+                valueInitCode = collect[typeRow][i].ToString();
+
                 sb.Append("/// <summary>");
-                sb.Append("\r\n        /// %notes%").Replace(info.notes, collect[notesRow][i].ToString());
+                sb.Append("\r\n        /// %notes%")
+                    .Replace(info.notes, notes);
                 sb.Append("\r\n        /// <summary>\r\n        ");
-                sb.Append("public %type% %fieldName%;\r\n").Replace(info.typeName, typeValue).Replace(info.fieldName, field);
+                sb.Append("public %type% %fieldName%;\r\n")
+                    .Replace(info.typeName, typeValue)
+                    .Replace(info.fieldName, field);
                 sb.Append("        ");
 
-                parserCode = parserCode.Append(field, GetParseMethodByType(collect[typeRow][i].ToString()));
+                parserCode = parserCode.Append(field, GetCSharpForSetValueCode(valueInitCode));//获取到翻译后的其他成员字段赋值语句
             }
-            script = script.Replace(info.codes, sb.ToString());
-            script = script.Replace(info.parseCode, parserCode);
+
+            CSharpScript = CSharpScript.Replace(info.codes, sb.ToString());//合成类成员字段的声明语句
+            CSharpScript = CSharpScript.Replace(info.parseCode, parserCode);//合成类成员字段的初始化赋值语句
             sb.Clear();
 
-            string path = Application.dataPath.Append("/HotFix~/StaticConfigs/".Append(className, ".cs"));
-            FileOperater.WriteUTF8Text(script, path);//生成代码
-
+            object ID;
+            string IDValue;
+            DataRow itemRow;
             ByteBuffer byteBuffer = ByteBuffer.Allocate(0);
             int dataRealSize = rowSize - dataStartRow;
             byteBuffer.WriteInt(dataRealSize);
             for (int i = dataStartRow; i < rowSize; i++)
             {
-                Debug.Log("Writing in ID = " + collect[i][dataStartCol].ToString());
-                for (int j = dataStartCol; j < colSize; j++)//从id列顺延下一个字段开始构建剩余的脚本
+                itemRow = collect[i];
+                ID = itemRow[dataStartCol];
+
+                IDValue = ID.ToString();
+                if (string.IsNullOrEmpty(IDValue))
                 {
-                    item = collect[typeRow][j];//类型
-                    typeValue = item.ToString();
+                    Debug.LogWarning("Config ID invalid in row " + i + ", it do not allow empty, config bytes parse will be break.");
+                    break;
+                }
+                else
+                {
+                    Debug.Log("Writing in ID = " + IDValue.ToString());
+                    for (int j = dataStartCol; j < colSize; j++)//从id列顺延下一个字段开始构建剩余的脚本
+                    {
+                        item = collect[typeRow][j];
 
-                    field = collect[i][j].ToString();//数据
+                        typeValue = item.ToString();//字段类型
+                        field = itemRow[j].ToString();//字段数据
 
-                    WriteField(ref byteBuffer, typeValue, field, collect[keyRow][j].ToString());
+                        WriteField(ref byteBuffer, typeValue, field, collect[keyRow][j].ToString());
+                    }
                 }
             }
             Debug.Log("Write finished.. length = " + byteBuffer.GetCapacity());
 
-            relativeName = "configs/".Append(fileName.ToLower(), ".bytes");
-            path = AppPaths.DataPathResDataRoot.Append(relativeName);
-            FileOperater.WriteBytes(byteBuffer.ToArray(), path);//生成配置数据
+            string path = GetCSharpCodeFilePath(className);
+            FileOperater.WriteUTF8Text(CSharpScript, path);//生成代码
+
+            path = GetConfigFilePath(fileName, out relativeName);
+            FileOperater.WriteBytes(byteBuffer.ToArray(), path);//生成配置数据文件
         }
 
         /// <summary>
-        /// 用于映射到字典的可实例化对象的配置
+        /// 将类信息转为基本的C#类代码
         /// </summary>
         /// <param name="info"></param>
-        private static void TemplateMapperConfig(ClassTemplateInfo info)
+        private static void TranslateConfigCSharpClassCode(ClassTemplateInfo info)
         {
             StringBuilder sb = info.sb;
+            int row = info.notesRow;
+            int col = info.dataStartCol;
+            object notes = info.collect[row][col];
+
             sb.Append("using ShipDock.Config;\r\n\r\n");
             sb.Append("using ShipDock.Tools;\r\n\r\n");
             sb.Append("namespace StaticConfig\r\n");
@@ -222,7 +313,7 @@ namespace ShipDock.Editors
             sb.Append("    public partial class %cls% : IConfig\r\n".Replace(info.rplClsName, info.className));
             sb.Append("    {\r\n");
             sb.Append("        /// <summary>\r\n");
-            sb.Append("        /// %notes%\r\n").Replace(info.notes, info.collect[info.notesRow][info.dataStartCol].ToString());
+            sb.Append("        /// %notes%\r\n").Replace(info.notes, notes.ToString());
             sb.Append("        /// <summary>\r\n");
             sb.Append("        public %type% %id%;\r\n\r\n").Replace(info.typeName, info.typeValue).Replace(info.idKeyName, info.IDName);//ID
             sb.Append("        %codes%\r\n");//此处容纳其他代码
@@ -239,6 +330,13 @@ namespace ShipDock.Editors
             sb.Append("}\r\n");
         }
 
+        /// <summary>
+        /// 将配置数据按照值对的形式写入二进制数据
+        /// </summary>
+        /// <param name="byteBuffer"></param>
+        /// <param name="typeValue"></param>
+        /// <param name="field"></param>
+        /// <param name="propName"></param>
         private static void WriteField(ref ByteBuffer byteBuffer, string typeValue, string field, string propName)
         {
             switch(typeValue)
@@ -256,7 +354,7 @@ namespace ShipDock.Editors
                     byteBuffer.WriteFloat(float.Parse(field));
                     break;
                 case "bool":
-                    int value = field == "True" ? 1 : 0;
+                    int value = field == "True" || field == "TRUE" ? 1 : 0;
                     Debug.Log("Write in bool, field is " + field);
                     Debug.Log("Write in bool, " + propName + " = " + value);
                     byteBuffer.WriteInt(value);
@@ -264,7 +362,12 @@ namespace ShipDock.Editors
             }
         }
 
-        private static string GetTypeValueByCell(string v)
+        /// <summary>
+        /// 根据单元格定义的类型获取C#代码中的成员字段类型
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        private static string GetCSharpForTypeValueCode(string v)
         {
             string result;
             switch (v)
@@ -288,7 +391,12 @@ namespace ShipDock.Editors
             return result;
         }
 
-        private static string GetParseMethodByType(string v)
+        /// <summary>
+        /// 根据单元格定义的类型获取C#代码中为成员字段赋值的代码
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        private static string GetCSharpForSetValueCode(string v)
         {
             string result = string.Empty;
             switch (v)

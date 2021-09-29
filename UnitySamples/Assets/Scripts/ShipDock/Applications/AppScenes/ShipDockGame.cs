@@ -31,31 +31,41 @@ namespace ShipDock.Applications
     {
         [SerializeField, Tooltip("运行帧率")]
 #if ODIN_INSPECTOR
-        [TitleGroup("模板信息"), LabelText("目标帧率"), Indent(1)]
+        [TitleGroup("模板信息")]
+        [LabelText("目标帧率"), Indent(1)]
 #endif 
         private int m_FrameRate = 40;
 
         [SerializeField, Tooltip("多语言本地化标识")]
 #if ODIN_INSPECTOR
-        [LabelText("语言本地化参数"), Indent(1)]//, ShowIf("@this.m_DevelopSubgroup.hasLocalsConfig == true")]
+        [LabelText("语言本地化参数"), Indent(1)]
 #endif 
         private string m_Locals = "CN";
 
         [SerializeField, Tooltip("开发设置子组")]
 #if ODIN_INSPECTOR
-        [TitleGroup("开发参数"), LabelText("详情"), Indent(1)]
+        [TitleGroup("开发参数")]
+        [LabelText("详情"), Indent(1)]
 #endif
         private DevelopSubgroup m_DevelopSubgroup;
 
         [SerializeField, Tooltip("ILRuntime热更子组")]
 #if ODIN_INSPECTOR
-        [TitleGroup("ILRuntime热更子组"), LabelText("详情"), Indent(1)]
+        [TitleGroup("ILRuntime热更子组")]
+        [LabelText("详情"), Indent(1)]
 #endif 
         private HotFixSubgroup m_HotFixSubgroup;
 
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [TitleGroup("事件")]
+        [LabelText("显示事件"), Indent(1)]
+#endif 
+        private bool m_ShowGameAppEvents;
+
         [SerializeField, Tooltip("游戏应用启动系列事件")]
 #if ODIN_INSPECTOR
-        [TitleGroup("事件"), LabelText("详情"), Indent(1)]
+        [LabelText("详情"), ShowIf("@this.m_ShowGameAppEvents"), Indent(1)]
 #endif 
         private GameApplicationEvents m_GameAppEvents;
 
@@ -84,7 +94,12 @@ namespace ShipDock.Applications
         public void UIRootAwaked(IUIRoot root)
         {
             CreateTesters();
-            ShipDockApp.Instance.InitUIRoot(root);
+            CreateShipDockApp(ref root);
+        }
+
+        private void CreateShipDockApp(ref IUIRoot UIRoot)
+        {
+            ShipDockApp.Instance.InitUIRoot(UIRoot);
 #if RELEASE
             Debug.unityLogger.logEnabled = false;//编译发布版时关闭日志
 #endif
@@ -104,7 +119,7 @@ namespace ShipDock.Applications
             m_GameAppEvents.serversFinishedEvent.RemoveAllListeners();
 
             ShipDockApp.Close();
-            "debug".Log("ShipDock close.");
+            LogShipDockAppClose();
 
             m_GameAppEvents.frameworkCloseEvent.Invoke();
             m_GameAppEvents.frameworkCloseEvent.RemoveAllListeners();
@@ -196,7 +211,7 @@ namespace ShipDock.Applications
                 m_GameAppEvents.frameworkCloseEvent.AddListener(component.ApplicationCloseHandler);
                 m_GameAppEvents.updateRemoteAssetEvent.AddListener(component.UpdateRemoteAssetHandler);
 
-                "debug".Log("Game Component created..");
+                LogGameComponentCreated();
             }
             else { }
 
@@ -206,7 +221,7 @@ namespace ShipDock.Applications
                 UIRoot ui = target.GetComponent<UIRoot>();
                 if (ui != default)
                 {
-                    "debug".Log("UI Root created..");
+                    LogUIRootCreated();
                     ui.AddAwakedHandler(UIRootAwaked);
                 }
                 else { }
@@ -219,6 +234,7 @@ namespace ShipDock.Applications
         protected virtual void OnApplicationQuit()
         {
             BackgroundOperation(true);
+            ShipDockApp.Instance.Clean();
         }
 
         protected virtual void OnApplicationFocus(bool focus)
@@ -248,6 +264,7 @@ namespace ShipDock.Applications
         /// </summary>
         private void OnShipDockStart()
         {
+            AssertShipDockGameInit(0);
             InitDataProxy();
             InitServerContainers();
         }
@@ -258,10 +275,10 @@ namespace ShipDock.Applications
         private void InitServerContainers()
         {
             ShipDockApp app = ShipDockApp.Instance;
-            bool flag = m_DevelopSubgroup.startUpIoC;//根据开发参数确定是否启动IoC模块
-            IServer[] servers = flag ? GetGameServers() : default;
-            Action[] onInited = flag ? new Action[] { AddResolvableConfigs } : default;
-            Action[] onFinished = flag ? new Action[] { OnServersFinished } : default;
+            bool isOn = m_DevelopSubgroup.startUpIoC;//根据开发参数确定是否启动IoC模块
+            Action[] onInited = isOn ? new Action[] { AddResolvableConfigs } : default;
+            Action[] onFinished = isOn ? new Action[] { OnServersFinished } : default;
+            IServer[] servers = isOn ? GetGameServers() : default;
             app.StartIoC(servers, MainThreadServerReady, onInited, onFinished);
         }
 
@@ -292,7 +309,7 @@ namespace ShipDock.Applications
             IResolvableConfig[] resolvableConfs = GetServerConfigs();
             app.Servers.AddResolvableConfig(resolvableConfs);
 
-            "log".AssertLog("game", "ServerInit");
+            AssertShipDockGameInit(1);//Assert IoC
         }
 
         /// <summary>
@@ -300,8 +317,6 @@ namespace ShipDock.Applications
         /// </summary>
         private void MainThreadServerReady()
         {
-            "log".AssertLog("game", "ServerFinished");
-
             int configInitedNoticeName = m_DevelopSubgroup.configInitedNoticeName;
             if (m_DevelopSubgroup.applyIoCLoadConfigs && (configInitedNoticeName != int.MaxValue))
             {
@@ -336,13 +351,17 @@ namespace ShipDock.Applications
 
             IConfigNotice notice = param as IConfigNotice;
 
-            //从消息参数中获取配置数据的 Sample:
+            //从消息参数中获取配置数据的 Sample（ConfigClass 须实现 IConfig）:
             //Dictionary<int, ConfigClass> mapper = notice.GetConfigRaw<ConfigClass>("ConfigName");
             //var a = mapper[1].a;
             //var b = mapper[12].b;
 
             InitConfigs(ref notice);
             InitProfileData(ref notice);
+
+            AssertShipDockGameInit(3);//Assert IoC
+            AssertShipDockGameInit(4);//Assert IoC
+            AssertShipDockGameInit(5);//Assert IoC
 
             if (notice != default)
             {
@@ -400,14 +419,14 @@ namespace ShipDock.Applications
             }
             else { }
 
-            "log".AssertLog("game", "LocalsInited");
+            AssertShipDockGameInit(1);//Assert Configs
         }
 
         private void InitProfileData(ref IConfigNotice notice)
         {
             m_GameAppEvents.initProfileDataEvent?.Invoke(notice);
 
-            "log".AssertLog("game", "ProfileDataInited");
+            AssertShipDockGameInit(2);//Assert Profile Data
         }
 
         /// <summary>
@@ -436,8 +455,7 @@ namespace ShipDock.Applications
         private void CreateTesters()
         {
             m_GameAppEvents.createTestersEvent?.Invoke();
-
-            "debug".AssertLog("game", "Game start.");
+            AssertShipDockGameInit(int.MaxValue);
         }
 
         private T CommonEventInovker<T>(UnityEvent<IParamNotice<T>> commonEvent, bool applyPooling = false, T param = default)
@@ -465,13 +483,14 @@ namespace ShipDock.Applications
         private IServer[] GetGameServers()
         {
             IServer[] servers = CommonEventInovker(m_GameAppEvents.getGameServersEvent);
-            "log".Log(servers != default, servers != default ? "Servers count is ".Append(servers.Length.ToString()) : "Servers is empty..");
+            LogServersLength(ref servers);
             return servers;
         }
 
         private void OnServersFinished()
         {
             m_GameAppEvents.serversFinishedEvent?.Invoke();
+            AssertShipDockGameInit(2);//Assert IoC
         }
 
         /// <summary>
@@ -489,7 +508,6 @@ namespace ShipDock.Applications
         /// <returns></returns>
         private IResolvableConfig[] GetServerConfigs()
         {
-            "log".AssertLog("game", "ServerInit");
             IResolvableConfig[] serverConfigs = CommonEventInovker(m_GameAppEvents.getServerConfigsEvent);
             return serverConfigs;
         }
@@ -540,7 +558,7 @@ namespace ShipDock.Applications
                 }
                 else//小于0则忽略用户偏好的清除
                 {
-                    Debug.Log("已忽略用户偏好的清除");
+                    LogPlayerPrefsClearIgnore();
                 }
             }
             else { }
@@ -578,6 +596,121 @@ namespace ShipDock.Applications
                 PlayerPrefs.SetInt(persistentResKey, privistionResCode);
             }
             else { }
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogPlayerPrefsClearIgnore()
+        {
+            "log".Log("Player prefs clear ignored.");
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogShipDockAppClose()
+        {
+            "debug".Log("ShipDock close.");
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogGameComponentCreated()
+        {
+            "debug".Log("Game Component created..");
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogUIRootCreated()
+        {
+            "debug".Log("UI Root created..");
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogServersLength(ref IServer[] servers)
+        {
+            "log".Log(servers != default, servers != default ? "Servers count is ".Append(servers.Length.ToString()) : "Servers is empty..");
+        }
+
+        /// <summary>
+        /// 断言测试框架的初始化流程是否正确
+        /// </summary>
+        /// <param name="step">断言步骤，不在预定值内时为构筑断言流程</param>
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void AssertShipDockGameInit(int step)
+        {
+            #region 断言内容
+            const string LOG = "log";
+            const string ASSERT_GAME = "game";
+            const string GAME_START = "Assert Game start.";
+            const string SERVER_CONFIG_INIT = "ServerConfigInit";
+            const string LOCALS_INITED = "LocalsInited";
+            const string SERVER_INIT = "ServerInit";
+            const string PROFILE_DATA_INITED = "ProfileDataInited";
+            const string SERVER_FINISHED = "ServerFinished";
+            #endregion
+
+            switch (step)
+            {
+                default:
+                    Queue<string> asserts = new Queue<string>();
+                    asserts.Enqueue(GAME_START);
+
+                    if (m_DevelopSubgroup.startUpIoC)
+                    {
+                        asserts.Enqueue(SERVER_CONFIG_INIT);
+                        asserts.Enqueue(SERVER_INIT);
+                        asserts.Enqueue(SERVER_FINISHED);
+                    }
+                    else { }
+
+                    asserts.Enqueue(LOCALS_INITED);
+                    asserts.Enqueue(PROFILE_DATA_INITED);
+
+                    Tester.Instance.AddAsserter(ASSERT_GAME, false, asserts.ToArray());//构筑断言流程
+                    break;
+
+                case 0:
+                    LOG.AssertLog(ASSERT_GAME, GAME_START);
+                    break;
+                case 1:
+                    if (m_DevelopSubgroup.startUpIoC)
+                    {
+                        LOG.AssertLog(ASSERT_GAME, SERVER_CONFIG_INIT);
+                    }
+                    else
+                    {
+                        LOG.AssertLog(ASSERT_GAME, LOCALS_INITED);
+                    }
+                    break;
+                case 2:
+                    if (m_DevelopSubgroup.startUpIoC)
+                    {
+                        LOG.AssertLog(ASSERT_GAME, SERVER_INIT);
+                    }
+                    else
+                    {
+                        LOG.AssertLog(ASSERT_GAME, PROFILE_DATA_INITED);
+                    }
+                    break;
+                case 3:
+                    if (m_DevelopSubgroup.startUpIoC)
+                    {
+                        LOG.AssertLog(ASSERT_GAME, SERVER_FINISHED);
+                    }
+                    else { }
+                    break;
+                case 4:
+                    if (m_DevelopSubgroup.startUpIoC)
+                    {
+                        LOG.AssertLog(ASSERT_GAME, LOCALS_INITED);
+                    }
+                    else { }
+                    break;
+                case 5:
+                    if (m_DevelopSubgroup.startUpIoC)
+                    {
+                        LOG.AssertLog(ASSERT_GAME, PROFILE_DATA_INITED);
+                    }
+                    else { }
+                    break;
+            }
         }
     }
 }

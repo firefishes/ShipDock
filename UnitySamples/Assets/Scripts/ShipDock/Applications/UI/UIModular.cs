@@ -41,6 +41,13 @@ namespace ShipDock.Applications
         /// <summary>UI层级</summary>
         public virtual int UILayer { get; protected set; }
 
+        public UIModular() { }
+
+        public UIModular(T ui)
+        {
+            mUI = ui;
+        }
+
         public override void Init()
         {
             base.Init();
@@ -50,18 +57,22 @@ namespace ShipDock.Applications
             ABs = app.ABs;
             UIs = app.UIs;
 
-            GameObject prefab = ABs.Get(ABName, UIAssetName);
-            GameObject ui = Object.Instantiate(prefab, UIs.UIRoot.MainCanvas.transform);
+            if (mUI == default)
+            {
+                GameObject prefab = ABs.Get(ABName, UIAssetName);
+                GameObject ui = Object.Instantiate(prefab, UIs.UIRoot.MainCanvas.transform);
 
-            ParamNotice<MonoBehaviour> notice = Pooling<ParamNotice<MonoBehaviour>>.From();
+                ParamNotice<MonoBehaviour> notice = Pooling<ParamNotice<MonoBehaviour>>.From();
 
-            int id = ui.GetInstanceID();
-            id.Broadcast(notice);
+                int id = ui.GetInstanceID();
+                id.Broadcast(notice);
 
-            mUI = (T)notice.ParamValue;
-            notice.ToPool();
+                mUI = (T)notice.ParamValue;
+                notice.ToPool();
+            }
+            else { }
 
-            UILayer layer = ui.GetComponent<UILayer>();
+            UILayer layer = mUI.GetComponent<UILayer>();
             SetUIParent(ref layer);
             mUI.Add(UIModularHandler);
         }

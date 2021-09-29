@@ -1,32 +1,64 @@
-﻿#define _G_LOG
-
-using System;
+﻿using System;
+#if G_LOG
+using ShipDock.Testers;
+#endif
 using UnityEngine;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 
 namespace ShipDock.Tools
 {
+    [ExecuteAlways]
     public class TesterComponent : MonoBehaviour
     {
-        [SerializeField]
-        [Tooltip("日子断点器")]
-        private TesterBroker[] m_TesterBrokers;
-        [SerializeField]
-        [Tooltip("日子条目名")]
-        private string[] m_TesterNames;
-        [SerializeField]
-        [Tooltip("日志子组")]
-        private LogsSubgroup m_LogsSubgroup;
-
 #if G_LOG
+        [Serializable]
+        public class TesterBroker
+        {
+            public bool isValid;
+            public string logID;
+            public bool applyArgBreak;
+            public int argIndex;
+            public string testValue;
+        }
+
+#if ODIN_INSPECTOR
+        [Title("日志设置组件")]
+#endif
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [Title("日志断点")]
+#endif
+        private TesterBroker[] m_TesterBrokers;
+
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("日志可用性")]
+#endif
+        private LogsSetting m_LogsSetting = new LogsSetting();
+
         private void Awake()
         {
-            Testers.Tester.Instance.SetTestBrokerHandler(OnTestBrokerHandler);
+            m_LogsSetting.Init();
+            Tester.Instance.SetTestBrokerHandler(OnTestBrokerHandler);
         }
+
+#if UNITY_EDITOR
+        [ExecuteAlways]
+        private void Update()
+        {
+            bool flag = m_LogsSetting != default ? m_LogsSetting.UpdateSetting() : false;
+            if (flag)
+            {
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+            else { }
+        }
+#endif
 
         private void OnTestBrokerHandler(string logID, string[] args)
         {
-            m_LogsSubgroup?.UpdateLogs(logID);
-
             TesterBroker item;
             int max = m_TesterBrokers.Length;
             for (int i = 0; i < max; i++)
@@ -38,13 +70,13 @@ namespace ShipDock.Tools
                     {
                         if ((args.Length > item.argIndex) && (args[item.argIndex] == item.testValue))
                         {
-                            "log".Log("Tester said: value = ".Append(args[item.argIndex]));
+                            Debug.Log("Tester said: value = ".Append(args[item.argIndex]));
                         }
                         else { }
                     }
                     else
                     {
-                        "log".Log("Tester broken: ".Append(item.testValue));
+                        Debug.Log("Tester broken: ".Append(item.testValue));
                     }
                 }
                 else { }
@@ -52,15 +84,4 @@ namespace ShipDock.Tools
         }
 #endif
     }
-
-    [Serializable]
-    public class TesterBroker
-    {
-        public bool isValid;
-        public string logID;
-        public bool applyArgBreak;
-        public int argIndex;
-        public string testValue;
-    }
-
 }

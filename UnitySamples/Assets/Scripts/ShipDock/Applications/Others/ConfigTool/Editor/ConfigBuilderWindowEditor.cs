@@ -60,11 +60,12 @@ namespace ShipDock.Editors
             {
                 string path, relativeName;
                 string[] strs = Selection.assetGUIDs;
+                string log = string.Empty;
                 List<string> relativeNames = new List<string>();
                 foreach (var item in strs)
                 {
                     path = AssetDatabase.GUIDToAssetPath(item);
-                    CreateItemArrayWithExcel(path, out relativeName);
+                    CreateItemArrayWithExcel(path, out relativeName, ref log);
                     relativeNames.Add(relativeName.ToLower());
                 }
                 AssetDatabase.Refresh();

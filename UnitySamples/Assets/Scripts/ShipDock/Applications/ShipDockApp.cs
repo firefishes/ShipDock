@@ -93,19 +93,63 @@ namespace ShipDock.Applications
             }
         }
 
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogStartedError()
+        {
+            "error".Log("ShipDockApplication has started");
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogUIRootReady()
+        {
+            "debug".Log("UI root ready");
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void AssertFrameworkInit(int step)
+        {
+            const string LOG = "log";
+            const string ASSERT_FRAMEWORK_START = "framework start";
+            const string WELCOME = "Welcom..";
+            const string TICKS_READY = "Ticks Ready";
+            const string MANAGERS_READY = "Managers Ready";
+            const string FRAMEWORK_STARTED = "Framework started";
+
+            switch (step)
+            {
+                default:
+                    Tester.AddAsserter(ASSERT_FRAMEWORK_START, false, WELCOME, TICKS_READY, MANAGERS_READY, FRAMEWORK_STARTED);
+                    break;
+                case 0:
+                    LOG.AssertLog(ASSERT_FRAMEWORK_START, WELCOME);
+                    break;
+                case 1:
+                    LOG.AssertLog(ASSERT_FRAMEWORK_START, TICKS_READY);
+                    break;
+                case 2:
+                    LOG.AssertLog(ASSERT_FRAMEWORK_START, MANAGERS_READY);
+                    break;
+                case 3:
+                    LOG.AssertLog(ASSERT_FRAMEWORK_START, FRAMEWORK_STARTED);
+                    break;
+            }
+        }
+
         public void Start(int ticks)
         {
             Application.targetFrameRate = ticks <= 0 ? 10 : ticks;
             if (IsStarted)
             {
-                "error".Log("ShipDockApplication has started");
+                LogStartedError();
                 return;
             }
             else { }
 
             Tester = Tester.Instance;
             Tester.Init(new TesterBaseApp());
-            "log".AssertLog("framework start", "Welcom..");
+
+            AssertFrameworkInit(int.MaxValue);
+            AssertFrameworkInit(0);
 
             Notificater = NotificatonsInt.Instance.Notificater;//new Notifications<int>();//新建消息中心
             ABs = new AssetBundles();//新建资源包管理器
@@ -127,7 +171,6 @@ namespace ShipDock.Applications
             AppModulars = new DecorativeModulars();//新建装饰模块管理器
             Configs = new ConfigHelper();//新建配置管理器
 
-            "debug".Log("UI root ready");
             #region 向定制框架中填充框架功能单元
             Framework framework = Framework.Instance;
             FrameworkUnits = new IFrameworkUnit[]
@@ -147,8 +190,10 @@ namespace ShipDock.Applications
             mFSMUpdaters = new KeyValueList<IStateMachine, IUpdate>();
             mStateUpdaters = new KeyValueList<IState, IUpdate>();
             TicksUpdater = new TicksUpdater(Application.targetFrameRate);//新建客户端心跳帧更新器
-            "log".AssertLog("framework start", "Ticks Ready");
-            "log".AssertLog("framework start", "Managers Ready");
+
+            AssertFrameworkInit(1);
+            AssertFrameworkInit(2);
+
             IsStarted = true;
             mAppStarted?.Invoke();
             mAppStarted = default;
@@ -157,7 +202,7 @@ namespace ShipDock.Applications
             UpdatesComponent?.Init();
 
             ShipDockConsts.NOTICE_APPLICATION_STARTUP.Broadcast();//框架启动完成
-            "log".AssertLog("framework start", "Framework Started");
+            AssertFrameworkInit(3);
         }
 
         private void OnSceneUpdateReady(INoticeBase<int> time)
@@ -216,7 +261,7 @@ namespace ShipDock.Applications
         /// 启动 IOC 功能
         /// </summary>
         /// <param name="servers">需要添加的服务容器</param>
-        /// <param name="mainThreadServersReady">当服务容器初始化完成后在主线程上的回调</param>
+        /// <param name="mainThreadServersReady">服务容器初始化完成后在主线程上的回调</param>
         /// <param name="onInitedCallbacks">服务容器初始化完成后在子线程上的一组回调函数</param>
         /// <param name="onFinishedCallbacks">服务容器初始化完成后在子线程上的一组回调函数</param>
         public void StartIoC(IServer[] servers, Action mainThreadServersReady, Action[] onInitedCallbacks = default, Action[] onFinishedCallbacks = default)
@@ -225,10 +270,13 @@ namespace ShipDock.Applications
             {
                 MergeCallOnMainThread += mainThreadServersReady;
             }
+            else { }
+
             SetServersCallback(ref onInitedCallbacks, ref onFinishedCallbacks);
 
-            MergeToMainThread(out bool flag);
-            if (!flag)
+            MergeToMainThread();
+
+            if (!IsSceneUpdateReady)
             {
                 SceneUpdaterReady += () =>
                 {
@@ -244,9 +292,8 @@ namespace ShipDock.Applications
             else { }
         }
 
-        private void MergeToMainThread(out bool isSceneUpdateReady)
+        private void MergeToMainThread()
         {
-            isSceneUpdateReady = IsSceneUpdateReady;
             if (IsSceneUpdateReady)
             {
                 mMainThreadReadyChecker = new MethodUpdater();
@@ -284,8 +331,6 @@ namespace ShipDock.Applications
             if (Servers.IsServersReady)
             {
                 UpdaterNotice.RemoveSceneUpdater(mMainThreadReadyChecker);
-
-                "log".AssertLog("game", "ServerFinished");
 
                 AddServers();
                 MergeCallOnMainThread?.Invoke();
@@ -565,7 +610,8 @@ namespace ShipDock.Applications
             {
                 UIs = new UIManager();//新建 UI 管理器
                 UIs.SetRoot(root);
-                "debug".Log("UI root ready");
+
+                LogUIRootReady();
             }
             else { }
         }

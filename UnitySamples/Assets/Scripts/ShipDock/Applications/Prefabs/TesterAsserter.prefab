@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2861232931180201939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2861232931180201938}
+  - component: {fileID: 2861232931180201941}
+  m_Layer: 0
+  m_Name: TesterAsserter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2861232931180201938
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2861232931180201939}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2861232931180201941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2861232931180201939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f04d4a38b31e8ef468fc77edb22afc35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TesterBrokers: []
+  m_LogsSetting:
+    m_ApplyUnityAssert: 0
+    m_Sync: 0
+    m_EnabledAll: 1
+    m_RefreshTime: 0.5
+    m_Enableds:
+    - m_Title: 
+      m_TitleValue: "\u666E\u901A - ON - ID: log"
+      enabled: 1
+      m_Edit: 0
+      decs: "\u666E\u901A"
+      logID: log
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u62A5\u9519 - ON - ID: error"
+      enabled: 1
+      m_Edit: 0
+      decs: "\u62A5\u9519"
+      logID: error
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u8B66\u544A - ON - ID: warning"
+      enabled: 1
+      m_Edit: 0
+      decs: "\u8B66\u544A"
+      logID: warning
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u5F85\u5B8C\u6210 - ON - ID: todo"
+      enabled: 1
+      m_Edit: 0
+      decs: "\u5F85\u5B8C\u6210"
+      logID: todo
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u65AD\u8A00\u672A\u901A\u8FC7 - ON - ID: ast do not pass"
+      enabled: 1
+      m_Edit: 0
+      decs: "\u65AD\u8A00\u672A\u901A\u8FC7"
+      logID: ast do not pass
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u65AD\u8A00\u4E0D\u6B63\u786E - ON - ID: ast not correct"
+      enabled: 1
+      m_Edit: 0
+      decs: "\u65AD\u8A00\u4E0D\u6B63\u786E"
+      logID: ast not correct
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u65AD\u8A00\u6D4B\u8BD5\u5DF2\u547D\u4E2D - ON - ID: tester
+        hited"
+      enabled: 1
+      m_Edit: 0
+      decs: "\u65AD\u8A00\u6D4B\u8BD5\u5DF2\u547D\u4E2D"
+      logID: tester hited
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u65AD\u8A00\u6D4B\u8BD5\u6D41\u7A0B\u5DF2\u901A\u8FC7 - ON -
+        ID: all tester hited"
+      enabled: 1
+      m_Edit: 0
+      decs: "\u65AD\u8A00\u6D4B\u8BD5\u6D41\u7A0B\u5DF2\u901A\u8FC7"
+      logID: all tester hited
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6D88\u606F\u5DF2\u4FA6\u542C - OFF - ID: notice add"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6D88\u606F\u5DF2\u4FA6\u542C"
+      logID: notice add
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6D88\u606F\u5DF2\u53D1\u9001 - OFF - ID: notice send"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6D88\u606F\u5DF2\u53D1\u9001"
+      logID: notice send
+      testerName: 
+    - m_Title: No Title
+      m_TitleValue: "\u6D88\u606F\u5DF2\u79FB\u9664 - OFF - ID: notice rm"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6D88\u606F\u5DF2\u79FB\u9664"
+      logID: notice rm
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u5BF9\u8C61\u6C60\u62A5\u9519 - OFF - ID: pool type error"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u5BF9\u8C61\u6C60\u62A5\u9519"
+      logID: pool type error
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6253\u5370\u4F4D\u4E8E\u79C1\u6709\u76EE\u5F55\u7684\u8D44\u6E90
+        - OFF - ID: asset priv"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6253\u5370\u4F4D\u4E8E\u79C1\u6709\u76EE\u5F55\u7684\u8D44\u6E90"
+      logID: asset priv
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6253\u5370\u8D44\u6E90\u8DEF\u5F84 - OFF - ID: asset path"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6253\u5370\u8D44\u6E90\u8DEF\u5F84"
+      logID: asset path
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u8D44\u6E90\u52A0\u8F7D\u5931\u8D25 - OFF - ID: loader failed"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u8D44\u6E90\u52A0\u8F7D\u5931\u8D25"
+      logID: loader failed
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u8D44\u6E90\u52A0\u8F7D\u6210\u529F - OFF - ID: loader success"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u8D44\u6E90\u52A0\u8F7D\u6210\u529F"
+      logID: loader success
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u52A0\u8F7D\u4E0B\u4E00\u4E2A\u4F9D\u8D56\u8D44\u6E90 - OFF
+        - ID: loader deps"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u52A0\u8F7D\u4E0B\u4E00\u4E2A\u4F9D\u8D56\u8D44\u6E90"
+      logID: loader deps
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u4F9D\u8D56\u8D44\u6E90\u4E3A\u7A7A - OFF - ID: empty deps"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u4F9D\u8D56\u8D44\u6E90\u4E3A\u7A7A"
+      logID: empty deps
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6253\u5370\u8D44\u6E90\u4F9D\u8D56\u5173\u7CFB - OFF - ID:
+        deps"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6253\u5370\u8D44\u6E90\u4F9D\u8D56\u5173\u7CFB"
+      logID: deps
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u8D44\u6E90\u4F9D\u8D56\u9012\u5F52\u8D85\u9650 - OFF - ID:
+        walk deps error"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u8D44\u6E90\u4F9D\u8D56\u9012\u5F52\u8D85\u9650"
+      logID: walk deps error
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6253\u5370\u52A0\u8F7D\u8D44\u6E90\u7684\u5F00\u7AEF\u6587\u4EF6
+        - OFF - ID: load res"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6253\u5370\u52A0\u8F7D\u8D44\u6E90\u7684\u5F00\u7AEF\u6587\u4EF6"
+      logID: load res
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6709\u9650\u72B6\u6001\u673A\u72B6\u6001\u5DF2\u66F4\u6539
+        - OFF - ID: fsm changed"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6709\u9650\u72B6\u6001\u673A\u72B6\u6001\u5DF2\u66F4\u6539"
+      logID: fsm changed
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6709\u9650\u72B6\u6001\u673A\u72B6\u6001\u91CD\u590D\u521B\u5EFA
+        - OFF - ID: fsm state repeate"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6709\u9650\u72B6\u6001\u673A\u72B6\u6001\u91CD\u590D\u521B\u5EFA"
+      logID: fsm state repeate
+      testerName: 
+    - m_Title: 
+      m_TitleValue: "\u6587\u4EF6\u5199\u5165 - OFF - ID: wr file"
+      enabled: 0
+      m_Edit: 0
+      decs: "\u6587\u4EF6\u5199\u5165"
+      logID: wr file
+      testerName: 

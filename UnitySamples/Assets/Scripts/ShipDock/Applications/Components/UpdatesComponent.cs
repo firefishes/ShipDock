@@ -18,29 +18,29 @@ namespace ShipDock.Applications
     public class UpdatesComponent : MonoBehaviour, IUpdatesComponent
     {
 #if ODIN_INSPECTOR
-        [TitleGroup("组件相关消息")]
+        [TitleGroup("主线帧更新组件")]
 #endif
         [SerializeField]
 #if ODIN_INSPECTOR
-        [LabelText("消息名 - 组件就绪"), Indent(1)]
+        [LabelText("消息名 - 组件就绪"), EnableIf("@false"), Indent(1)]
 #endif 
         private int m_ReadyNoticeName = ShipDockConsts.NOTICE_SCENE_UPDATE_READY;
 
         [SerializeField, Tooltip("触发Unity主线程驱动模式的帧更新消息")]
 #if ODIN_INSPECTOR
-        [LabelText("消息名 - 新增帧更新项"), Indent(1)]
+        [LabelText("消息名 - 新增帧更新项"), EnableIf("@false"), Indent(1)]
 #endif
         private int m_AddItemNoticeName = ShipDockConsts.NOTICE_ADD_SCENE_UPDATE;
 
         [SerializeField]
 #if ODIN_INSPECTOR
-        [LabelText("消息名 - 移除帧更新项"), Indent(1)]
+        [LabelText("消息名 - 移除帧更新项"), EnableIf("@false"), Indent(1)]
 #endif
         private int m_RemoveItemNoticeName = ShipDockConsts.NOTICE_REMOVE_SCENE_UPDATE;
 
         [SerializeField]
 #if ODIN_INSPECTOR
-        [LabelText("消息名 - 推迟至下一帧更新"), Indent(1)]
+        [LabelText("消息名 - 推迟至下一帧更新"), EnableIf("@false"), Indent(1)]
 #endif
         private int m_CallLateItemNoticeName = ShipDockConsts.NOTICE_SCENE_CALL_LATE;
 

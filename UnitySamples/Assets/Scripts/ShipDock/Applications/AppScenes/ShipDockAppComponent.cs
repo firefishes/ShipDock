@@ -95,7 +95,10 @@ namespace ShipDock.Applications
         /// <param name="locals">语言本地化标记，用于区分不同地区的本地化配置</param>
         /// <param name="item">语言本地化配置的数据对象，实现 IConfig 接口</param>
         /// <returns></returns>
-        protected abstract string GetLocalsDescription<T>(ref string locals, ref T item) where T : IConfig, new();
+        protected virtual string GetLocalsDescription<T>(ref string locals, ref T item) where T : IConfig, new()
+        {
+            return string.Empty;
+        }
 
         /// <summary>
         /// 响应初始化游戏用户数据事件的处理函数，用于向用户数据填充源自配置文件部分的内容
