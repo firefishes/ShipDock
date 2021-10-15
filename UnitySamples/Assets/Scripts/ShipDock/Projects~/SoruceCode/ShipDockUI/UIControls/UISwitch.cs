@@ -11,7 +11,7 @@ namespace ShipDock.UIControls
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public class UISwitch : UIBase
+    public class UISwitch : UIBase, ILabel
     {
         /// <summary>内容为开启的标题</summary>
         public string LabelOn { get; private set; } = "ON";
@@ -23,7 +23,7 @@ namespace ShipDock.UIControls
         /// <summary>是否为开启状态</summary>
         private bool mTurnOn;
         /// <summary>标题文本</summary>
-        private Text mLabel;
+        private UILabel mLabel;
         /// <summary>按钮组</summary>
         private Button[] mButtons; 
 
@@ -41,9 +41,21 @@ namespace ShipDock.UIControls
             }
         }
 
+        public string Label
+        {
+            get
+            {
+                return mLabel.Text;
+            }
+            set
+            {
+                mLabel.Text = value;
+            }
+        }
+
         public UISwitch(Button UIBtnOn, Button UIBtnOff, Text label = default) : base()
         {
-            mLabel = label;
+            mLabel = new UILabel(label);
             mButtons = new Button[] { UIBtnOn, UIBtnOff };
 
             Init();
@@ -53,16 +65,18 @@ namespace ShipDock.UIControls
         {
             Utils.Reclaim(ref mButtons, true);
 
+            mLabel?.Clean();
+
             mLabel = default;
-            OnInited = default;
             OnChanged = default;
         }
 
         protected override void InitUI()
         {
-            AddReferenceUI(UIControlReferenceName.UI_LABEL, mLabel != default ? mLabel.gameObject : default);
             AddReferenceUI(UIControlReferenceName.UI_BTN_ON, mButtons[0].gameObject);
             AddReferenceUI(UIControlReferenceName.UI_BTN_OFF, mButtons[1].gameObject);
+
+            BindChildControl(mLabel);
         }
 
         protected override void InitEvents()
@@ -77,13 +91,11 @@ namespace ShipDock.UIControls
                 AddUIRaw<string>(UIControlNameRaws.RAW_SET_LABEL, OnSetLabel);
             }
             else { }
-
-            OnInited?.Invoke();
         }
 
         private void OnSetLabel(string value)
         {
-            mLabel.text = value;
+            mLabel.Text = value;
         }
 
         private void OnCleanUISwitch(UIBase ui)
@@ -106,6 +118,11 @@ namespace ShipDock.UIControls
             SetVisible(true == TurnOn, UIControlReferenceName.UI_BTN_OFF);
 
             OnChanged?.Invoke(TurnOn);
+        }
+
+        public void SetLabelTarget(Text target)
+        {
+            mLabel.SetLabelTarget(target);
         }
     }
 }

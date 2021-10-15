@@ -1,11 +1,9 @@
-﻿using ShipDockUI = ShipDock.UI.UI;
+﻿using ShipDock.UI;
 
 namespace ShipDock.Applications
 {
-    public abstract class LoopScrollItem : ShipDockUI
+    public abstract class LoopScrollItem : UIContainer
     {
-        public override void UpdateUI()
-        {
-        }
+        public override void UpdateUI() { }
     }
 }

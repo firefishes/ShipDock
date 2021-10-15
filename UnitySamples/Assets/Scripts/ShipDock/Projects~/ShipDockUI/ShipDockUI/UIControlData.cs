@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShipDock.UIControls
+﻿namespace ShipDock.UIControls
 {
     public class UIControlData
     {
+        public int id;
     }
 }

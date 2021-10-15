@@ -3,6 +3,7 @@ using ShipDock.Loader;
 using ShipDock.Notices;
 using ShipDock.Pooling;
 using ShipDock.UI;
+using System;
 using UnityEngine;
 
 namespace ShipDock.Applications
@@ -40,6 +41,8 @@ namespace ShipDock.Applications
         public abstract int[] DataProxyLinks { get; set; }
         /// <summary>UI层级</summary>
         public virtual int UILayer { get; protected set; }
+        /// <summary>UI 关闭后的回调函数</summary>
+        public Action OnUIClose { get; set; }
 
         public UIModular() { }
 
@@ -60,7 +63,7 @@ namespace ShipDock.Applications
             if (mUI == default)
             {
                 GameObject prefab = ABs.Get(ABName, UIAssetName);
-                GameObject ui = Object.Instantiate(prefab, UIs.UIRoot.MainCanvas.transform);
+                GameObject ui = UnityEngine.Object.Instantiate(prefab, UIs.UIRoot.MainCanvas.transform);
 
                 ParamNotice<MonoBehaviour> notice = Pooling<ParamNotice<MonoBehaviour>>.From();
 
@@ -142,7 +145,6 @@ namespace ShipDock.Applications
         /// </summary>
         protected virtual void ShowUI()
         {
-            //mUI.Add(UIModularHandler);
             if (UILayer == UILayerType.POPUPS)
             {
                 mUI.transform.SetAsLastSibling();
@@ -185,6 +187,9 @@ namespace ShipDock.Applications
                     this.DataProxyDelink(DataProxyLinks);
 
                     HideUI();
+
+                    OnUIClose?.Invoke();
+                    OnUIClose = default;
                 }
             }
             else { }
@@ -197,8 +202,9 @@ namespace ShipDock.Applications
 
             Purge();
 
-            Object.Destroy(mUI.gameObject);
+            UnityEngine.Object.Destroy(mUI.gameObject);
 
+            OnUIClose = default;
             UIs = default;
             ABs = default;
             mUI = default;

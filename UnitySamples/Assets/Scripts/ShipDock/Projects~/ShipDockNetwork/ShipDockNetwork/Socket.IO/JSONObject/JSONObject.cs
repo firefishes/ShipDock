@@ -139,11 +139,23 @@ public class JSONObject : IEnumerable
         keys = new List<string>();
         list = new List<JSONObject>();
         //Not sure if it's worth removing the foreach here
-        foreach (KeyValuePair<string, string> kvp in dic)
+        //foreach (KeyValuePair<string, string> kvp in dic)
+        //{
+        //    keys.Add(kvp.Key);
+        //    list.Add(CreateStringObject(kvp.Value));
+        //}
+
+        KeyValuePair<string, string> item;
+        var enumer = dic.GetEnumerator();
+        int max = dic.Count;
+        for (int i = 0; i < max; i++)
         {
-            keys.Add(kvp.Key);
-            list.Add(CreateStringObject(kvp.Value));
+            enumer.MoveNext();
+            item = enumer.Current;
+            keys.Add(item.Key);
+            list.Add(CreateStringObject(item.Value));
         }
+        enumer.Dispose();
     }
     public JSONObject(Dictionary<string, JSONObject> dic)
     {

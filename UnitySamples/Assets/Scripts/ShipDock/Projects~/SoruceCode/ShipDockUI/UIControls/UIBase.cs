@@ -14,6 +14,9 @@ namespace ShipDock.UIControls
     /// </summary>
     public abstract class UIBase
     {
+
+        /// <summary>需要初始化的子控件</summary>
+        private int mChildrenWillInit;
         /// <summary>控件子元素名称</summary>
         private List<string> mNameReferens;
         /// <summary>控件子元素物体引用</summary>
@@ -22,9 +25,44 @@ namespace ShipDock.UIControls
         private List<string> mNameRaws;
         /// <summary>控件子元素源功能引用</summary>
         private List<IUIRaw> mUIRaws;
-        /// <summary>控件数据</summary>
-        private UIControlData mData;
+        /// <summary>子控件集合</summary>
+        private List<UIBase> mChildrenUI;
 
+        /// <summary>控件数据</summary>
+        protected UIControlData mData;
+
+        /// <summary>是否已被清除</summary>
+        public bool IsClean { get; protected set; }
+        /// <summary>是否开启控件的延后执行功能</summary>
+        public bool ApplyCallLate { get; set; }
+        /// <summary>控件初始化完成后的回调函数</summary>
+        public Action OnInited { get; set; }
+        /// <summary>控件对应的UI变换组件</summary>
+        public RectTransform UITransform { get; protected set; }
+        /// <summary>父级控件</summary>
+        public UIBase ParentControl { get; private set; }
+        /// <summary控件是否已初始化</summary>
+        public bool IsInited { get; private set; }
+
+        /// <summary>子控件数量</summary>
+        public int ChildrenUICount
+        {
+            get
+            {
+                return mChildrenUI != default ? mChildrenUI.Count : 0;
+            }
+        }
+
+        /// <summary>是否有子控件</summary>
+        public bool ChildrenNeedInit
+        {
+            get
+            {
+                return mChildrenWillInit > 0;
+            }
+        }
+
+        /// <summary>控件数据</summary>
         public virtual UIControlData Data
         {
             get
@@ -39,15 +77,9 @@ namespace ShipDock.UIControls
             }
         }
 
-        /// <summary>是否已被清除</summary>
-        public bool IsClean { get; protected set; }
-        /// <summary>是否开启控件的延后执行功能</summary>
-        public bool ApplyCallLate { get; set; }
-        /// <summary>控件初始化完成后的回调函数</summary>
-        public Action OnInited { get; set; }
-        /// <summary>控件对应的UI变换组件</summary>
-        public RectTransform UITransform { get; protected set; }
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public UIBase()
         {
             ApplyCallLate = true;
@@ -58,12 +90,19 @@ namespace ShipDock.UIControls
             mNameRaws = new List<string>();
             mUIRaws = new List<IUIRaw>();
 
-            void clean(UIBase param) { }
-            Action<UIBase> redirect = (param) => { };
-            redirect += OnRedirect;
+            mChildrenUI = new List<UIBase>();
 
-            AddUIRaw<UIBase>(UIControlNameRaws.RAW_DURING_CLEAN, clean);//增加自动回收的源功能
-            AddUIRaw(UIControlNameRaws.REDIRECT_CONTROL, redirect);//增加自动回收的源功能
+            Action<UIBase> clean = (param) => { };
+            Action<UIBase> redirect = (param) => { };
+            Action<UIBase> childInited = (param) => { };
+            Action<UIBase> childAdded = (param) => { };
+            Action<UIBase> childRemoved = (param) => { };
+
+            AddUIRaw(UIControlNameRaws.RAW_DURING_CLEAN, clean);//新增自动回收的源功能
+            AddUIRaw(UIControlNameRaws.RAW_REDIRECT_CONTROL, redirect);//新增控件主体重定向的源功能
+            AddUIRaw(UIControlNameRaws.RAW_CHILDREN_INITED, childInited);//新增子控件初始化完成的源功能
+            AddUIRaw(UIControlNameRaws.RAW_CHILDREN_ADDED, childAdded);//新增子控件添加的源功能
+            AddUIRaw(UIControlNameRaws.RAW_CHILDREN_REMOVED, childRemoved);//新增子控件移除的源功能
 
             //子类须在构造函数中主动调用以下代码执行各自的初始化流程
             //Init();
@@ -81,6 +120,7 @@ namespace ShipDock.UIControls
             else { }
 
             IsClean = true;
+            IsInited = false;
 
             Purge();
 
@@ -90,9 +130,11 @@ namespace ShipDock.UIControls
             mUIReferens?.Clear();
             mNameRaws?.Clear();
             mUIRaws?.Clear();
+            mChildrenUI?.Clear();
 
             OnInited = default;
             UITransform = default;
+            ParentControl = default;
         }
 
         /// <summary>
@@ -107,6 +149,51 @@ namespace ShipDock.UIControls
         {
             InitUI();
             InitEvents();
+
+            InsertUIRaw<UIBase>(UIControlNameRaws.RAW_REDIRECT_CONTROL, OnRedirect);
+            InsertUIRaw<UIBase>(UIControlNameRaws.RAW_CHILDREN_ADDED, OnChildAdded);
+            InsertUIRaw<UIBase>(UIControlNameRaws.RAW_CHILDREN_REMOVED, OnChildRemoved);
+
+            if (!ChildrenNeedInit)
+            {
+                InsertUIRaw<UIBase>(UIControlNameRaws.RAW_CHILDREN_INITED, OnControlInited);
+            }
+            else { }
+
+            UIValid();
+        }
+
+        /// <summary>
+        /// 子控件加入时触发
+        /// </summary>
+        /// <param name="child"></param>
+        private void OnChildRemoved(UIBase child)
+        {
+            if (mChildrenUI.Contains(child))
+            {
+                mChildrenUI.Remove(child);
+
+                if (mChildrenWillInit > 0)
+                {
+                    mChildrenWillInit--;
+                }
+                else { }
+            }
+            else { }
+        }
+
+        /// <summary>
+        /// 子控件被移除时触发
+        /// </summary>
+        /// <param name="child"></param>
+        private void OnChildAdded(UIBase child)
+        {
+            if (!mChildrenUI.Contains(child))
+            {
+                mChildrenWillInit++;
+                mChildrenUI.Add(child);
+            }
+            else { }
         }
 
         /// <summary>
@@ -125,12 +212,7 @@ namespace ShipDock.UIControls
         /// <param name="method"></param>
         protected void AddClean<T>(Action<T> method)
         {
-            if (method != default)
-            {
-                Action<T> target = GetUIRaw<T>(UIControlNameRaws.RAW_DURING_CLEAN);
-                target += method;
-            }
-            else { }
+            InsertUIRaw(UIControlNameRaws.RAW_DURING_CLEAN, method);
         }
 
         /// <summary>
@@ -139,12 +221,7 @@ namespace ShipDock.UIControls
         /// <param name="method"></param>
         protected void RemoveClean<T>(Action<T> method)
         {
-            if (method != default)
-            {
-                Action<T> target = GetUIRaw<T>(UIControlNameRaws.RAW_DURING_CLEAN);
-                target -= method;
-            }
-            else { }
+            RemoveUIRaw(UIControlNameRaws.RAW_DURING_CLEAN, method);
         }
 
         /// <summary>
@@ -187,8 +264,72 @@ namespace ShipDock.UIControls
         {
             if (method != default)
             {
-                mNameRaws.Add(name);
-                mUIRaws.Add(new UIRaw<Action<T>>(method));
+                int index = mNameRaws.IndexOf(name);
+                UIRaw<Action<T>> item;
+                if (index == -1)
+                {
+                    item = new UIRaw<Action<T>>(method);
+
+                    mNameRaws.Add(name);
+                    mUIRaws.Add(item);
+                }
+                else
+                {
+                    item = mUIRaws[index] as UIRaw<Action<T>>;
+                    item.raw = default;
+
+                    Action<T> m = (p) => { };
+                    m += method;
+                    item.raw = m;
+
+                    mNameRaws[index] = name;
+                }
+            }
+            else { }
+        }
+
+        /// <summary>
+        /// 向指定的源功能添加委托方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name"></param>
+        /// <param name="method"></param>
+        /// <param name="isOverride"></param>
+        public void InsertUIRaw<T>(string name, Action<T> method, bool isOverride = false)
+        {
+            if (method != default)
+            {
+                int index = mNameRaws.IndexOf(name);
+                if (index >= 0)
+                {
+                    UIRaw<Action<T>> item = mUIRaws[index] as UIRaw<Action<T>>;
+                    if (isOverride)
+                    {
+                        item.raw = method;
+                    }
+                    else
+                    {
+                        item.raw += method;
+                    }
+                }
+                else { }
+            }
+            else { }
+        }
+
+        /// <summary>
+        /// 从指定的源功能移除委托方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name"></param>
+        /// <param name="method"></param>
+        public void RemoveUIRaw<T>(string name, Action<T> method)
+        {
+            int index = mNameRaws.IndexOf(name);
+            if (index >= 0)
+            {
+                UIRaw<Action<T>> item = mUIRaws[index] as UIRaw<Action<T>>;
+                item.raw -= method;
             }
             else { }
         }
@@ -218,6 +359,15 @@ namespace ShipDock.UIControls
         {
             Action<T> method = GetUIRaw<T>(name);
             method?.Invoke(param);
+
+            LogCallRaw(method, ref name);
+        }
+
+        [System.Diagnostics.Conditional("G_LOG")]
+        private void LogCallRaw(object param, ref string name)
+        {
+            "log:Call raw {0}".Log(name);
+            "log:Call raw, method is {0}".Log(param != default, param.ToString());
         }
 
         /// <summary>
@@ -226,7 +376,7 @@ namespace ShipDock.UIControls
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
-        private Action<T> GetUIRaw<T>(string name)
+        protected Action<T> GetUIRaw<T>(string name)
         {
             Action<T> result = default;
             int index = mNameRaws.IndexOf(name);
@@ -244,6 +394,7 @@ namespace ShipDock.UIControls
                 else { }
             }
             else { }
+
             return result;
         }
 
@@ -262,11 +413,22 @@ namespace ShipDock.UIControls
             }
         }
 
+        /// <summary>
+        /// 更新帧需要执行的逻辑
+        /// </summary>
+        /// <param name="time"></param>
         private void OnNextFrameUpdate(int time)
         {
             DataChanged();
             PropertiesChanged();
             AfterUIValid();
+
+            if (!IsInited && !ChildrenNeedInit)
+            {
+                IsInited = true;
+                CallRaw(this, UIControlNameRaws.RAW_CHILDREN_INITED);
+            }
+            else { }
         }
 
         /// <summary>
@@ -284,9 +446,12 @@ namespace ShipDock.UIControls
         /// </summary>
         protected virtual void AfterUIValid() { }
 
+        /// <summary>
+        /// 重定向控件
+        /// </summary>
         protected void RedirectControl()
         {
-            CallRaw(this, UIControlNameRaws.REDIRECT_CONTROL);//调用重定向方法
+            CallRaw(this, UIControlNameRaws.RAW_REDIRECT_CONTROL);//调用重定向的源方法
         }
 
         /// <summary>
@@ -295,6 +460,91 @@ namespace ShipDock.UIControls
         protected virtual void OnRedirect(UIBase control)
         {
             UITransform = default;
+        }
+
+        /// <summary>
+        /// 控件初始化完成
+        /// </summary>
+        /// <param name="control"></param>
+        public virtual void OnControlInited(UIBase control)
+        {
+            RemoveUIRaw<UIBase>(UIControlNameRaws.RAW_CHILDREN_INITED, OnControlInited);
+
+            if (!ChildrenNeedInit)
+            {
+                OnInited?.Invoke();
+            }
+            else { }
+        }
+
+        /// <summary>
+        /// 自身子控件初始化完成
+        /// </summary>
+        /// <param name="child"></param>
+        private void ChildInited(UIBase child)
+        {
+            if (ChildrenNeedInit)
+            {
+                mChildrenWillInit--;
+                mChildrenWillInit = Mathf.Max(0, mChildrenWillInit);
+
+                child.RemoveUIRaw<UIBase>(UIControlNameRaws.RAW_CHILDREN_INITED, ChildInited);
+
+                if (!IsInited && !ChildrenNeedInit)
+                {
+                    IsInited = true;
+                    OnAllChildrenInited();
+                }
+                else { }
+            }
+            else { }
+        }
+
+        /// <summary>
+        /// 所有子控件都完成了初始化流程
+        /// </summary>
+        protected virtual void OnAllChildrenInited()
+        {
+            OnInited?.Invoke();
+        }
+
+        /// <summary>
+        /// 绑定子控件
+        /// </summary>
+        /// <param name="child"></param>
+        protected void BindChildControl(UIBase child)
+        {
+            if ((child != default) && !mChildrenUI.Contains(child))
+            {
+                child.BindToControlAsChild(this);
+            }
+            else { }
+        }
+
+        /// <summary>
+        /// 作为子控件绑定到其他子控件
+        /// </summary>
+        /// <param name="parent"></param>
+        public void BindToControlAsChild(UIBase parent)
+        {
+            if (ParentControl != default)
+            {
+                if (parent != ParentControl)
+                {
+                    ParentControl.CallRaw(this, UIControlNameRaws.RAW_CHILDREN_REMOVED);
+                    RemoveUIRaw<UIBase>(UIControlNameRaws.RAW_CHILDREN_INITED, ParentControl.ChildInited);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else { }
+
+            ParentControl = parent;
+
+            ParentControl.CallRaw(this, UIControlNameRaws.RAW_CHILDREN_ADDED);
+            InsertUIRaw<UIBase>(UIControlNameRaws.RAW_CHILDREN_INITED, ParentControl.ChildInited);
         }
     }
 }

@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
@@ -108,8 +109,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShipDockUI\ResourcesUI.cs" />
+    <Compile Include="ShipDockUI\UIButtonGroup.cs" />
     <Compile Include="ShipDockUI\UIControlData.cs" />
     <Compile Include="ShipDockUI\UIControlNameRaws.cs" />
+    <Compile Include="ShipDockUI\UIIconLabel.cs" />
+    <Compile Include="ShipDockUI\UILabel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

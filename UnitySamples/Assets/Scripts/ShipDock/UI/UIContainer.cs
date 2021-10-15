@@ -27,7 +27,7 @@ namespace ShipDock.UI
 
         [SerializeField]
 #if ODIN_INSPECTOR
-        [LabelText("物体失活方式控制隐藏"), Indent(1)]
+        [LabelText("修改 activeSelf 属性方式控制隐藏"), Indent(1)]
 #endif
         private bool m_ActiveSelfControlHide = true;
 
@@ -43,7 +43,7 @@ namespace ShipDock.UI
         /// <summary>变化事务集合</summary>
         private KeyValueList<string, IUISubgroup> mUISubgroup;
 
-        /// <summary>是否用物体失活方式控制隐藏</summary>
+        /// <summary>是否用修改 activeSelf 属性方式控制隐藏</summary>
         public bool ActiveSelfControlHide { get; protected set; }
         /// <summary>界面节点控制器</summary>
         public UINodeControl NodesControl { get; private set; }
@@ -81,7 +81,7 @@ namespace ShipDock.UI
                 IUIStack stack = CreateModular();
                 if (stack != default)
                 {
-                    UIs.Open<UIPuzzlesModular>(stack.Name, () =>
+                    UIs.Open<UIStack>(stack.Name, () =>
                     {
                         UIs.BindResourcesUIToStack(stack, gameObject, ActiveSelfControlHide);
                         return stack;

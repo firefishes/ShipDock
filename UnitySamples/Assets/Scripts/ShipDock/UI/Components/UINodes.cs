@@ -6,8 +6,6 @@ using ShipDock.Applications;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using ShipDock.Tools;
 
 namespace ShipDock.UI
 {
@@ -35,45 +33,57 @@ namespace ShipDock.UI
                 {
                     return string.Empty;
                 }
+                else { }
+
                 string temp;
                 int max = m_ComponentData != default ? m_ComponentData.Length : 0;
                 string res = string.Empty;
                 ValueSubgroup item;
-                string s = " = ", nextLine = "\r\n";
+                string s = " = ", nextLine = "\r\n", editable = "editing..";
                 if (max > 0)
                 {
                     mOverviewTooltips = "值绑定：".Append(nextLine);
                 }
+                else { }
+
                 for (int i = 0; i < max; i++)
                 {
                     item = m_ComponentData[i];
-                    switch (item.valueType)
+                    if (item.editable)
                     {
-                        case ValueItemType.LAYER_MASK:
-                            temp = item.keyField.Append(s, item.GetLayerMask().ToString());
-                            break;
-                        case ValueItemType.VECTOR_2:
-                            temp = item.keyField.Append(s, item.GetV2().ToString());
-                            break;
-                        case ValueItemType.VECTOR_3:
-                            temp = item.keyField.Append(s, item.GetV3().ToString());
-                            break;
-                        case ValueItemType.BOOL:
-                            temp = item.keyField.Append(s, item.GetBool().Bool ? "True" : "False");
-                            break;
-                        case ValueItemType.FLOAT:
-                            temp = item.keyField.Append(s, item.Result().Float.ToString());
-                            break;
-                        case ValueItemType.INT:
-                            temp = item.keyField.Append(s, item.Result().Int.ToString());
-                            break;
-                        case ValueItemType.COLOR:
-                            temp = item.keyField.Append(s, item.GetColor().ToString());
-                            break;
-                        default:
-                            temp = item.keyField.Append(s, item.Result().Value);
-                            break;
+                        temp = editable;
                     }
+                    else
+                    {
+                        switch (item.valueType)
+                        {
+                            case ValueItemType.LAYER_MASK:
+                                temp = item.keyField.Append(s, item.GetLayerMask().ToString());
+                                break;
+                            case ValueItemType.VECTOR_2:
+                                temp = item.keyField.Append(s, item.GetV2().ToString());
+                                break;
+                            case ValueItemType.VECTOR_3:
+                                temp = item.keyField.Append(s, item.GetV3().ToString());
+                                break;
+                            case ValueItemType.BOOL:
+                                temp = item.keyField.Append(s, item.GetBool().Bool ? "True" : "False");
+                                break;
+                            case ValueItemType.FLOAT:
+                                temp = item.keyField.Append(s, item.Result().Float.ToString());
+                                break;
+                            case ValueItemType.INT:
+                                temp = item.keyField.Append(s, item.Result().Int.ToString());
+                                break;
+                            case ValueItemType.COLOR:
+                                temp = item.keyField.Append(s, item.GetColor().ToString());
+                                break;
+                            default:
+                                temp = item.keyField.Append(s, item.Result().Value);
+                                break;
+                        }
+                    }
+
                     mOverviewTooltips = mOverviewTooltips.Append("    ", temp, nextLine);
                 }
                 max = m_SceneNodes != default ? m_SceneNodes.Length : 0;
@@ -81,109 +91,118 @@ namespace ShipDock.UI
                 {
                     mOverviewTooltips = mOverviewTooltips.Append(nextLine, "对象绑定：", nextLine);
                 }
+                else { }
+
                 SceneNodeSubgroup sceneItem;
                 temp = string.Empty;
                 for (int i = 0; i < max; i++)
                 {
                     sceneItem = m_SceneNodes[i];
-                    switch (sceneItem.valueType)
+                    if (sceneItem.editable)
                     {
-                        case SceneNodeType.GAME_OBJECT:
-                            temp = sceneItem.keyField.Append(" {", sceneItem.value.name, "}");
-                            break;
-                        case SceneNodeType.ANIMATOR:
-                            temp = sceneItem.keyField.Append("Animator {", sceneItem.animator.name, "}");
-                            break;
-                        case SceneNodeType.CAMERA:
-                            temp = sceneItem.keyField.Append(" Camera {", sceneItem.lens.name, "}");
-                            break;
-                        case SceneNodeType.SPRITE:
-                            temp = sceneItem.keyField.Append(" Sprite {", sceneItem.sprite.name, "}");
-                            break;
-                        case SceneNodeType.TEXTURE:
-                            temp = sceneItem.keyField.Append(" Texture {", sceneItem.texture.name, "}");
-                            break;
-                        case SceneNodeType.UI_BUTTON:
-                            temp = sceneItem.keyField.Append(" Button {", sceneItem.button.name, "}");
-                            break;
-                        case SceneNodeType.UI_IMAGE:
-                            temp = sceneItem.keyField.Append(" Image {", sceneItem.image.name, "}");
-                            break;
-                        case SceneNodeType.UI_TEXT:
-                            temp = sceneItem.keyField.Append(" Text {", sceneItem.Label.name, "}");
-                            break;
-                        case SceneNodeType.ANI_CURVE:
-                            int n = sceneItem.animationCurve.keys.Length;
-                            float t, v;
-                            temp = string.Empty;
-                            string kf = "    key frame: time=", c = ", value=";
-                            Keyframe k;
-                            for (int j = 0; j < n; j++)
-                            {
-                                k = sceneItem.animationCurve.keys[j];
-                                t = k.time;
-                                v = k.value;
-                                temp = temp.Append(kf, t.ToString(), c, v.ToString(), nextLine);
-                            }
-                            temp = string.Format(sceneItem.keyField.Append(":", nextLine, "{0}"), temp);
-                            break;
-                        case SceneNodeType.UI_LAYOUT_GROUP:
-                            temp = sceneItem.keyField.Append(" Layout group {", sceneItem.layoutGroup.name, "}");
-                            break;
-                        case SceneNodeType.UI_TOGGLE:
-                            temp = sceneItem.keyField.Append(" Toggle {", sceneItem.toggle.name, "}");
-                            break;
-                        case SceneNodeType.UI_TOGGLE_GROUP:
-                            temp = sceneItem.keyField.Append(" Layout toggle group {", sceneItem.toggleGroup.name, "}");
-                            break;
-                        case SceneNodeType.UI_SLIDER:
-                            temp = sceneItem.keyField.Append(" Slider {", sceneItem.slider.name, "}");
-                            break;
-                        case SceneNodeType.UI_SCROLL_BAR:
-                            temp = sceneItem.keyField.Append(" Scroll bar {", sceneItem.scrollBar.name, "}");
-                            break;
-                        case SceneNodeType.UI_DROP_DOWN:
-                            temp = sceneItem.keyField.Append(" Drop down {", sceneItem.dropDown.name, "}");
-                            break;
-                        case SceneNodeType.UI_INPUT_FIELD:
-                            temp = sceneItem.keyField.Append(" Input field {", sceneItem.inputField.name, "}");
-                            break;
-                        case SceneNodeType.UI_CANVAS:
-                            temp = sceneItem.keyField.Append(" Canvas {", sceneItem.canvas.name, "}");
-                            break;
-                        case SceneNodeType.UI_EVENT_SYSTEM:
-                            temp = sceneItem.keyField.Append(" Event system {", sceneItem.eventSystem.name, "}");
-                            break;
-                        case SceneNodeType.UI_EVENT_TRIGGER:
-                            temp = sceneItem.keyField.Append(" Event trigger {", sceneItem.eventTrigger.name, "}");
-                            break;
-                        case SceneNodeType.TRANSFORM:
-                            temp = sceneItem.keyField.Append(" Transform {", sceneItem.trans.name, "}");
-                            break;
-                        case SceneNodeType.MATERIAL:
-                            temp = sceneItem.keyField.Append(" Material {", sceneItem.materialNode.name, "}");
-                            break;
-                        case SceneNodeType.SPRITE_RENDERER:
-                            temp = sceneItem.keyField.Append(" Sprite renderer {", sceneItem.spriteRendererNode.name, "}");
-                            break;
-                        case SceneNodeType.MESH_FILTER:
-                            temp = sceneItem.keyField.Append(" Mesh filter {", sceneItem.meshFilterNode.name, "}");
-                            break;
-                        case SceneNodeType.AUDIO_SOURCE:
-                            temp = sceneItem.keyField.Append(" Audio source {", sceneItem.audioSource.name, "}");
-                            break;
-                        case SceneNodeType.ILRUNTIME_HOTFIX:
-                            temp = sceneItem.keyField.Append(" HotFixer {", sceneItem.hotFixer.HotFixCompClassName, "}");
-                            break;
-                        case SceneNodeType.ILRUNTIME_HOTFIX_UI:
-                            temp = sceneItem.keyField.Append(" HotFixer UI { ", sceneItem.hotFixerUI.UIInteractorName, sceneItem.hotFixerUI.UIModularName, "}");
-                            break;
-                        case SceneNodeType.BYTES:
-                            temp = sceneItem.keyField.Append(" Text Asset { ", sceneItem.bytes.name, "}");
-                            break;
-                        default:
-                            temp = sceneItem.keyField.Append(" Null");
-                            break;
+                        temp = editable;
+                    }
+                    else
+                    {
+                        switch (sceneItem.valueType)
+                        {
+                            case SceneNodeType.GAME_OBJECT:
+                                temp = sceneItem.keyField.Append(" {", sceneItem.value.name, "}");
+                                break;
+                            case SceneNodeType.ANIMATOR:
+                                temp = sceneItem.keyField.Append("Animator {", sceneItem.animator.name, "}");
+                                break;
+                            case SceneNodeType.CAMERA:
+                                temp = sceneItem.keyField.Append(" Camera {", sceneItem.lens.name, "}");
+                                break;
+                            case SceneNodeType.SPRITE:
+                                temp = sceneItem.keyField.Append(" Sprite {", sceneItem.sprite.name, "}");
+                                break;
+                            case SceneNodeType.TEXTURE:
+                                temp = sceneItem.keyField.Append(" Texture {", sceneItem.texture.name, "}");
+                                break;
+                            case SceneNodeType.UI_BUTTON:
+                                temp = sceneItem.keyField.Append(" Button {", sceneItem.button.name, "}");
+                                break;
+                            case SceneNodeType.UI_IMAGE:
+                                temp = sceneItem.keyField.Append(" Image {", sceneItem.image.name, "}");
+                                break;
+                            case SceneNodeType.UI_TEXT:
+                                temp = sceneItem.keyField.Append(" Text {", sceneItem.Label.name, "}");
+                                break;
+                            case SceneNodeType.ANI_CURVE:
+                                int n = sceneItem.animationCurve.keys.Length;
+                                float t, v;
+                                temp = string.Empty;
+                                string kf = "    key frame: time=", c = ", value=";
+                                Keyframe k;
+                                for (int j = 0; j < n; j++)
+                                {
+                                    k = sceneItem.animationCurve.keys[j];
+                                    t = k.time;
+                                    v = k.value;
+                                    temp = temp.Append(kf, t.ToString(), c, v.ToString(), nextLine);
+                                }
+                                temp = string.Format(sceneItem.keyField.Append(":", nextLine, "{0}"), temp);
+                                break;
+                            case SceneNodeType.UI_LAYOUT_GROUP:
+                                temp = sceneItem.keyField.Append(" Layout group {", sceneItem.layoutGroup.name, "}");
+                                break;
+                            case SceneNodeType.UI_TOGGLE:
+                                temp = sceneItem.keyField.Append(" Toggle {", sceneItem.toggle.name, "}");
+                                break;
+                            case SceneNodeType.UI_TOGGLE_GROUP:
+                                temp = sceneItem.keyField.Append(" Layout toggle group {", sceneItem.toggleGroup.name, "}");
+                                break;
+                            case SceneNodeType.UI_SLIDER:
+                                temp = sceneItem.keyField.Append(" Slider {", sceneItem.slider.name, "}");
+                                break;
+                            case SceneNodeType.UI_SCROLL_BAR:
+                                temp = sceneItem.keyField.Append(" Scroll bar {", sceneItem.scrollBar.name, "}");
+                                break;
+                            case SceneNodeType.UI_DROP_DOWN:
+                                temp = sceneItem.keyField.Append(" Drop down {", sceneItem.dropDown.name, "}");
+                                break;
+                            case SceneNodeType.UI_INPUT_FIELD:
+                                temp = sceneItem.keyField.Append(" Input field {", sceneItem.inputField.name, "}");
+                                break;
+                            case SceneNodeType.UI_CANVAS:
+                                temp = sceneItem.keyField.Append(" Canvas {", sceneItem.canvas.name, "}");
+                                break;
+                            case SceneNodeType.UI_EVENT_SYSTEM:
+                                temp = sceneItem.keyField.Append(" Event system {", sceneItem.eventSystem.name, "}");
+                                break;
+                            case SceneNodeType.UI_EVENT_TRIGGER:
+                                temp = sceneItem.keyField.Append(" Event trigger {", sceneItem.eventTrigger.name, "}");
+                                break;
+                            case SceneNodeType.TRANSFORM:
+                                temp = sceneItem.keyField.Append(" Transform {", sceneItem.trans.name, "}");
+                                break;
+                            case SceneNodeType.MATERIAL:
+                                temp = sceneItem.keyField.Append(" Material {", sceneItem.materialNode.name, "}");
+                                break;
+                            case SceneNodeType.SPRITE_RENDERER:
+                                temp = sceneItem.keyField.Append(" Sprite renderer {", sceneItem.spriteRendererNode.name, "}");
+                                break;
+                            case SceneNodeType.MESH_FILTER:
+                                temp = sceneItem.keyField.Append(" Mesh filter {", sceneItem.meshFilterNode.name, "}");
+                                break;
+                            case SceneNodeType.AUDIO_SOURCE:
+                                temp = sceneItem.keyField.Append(" Audio source {", sceneItem.audioSource.name, "}");
+                                break;
+                            case SceneNodeType.ILRUNTIME_HOTFIX:
+                                temp = sceneItem.keyField.Append(" HotFixer {", sceneItem.hotFixer.HotFixCompClassName, "}");
+                                break;
+                            case SceneNodeType.ILRUNTIME_HOTFIX_UI:
+                                temp = sceneItem.keyField.Append(" HotFixer UI { ", sceneItem.hotFixerUI.UIInteractorName, sceneItem.hotFixerUI.UIModularName, "}");
+                                break;
+                            case SceneNodeType.BYTES:
+                                temp = sceneItem.keyField.Append(" Text Asset { ", sceneItem.bytes.name, "}");
+                                break;
+                            default:
+                                temp = sceneItem.keyField.Append(" Null");
+                                break;
+                        }
                     }
                     mOverviewTooltips = mOverviewTooltips.Append("    ", temp, nextLine);
                 }
@@ -291,68 +310,6 @@ namespace ShipDock.UI
         public SceneNodeSubgroup GetSceneNode(ref string keyField)
         {
             return ((SceneNodeMapper != default) && SceneNodeMapper.ContainsKey(keyField)) ? SceneNodeMapper[keyField] : default;
-        }
-    }
-
-    public class UINodeControl
-    {
-        private KeyValueList<string, SceneNodeSubgroup> mSceneNodes;
-
-        public UINodes Nodes { get; private set; }
-
-        public UINodeControl(UINodes nodes)
-        {
-            Nodes = nodes;
-            mSceneNodes = new KeyValueList<string, SceneNodeSubgroup>();
-        }
-
-        public void Clear()
-        {
-            Nodes = default;
-            mSceneNodes.Clear();
-        }
-
-        private void CheckAndFillSceneNodeCache(ref string keyName, out SceneNodeSubgroup sceneNode)
-        {
-            if (mSceneNodes.ContainsKey(keyName))
-            {
-                sceneNode = mSceneNodes[keyName];
-            }
-            else
-            {
-                sceneNode = Nodes.GetSceneNode(ref keyName);
-                mSceneNodes[keyName] = sceneNode;
-            }
-        }
-
-        public void AddClickHandler(string keyName, UnityAction onClick)
-        {
-            CheckAndFillSceneNodeCache(ref keyName, out SceneNodeSubgroup subgroup);
-            subgroup.button.onClick.AddListener(onClick);
-        }
-
-        public void RemoveClickHandler(string keyName, UnityAction onClick)
-        {
-            CheckAndFillSceneNodeCache(ref keyName, out SceneNodeSubgroup subgroup);
-            subgroup.button.onClick.RemoveListener(onClick);
-        }
-
-        public void SetLabelContent(string keyName, string content)
-        {
-            CheckAndFillSceneNodeCache(ref keyName, out SceneNodeSubgroup subgroup);
-            subgroup.Label.text = content;
-        }
-
-        public void GetLabel(string keyName, out UnityEngine.UI.Text text)
-        {
-            CheckAndFillSceneNodeCache(ref keyName, out SceneNodeSubgroup subgroup);
-            text = subgroup.Label;
-        }
-
-        public void ReferenceButton(string keyName, out UnityEngine.UI.Button button)
-        {
-            CheckAndFillSceneNodeCache(ref keyName, out SceneNodeSubgroup subgroup);
-            button = subgroup.button;
         }
     }
 }

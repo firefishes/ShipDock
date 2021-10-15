@@ -9,7 +9,14 @@ namespace ShipDock.Datas
         public const string PLAYER_INFO = "PlayerInfo";
     }
 
-    public class ClientData<DeviceT, ClientT> where DeviceT : DeviceLocalInfo, new() where ClientT : ClientLocalInfo, new()
+    public interface IClientData
+    {
+        void Init();
+        void FlushInfos();
+        ClientLocalInfo GetClientInfo();
+    }
+
+    public class ClientData<DeviceT, ClientT> : IClientData where DeviceT : DeviceLocalInfo, new() where ClientT : ClientLocalInfo, new()
     {
         public bool IsInited { get; private set; }
         public DeviceT DeviceInfo { get; private set; }
@@ -276,6 +283,11 @@ namespace ShipDock.Datas
         private string GetClientInfoKey()
         {
             return ClientDataConsts.PLAYER_INFO.Append(ClientInfo.accountID);
+        }
+
+        public ClientLocalInfo GetClientInfo()
+        {
+            return ClientInfo;
         }
     }
 }

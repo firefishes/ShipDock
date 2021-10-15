@@ -19,5 +19,6 @@ namespace ShipDock.UI
         string UIAssetName { get; }//在资源包中的名称
         string Name { get; }//模块名（栈名）
         bool IsStackable { get; }//是否用栈管理
+        int UILayer { get; }
     }
 }

@@ -24,7 +24,7 @@ namespace ShipDock.UI
         /// <summary>弹出式 UI 集合</summary>
         private List<IUIStack> mPopups;
         /// <summary>自Resources目录加载方式打开的 UI 集合</summary>
-        private Dictionary<string, ResourcesUI> mResourceUIMapper;
+        private Dictionary<string, ResourcesUI> mResourcesUI;
 
         /// <summary>UI 根节点对象</summary>
         public IUIRoot UIRoot { get; private set; }
@@ -48,7 +48,7 @@ namespace ShipDock.UI
 
         public UIManager()
         {
-            mResourceUIMapper = new Dictionary<string, ResourcesUI>();
+            mResourcesUI = new Dictionary<string, ResourcesUI>();
             mUICacher = new UICacher();
             mUICacher.Init();
 
@@ -58,7 +58,7 @@ namespace ShipDock.UI
         public void Dispose()
         {
             mUICacher.Clear();
-            mResourceUIMapper.Clear();
+            mResourcesUI.Clear();
             mPopups?.Clear();
 
             mCurrent = default;
@@ -108,23 +108,24 @@ namespace ShipDock.UI
         {
             T result = default;
             GameObject res;
-            if (isUnique && mResourceUIMapper.TryGetValue(resName, out ResourcesUI resourcesUIItem))
+            bool isCached = mResourcesUI.TryGetValue(resName, out ResourcesUI item);
+            if (isUnique && isCached)
             {
-                if (resourcesUIItem.StackBinded != default)
+                if (item.StackBinded != default)
                 {
-                    string name = resourcesUIItem.StackBinded.Name;
+                    string name = item.StackBinded.Name;
                     Open<UIStack>(name);//若已绑定过 UI栈则通过 UI 栈做开启操作
                 }
                 else
                 {
-                    res = resourcesUIItem.ui;
+                    res = item.ui;
                     if (res != default)
                     {
                         RefUIComponentAndCheckVisible(ref res, ref result, isShow, activeSelfControlShow);
                     }
                     else
                     {
-                        mResourceUIMapper.Remove(resName);//排除已被外部关闭并销毁的对象，然后重新打开一个
+                        mResourcesUI.Remove(resName);//排除已被外部关闭并销毁的对象，然后重新打开一个
                         result = OpenResourceUI<T>(resName, isUnique);
                     }
                 }
@@ -134,22 +135,23 @@ namespace ShipDock.UI
                 res = Resources.Load<GameObject>(resourcesUIRelativePath.Append(resName));
                 if (res != default)
                 {
-                    resourcesUIItem = new ResourcesUI(mResourceUIMapper)
+                    item = new ResourcesUI(mResourcesUI)
                     {
                         isUnique = isUnique,
                     };
 
                     string key = isUnique ? resName : res.name;
-                    mResourceUIMapper[key] = resourcesUIItem;
+                    item.resName = key;
+                    mResourcesUI[key] = item;
 
                     res = UnityEngine.Object.Instantiate(res, UIRoot.MainCanvas.transform);
                     RefUIComponentAndCheckVisible(ref res, ref result, isShow, activeSelfControlShow);
 
-                    resourcesUIItem.ui = res;
+                    item.ui = res;
                 }
                 else
                 {
-                    throw new Exception("Open resouces UI error, res path name is ".Append(resName));
+                    throw new Exception("Resouces UI is null what want to open, res path name is ".Append(resName));
                 }
             }
             return result;
@@ -194,7 +196,8 @@ namespace ShipDock.UI
         public void CloseResourceUI(string resName, bool willDestroy = true, bool activeSelfControlHide = true)
         {
             GameObject res;
-            if (mResourceUIMapper.TryGetValue(resName, out ResourcesUI resouceUIItem))
+            bool isCached = mResourcesUI.TryGetValue(resName, out ResourcesUI resouceUIItem);
+            if (isCached)
             {
                 if (resouceUIItem.StackBinded != default)
                 {
@@ -207,7 +210,7 @@ namespace ShipDock.UI
 
                     if (willDestroy)
                     {
-                        mResourceUIMapper.Remove(resName);
+                        mResourcesUI.Remove(resName);
                         if (res != default)
                         {
                             UnityEngine.Object.Destroy(res);
@@ -238,8 +241,8 @@ namespace ShipDock.UI
         /// <param name="activeSelfControlHide"></param>
         public void BindResourcesUIToStack(IUIStack stack, GameObject res, bool activeSelfControlHide = true)
         {
-            var enumer = mResourceUIMapper.GetEnumerator();
-            int max = mResourceUIMapper.Count;
+            var enumer = mResourcesUI.GetEnumerator();
+            int max = mResourcesUI.Count;
             ResourcesUI resourceUI;
             KeyValuePair<string, ResourcesUI> item;
             for (int i = 0; i < max; i++)
@@ -274,9 +277,10 @@ namespace ShipDock.UI
         {
             T result = mUICacher.CreateOrGetUICache<T>(stackName, creater);
 
-            if(!result.IsExited)
+            if (result.IsExited) { }
+            else
             {
-                if(result.IsStackable)
+                if (result.IsStackable)
                 {
                     if ((mPrevious != default) && (mPrevious.Name != result.Name))
                     {
@@ -305,9 +309,11 @@ namespace ShipDock.UI
                     else { }
 
                     UIStackCurrentEnter(result);//非栈管理方式的界面，直接开启
-                    "todo".Log("非栈管理方式的界面需要做层级管理");
+
+                    "todo".Log(result.UILayer == UILayerType.NONE, "位于 UILayer 定义的层级之外的界面需要做层级管理");
                 }
             }
+
             return result;
         }
 

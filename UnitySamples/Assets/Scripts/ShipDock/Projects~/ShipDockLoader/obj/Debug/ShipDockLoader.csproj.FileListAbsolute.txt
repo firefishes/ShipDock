@@ -22,6 +22,3 @@ E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockLoad
 E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockLoader\obj\Debug\ShipDockLoader.csproj.CoreCompileInputs.cache
 E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockLoader\obj\Debug\ShipDockLoader.dll
 E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockLoader\obj\Debug\ShipDockLoader.pdb
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockLoader\bin\Debug\ShipDockTester.dll
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockLoader\bin\Debug\ShipDockTester.pdb
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockLoader\obj\Debug\ShipDockLoader.csproj.CopyComplete

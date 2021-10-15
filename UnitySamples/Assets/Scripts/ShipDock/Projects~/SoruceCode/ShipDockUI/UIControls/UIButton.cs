@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -12,20 +11,18 @@ namespace ShipDock.UIControls
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public class UIButton : UIBase
+    public class UIButton : UIBase, ILabel
     {
         /// <summary>按钮</summary>
         private Button mButton;
-        /// <summary>按钮标签</summary>
-        private Text mLabel;
-        /// <summary>按钮标签值</summary>
-        private string mLabelValue;
         /// <summary>按钮索引</summary>
         private int mIndex = -1;
         /// <summary>按钮点击后的回调函数</summary>
         private UnityAction<UIButton> mButtonClickHandler;
         /// <summary>按钮是否已被按下</summary>
         private bool mClicked;
+
+        private UILabel mLabel;
 
         public int Index
         {
@@ -62,16 +59,11 @@ namespace ShipDock.UIControls
         {
             get
             {
-                return mLabelValue;
+                return mLabel.Text;
             }
             set
             {
-                mLabelValue = value;
-                if (mLabel != default)
-                {
-                    mLabel.text = mLabelValue;
-                }
-                else { }
+                mLabel.Text = value;
             }
         }
 
@@ -80,7 +72,8 @@ namespace ShipDock.UIControls
 
         public UIButton(Button button, UnityAction<UIButton> onClick, string labelValue = "", Text label = default, bool autoReset = true) : base()
         {
-            mLabel = label;
+            mLabel = new UILabel(label);
+
             mButton = button;
             Label = labelValue;
             AutoReset = autoReset;
@@ -92,6 +85,8 @@ namespace ShipDock.UIControls
 
         protected override void Purge()
         {
+            mLabel.Clean();
+
             mButton = default;
             mLabel = default;
             mButtonClickHandler = default;
@@ -102,7 +97,8 @@ namespace ShipDock.UIControls
             UITransform = mButton.transform as RectTransform;
 
             AddReferenceUI(UIControlReferenceName.UI_BTN, mButton.gameObject);
-            AddReferenceUI(UIControlReferenceName.UI_LABEL, mLabel != default ? mLabel.gameObject : default);
+
+            BindChildControl(mLabel);
         }
 
         protected override void InitEvents()
@@ -113,7 +109,11 @@ namespace ShipDock.UIControls
 
         private void OnCleanBtn(UIBase ui)
         {
-            mButton.onClick.RemoveAllListeners();
+            if (mButton != default)
+            {
+                mButton.onClick.RemoveAllListeners();
+            }
+            else { }
         }
 
         /// <summary>
@@ -123,14 +123,9 @@ namespace ShipDock.UIControls
         {
             RedirectControl();
 
-            mLabel = label;
-            mButton = button;
+            mLabel.RedirectControl(label);
 
-            if (mLabel != default)
-            {
-                mLabel.text = Label;
-            }
-            else { }
+            mButton = button;
 
             Init();
         }
@@ -143,19 +138,27 @@ namespace ShipDock.UIControls
             RemoveClean<UIBase>(OnCleanBtn);
 
             RemoveReferenceUI(UIControlReferenceName.UI_BTN, mButton.gameObject);
-            RemoveReferenceUI(UIControlReferenceName.UI_LABEL, mLabel != default ? mLabel.gameObject : default);
 
             mButton = default;
-            mLabel = default;
         }
 
         /// <summary>
         /// 添加点击后的回调函数
         /// </summary>
         /// <param name="onClick"></param>
-        public void AddClick(UnityAction<UIButton> onClick)
+        public void AddClick(UnityAction<UIButton> onClick, bool isReset = false)
         {
-            mButtonClickHandler += onClick;
+            if (isReset)
+            {
+                mButtonClickHandler = default;
+            }
+            else { }
+
+            if (onClick != default)
+            {
+                mButtonClickHandler += onClick;
+            }
+            else { }
         }
 
         /// <summary>
@@ -171,15 +174,9 @@ namespace ShipDock.UIControls
         /// 设置标签子元素
         /// </summary>
         /// <param name="target"></param>
-        public void SetLabel(Text target)
+        public void SetLabelTarget(Text target)
         {
-            if (target != default)
-            {
-                mLabel = target;
-                mLabel.text = Label;
-                AddReferenceUI(UIControlReferenceName.UI_LABEL, target.gameObject);
-            }
-            else { }
+            mLabel.SetLabelTarget(target);
         }
 
         /// <summary>
@@ -207,13 +204,17 @@ namespace ShipDock.UIControls
         {
             if (mClicked)
             {
+                if (Interactable)
+                {
+                    mButtonClickHandler?.Invoke(this);
+                }
+                else { }
+
                 if (!AutoReset)
                 {
                     Interactable = false;
                 }
                 else { }
-
-                mButtonClickHandler?.Invoke(this);
             }
             else { }
 

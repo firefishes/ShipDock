@@ -31,6 +31,8 @@ namespace ShipDock.UI
         public virtual string UIAssetName { get; protected set; }
         /// <summary>UI名，用于UI管理器识别此UI</summary>
         public virtual string Name { get; protected set; }
+        /// <summary>UI层级</summary>
+        public virtual int UILayer { get; protected set; } = UILayerType.NONE;
         /// <summary>UI栈退出时的回调</summary>
         public Action<bool> OnExit { get; set; }
 

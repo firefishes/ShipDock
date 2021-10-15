@@ -6,22 +6,39 @@ using ShipDock.Tools;
 
 namespace ShipDock.Applications
 {
+    /// <summary>
+    /// 
+    /// UI 循环列表组件
+    /// 
+    /// add by Peng.jia
+    /// modified by Minghua.ji
+    /// 
+    /// </summary>
     [RequireComponent(typeof(ScrollRect))]
     public class LoopScrollView : MonoBehaviour
     {
-        private const int CACHE_COUNT = 4;
+        /// <summary>有效的起始索引号</summary>
         private const int INVALIID_START_INDEX = -1;
 
+        /// <summary>缓存的条目渲染器数量，推荐使用与每屏能显示的条目渲染器数相同值</summary>
+        [SerializeField]
+        private int m_CacheCount = 4;
+        /// <summary>滚动内容的水平锚点</summary>
         [SerializeField]
         private Rect m_ContentAnchorH = new Rect(0f, 0f, 0f, 1f);
+        /// <summary>滚动内容的垂直锚点</summary>
         [SerializeField]
         private Rect m_ContentAnchorV = new Rect(0.5f, 1f, 0.5f, 1f);
+        /// <summary>渲染条目的中心点</summary>
         [SerializeField]
         private Vector2 m_ItemPivot = new Vector2(0.5f, 1f);
+        /// <summary>条目渲染器对象的锚点区间最小值</summary>
         [SerializeField]
         private Vector2 m_ItemAnchorMin = new Vector2(0.5f, 1f);
+        /// <summary>条目渲染器对象的锚点区间最大值</summary>
         [SerializeField]
         private Vector2 m_ItemAnchorMax = new Vector2(0.5f, 1f);
+        /// <summary>条目渲染器模板组件类</summary>
         [SerializeField]
         private LoopScrollItem m_PrefabItem;
 
@@ -63,6 +80,24 @@ namespace ShipDock.Applications
             Utils.Reclaim(ref mItemIndexDic);
         }
 
+        public void ResetView()
+        {
+            mUpdateCell = default;
+
+            LoopScrollItem itemRenderer;
+            int max = mItemList.Count;
+            for (int i = 0; i < max; i++)
+            {
+                itemRenderer = mItemList[i];
+                Destroy(itemRenderer.gameObject);
+            }
+
+            Utils.Reclaim(ref mItemData, false);
+            Utils.Reclaim(ref mItemList, false);
+            Utils.Reclaim(ref mItemQueue, false);
+            Utils.Reclaim(ref mItemIndexDic, false);
+        }
+
         public void InitView(ref List<ILoopScrollItemData> infos, LoopScrollItem itemRenderer, float padding = 0f, Action<LoopScrollItem, int> onUpdateCell = default)
         {
             mItemData = infos;
@@ -83,20 +118,26 @@ namespace ShipDock.Applications
             info.FillInfoToItem(ref item);
         }
 
-        private void Show(int dataCount, LoopScrollItem item, float padding = 0f)
+        private void Show(int dataCount, LoopScrollItem itemRenderer, float padding = 0f)
         {
             mDataCount = dataCount;
             mCellPadding = padding;
 
-            mPrefabItem = (m_PrefabItem == default) ? item : m_PrefabItem;
+            mPrefabItem = (m_PrefabItem == default && itemRenderer != default) ? itemRenderer : m_PrefabItem;
 
             mItemList = new List<LoopScrollItem>();
             mItemQueue = new Queue<LoopScrollItem>();
             mItemIndexDic = new Dictionary<LoopScrollItem, int>();
-            mScrollRect = GetComponent<ScrollRect>();
-            mContentRectTrans = mScrollRect.content;
+
+            if (mScrollRect == default)
+            {
+                mScrollRect = GetComponent<ScrollRect>();
+                mContentRectTrans = mScrollRect.content;
+            }
+            else { }
+
             mScrollRectSize = mScrollRect.GetComponent<RectTransform>().sizeDelta;
-            mCellSize = item.GetComponent<RectTransform>().sizeDelta;
+            mCellSize = itemRenderer.GetComponent<RectTransform>().sizeDelta;
 
             mStartIndex = 0;
             mCreateCount = 0;
@@ -142,36 +183,47 @@ namespace ShipDock.Applications
 
         public void UpdateList()
         {
-            for (int i = 0; i < mItemList.Count; i++)
+            if (mUpdateCell != default)
             {
-                mUpdateItem = mItemList[i];
-                int index = mItemIndexDic[mUpdateItem];
-                mUpdateCell(mUpdateItem, index);
+                int max = mItemList == default ? 0 : mItemList.Count;
+                for (int i = 0; i < max; i++)
+                {
+                    mUpdateItem = mItemList[i];
+                    int index = mItemIndexDic[mUpdateItem];
+                    mUpdateCell?.Invoke(mUpdateItem, index);
+                }
             }
+            else { }
         }
 
         private void CreateItem(int index)
         {
             LoopScrollItem item;
+            RectTransform rect;
             if (mItemQueue.Count > 0)
             {
                 item = mItemQueue.Dequeue();
                 mItemIndexDic[item] = index;
                 item.gameObject.SetActive(true);
+
+                rect = item.transform as RectTransform;
             }
             else
             {
-                item = Instantiate(m_PrefabItem);
+                item = Instantiate(m_PrefabItem, mContentRectTrans.transform);
                 mItemIndexDic.Add(item, index);
-                item.transform.SetParent(mContentRectTrans.transform);
 
-                RectTransform rect = item.GetComponent<RectTransform>();
+                rect = item.transform as RectTransform;
                 rect.pivot = m_ItemPivot;
                 rect.anchorMin = m_ItemAnchorMin;
                 rect.anchorMax = m_ItemAnchorMax;
+                item.transform.localScale = Vector3.one;
+                rect.anchoredPosition = Vector3.zero;
             }
+
             mItemList.Add(item);
-            item.transform.localPosition = GetPosition(index);
+
+            rect.anchoredPosition = GetPosition(index);
             mUpdateCell(item, index);
         }
 
@@ -236,11 +288,11 @@ namespace ShipDock.Applications
         {
             if (mScrollRect.horizontal)
             {
-                return Mathf.CeilToInt(mScrollRectSize.x / (mCellSize.x + mCellPadding)) + CACHE_COUNT;
+                return Mathf.CeilToInt(mScrollRectSize.x / (mCellSize.x + mCellPadding)) + m_CacheCount;
             }
             else
             {
-                return Mathf.CeilToInt(mScrollRectSize.y / (mCellSize.y + mCellPadding)) + CACHE_COUNT;
+                return Mathf.CeilToInt(mScrollRectSize.y / (mCellSize.y + mCellPadding)) + m_CacheCount;
             }
         }
 
@@ -256,17 +308,17 @@ namespace ShipDock.Applications
             }
         }
 
-        private Vector3 GetPosition(int index)
+        private Vector2 GetPosition(int index)
         {
             if (mScrollRect.horizontal)
             {
                 mItemX = index * (mCellSize.x + mCellPadding);
-                return new Vector3(mItemX, 0, 0);
+                return new Vector2(mItemX, 0f);
             }
             else
             {
                 mItemY = index * -(mCellSize.y + mCellPadding);
-                return new Vector3(0, mItemY, 0);
+                return new Vector2(0f, mItemY);
             }
         }
 

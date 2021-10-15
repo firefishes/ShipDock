@@ -1,0 +1,6 @@
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockUI\bin\Release\ShipDockUI.dll
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockUI\bin\Release\ShipDockUI.pdb
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockUI\obj\Release\ShipDockUI.csprojAssemblyReference.cache
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockUI\obj\Release\ShipDockUI.csproj.CoreCompileInputs.cache
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockUI\obj\Release\ShipDockUI.dll
+E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockUI\obj\Release\ShipDockUI.pdb
