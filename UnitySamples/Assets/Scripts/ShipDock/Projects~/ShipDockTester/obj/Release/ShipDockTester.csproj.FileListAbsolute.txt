@@ -1,6 +1,0 @@
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Release\ShipDockTester.csprojAssemblyReference.cache
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Release\ShipDockTester.csproj.CoreCompileInputs.cache
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\bin\Release\ShipDockTester.dll
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\bin\Release\ShipDockTester.pdb
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Release\ShipDockTester.dll
-E:\Work\ElimGame\trunk\Eliminates\Assets\Scripts\ShipDock\Projects~\ShipDockTester\obj\Release\ShipDockTester.pdb

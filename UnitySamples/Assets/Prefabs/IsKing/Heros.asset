@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 135b4b9673baa1b428389475b915a1bb, type: 3}
+  m_Name: Heros
+  m_EditorClassIdentifier: 
+  m_RawData: {fileID: 4900000, guid: bd0d8b42824ccb74e82482f54e46a34d, type: 3}
+  m_Collections:
+  - name: "\u5218\u5907"
+    m_EditEnabled: 0
+    id: 0
+    level: 1
+    hp: 80
+    atk: 78
+    def: 60
+    intellect: 76
+    aow: 70
+    troops: 500
+    skillCIC: 1
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: "\u5173\u7FBD"
+    m_EditEnabled: 0
+    id: 1
+    level: 1
+    hp: 95.2493092119694
+    atk: 95.8484977483749
+    def: 81.082820892334
+    intellect: 70.9351675212383
+    aow: 73.4945501536131
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: "\u5F20\u98DE"
+    m_EditEnabled: 0
+    id: 2
+    level: 1
+    hp: 97.1688495278358
+    atk: 97.132471203804
+    def: 76.5889227390289
+    intellect: 68.3757848888636
+    aow: 65.8164022564888
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90003
+    m_EditEnabled: 0
+    id: 3
+    level: 1
+    hp: 118
+    atk: 62
+    def: 66
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90004
+    m_EditEnabled: 0
+    id: 4
+    level: 1
+    hp: 153
+    atk: 71
+    def: 79
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90005
+    m_EditEnabled: 0
+    id: 5
+    level: 1
+    hp: 160
+    atk: 64
+    def: 31
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90006
+    m_EditEnabled: 0
+    id: 6
+    level: 1
+    hp: 161
+    atk: 79
+    def: 57
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90007
+    m_EditEnabled: 0
+    id: 7
+    level: 1
+    hp: 112
+    atk: 96
+    def: 76
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90008
+    m_EditEnabled: 0
+    id: 8
+    level: 1
+    hp: 176
+    atk: 82
+    def: 35
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90009
+    m_EditEnabled: 0
+    id: 9
+    level: 1
+    hp: 141
+    atk: 55
+    def: 37
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90010
+    m_EditEnabled: 0
+    id: 10
+    level: 1
+    hp: 159
+    atk: 83
+    def: 75
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90011
+    m_EditEnabled: 0
+    id: 11
+    level: 1
+    hp: 191
+    atk: 71
+    def: 66
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90012
+    m_EditEnabled: 0
+    id: 12
+    level: 1
+    hp: 136
+    atk: 73
+    def: 37
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90013
+    m_EditEnabled: 0
+    id: 13
+    level: 1
+    hp: 120
+    atk: 81
+    def: 20
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90014
+    m_EditEnabled: 0
+    id: 14
+    level: 1
+    hp: 172
+    atk: 55
+    def: 64
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 
+  - name: 90015
+    m_EditEnabled: 0
+    id: 15
+    level: 1
+    hp: 157
+    atk: 51
+    def: 53
+    intellect: 0
+    aow: 0
+    troops: 0
+    skillCIC: 0
+    skillCounsellor: 0
+    skillGeneral: 

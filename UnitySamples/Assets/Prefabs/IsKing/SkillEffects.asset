@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccba90b55ec5afe44b9cffe8b356d8a8, type: 3}
+  m_Name: SkillEffects
+  m_EditorClassIdentifier: 
+  m_RawData: {fileID: 4900000, guid: 517b452424cd73244b9b6f58d6af9cba, type: 3}
+  m_Collections:
+  - name: "\u4EC1\u4E3B-1"
+    m_EditEnabled: 1
+    id: 1
+    effectField: 1002
+    effectType: 202
+    effectCount: 0
+    effectValue: 0.30000001192092896

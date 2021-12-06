@@ -497,7 +497,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   scriptingDefineSymbols:
     1: ODIN_INSPECTOR
-    7: _RELEASE;G_LOG;COLOR_LOG;ODIN_INSPECTOR;ODIN_INSPECTOR;_ILRUNTIME
+    7: _RELEASE;G_LOG;COLOR_LOG;ODIN_INSPECTOR;_ILRUNTIME
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

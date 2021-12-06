@@ -362,7 +362,7 @@ namespace Elimlnate
         {
             CheckDataInit();
             InitSupplementsData();
-            //UpdateSupplementGrids();
+            UpdateSupplementGrids();
             UpdateRemainsGrid();
 
             mObstacleCols.Clear();
@@ -563,56 +563,24 @@ namespace Elimlnate
         /// </summary>
         private void UpdateRemainsGrid()
         {
-            //BoardGrids.UpdateDirty();
-
-            //int max = BoardGrids.GridsSize - 1;
-            //while (max > 0)
-            //{
-            //    //updateInfo = mUpdateCols.Dequeue();
-            //    mGridTemp = BoardGrids.GetGridByIndex(max);//updateInfo.grid;
-            //    //pos = updateInfo.targetPos;
-            //    //mGridTemp.SetGridPos(pos);
-            //    if (mGridTemp != default && !mGridTemp.IsObstacle)
-            //    {
-            //        //targetPos = creater.GetGridPosWithRowCol(pos.x, pos.y);
-            //        //effectParam = mGridTemp.GetEffectParam<GridEffectParam>(GameEffects.EffectRemains);
-            //        //effectParam.EndPosition = targetPos;
-            //        mGridTemp.StartEffect(GameEffects.EffectRemains);
-            //    }
-            //    else { }
-
-            //    max--;
-            //}
-
-            ElimlnateGrid grid, next;
-            int col = BoardGrids.ColumnSize;
-            int row = BoardGrids.RowSize;
-            for (int n = 0; n < col; n++)
+            Vector2Int pos;
+            Vector3 targetPos;
+            GridUpdateInfo updateInfo = default;
+            GridEffectParam effectParam;
+            GridCreater creater = GamePlay.GridCreater;
+            BoardGrids boardGrids = GamePlay.BoardGrids;
+            while (mUpdateCols.Count > 0)
             {
-                for (int m = 0; m < row; m++)
-                {
-                    if (m >= 1)
-                    {
-                        grid = BoardGrids.GetGridByRowColumn(n, m);
-                        int indexNext = BoardGrids.GetGridIndex(n, m = 1);
-                        //bool indexNextValidable = BoardGrids.IsValidGridIndex(indexNext);
-                        next = BoardGrids.GetGridByRowColumn(n, m - 1);
-                        if (grid != default && !grid.IsObstacle)
-                        {
-                            //Debug.Log("index " + indexNext);
-                            //Debug.Log("index " + indexNextValidable);
-                            if (/*indexNextValidable && */next == default)
-                            {
-                                grid.GridTrans.localScale = Vector3.one * 1.5f;
-                                Debug.Log("grid !!! " + n + ", " + m);
-                                //mGridTemp.StartEffect(GameEffects.EffectRemains);
-                            }
-                            else { }
-                        }
-                        else { }
-                    }
-                    else { }
-                }
+                updateInfo = mUpdateCols.Dequeue();
+                mGridTemp = updateInfo.grid;
+                pos = updateInfo.targetPos;
+                mGridTemp.SetGridPos(pos);
+                boardGrids.SetGridMapper(pos, mGridTemp, false);
+
+                targetPos = creater.GetGridPosWithRowCol(pos.x, pos.y);
+                effectParam = mGridTemp.GetEffectParam<GridEffectParam>(GameEffects.EffectRemains);
+                effectParam.EndPosition = targetPos;
+                mGridTemp.StartEffect(GameEffects.EffectRemains);
             }
         }
 
