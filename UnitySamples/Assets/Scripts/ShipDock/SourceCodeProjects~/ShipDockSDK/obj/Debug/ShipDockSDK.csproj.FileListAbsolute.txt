@@ -1,0 +1,6 @@
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockSDK\obj\Debug\ShipDockSDK.csprojAssemblyReference.cache
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockSDK\obj\Debug\ShipDockSDK.csproj.CoreCompileInputs.cache
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockSDK\bin\Debug\ShipDockSDK.dll
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockSDK\bin\Debug\ShipDockSDK.pdb
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockSDK\obj\Debug\ShipDockSDK.dll
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockSDK\obj\Debug\ShipDockSDK.pdb
