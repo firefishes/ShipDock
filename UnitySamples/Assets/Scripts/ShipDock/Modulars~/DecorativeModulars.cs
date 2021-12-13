@@ -22,66 +22,100 @@ namespace ShipDock.Modulars
     {
         /// <summary>所有模块</summary>
         private KeyValueList<int, IModular> mModulars;
+        /// <summary>修饰化模块生产处理器</summary>
         private ModularHandlers<CreatorHandler, ModularNoticeCreater> mCreators;
+        /// <summary>修饰化模块装饰处理器</summary>
         private ModularHandlers<DecoratorHandler, ModularNoticeDecorater> mDecorators;
+        /// <summary>修饰化模块消息侦听处理器</summary>
         private ModularHandlers<NoticeListener, ModularNoticeListener> mLIsteners;
 
         public DecorativeModulars()
         {
             mModulars = new KeyValueList<int, IModular>();
 
-            mCreators = new ModularHandlers<CreatorHandler, ModularNoticeCreater>(false, OnCreatorCache);
-            mDecorators = new ModularHandlers<DecoratorHandler, ModularNoticeDecorater>(false, OnDecoratorCache);
-            mLIsteners = new ModularHandlers<NoticeListener, ModularNoticeListener>(true, OnListenerCache)
-            {
-                OnAfterHandlerReset = OnAfterListenerReset,
-                OnGetHandlerForPriority = OnGetListenerForPriority,
-            };
-        }
-
-        private NoticeListener OnGetListenerForPriority(ModularNoticeListener target)
-        {
-            return target.Handler;
-        }
-
-        private void OnAfterListenerReset(int noticeName, NoticeListener handler)
-        {
-            noticeName.Remove(handler);
-        }
-
-        private NoticeListener OnListenerCache(NoticeListener a, ModularNoticeListener b)
-        {
-            a += b.Handler;
-            return a;
-        }
-
-        private DecoratorHandler OnDecoratorCache(DecoratorHandler a, ModularNoticeDecorater b)
-        {
-            a += b.Handler;
-            return a;
-        }
-
-        private CreatorHandler OnCreatorCache(CreatorHandler a, ModularNoticeCreater b)
-        {
-            a += b.Handler;
-            return a;
+            mCreators = new ModularHandlers<CreatorHandler, ModularNoticeCreater>(false, OnSetCreator, OnGetCreator);
+            mDecorators = new ModularHandlers<DecoratorHandler, ModularNoticeDecorater>(false, OnSetDecorator, OnGetDecorator);
+            mLIsteners = new ModularHandlers<NoticeListener, ModularNoticeListener>(true, OnSetListener, OnGetListener);
         }
 
         public void Dispose()
         {
             mModulars?.Dispose();
-            //mNoticeCreaters?.Dispose();
-            //mNoticeDecorators?.Dispose();
+            mCreators?.Reset();
+            mDecorators?.Reset();
+            mLIsteners?.Reset();
         }
+
+        #region 修饰化模块各环节的读取、修改器
+        /// <summary>修饰化模块消息侦听处理方法的获取器</summary>
+        private NoticeListener OnGetListener(ModularNoticeListener param)
+        {
+            return param.Handler;
+        }
+
+        /// <summary>修饰化模块装饰处理方法的获取器</summary>
+        private DecoratorHandler OnGetDecorator(ModularNoticeDecorater param)
+        {
+            return param.Handler;
+        }
+
+        /// <summary>修饰化模块生产处理方法的获取器</summary>
+        private CreatorHandler OnGetCreator(ModularNoticeCreater param)
+        {
+            return param.Handler;
+        }
+
+        /// <summary>修饰化模块消息侦听处理方法的修改器</summary>
+        private NoticeListener OnSetListener(NoticeListener a, ModularNoticeListener b, bool isAdd)
+        {
+            if (isAdd)
+            {
+                a += b.Handler;
+            }
+            else
+            {
+                a -= b.Handler;
+            }
+            return a;
+        }
+
+        /// <summary>修饰化模块装饰处理方法的修改器</summary>
+        private DecoratorHandler OnSetDecorator(DecoratorHandler a, ModularNoticeDecorater b, bool isAdd)
+        {
+            if (isAdd)
+            {
+                a += b.Handler;
+            }
+            else
+            {
+                a -= b.Handler;
+            }
+            return a;
+        }
+
+        /// <summary>修饰化模块生产处理方法的修改器</summary>
+        private CreatorHandler OnSetCreator(CreatorHandler a, ModularNoticeCreater b, bool isAdd)
+        {
+            if (isAdd)
+            {
+                a += b.Handler;
+            }
+            else
+            {
+                a -= b.Handler;
+            }
+            return a;
+        }
+        #endregion
 
         /// <summary>
         /// 添加消息装饰器函数
         /// </summary>
         /// <param name="noticeName">消息名</param>
         /// <param name="method">装饰器函数</param>
-        public void AddNoticeDecorator(ModularNoticeDecorater target)
+        public void AddNoticeDecorator(ModularNoticeDecorater target, bool willSort = false)
         {
-            mDecorators.AddHandler(target.NoticeName, target);
+            mDecorators.AddHandler(ref target, willSort);
         }
 
         /// <summary>
@@ -91,7 +125,7 @@ namespace ShipDock.Modulars
         /// <param name="method"></param>
         public void RemoveNoticeDecorator(int noticeName, Action<int, INoticeBase<int>> method)
         {
-            mDecorators.RemoveHandler(noticeName);
+            mDecorators.RemoveHandler(noticeName, method);
         }
 
         /// <summary>
@@ -99,9 +133,9 @@ namespace ShipDock.Modulars
         /// </summary>
         /// <param name="noticeName"></param>
         /// <param name="method"></param>
-        public void AddNoticeCreater(ModularNoticeCreater target)
+        public void AddNoticeCreater(ModularNoticeCreater target, bool willSort = false)
         {
-            mCreators.AddHandler(target.NoticeName, target);
+            mCreators.AddHandler(ref target, willSort);
         }
 
         /// <summary>
@@ -111,12 +145,12 @@ namespace ShipDock.Modulars
         /// <param name="method"></param>
         public void RemoveNoticeCreater(int noticeName, Func<int, INoticeBase<int>> method)
         {
-            mCreators.RemoveHandler(noticeName);
+            mCreators.RemoveHandler(noticeName, method);
         }
 
-        public void AddNoticeListener(ModularNoticeListener target)
+        public void AddNoticeListener(ModularNoticeListener target, bool willSort = false)
         {
-            mLIsteners.AddHandler(target.NoticeName, target);
+            mLIsteners.AddHandler(ref target, willSort);
         }
 
         /// <summary>

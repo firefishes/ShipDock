@@ -1,4 +1,5 @@
-﻿using ShipDock.Notices;
+﻿using ShipDock.Interfaces;
+using ShipDock.Notices;
 using System;
 
 namespace ShipDock.Modulars
@@ -9,8 +10,9 @@ namespace ShipDock.Modulars
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public sealed class ModularNoticeCreater : IPriority
+    public sealed class ModularNoticeCreater : IModularMethodPriority
     {
+        public int ID { get; set; }
         public int Priority { get; set; }
         public int NoticeName { get; set; }
         public Func<int, INoticeBase<int>> Handler { get; set; }
@@ -21,6 +23,11 @@ namespace ShipDock.Modulars
             Handler = handler;
             Priority = priority;
         }
+
+        public void Dispose()
+        {
+            Handler = default;
+        }
     }
 
     /// <summary>
@@ -29,8 +36,9 @@ namespace ShipDock.Modulars
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public sealed class ModularNoticeDecorater : IPriority
+    public sealed class ModularNoticeDecorater : IModularMethodPriority
     {
+        public int ID { get; set; }
         public int Priority { get; set; }
         public int NoticeName { get; set; }
         public Action<int, INoticeBase<int>> Handler { get; set; }
@@ -41,6 +49,11 @@ namespace ShipDock.Modulars
             Handler = handler;
             Priority = priority;
         }
+
+        public void Dispose()
+        {
+            Handler = default;
+        }
     }
 
     /// <summary>
@@ -49,8 +62,9 @@ namespace ShipDock.Modulars
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public sealed class ModularNoticeListener : IPriority
+    public sealed class ModularNoticeListener : IModularMethodPriority
     {
+        public int ID { get; set; }
         public int Priority { get; set; }
         public int NoticeName { get; set; }
         public Action<INoticeBase<int>> Handler { get; set; }
@@ -61,10 +75,17 @@ namespace ShipDock.Modulars
             Handler = handler;
             Priority = priority;
         }
+
+        public void Dispose()
+        {
+            Handler = default;
+        }
     }
 
-    public interface IPriority
+    public interface IModularMethodPriority : IDispose
     {
+        int ID { get; set; }
+        int NoticeName { get; set; }
         int Priority { get; set; }
     }
 
@@ -127,7 +148,7 @@ namespace ShipDock.Modulars
             for (int i = 0; i < max; i++)
             {
                 creater = createrList[i];
-                Modulars.AddNoticeCreater(creater);
+                Modulars.AddNoticeCreater(creater, i == max - 1);
             }
 
             ModularNoticeDecorater decorater;
@@ -136,7 +157,7 @@ namespace ShipDock.Modulars
             for (int i = 0; i < max; i++)
             {
                 decorater = decoraterList[i];
-                Modulars.AddNoticeDecorator(decorater);
+                Modulars.AddNoticeDecorator(decorater, i == max - 1);
             }
 
             ModularNoticeListener listener;
@@ -145,7 +166,7 @@ namespace ShipDock.Modulars
             for (int i = 0; i < max; i++)
             {
                 listener = listenerList[i];
-                Modulars.AddNoticeListener(listener);
+                Modulars.AddNoticeListener(listener, i == max - 1);
             }
         }
 
