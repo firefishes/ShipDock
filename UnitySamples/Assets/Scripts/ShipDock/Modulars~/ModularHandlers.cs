@@ -32,6 +32,8 @@ namespace ShipDock.Modulars
         private Func<TMethodPriority, TMethod> OnHandlerGetter { get; set; }
 
         public bool HasPriorityMin { get; private set; }
+        public Action<int, TMethod> BeforeHandlersSorted { get; set; }
+        public Action<int, TMethod> AfterHandlersSorted { get; set; }
 
         /// <summary>
         /// 修饰化模块处理器构造函数
@@ -64,6 +66,7 @@ namespace ShipDock.Modulars
             OnHandlerSetter = default;
             OnHandlerGetter = default;
             mHandlers = default;
+            AfterHandlersSorted = default;
         }
 
         /// <summary>
@@ -97,7 +100,7 @@ namespace ShipDock.Modulars
             }
 
             //优先级排序
-            SortHandlers(noticeName, ref target, willSort);
+            HandlersSorting(noticeName, ref target, willSort);
         }
 
         /// <summary>
@@ -106,13 +109,15 @@ namespace ShipDock.Modulars
         /// <param name="noticeName"></param>
         /// <param name="target"></param>
         /// <param name="willSort"></param>
-        private void SortHandlers(int noticeName, ref TMethodPriority target, bool willSort)
+        private void HandlersSorting(int noticeName, ref TMethodPriority target, bool willSort)
         {
             mWillSorts.Add(target);
 
             if (willSort)
             {
-                mHandlers.Remove(noticeName);
+                TMethod handler = mHandlers.Remove(noticeName);
+                BeforeHandlersSorted?.Invoke(noticeName, handler);
+
                 mWillSorts.Sort(OnSort);
 
                 TMethodPriority item;
@@ -122,6 +127,9 @@ namespace ShipDock.Modulars
                     item = mWillSorts[i];
                     SetHandler(ref target);
                 }
+
+                handler = mHandlers[noticeName];
+                AfterHandlersSorted?.Invoke(noticeName, handler);
             }
             else { }
 

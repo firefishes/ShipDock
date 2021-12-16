@@ -35,7 +35,11 @@ namespace ShipDock.Modulars
 
             mCreators = new ModularHandlers<CreatorHandler, ModularNoticeCreater>(false, OnSetCreator, OnGetCreator);
             mDecorators = new ModularHandlers<DecoratorHandler, ModularNoticeDecorater>(false, OnSetDecorator, OnGetDecorator);
-            mLIsteners = new ModularHandlers<NoticeListener, ModularNoticeListener>(true, OnSetListener, OnGetListener);
+            mLIsteners = new ModularHandlers<NoticeListener, ModularNoticeListener>(true, OnSetListener, OnGetListener)
+            {
+                BeforeHandlersSorted = OnBeforeHandlerSorted,
+                AfterHandlersSorted = OnAfterHandlerSorted,
+            };
         }
 
         public void Dispose()
@@ -47,11 +51,6 @@ namespace ShipDock.Modulars
         }
 
         #region 修饰化模块各环节的读取、修改器
-        /// <summary>修饰化模块消息侦听处理方法的获取器</summary>
-        private NoticeListener OnGetListener(ModularNoticeListener param)
-        {
-            return param.Handler;
-        }
 
         /// <summary>修饰化模块装饰处理方法的获取器</summary>
         private DecoratorHandler OnGetDecorator(ModularNoticeDecorater param)
@@ -77,6 +76,24 @@ namespace ShipDock.Modulars
                 a -= b.Handler;
             }
             return a;
+        }
+
+        /// <summary>修饰化模块消息侦听处理方法的获取器</summary>
+        private NoticeListener OnGetListener(ModularNoticeListener param)
+        {
+            return param.Handler;
+        }
+
+        /// <summary>排序前移除消息侦听器</summary>
+        private void OnBeforeHandlerSorted(int noticeName, NoticeListener handler)
+        {
+            noticeName.Remove(handler);
+        }
+
+        /// <summary>排序后重新添加消息侦听器</summary>
+        private void OnAfterHandlerSorted(int noticeName, NoticeListener handler)
+        {
+            noticeName.Add(handler);
         }
 
         /// <summary>修饰化模块装饰处理方法的修改器</summary>
