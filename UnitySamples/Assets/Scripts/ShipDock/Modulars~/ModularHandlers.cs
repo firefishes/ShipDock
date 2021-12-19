@@ -32,7 +32,7 @@ namespace ShipDock.Modulars
         private Func<TMethodPriority, TMethod> OnHandlerGetter { get; set; }
 
         public bool HasPriorityMin { get; private set; }
-        public Action<int, TMethod> BeforeHandlersSorted { get; set; }
+        public Action<int, TMethod> BeforeHandlersSort { get; set; }
         public Action<int, TMethod> AfterHandlersSorted { get; set; }
 
         /// <summary>
@@ -84,23 +84,35 @@ namespace ShipDock.Modulars
         /// </summary>
         public virtual void AddHandler(ref TMethodPriority target, bool willSort = false)
         {
-            int noticeName = target.NoticeName;
-            if (mPriorities.ContainsKey(noticeName))
-            {
-                mWillSorts = mPriorities[noticeName];
-            }
-            else
+            if (!mSourceMethodPriority.Contains(target))
             {
                 TMethod method = OnHandlerGetter.Invoke(target);
                 mSourceMethod.Add(method);
                 mSourceMethodPriority.Add(target);
 
-                mWillSorts = new List<TMethodPriority>();
-                mPriorities[noticeName] = mWillSorts;
-            }
+                int noticeName = target.NoticeName;
+                if (mPriorities.ContainsKey(noticeName))
+                {
+                    mWillSorts = mPriorities[noticeName];
+                }
+                else
+                {
+                    mWillSorts = new List<TMethodPriority>();
+                    mPriorities[noticeName] = mWillSorts;
+                }
 
-            //优先级排序
-            HandlersSorting(noticeName, ref target, willSort);
+                mWillSorts.Add(target);
+
+                if (willSort)
+                {
+                    //优先级排序
+                    SortHandlers(noticeName);
+                }
+                else { }
+
+                mWillSorts = default;
+            }
+            else { }
         }
 
         /// <summary>
@@ -109,31 +121,71 @@ namespace ShipDock.Modulars
         /// <param name="noticeName"></param>
         /// <param name="target"></param>
         /// <param name="willSort"></param>
-        private void HandlersSorting(int noticeName, ref TMethodPriority target, bool willSort)
+        private void SortHandlers(int noticeName)
         {
-            mWillSorts.Add(target);
+            TMethodPriority item = default;
+            TMethod handler = default, value = default;
 
-            if (willSort)
+            mHandlers[noticeName] = default;
+
+            RefillHandler(noticeName, ref item, ref handler, ref value, false, BeforeHandlersSort);
+
+            mWillSorts.Sort(OnSort);
+
+            RefillHandler(noticeName, ref item, ref handler, ref value, true, AfterHandlersSorted);
+        }
+
+        private void RefillHandler(int noticeName, ref TMethodPriority item, ref TMethod handler, ref TMethod value, bool isAdd, Action<int, TMethod> onRefill = default)
+        {
+            int max = mWillSorts.Count;
+            for (int i = 0; i < max; i++)
             {
-                TMethod handler = mHandlers.Remove(noticeName);
-                BeforeHandlersSorted?.Invoke(noticeName, handler);
+                item = mWillSorts[i];
 
-                mWillSorts.Sort(OnSort);
-
-                TMethodPriority item;
-                int max = mWillSorts.Count;
-                for (int i = 0; i < max; i++)
+                if (onRefill != default)
                 {
-                    item = mWillSorts[i];
-                    SetHandler(ref target);
-                }
+                    handler = OnHandlerGetter == default ? OnHandlerGetter.Invoke(item) : default;
 
-                handler = mHandlers[noticeName];
-                AfterHandlersSorted?.Invoke(noticeName, handler);
+                    if (handler != default)
+                    {
+                        onRefill?.Invoke(noticeName, handler);
+                    }
+                    else { }
+                }
+                else
+                {
+                    SetHandler(noticeName, ref item, ref handler, ref value, isAdd);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改处理器函数
+        /// </summary>
+        /// <param name="target"></param>
+        private void SetHandler(int noticeName, ref TMethodPriority item, ref TMethod handler, ref TMethod value, bool isAdd)
+        {
+            handler = OnHandlerGetter == default ? OnHandlerGetter.Invoke(item) : default;
+
+            if (handler != default)
+            {
+                if (!mHandlers.ContainsKey(noticeName))
+                {
+                    mHandlers[noticeName] = default;
+                }
+                else { }
+
+                if (OnHandlerSetter != default)
+                {
+                    value = mHandlers[noticeName];
+                    value = OnHandlerSetter.Invoke(value, item, isAdd);
+                    mHandlers[noticeName] = value;
+                }
+                else { }
+
+                "log:Set notice {0} decorator, priority is {1}, ".Log(noticeName.ToString(), item.Priority.ToString());
             }
             else { }
-
-            mWillSorts = default;
         }
 
         private int OnSort(TMethodPriority x, TMethodPriority y)
@@ -153,30 +205,6 @@ namespace ShipDock.Modulars
         }
 
         /// <summary>
-        /// 修改处理器函数
-        /// </summary>
-        /// <param name="target"></param>
-        private void SetHandler(ref TMethodPriority target)
-        {
-            int noticeName = target.NoticeName;
-            if (!mHandlers.ContainsKey(noticeName))
-            {
-                mHandlers[noticeName] = default;
-            }
-            else { }
-
-            "log:Set notice {0} decorator, priority is {1}, ".Log(noticeName.ToString(), target.Priority.ToString());
-
-            if (OnHandlerSetter != default)
-            {
-                TMethod value = mHandlers[noticeName];
-                value = OnHandlerSetter.Invoke(value, target, true);
-                mHandlers[noticeName] = value;
-            }
-            else { }
-        }
-
-        /// <summary>
         /// 根据消息移除环节处理器函数
         /// </summary>
         /// <param name="noticeName"></param>
@@ -186,18 +214,18 @@ namespace ShipDock.Modulars
             int index = mSourceMethod.IndexOf(method);
             if (index >= 0)
             {
-                TMethodPriority target = mSourceMethodPriority[index];
-                List<TMethodPriority> sorted = mPriorities[noticeName];
-                sorted.Remove(target);
-
                 mSourceMethod.RemoveAt(index);
+
+                TMethodPriority target = mSourceMethodPriority[index];
                 mSourceMethodPriority.RemoveAt(index);
+
+                List<TMethodPriority> prioriteList = mPriorities[noticeName];
+                prioriteList.Remove(target);
 
                 if (mHandlers.ContainsKey(noticeName))
                 {
-#if LOG_MODULARS
                     "Creater {0} removed.".Log(noticeName.ToString());
-#endif
+
                     TMethod value = mHandlers[noticeName];
                     value = OnHandlerSetter.Invoke(value, target, false);
                     mHandlers[noticeName] = value;

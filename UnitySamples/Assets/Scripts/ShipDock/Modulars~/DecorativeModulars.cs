@@ -37,7 +37,7 @@ namespace ShipDock.Modulars
             mDecorators = new ModularHandlers<DecoratorHandler, ModularNoticeDecorater>(false, OnSetDecorator, OnGetDecorator);
             mLIsteners = new ModularHandlers<NoticeListener, ModularNoticeListener>(true, OnSetListener, OnGetListener)
             {
-                BeforeHandlersSorted = OnBeforeHandlerSorted,
+                BeforeHandlersSort = OnBeforeHandlersSort,
                 AfterHandlersSorted = OnAfterHandlerSorted,
             };
         }
@@ -85,7 +85,7 @@ namespace ShipDock.Modulars
         }
 
         /// <summary>排序前移除消息侦听器</summary>
-        private void OnBeforeHandlerSorted(int noticeName, NoticeListener handler)
+        private void OnBeforeHandlersSort(int noticeName, NoticeListener handler)
         {
             noticeName.Remove(handler);
         }
