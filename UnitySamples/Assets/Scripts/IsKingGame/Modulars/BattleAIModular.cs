@@ -36,7 +36,7 @@ namespace IsKing
 
         private void OnAIChoosePlayerCardHero(INoticeBase<int> param)
         {
-            Debug.Log("OnAIChoosePlayerCardHero");
+            Debug.Log("OnAIChoosePlayerCardHero 2");
             mHeroNotice = param as HeroNotice;
         }
 

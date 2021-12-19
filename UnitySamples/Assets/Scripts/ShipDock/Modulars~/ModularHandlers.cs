@@ -105,12 +105,19 @@ namespace ShipDock.Modulars
 
                 if (willSort)
                 {
-                    //优先级排序
-                    SortHandlers(noticeName);
+                    int max = mPriorities.Size;
+                    List<int> keys = mPriorities.Keys;
+                    for (int i = 0; i < max; i++)
+                    {
+                        mWillSorts = mPriorities.GetValueByIndex(i);
+
+                        //优先级排序
+                        noticeName = keys[i];
+                        SortHandlers(noticeName);
+                        mWillSorts = default;
+                    }
                 }
                 else { }
-
-                mWillSorts = default;
             }
             else { }
         }
@@ -144,7 +151,7 @@ namespace ShipDock.Modulars
 
                 if (onRefill != default)
                 {
-                    handler = OnHandlerGetter == default ? OnHandlerGetter.Invoke(item) : default;
+                    handler = OnHandlerGetter != default ? OnHandlerGetter.Invoke(item) : default;
 
                     if (handler != default)
                     {
@@ -165,7 +172,7 @@ namespace ShipDock.Modulars
         /// <param name="target"></param>
         private void SetHandler(int noticeName, ref TMethodPriority item, ref TMethod handler, ref TMethod value, bool isAdd)
         {
-            handler = OnHandlerGetter == default ? OnHandlerGetter.Invoke(item) : default;
+            handler = OnHandlerGetter != default ? OnHandlerGetter.Invoke(item) : default;
 
             if (handler != default)
             {

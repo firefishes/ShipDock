@@ -49,8 +49,6 @@ namespace IsKing
             {
                 LogFloatValue(i);
             }
-
-            UnityEngine.Debug.Log(string.Empty);
         }
 
         [System.Diagnostics.Conditional("G_LOG")]
