@@ -3,15 +3,11 @@ using ShipDock.Testers;
 
 public class ColorableLogSample : ShipDockAppComponent
 {
-    protected override string GetLocalsDescription<T>(ref string locals, ref T item)
-    {
-        return string.Empty;
-    }
-
     public override void EnterGameHandler()
     {
         base.EnterGameHandler();
 
+        //ShipDock 日志可以通过筛选参数选择日志是否打印，用于根据条件选择性的输出想要的日志
         bool logFilters = true;
 
         "log".Log(logFilters, "ShipDock 提供了许多日志方式，可以根据第一个参数（logFilters）指示此日志是否显示，这是普通日志");
