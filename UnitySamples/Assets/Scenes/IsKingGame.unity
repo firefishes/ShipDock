@@ -202,7 +202,7 @@ MonoBehaviour:
   m_TesterBrokers: []
   m_LogsSetting:
     m_ApplyUnityAssert: 0
-    m_Sync: 0
+    m_Sync: 1
     m_EnabledAll: 0
     m_RefreshTime: 1
     m_Enableds: []

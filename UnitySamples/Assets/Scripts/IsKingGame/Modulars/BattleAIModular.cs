@@ -24,24 +24,36 @@ namespace IsKing
             mWeights = new float[] { 1f };
             ModularName = Consts.M_BATTLE_AI;
 
+            NoticeDecoraters = new ModularNoticeDecorater[]
+            {
+                new ModularNoticeDecorater(Consts.N_PLAYER_CARD_GENERATE, OnPlayerCardGenerateDecorate)
+            };
+
             NoticeListeners = new ModularNoticeListener[]
             {
-                new ModularNoticeListener(Consts.N_SET_GENERAL_INTO_BATTLE_RATIO, OnSetGeneralIntoBattleRatio, 1),
-                new ModularNoticeListener(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, OnAIChoosePlayerCardHero, 2),
+                new ModularNoticeListener(Consts.N_SET_GENERAL_INTO_BATTLE_RATIO, OnSetGeneralIntoBattleRatio, 2),
+                //new ModularNoticeListener(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, OnAIChoosePlayerCardHero, 2),
                 new ModularNoticeListener(Consts.N_COMMIT_PLAYER_AI, OnAIPlayerAICommit, 1),
             };
 
             mPlayerIntoBattleRatio = new AIGeneralIntoBattleRatio();
         }
 
+        private void OnPlayerCardGenerateDecorate(int noticeName, INoticeBase<int> param)
+        {
+            CardNotice notice = param as CardNotice;
+            notice.heroControllerFrom = mHeroNotice.heroController;
+            mHeroNotice.ToPool();
+        }
+
         private void OnAIChoosePlayerCardHero(INoticeBase<int> param)
         {
             Debug.Log("OnAIChoosePlayerCardHero 2");
-            mHeroNotice = param as HeroNotice;
         }
 
         private void OnSetGeneralIntoBattleRatio(INoticeBase<int> param)
         {
+            Debug.Log("OnSetGeneralIntoBattleRatio 2");
             AIRatioNotice notice = param as AIRatioNotice;
             List<BattleHeroController> list = notice.Heros;
             if (list.Count > 0)
@@ -53,10 +65,13 @@ namespace IsKing
             else { }
         }
 
-        private void OnAIPlayerAICommit(INoticeBase<int> obj)
+        private void OnAIPlayerAICommit(INoticeBase<int> param)
         {
+            Debug.Log("OnAIPlayerAICommit");
+
             mPlayerIntoBattleRatio.Execute();
 
+            mHeroNotice = param as HeroNotice;
             mHeroNotice.id = mPlayerIntoBattleRatio.HeroID;
             mHeroNotice.heroController = mPlayerIntoBattleRatio.Hero;
         }
@@ -87,9 +102,9 @@ namespace IsKing
         public override void Execute()
         {
             int index = Utils.UnityRangeRandom(0, Heros.Count);
-            BattleHeroController controller = Heros[index];
-            HeroID = controller.Info.GetIntData(Consts.FN_ID);
-            Hero = controller;
+
+            Hero = Heros[index];
+            HeroID = Hero.Info.GetIntData(Consts.FN_ID);
 
             "log:AI chooset player card from {0} heros, selected index is {1}, id is {2}".Log(Heros.Count.ToString(), index.ToString(), HeroID.ToString());
         }

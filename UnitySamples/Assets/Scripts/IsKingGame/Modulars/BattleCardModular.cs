@@ -19,14 +19,27 @@ namespace IsKing
         {
             ModularName = Consts.M_BATTLE_CARD;
 
+            NoticeCreates = new ModularNoticeCreater[]
+            {
+                new ModularNoticeCreater(Consts.N_PLAYER_CARD_GENERATE, OnPlayerCardGenerateCreat),
+            };
+
             NoticeListeners = new ModularNoticeListener[]
             {
                 new ModularNoticeListener(Consts.N_PLAYER_CARD_GENERATE, OnPlayerCardGenerateListener),
             };
         }
 
+        private INoticeBase<int> OnPlayerCardGenerateCreat(int noticeName)
+        {
+            CardNotice cardNotice = Pooling<CardNotice>.From();
+            cardNotice.camp = Consts.CAMP_PLAYER;
+            return cardNotice;
+        }
+
         private void OnPlayerCardGenerateListener(INoticeBase<int> param)
         {
+            Debug.Log("OnPlayerCardGenerateListener 1");
             CardNotice notice = param as CardNotice;
             BattleHeroController heroController = notice.heroControllerFrom;
             //heroController.

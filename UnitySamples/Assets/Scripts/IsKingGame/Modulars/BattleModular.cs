@@ -48,15 +48,8 @@ namespace IsKing
 #if G_LOG
                         "log".Log("Card generating..");
 #endif
-                        CardNotice cardNotice = Pooling<CardNotice>.From();
-                        cardNotice.camp = Consts.CAMP_PLAYER;
-
-                        HeroNotice heroNotice = Pooling<HeroNotice>.From();
-                        NotifyModular(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, heroNotice);
-                        cardNotice.heroControllerFrom = heroNotice.heroController;
-                        heroNotice.ToPool();
-
-                        Modulars.NotifyModular(Consts.N_PLAYER_CARD_GENERATE, cardNotice);
+                        NotifyModular(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO);
+                        NotifyModular(Consts.N_PLAYER_CARD_GENERATE);
                         break;
                 }
             }

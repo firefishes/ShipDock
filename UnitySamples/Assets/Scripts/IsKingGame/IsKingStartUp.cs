@@ -11,11 +11,6 @@ namespace IsKing
 {
     public class IsKingStartUp : ShipDockAppComponent
     {
-        protected override string GetLocalsDescription<T>(ref string locals, ref T item)
-        {
-            return string.Empty;
-        }
-
         public override void GetDataProxyHandler(IParamNotice<IDataProxy[]> param)
         {
             base.GetDataProxyHandler(param);
@@ -43,6 +38,7 @@ namespace IsKing
 
             IModular[] modulars = new ApplicationModular[]
             {
+                new GameDataModular(),
                 new BattleModular(),
                 new BattleCardModular(),
                 new BattleHeroModular(),

@@ -59,6 +59,8 @@ namespace IsKing
         public const int M_BATTLE_HERO = 2;
         /// <summary>战斗中的AI模块</summary>
         public const int M_BATTLE_AI = 3;
+        /// <summary>数据模块</summary>
+        public const int M_GAME_DATA = 4;
         #endregion
 
         #region 数据层字段名
