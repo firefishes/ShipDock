@@ -1,9 +1,6 @@
 ﻿using ShipDock.Modulars;
 using ShipDock.Notices;
-using ShipDock.Pooling;
 using ShipDock.Tools;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,21 +21,18 @@ namespace IsKing
             mWeights = new float[] { 1f };
             ModularName = Consts.M_BATTLE_AI;
 
-            NoticeDecoraters = new ModularNoticeDecorater[]
-            {
-                new ModularNoticeDecorater(Consts.N_PLAYER_CARD_GENERATE, OnPlayerCardGenerateDecorate)
-            };
-
-            NoticeListeners = new ModularNoticeListener[]
-            {
-                new ModularNoticeListener(Consts.N_SET_GENERAL_INTO_BATTLE_RATIO, OnSetGeneralIntoBattleRatio, 2),
-                //new ModularNoticeListener(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, OnAIChoosePlayerCardHero, 2),
-                new ModularNoticeListener(Consts.N_COMMIT_PLAYER_AI, OnAIPlayerAICommit, 1),
-            };
-
             mPlayerIntoBattleRatio = new AIGeneralIntoBattleRatio();
         }
 
+        protected override void InitCustomHandlers()
+        {
+            AddNoticeDecorater(OnPlayerCardGenerateDecorate);
+            AddNoticeHandler(OnSetGeneralIntoBattleRatio);
+            AddNoticeHandler(OnAIChoosePlayerCardHero);
+            AddNoticeHandler(OnAIPlayerAICommit);
+        }
+
+        [ModularNoticeDecorater(Consts.N_PLAYER_CARD_GENERATE)]
         private void OnPlayerCardGenerateDecorate(int noticeName, INoticeBase<int> param)
         {
             CardNotice notice = param as CardNotice;
@@ -46,11 +40,13 @@ namespace IsKing
             mHeroNotice.ToPool();
         }
 
+        [ModularNoticeListener(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, 2)]
         private void OnAIChoosePlayerCardHero(INoticeBase<int> param)
         {
             Debug.Log("OnAIChoosePlayerCardHero 2");
         }
 
+        [ModularNoticeListener(Consts.N_SET_GENERAL_INTO_BATTLE_RATIO, 2)]
         private void OnSetGeneralIntoBattleRatio(INoticeBase<int> param)
         {
             Debug.Log("OnSetGeneralIntoBattleRatio 2");
@@ -65,6 +61,7 @@ namespace IsKing
             else { }
         }
 
+        [ModularNoticeListener(Consts.N_COMMIT_PLAYER_AI, 1)]
         private void OnAIPlayerAICommit(INoticeBase<int> param)
         {
             Debug.Log("OnAIPlayerAICommit");

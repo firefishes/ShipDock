@@ -17,18 +17,15 @@ namespace IsKing
         public BattleHeroModular()
         {
             ModularName = Consts.M_BATTLE_HERO;
-
-            NoticeCreates = new ModularNoticeCreater[]
-            {
-                new ModularNoticeCreater(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, OnAIChoosePlayerCardHeroCreate)
-            };
-
-            NoticeListeners = new ModularNoticeListener[]
-            {
-                new ModularNoticeListener(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, OnAIChoosePlayerCardHero, 1),
-            };
         }
 
+        protected override void InitCustomHandlers()
+        {
+            AddNoticeCreater(OnAIChoosePlayerCardHeroCreate);
+            AddNoticeHandler(OnAIChoosePlayerCardHero);
+        }
+
+        [ModularNoticeCreate(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO)]
         private INoticeBase<int> OnAIChoosePlayerCardHeroCreate(int noticeName)
         {
             HeroNotice heroNotice = Pooling<HeroNotice>.From();
@@ -36,6 +33,7 @@ namespace IsKing
             return heroNotice;
         }
 
+        [ModularNoticeListener(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, 1)]
         private void OnAIChoosePlayerCardHero(INoticeBase<int> param)
         {
             Debug.Log("OnAIChoosePlayerCardHero 1");

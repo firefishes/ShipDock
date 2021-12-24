@@ -17,11 +17,13 @@ namespace IsKing
         public GameDataModular()
         {
             ModularName = Consts.M_GAME_DATA;
+        }
 
-            NoticeListeners = new ModularNoticeListener[]
-            {
-                new ModularNoticeListener(Consts.N_SET_GENERAL_INTO_BATTLE_RATIO, OnSetGeneralIntoBattleRatio, 1),
-            };
+        protected override void InitCustomHandlers()
+        {
+            base.InitCustomHandlers();
+
+            AddNoticeHandler(OnSetGeneralIntoBattleRatio);
         }
 
         private T GetGameData<T>(int dataName) where T : DataProxy
@@ -30,6 +32,7 @@ namespace IsKing
             return data;
         }
 
+        [ModularNoticeListener(Consts.N_SET_GENERAL_INTO_BATTLE_RATIO, 1)]
         private void OnSetGeneralIntoBattleRatio(INoticeBase<int> param)
         {
             Debug.Log("OnSetGeneralIntoBattleRatio 1");

@@ -18,18 +18,17 @@ namespace IsKing
         public BattleCardModular()
         {
             ModularName = Consts.M_BATTLE_CARD;
-
-            NoticeCreates = new ModularNoticeCreater[]
-            {
-                new ModularNoticeCreater(Consts.N_PLAYER_CARD_GENERATE, OnPlayerCardGenerateCreat),
-            };
-
-            NoticeListeners = new ModularNoticeListener[]
-            {
-                new ModularNoticeListener(Consts.N_PLAYER_CARD_GENERATE, OnPlayerCardGenerateListener),
-            };
         }
 
+        protected override void InitCustomHandlers()
+        {
+            base.InitCustomHandlers();
+
+            AddNoticeCreater(OnPlayerCardGenerateCreat);
+            AddNoticeHandler(OnPlayerCardGenerateListener);
+        }
+
+        [ModularNoticeCreate(Consts.N_PLAYER_CARD_GENERATE)]
         private INoticeBase<int> OnPlayerCardGenerateCreat(int noticeName)
         {
             CardNotice cardNotice = Pooling<CardNotice>.From();
@@ -37,6 +36,7 @@ namespace IsKing
             return cardNotice;
         }
 
+        [ModularNoticeListener(Consts.N_PLAYER_CARD_GENERATE)]
         private void OnPlayerCardGenerateListener(INoticeBase<int> param)
         {
             Debug.Log("OnPlayerCardGenerateListener 1");
