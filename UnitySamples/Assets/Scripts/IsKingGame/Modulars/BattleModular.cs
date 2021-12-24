@@ -20,22 +20,17 @@ namespace IsKing
         {
             ModularName = Consts.M_BATTLE;
 
-            NoticeCreates = new ModularNoticeCreater[]
-            {
-                new ModularNoticeCreater(Consts.N_START_BATTLE, OnCreateStartBattleNotice),
-            };
-
-            //NoticeDecoraters = new ModularNoticeDecorater[]
-            //{
-            //    new ModularNoticeDecorater(Consts.N_PLAYER_CARD_GENERATE, OnPlayerCardGenerateDecorater),
-            //};
-
-            NoticeListeners = new ModularNoticeListener[]
-            {
-                new ModularNoticeListener(Consts.N_START_BATTLE, OnStartBattle),
-            };
-
             this.DataProxyLink(Consts.D_BATTLE);
+        }
+
+        protected override void InitCustomHandlers()
+        {
+            base.InitCustomHandlers();
+
+            AddNoticeCreater(OnCreateStartBattleNotice);
+            AddNoticeHandler(OnStartBattle);
+
+            AddNotifies(OnPlayerIntelligentalFinished);
         }
 
         public void OnDataProxyNotify(IDataProxy data, int DCName)
@@ -48,19 +43,19 @@ namespace IsKing
 #if G_LOG
                         "log".Log("Card generating..");
 #endif
-                        NotifyModular(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO);
-                        NotifyModular(Consts.N_PLAYER_CARD_GENERATE);
+                        NotifyModular(OnPlayerIntelligentalFinished);
                         break;
                 }
             }
         }
 
-        //private void OnPlayerCardGenerateDecorater(int noticeName, INoticeBase<int> param)
-        //{
-        //    CardNotice notice = param as CardNotice;
-        //    notice.camp = Consts.CAMP_PLAYER;
-        //}
+        [ModularNotify(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, Consts.N_PLAYER_CARD_GENERATE, NotifyTiming = ModularNotifyTiming.ALWAYS)]
+        private void OnPlayerIntelligentalFinished(INoticeBase<int> param)
+        {
+            "log".Log("OnPlayerIntelligentalFinished !!!!");
+        }
 
+        [ModularNoticeCreate(Consts.N_START_BATTLE)]
         private INoticeBase<int> OnCreateStartBattleNotice(int arg)
         {
             Notice notice = new Notice();
@@ -68,6 +63,7 @@ namespace IsKing
             return notice;
         }
 
+        [ModularNoticeListener(Consts.N_START_BATTLE)]
         private void OnStartBattle(INoticeBase<int> obj)
         {
             Consts.D_BATTLE.GetData<BattleData>().StartBattle();

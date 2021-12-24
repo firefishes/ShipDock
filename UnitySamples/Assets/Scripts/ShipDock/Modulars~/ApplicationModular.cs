@@ -1,5 +1,6 @@
 ﻿using ShipDock.Interfaces;
 using ShipDock.Notices;
+using ShipDock.Tools;
 using System;
 using System.Collections.Generic;
 
@@ -51,6 +52,25 @@ namespace ShipDock.Modulars
         }
 
         public void Dispose() { }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public class ModularNotifyAttribute : Attribute
+    {
+        public int[] Notices { get; set; }
+        public int NotifyTiming { get; set; } = ModularNotifyTiming.AFTER;
+
+        public ModularNotifyAttribute(params int[] notices)
+        {
+            Notices = notices;
+        }
+    }
+
+    public static class ModularNotifyTiming
+    {
+        public const int AFTER = 0;
+        public const int BEFORE = 1;
+        public const int ALWAYS = 2;
     }
     
     /// <summary>
@@ -146,9 +166,11 @@ namespace ShipDock.Modulars
     /// </summary>
     public abstract class ApplicationModular : IModular
     {
+
         private static readonly Type noticeCreateAttributeType = typeof(ModularNoticeCreateAttribute);
         private static readonly Type noticeDecorateAttributeType = typeof(ModularNoticeDecoraterAttribute);
         private static readonly Type noticeListenAttributeType = typeof(ModularNoticeListenerAttribute);
+        private static readonly Type mNoticeNotifyAttributeType = typeof(ModularNotifyAttribute);
 
         private object[] mModularAttributes;
         private List<ModularNoticeCreater> mCreaterByAttributes;
@@ -157,6 +179,7 @@ namespace ShipDock.Modulars
         private ModularNoticeCreateAttribute mNoticeCreateAttribute;
         private ModularNoticeDecoraterAttribute mNoticeDecoraterAttribute;
         private ModularNoticeListenerAttribute mNoticeListenerAttribute;
+        private ModularNotifyAttribute mNoticeNotifyAttribute;
 
         public virtual ModularNoticeCreater[] NoticeCreates { get; protected set; }
         public virtual ModularNoticeDecorater[] NoticeDecoraters { get; protected set; }
@@ -198,14 +221,16 @@ namespace ShipDock.Modulars
 
             Purge();
 
+            mModularNotifierMapper?.Dispose();
+            mModularNotifierMapper = default;
             Modulars = default;
         }
 
         public abstract void Purge();
 
-        protected void AddNoticeCreater(Func<int, INoticeBase<int>> method)
+        protected void AddNoticeCreater(Func<int, INoticeBase<int>> method, bool inherit = false)
         {
-            mModularAttributes = method.Method.GetCustomAttributes(noticeCreateAttributeType, false);
+            mModularAttributes = method.Method.GetCustomAttributes(noticeCreateAttributeType, inherit);
             int max = mModularAttributes != default ? mModularAttributes.Length : 0;
             if (max > 0)
             {
@@ -226,9 +251,9 @@ namespace ShipDock.Modulars
             mModularAttributes = default;
         }
 
-        protected void AddNoticeDecorater(Action<int, INoticeBase<int>> method)
+        protected void AddNoticeDecorater(Action<int, INoticeBase<int>> method, bool inherit = false)
         {
-            mModularAttributes = method.Method.GetCustomAttributes(noticeDecorateAttributeType, false);
+            mModularAttributes = method.Method.GetCustomAttributes(noticeDecorateAttributeType, inherit);
             int max = mModularAttributes != default ? mModularAttributes.Length : 0;
             if (max > 0)
             {
@@ -249,9 +274,9 @@ namespace ShipDock.Modulars
             mModularAttributes = default;
         }
 
-        protected void AddNoticeHandler(Action<INoticeBase<int>> method)
+        protected void AddNoticeHandler(Action<INoticeBase<int>> method, bool inherit = false)
         {
-            mModularAttributes = method.Method.GetCustomAttributes(noticeListenAttributeType, false);
+            mModularAttributes = method.Method.GetCustomAttributes(noticeListenAttributeType, inherit);
             int max = mModularAttributes != default ? mModularAttributes.Length : 0;
             if (max > 0)
             {
@@ -272,8 +297,33 @@ namespace ShipDock.Modulars
             mModularAttributes = default;
         }
 
+        private KeyValueList<Action<INoticeBase<int>>, ModularNotifier> mModularNotifierMapper = new KeyValueList<Action<INoticeBase<int>>, ModularNotifier>();
+
+        protected void AddNotifies(Action<INoticeBase<int>> method, bool inherit = false)
+        {
+            if (!mModularNotifierMapper.ContainsKey(method))
+            {
+                mModularAttributes = method.Method.GetCustomAttributes(mNoticeNotifyAttributeType, inherit);
+                mNoticeNotifyAttribute = mModularAttributes != default ? mModularAttributes[0] as ModularNotifyAttribute : default;
+                if (mNoticeNotifyAttribute != default)
+                {
+                    mModularNotifierMapper[method] = new ModularNotifier(mNoticeNotifyAttribute.Notices)
+                    {
+                        NotifyTiming = mNoticeNotifyAttribute.NotifyTiming,
+                    };
+                }
+                else { }
+            }
+            else { }
+
+            mNoticeNotifyAttribute = default;
+            mModularAttributes = default;
+        }
+
         private void GenerateModularHandlers<TMethodPriority>(
-            TMethodPriority[] noticeProcess, List<TMethodPriority> noticeProcessByAttributes, Action<TMethodPriority, bool> method) where TMethodPriority : IModularMethodPriority
+            TMethodPriority[] noticeProcess, 
+            List<TMethodPriority> noticeProcessByAttributes, 
+            Action<TMethodPriority, bool> method) where TMethodPriority : IModularMethodPriority
         {
             TMethodPriority[] list = noticeProcess;
 
@@ -351,9 +401,57 @@ namespace ShipDock.Modulars
             Modulars?.NotifyModularAndRelease(name, notice);
         }
 
+        public void NotifyModular(Action<INoticeBase<int>> method, INoticeBase<int> notice = default)
+        {
+            if (method != default)
+            {
+                ModularNotifier notifier = mModularNotifierMapper[method];
+                notifier?.Commit(this, method, notice);
+            }
+            else { }
+        }
+
         public virtual void SetModularManager(IAppModulars modulars)
         {
             Modulars = modulars;
+        }
+
+        private class ModularNotifier
+        {
+            public int[] NoticeNames { get; private set; }
+            public int NotifyTiming { get; set; } = ModularNotifyTiming.AFTER;
+
+            public ModularNotifier(int[] noticeNames)
+            {
+                NoticeNames = noticeNames;
+            }
+
+            public void Commit(ApplicationModular modular, Action<INoticeBase<int>> method, INoticeBase<int> notice = default)
+            {
+                if (NotifyTiming == ModularNotifyTiming.AFTER)
+                {
+                    method.Invoke(notice);
+                }
+                else { }
+
+                int max = NoticeNames.Length;
+                for (int i = 0; i < max; i++)
+                {
+                    if (NotifyTiming == ModularNotifyTiming.ALWAYS)
+                    {
+                        method.Invoke(notice);
+                    }
+                    else { }
+
+                    modular.NotifyModular(NoticeNames[i]);
+                }
+
+                if (NotifyTiming == ModularNotifyTiming.BEFORE)
+                {
+                    method.Invoke(notice);
+                }
+                else { }
+            }
         }
     }
 }

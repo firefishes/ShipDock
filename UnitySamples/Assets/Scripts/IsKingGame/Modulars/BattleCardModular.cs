@@ -47,16 +47,6 @@ namespace IsKing
             
             notice.ToPool();
         }
-
-        private INoticeBase<int> OnChooseCardHero(int param)
-        {
-            return Pooling<CardNotice>.From();
-        }
-
-        //private void OnPlayerCardGenerateDecorater(int arg1, INoticeBase<int> arg2)
-        //{
-
-        //}
     }
 
     public class CardNotice : Notice
