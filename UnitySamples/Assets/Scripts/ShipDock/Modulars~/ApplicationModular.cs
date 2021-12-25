@@ -71,6 +71,7 @@ namespace ShipDock.Modulars
         public const int AFTER = 0;
         public const int BEFORE = 1;
         public const int ALWAYS = 2;
+        public const int BEFORE_AND_CONTINUE = 3;
     }
     
     /// <summary>
@@ -180,6 +181,7 @@ namespace ShipDock.Modulars
         private ModularNoticeDecoraterAttribute mNoticeDecoraterAttribute;
         private ModularNoticeListenerAttribute mNoticeListenerAttribute;
         private ModularNotifyAttribute mNoticeNotifyAttribute;
+        private KeyValueList<Action<INoticeBase<int>>, ModularNotifier> mModularNotifierMapper;
 
         public virtual ModularNoticeCreater[] NoticeCreates { get; protected set; }
         public virtual ModularNoticeDecorater[] NoticeDecoraters { get; protected set; }
@@ -297,8 +299,6 @@ namespace ShipDock.Modulars
             mModularAttributes = default;
         }
 
-        private KeyValueList<Action<INoticeBase<int>>, ModularNotifier> mModularNotifierMapper = new KeyValueList<Action<INoticeBase<int>>, ModularNotifier>();
-
         protected void AddNotifies(Action<INoticeBase<int>> method, bool inherit = false)
         {
             if (!mModularNotifierMapper.ContainsKey(method))
@@ -353,6 +353,7 @@ namespace ShipDock.Modulars
             mCreaterByAttributes = new List<ModularNoticeCreater>();
             mDecoraterByAttributes = new List<ModularNoticeDecorater>();
             mListenerByAttributes = new List<ModularNoticeListener>();
+            mModularNotifierMapper = new KeyValueList<Action<INoticeBase<int>>, ModularNotifier>();
 
             if (NoticeCreates == default)
             {
@@ -443,10 +444,14 @@ namespace ShipDock.Modulars
                     }
                     else { }
 
-                    modular.NotifyModular(NoticeNames[i]);
+                    notice = modular.NotifyModular(NoticeNames[i]);
                 }
 
                 if (NotifyTiming == ModularNotifyTiming.BEFORE)
+                {
+                    method.Invoke(notice);
+                }
+                else if (NotifyTiming == ModularNotifyTiming.BEFORE_AND_CONTINUE)
                 {
                     method.Invoke(notice);
                 }

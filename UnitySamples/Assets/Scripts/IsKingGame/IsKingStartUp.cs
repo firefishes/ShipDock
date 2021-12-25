@@ -62,13 +62,17 @@ namespace IsKing
             ConfigsData configsData = Consts.D_CONFIGS.GetData<ConfigsData>();
             configsData.Init();
 
+            int itemType;
             ConfigableItems item;
+            IGameItemCollections info;
             List<ConfigableItems> configs = component.GetConfigableItems();
             int max = configs.Count;
             for (int i = 0; i < max; i++)
             {
                 item = configs[i];
-                configsData.LoadItems(item.ItemType(), item.Collections() as IGameItemCollections);
+                itemType = item.ItemType();
+                info = item.Collections() as IGameItemCollections;
+                configsData.LoadItems(itemType, info);
             }
         }
     }
