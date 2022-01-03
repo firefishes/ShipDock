@@ -82,6 +82,9 @@
     <Compile Include="..\..\Common~\Tools\DoubleBuffers.cs">
       <Link>ShipDockCommon\DoubleBuffers.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common~\Tools\IdentBits.cs">
+      <Link>ShipDockCommon\IdentBits.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common~\Tools\IntegerID.cs">
       <Link>ShipDockCommon\IntegerID.cs</Link>
     </Compile>

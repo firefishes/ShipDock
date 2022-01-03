@@ -70,8 +70,8 @@ namespace ShipDock.Modulars
     {
         public const int AFTER = 0;
         public const int BEFORE = 1;
-        public const int ALWAYS = 2;
-        public const int BEFORE_AND_CONTINUE = 3;
+        public const int ALWAYS_AND_REF_PARAM = 2;
+        public const int BEFORE_AND_REF_PARAM = 3;
     }
     
     /// <summary>
@@ -438,20 +438,20 @@ namespace ShipDock.Modulars
                 int max = NoticeNames.Length;
                 for (int i = 0; i < max; i++)
                 {
-                    if (NotifyTiming == ModularNotifyTiming.ALWAYS)
+                    notice = modular.NotifyModular(NoticeNames[i]);
+
+                    if (NotifyTiming == ModularNotifyTiming.ALWAYS_AND_REF_PARAM)
                     {
                         method.Invoke(notice);
                     }
                     else { }
-
-                    notice = modular.NotifyModular(NoticeNames[i]);
                 }
 
                 if (NotifyTiming == ModularNotifyTiming.BEFORE)
                 {
                     method.Invoke(notice);
                 }
-                else if (NotifyTiming == ModularNotifyTiming.BEFORE_AND_CONTINUE)
+                else if (NotifyTiming == ModularNotifyTiming.BEFORE_AND_REF_PARAM)
                 {
                     method.Invoke(notice);
                 }

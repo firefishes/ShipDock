@@ -49,10 +49,9 @@ namespace IsKing
             }
         }
 
-        [ModularNotify(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, Consts.N_PLAYER_CARD_GENERATE, NotifyTiming = ModularNotifyTiming.ALWAYS)]
+        [ModularNotify(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, Consts.N_PLAYER_CARD_GENERATE)]
         private void OnPlayerIntelligentalFinished(INoticeBase<int> param)
         {
-            "log".Log("OnPlayerIntelligentalFinished !!!!");
         }
 
         [ModularNoticeCreate(Consts.N_START_BATTLE)]
