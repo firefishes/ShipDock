@@ -1,15 +1,16 @@
 ﻿using ShipDock.Datas;
+using ShipDock.Scriptables;
 using ShipDock.Tools;
 
 namespace IsKing
 {
     public class ConfigsData : DataProxy, IDataExtracter
     {
-        private KeyValueList<int, IGameItemCollections> mGameItemCollections;
+        private KeyValueList<int, IScriptableItems> mGameItemCollections;
 
         public ConfigsData() : base(Consts.D_CONFIGS)
         {
-            mGameItemCollections = new KeyValueList<int, IGameItemCollections>();
+            mGameItemCollections = new KeyValueList<int, IScriptableItems>();
         }
 
         public void Init()
@@ -17,16 +18,16 @@ namespace IsKing
             this.DataProxyLink(Consts.D_PLAYER);
         }
 
-        public void LoadItems(int type, IGameItemCollections collections)
+        public void LoadItems(int type, IScriptableItems collections)
         {
             mGameItemCollections[type] = collections;
             collections.InitCollections();
         }
 
-        public T GetGameItem<T>(int itemType, int id) where T : IGameItem
+        public T GetGameItem<T>(int itemType, int id) where T : IScriptableItem
         {
-            IGameItem result = default;
-            IGameItemCollections collections = mGameItemCollections[itemType];
+            IScriptableItem result = default;
+            IScriptableItems collections = mGameItemCollections[itemType];
             if (collections != default)
             {
                 switch (itemType)

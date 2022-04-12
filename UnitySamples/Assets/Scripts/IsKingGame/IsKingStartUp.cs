@@ -4,7 +4,7 @@ using ShipDock.Applications;
 using ShipDock.Datas;
 using ShipDock.Modulars;
 using ShipDock.Notices;
-using ShipDock.Tools;
+using ShipDock.Scriptables;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -65,15 +65,15 @@ namespace IsKing
 
             int itemType;
             ConfigableItems item;
-            IGameItemCollections info;
+            IScriptableItems infos;
             List<ConfigableItems> configs = component.GetConfigableItems();
             int max = configs.Count;
             for (int i = 0; i < max; i++)
             {
                 item = configs[i];
                 itemType = item.ItemType();
-                info = item.Collections() as IGameItemCollections;
-                configsData.LoadItems(itemType, info);
+                infos = item.Collections() as IScriptableItems;
+                configsData.LoadItems(itemType, infos);
             }
         }
     }

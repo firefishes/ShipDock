@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0158bb15d45faf841852ecb601e811c6, type: 3}
+  m_Name: IsKingAssetCoordinatorInfo
+  m_EditorClassIdentifier: 
+  m_ApplyAutoID: 0
+  m_RawData: {fileID: 4900000, guid: b765abec787ec7f429de4385151ad020, type: 3}
+  m_Collections:
+  - name: BB
+    id: 0
+    m_EditEnabled: 0
+    valid: 0
+    assets:
+    - assetName: ConfigableItems
+      assetPath: Assets/res_data/is_king_main/configables/ConfigableItems.prefab
+      m_EditEnabled: 1
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 4701879650227364510, guid: 93ec1b73f9ba3794c951dc5c479df484,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}
+    - assetName: grid_4
+      assetPath: Assets/res_data/elim_game_res/texs/grid_4.png
+      m_EditEnabled: 1
+      m_Valid: 1
+      assetType: 2
+      asset: {fileID: 0}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 2800000, guid: 580289f79cc6aa244ab24b6289afea8f, type: 3}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}

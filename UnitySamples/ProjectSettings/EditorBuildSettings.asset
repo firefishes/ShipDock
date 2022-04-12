@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/EliminateGame.unity
     guid: e3e0db65a9a15ce499dc349954820028
   - enabled: 1
-    path: Assets/Scripts/ShipDockSamples/LoadSceneSampleA.unity
+    path: Assets/Scripts/ShipDockSamples/LoadScene/LoadSceneSampleA.unity
     guid: 54a6da99ad3ec774488061207206173e
   - enabled: 1
-    path: Assets/Scripts/ShipDockSamples/LoadSceneSampleB.unity
+    path: Assets/Scripts/ShipDockSamples/LoadScene/LoadSceneSampleB.unity
     guid: d63f522f6755039489ca07eba4d401a4
   m_configObjects: {}

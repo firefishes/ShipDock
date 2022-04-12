@@ -32,18 +32,18 @@ namespace ShipDock.Loader
             return m_BundleName;
         }
 
-        public void SyncFromInfo(ref CustomAssetComponentInfo info, out List<CustomAsset> assets)
+        public void SyncFromInfo(ref CustomAssetsInfoItem info, out List<CustomAsset> assets)
         {
-            m_BundleName = info.bundleName;
-            m_Valid = info.valid;
+            //m_BundleName = info.bundleName;
+            //m_Valid = info.valid;
 
             assets = m_Assets;
         }
 
-        public void WriteToInfo(ref CustomAssetComponentInfo target, out List<CustomAsset> assets)
+        public void WriteToInfo(ref CustomAssetsInfoItem target, out List<CustomAsset> assets)
         {
-            target.valid = m_Valid;
-            target.bundleName = m_BundleName;
+            //target.valid = m_Valid;
+            //target.bundleName = m_BundleName;
 
             assets = m_Assets;
         }

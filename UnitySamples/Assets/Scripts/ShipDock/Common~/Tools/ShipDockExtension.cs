@@ -161,6 +161,22 @@ static public class ShipDockExtension
         }
     }
 
+    public static T GetLast<T>(this T[] target)
+    {
+        int length = target != default ? target.Length : 0;
+        int index = length >= 0 ? length - 1 : -1;
+        T result = index >= 0 ? target[index] : default;
+        return result;
+    }
+
+    public static T GetLast<T>(this List<T> target)
+    {
+        int length = target != default ? target.Count : 0;
+        int index = length >= 0 ? length - 1 : -1;
+        T result = index >= 0 ? target[index] : default;
+        return result;
+    }
+
     public static Material GetMaterial(this Renderer target, bool isGetShareMat = true, bool isCheckMultMat = false, int index = -1)
     {
         if (isCheckMultMat && index >= 0)

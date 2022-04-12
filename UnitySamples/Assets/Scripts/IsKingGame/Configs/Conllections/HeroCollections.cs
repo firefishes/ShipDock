@@ -1,14 +1,16 @@
 ﻿using LitJson;
+using ShipDock.Loader;
+using ShipDock.Scriptables;
 using UnityEngine;
 
 namespace IsKing
 {
     [CreateAssetMenu]
-    public class HeroCollections : GameItemCollections<HeroItem>
+    public class HeroCollections : ScriptableItems<HeroItem>
     {
         public override void InitCollections()
         {
-            GameItem.InitCollections(ref mMapper, ref m_Collections);
+            ScriptableItem.InitCollections(ref mMapper, ref m_Collections);
         }
 
         public override HeroItem GetItem(int id)

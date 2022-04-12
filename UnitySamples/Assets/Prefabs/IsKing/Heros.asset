@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135b4b9673baa1b428389475b915a1bb, type: 3}
   m_Name: Heros
   m_EditorClassIdentifier: 
+  m_ApplyAutoID: 0
   m_RawData: {fileID: 4900000, guid: bd0d8b42824ccb74e82482f54e46a34d, type: 3}
   m_Collections:
   - name: "\u5218\u5907"
-    m_EditEnabled: 0
     id: 0
+    m_EditEnabled: 0
     level: 1
     hp: 80
     atk: 78
@@ -28,8 +29,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: "\u5173\u7FBD"
-    m_EditEnabled: 0
     id: 1
+    m_EditEnabled: 0
     level: 1
     hp: 95.2493092119694
     atk: 95.8484977483749
@@ -41,8 +42,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: "\u5F20\u98DE"
-    m_EditEnabled: 0
     id: 2
+    m_EditEnabled: 0
     level: 1
     hp: 97.1688495278358
     atk: 97.132471203804
@@ -54,8 +55,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90003
-    m_EditEnabled: 0
     id: 3
+    m_EditEnabled: 0
     level: 1
     hp: 118
     atk: 62
@@ -67,8 +68,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90004
-    m_EditEnabled: 0
     id: 4
+    m_EditEnabled: 0
     level: 1
     hp: 153
     atk: 71
@@ -80,8 +81,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90005
-    m_EditEnabled: 0
     id: 5
+    m_EditEnabled: 0
     level: 1
     hp: 160
     atk: 64
@@ -93,8 +94,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90006
-    m_EditEnabled: 0
     id: 6
+    m_EditEnabled: 0
     level: 1
     hp: 161
     atk: 79
@@ -106,8 +107,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90007
-    m_EditEnabled: 0
     id: 7
+    m_EditEnabled: 0
     level: 1
     hp: 112
     atk: 96
@@ -119,8 +120,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90008
-    m_EditEnabled: 0
     id: 8
+    m_EditEnabled: 0
     level: 1
     hp: 176
     atk: 82
@@ -132,8 +133,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90009
-    m_EditEnabled: 0
     id: 9
+    m_EditEnabled: 0
     level: 1
     hp: 141
     atk: 55
@@ -145,8 +146,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90010
-    m_EditEnabled: 0
     id: 10
+    m_EditEnabled: 0
     level: 1
     hp: 159
     atk: 83
@@ -158,8 +159,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90011
-    m_EditEnabled: 0
     id: 11
+    m_EditEnabled: 0
     level: 1
     hp: 191
     atk: 71
@@ -171,8 +172,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90012
-    m_EditEnabled: 0
     id: 12
+    m_EditEnabled: 0
     level: 1
     hp: 136
     atk: 73
@@ -184,8 +185,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90013
-    m_EditEnabled: 0
     id: 13
+    m_EditEnabled: 0
     level: 1
     hp: 120
     atk: 81
@@ -197,8 +198,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90014
-    m_EditEnabled: 0
     id: 14
+    m_EditEnabled: 0
     level: 1
     hp: 172
     atk: 55
@@ -210,8 +211,8 @@ MonoBehaviour:
     skillCounsellor: 0
     skillGeneral: 
   - name: 90015
-    m_EditEnabled: 0
     id: 15
+    m_EditEnabled: 0
     level: 1
     hp: 157
     atk: 51

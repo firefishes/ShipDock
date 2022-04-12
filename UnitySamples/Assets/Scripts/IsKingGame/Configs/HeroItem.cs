@@ -1,4 +1,5 @@
 ﻿using System;
+using ShipDock.Scriptables;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -6,7 +7,7 @@ using Sirenix.OdinInspector;
 namespace IsKing
 {
     [Serializable]
-    public class HeroItem : GameItem
+    public class HeroItem : ScriptableItem
     {
 #if ODIN_INSPECTOR
         [LabelText("等级"), ShowIf("@this.m_EditEnabled == true"), ProgressBar(1, 100), Indent()]

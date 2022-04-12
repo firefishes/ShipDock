@@ -1,10 +1,11 @@
 ﻿using LitJson;
+using ShipDock.Scriptables;
 using UnityEngine;
 
 namespace IsKing
 {
     [CreateAssetMenu]
-    public class SkillCollections : GameItemCollections<SkillItem>
+    public class SkillCollections : ScriptableItems<SkillItem>
     {
         public override SkillItem GetItem(int id)
         {
@@ -13,7 +14,7 @@ namespace IsKing
 
         public override void InitCollections()
         {
-            GameItem.InitCollections(ref mMapper, ref m_Collections);
+            ScriptableItem.InitCollections(ref mMapper, ref m_Collections);
         }
 
         public override void FillFromDataRaw(ref string source)

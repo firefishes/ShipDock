@@ -1,14 +1,15 @@
 ﻿using LitJson;
+using ShipDock.Scriptables;
 using UnityEngine;
 
 namespace IsKing
 {
     [CreateAssetMenu]
-    public class SkillEffectCollections : GameItemCollections<SkillEffectItem>
+    public class SkillEffectCollections : ScriptableItems<SkillEffectItem>
     {
         public override void InitCollections()
         {
-            GameItem.InitCollections(ref mMapper, ref m_Collections);
+            ScriptableItem.InitCollections(ref mMapper, ref m_Collections);
         }
 
         public override SkillEffectItem GetItem(int id)

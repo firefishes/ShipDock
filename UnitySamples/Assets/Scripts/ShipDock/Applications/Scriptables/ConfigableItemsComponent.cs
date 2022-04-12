@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IsKing
+namespace ShipDock.Scriptables
 {
     [Serializable]
     public class ConfigableItems

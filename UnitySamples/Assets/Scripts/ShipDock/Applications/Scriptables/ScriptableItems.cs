@@ -10,11 +10,13 @@ using LitJson;
 using Sirenix.OdinInspector;
 #endif
 
-namespace IsKing
+namespace ShipDock.Scriptables
 {
     [Serializable]
-    public abstract class GameItemCollections<T> : ScriptableObject, IGameItemCollections where T : IGameItem
+    public abstract class ScriptableItems<T> : ScriptableObject, IScriptableItems where T : IScriptableItem
     {
+        [SerializeField]
+        protected bool m_ApplyAutoID;
         [SerializeField]
         private TextAsset m_RawData;
         [SerializeField]
@@ -26,7 +28,26 @@ namespace IsKing
         [Button(name: "保存"), ShowIf("@this.m_RawData != null")]
         private void SaveGameItems()
         {
-            string source = JsonMapper.ToJson(m_Collections);
+            int max;
+            if (m_ApplyAutoID)
+            {
+                max = m_Collections.Count;
+                for (int i = 0; i < max; i++)
+                {
+                    SetAutoID(i);
+                }
+            }
+            else { }
+
+            T item = default;
+            max = m_Collections.Count;
+            for (int i = 0; i < max; i++)
+            {
+                item = m_Collections[i];
+                BeforeSaveGameItems(ref item);
+            }
+
+            string source = JsonMapper.ToJson(GetJsonSource());
             string relativePath = AssetDatabase.GetAssetPath(m_RawData);
 
             int pathLen = Application.dataPath.Length;
@@ -34,6 +55,8 @@ namespace IsKing
             string path = Application.dataPath.Substring(0, pathLen - end);
             path = path + "/" + relativePath;
             File.WriteAllText(path, source);
+
+            AssetDatabase.Refresh();
         }
 
 #if APPLY_AUTO_FILL
@@ -71,5 +94,21 @@ namespace IsKing
         public abstract void FillFromDataRaw(ref string source);
         public abstract void InitCollections();
         public abstract T GetItem(int id);
+
+        protected virtual void SetAutoID(int index)
+        {
+            T item = m_Collections[index];
+            int id = item.GetHashCode();
+            item.SetID(id);
+        }
+
+        protected virtual void BeforeSaveGameItems(ref T item)
+        {
+        }
+
+        protected virtual object GetJsonSource()
+        {
+            return m_Collections;
+        }
     }
 }

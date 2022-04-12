@@ -147,12 +147,12 @@ namespace ShipDock.Loader
 
         public void SyncFromInfo(ref CustomAssetInfo assetInfo)
         {
-            asset = assetInfo.asset;
-            tex2D = assetInfo.tex2D;
-            audioClip = assetInfo.audioClip;
-            sprite = assetInfo.sprite;
-            textData = assetInfo.textData;
-            assetBundle = assetInfo.assetBundle;
+            //asset = assetInfo.asset;
+            //tex2D = assetInfo.tex2D;
+            //audioClip = assetInfo.audioClip;
+            //sprite = assetInfo.sprite;
+            //textData = assetInfo.textData;
+            //assetBundle = assetInfo.assetBundle;
             assetName = assetInfo.assetName;
 
             UpdateCustomAssetName();
@@ -161,12 +161,12 @@ namespace ShipDock.Loader
         public void WriteToInfo(ref CustomAssetInfo assetInfo)
         {
             assetInfo.assetName = assetName;
-            assetInfo.asset = asset;
-            assetInfo.tex2D = tex2D;
-            assetInfo.audioClip = audioClip;
-            assetInfo.sprite = sprite;
-            assetInfo.textData = textData;
-            assetInfo.assetBundle = assetBundle;
+            //assetInfo.asset = asset;
+            //assetInfo.tex2D = tex2D;
+            //assetInfo.audioClip = audioClip;
+            //assetInfo.sprite = sprite;
+            //assetInfo.textData = textData;
+            //assetInfo.assetBundle = assetBundle;
         }
     }
 

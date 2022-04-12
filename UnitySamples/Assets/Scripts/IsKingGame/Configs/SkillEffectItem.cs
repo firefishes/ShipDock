@@ -1,6 +1,7 @@
 ﻿#define ODIN
 
 using System;
+using ShipDock.Scriptables;
 #if ODIN_INSPECTOR && ODIN
 using Sirenix.OdinInspector;
 #endif
@@ -8,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace IsKing
 {
     [Serializable]
-    public class SkillEffectItem : GameItem
+    public class SkillEffectItem : ScriptableItem
     {
 
 #if ODIN_INSPECTOR
