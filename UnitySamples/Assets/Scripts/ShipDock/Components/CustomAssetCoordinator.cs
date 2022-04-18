@@ -48,6 +48,8 @@ namespace ShipDock.Loader
                 m_SyncCusntomList = false;
 
                 m_Assets.Clear();
+                CheckAndUpdateInfos();
+
                 CustomAssetComponent[] list = GetComponentsInChildren<CustomAssetComponent>();
                 int max = list.Length;
                 for (int i = 0; i < max; i++)
@@ -72,6 +74,51 @@ namespace ShipDock.Loader
                 }
                 m_Assets.Clear();
                 m_Assets = list;
+            }
+            else { }
+        }
+
+        private void CheckAndUpdateInfos()
+        {
+            if (m_Info != null)
+            {
+                CustomAssetComponent[] list = GetComponentsInChildren<CustomAssetComponent>();
+                foreach (var item in list)
+                {
+                    DestroyImmediate(item.gameObject);
+                }
+
+                List<CustomAssetsInfoItem> infos = m_Info.GetAssetInfos();
+                foreach (CustomAssetsInfoItem item in infos)
+                {
+                    GameObject customAsset = new GameObject();
+                    customAsset.transform.SetParent(transform);
+                    CustomAssetComponent customAssetComp = customAsset.AddComponent<CustomAssetComponent>();
+                    customAssetComp.SetBundleName(item.name);
+                    List<CustomAsset> assets = customAssetComp.Assets;
+                    assets = new List<CustomAsset>();
+                    int assetsCount = item.assets.Length;
+                    for (int i = 0; i < assetsCount; i++)
+                    {
+                        CustomAsset assetItemComp = new CustomAsset
+                        {
+                            refresh = true
+                        };
+                        CustomAssetInfo resRawItem = item.assets[i];
+                        assetItemComp.asset = resRawItem.asset;
+                        assetItemComp.audioClip = resRawItem.audioClip;
+                        assetItemComp.tex2D = resRawItem.tex2D;
+                        assetItemComp.textData = resRawItem.textData;
+                        if (resRawItem.sprite != null)
+                        {
+                            assetItemComp.sprite = Sprite.Create(resRawItem.sprite, new Rect(0f, 0f, resRawItem.sprite.width, resRawItem.sprite.height), Vector2.zero);
+                        }
+                        else { }
+                        assets.Add(assetItemComp);
+                    }
+                    customAssetComp.SetAssets(assets);
+                    customAssetComp.Valid();
+                }
             }
             else { }
         }

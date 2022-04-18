@@ -2,12 +2,119 @@
 using ShipDock.Scriptables;
 using UnityEditor;
 using UnityEngine;
+using ShipDock.Tools;
+using System.Collections.Generic;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 
 namespace ShipDock.Loader
 {
     [CreateAssetMenu(fileName = "ShipDockAssetCoordinatorInfo", menuName = "ShipDock : 资源协调器信息", order = 100)]
     public class CustomAssetCoordinatorInfo : ScriptableItems<CustomAssetsInfoItem>
     {
+#if UNITY_EDITOR
+        public static BuildTarget buildTarget;
+        private IdentBits mABBtnIdentBits = new IdentBits();
+
+#if ODIN_INSPECTOR
+        [Button(name: "Build Assets"), ShowIf("@this.mABBtnIdentBits.Check(1) == false && this.mABBtnIdentBits.Check(2) == false")]
+#endif
+        private void BuildAssetBundles()
+        {
+            mABBtnIdentBits.Reclaim();
+            mABBtnIdentBits.Mark(1);
+        }
+
+        private void BuildPlatfromChoosen(BuildTarget buildTarget)
+        {
+            if (mABBtnIdentBits.Check(1))
+            {
+                CustomAssetCoordinatorInfo.buildTarget = buildTarget;
+                mABBtnIdentBits.Mark(2);
+                mABBtnIdentBits.ResetMark(1);
+            }
+            else { }
+        }
+
+#if ODIN_INSPECTOR
+        [ButtonGroup("PlatfromChoose"), ShowIf("@this.mABBtnIdentBits.Check(1) == true")]
+#endif
+        private void Android()
+        {
+            BuildPlatfromChoosen(BuildTarget.Android);
+        }
+
+#if ODIN_INSPECTOR
+        [ButtonGroup("PlatfromChoose"), ShowIf("@this.mABBtnIdentBits.Check(1) == true")]
+#endif
+        private void IOS()
+        {
+            BuildPlatfromChoosen(BuildTarget.iOS);
+        }
+
+#if ODIN_INSPECTOR
+        [ButtonGroup("PlatfromChoose"), ShowIf("@this.mABBtnIdentBits.Check(1) == true")]
+#endif
+        private void OSX()
+        {
+            BuildPlatfromChoosen(BuildTarget.StandaloneOSX);
+        }
+
+#if ODIN_INSPECTOR
+        [ButtonGroup("PlatfromChoose"), ShowIf("@this.mABBtnIdentBits.Check(1) == true")]
+#endif
+        private void WIN()
+        {
+            BuildPlatfromChoosen(BuildTarget.StandaloneWindows);
+        }
+
+#if ODIN_INSPECTOR
+        [ButtonGroup("PlatfromChoose"), ShowIf("@this.mABBtnIdentBits.Check(1) == true")]
+#endif
+        private void WIN64()
+        {
+            BuildPlatfromChoosen(BuildTarget.StandaloneWindows64);
+        }
+
+#if ODIN_INSPECTOR
+        [Button(name: "Back"), ShowIf("@this.mABBtnIdentBits.Check(1) == true")]
+#endif
+        private void BackToABConfig()
+        {
+            mABBtnIdentBits.Reclaim();
+        }
+
+#if ODIN_INSPECTOR
+        [ButtonGroup("WillBuild"), ShowIf("@this.mABBtnIdentBits.Check(2) == true")]
+#endif
+        private void BuildConfirm()
+        {
+            if (mABBtnIdentBits.Check(2))
+            {
+                mABBtnIdentBits.Reclaim();
+            }
+            else { }
+        }
+
+#if ODIN_INSPECTOR
+        [ButtonGroup("WillBuild"), ShowIf("@this.mABBtnIdentBits.Check(2) == true")]
+#endif
+        private void BuildCancel()
+        {
+            if (mABBtnIdentBits.Check(2))
+            {
+                mABBtnIdentBits.Reclaim();
+            }
+            else { }
+        }
+#endif
+
+        public virtual List<CustomAssetsInfoItem> GetAssetInfos()
+        {
+            return m_Collections;
+        }
+
         public override void InitCollections()
         {
             ScriptableItem.InitCollections(ref mMapper, ref m_Collections);
@@ -52,8 +159,10 @@ namespace ShipDock.Loader
                 Debug.Log("[Info - JSON] Assets info item ".Append(data.name, " has load."));
             }
 
+#if UNITY_EDITOR
             EditorUtility.SetDirty(this);
             AssetDatabase.Refresh();
+#endif
         }
 
         protected override void BeforeSaveGameItems(ref CustomAssetsInfoItem item)

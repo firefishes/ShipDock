@@ -1,7 +1,9 @@
 ﻿#define SHOW_MENU_IN_EDITOR
 
 using ShipDock.Applications;
+using ShipDock.Loader;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -142,6 +144,17 @@ namespace ShipDock.Editors
             AssetBundleBuilder builder = new AssetBundleBuilder();
             builder.BuildAssetBundle(BuildTarget.StandaloneWindows64);
         }
+
+#if SHOW_MENU_IN_EDITOR
+        [MenuItem("ShipDock/Build Asset Bundle/ASSET COORDINATOR")]
+#endif
+        public static void FromAssetCoordinator()
+        {
+            Debug.Log("Start build asset bundles from asset coordinator");
+
+            AssetBundleBuilder builder = new AssetBundleBuilder();
+            builder.BuildAssetBundle(CustomAssetCoordinatorInfo.buildTarget, true);
+        }
         #endregion
 
         public static string GetSuffix(BuildTarget buildPlatform)
@@ -171,10 +184,40 @@ namespace ShipDock.Editors
             return result;
         }
 
+        public static string GetBuildPlatFromTitle(BuildTarget buildPlatform, out int statu)
+        {
+            statu = 0;
+            string result;
+            switch (buildPlatform)
+            {
+                case BuildTarget.Android:
+                    result = "ANDROID";
+                    break;
+                case BuildTarget.iOS:
+                    result = "IOS";
+                    break;
+                case BuildTarget.StandaloneWindows:
+                    result = "WIN";
+                    break;
+                case BuildTarget.StandaloneWindows64:
+                    result = "WIN64";
+                    break;
+                case BuildTarget.StandaloneOSX:
+                    result = "OSX";
+                    break;
+                default:
+                    result = "UNKNOWN";
+                    statu = 1;
+                    EditorUtility.DisplayDialog("警告", "资源的目标平台未定义，请前往设置", "确定");
+                    break;
+            }
+            return result;
+        }
+
         /// <summary>
         /// 资源打包
         /// </summary>
-        public void BuildAssetBundle(BuildTarget buildPlatform)
+        public void BuildAssetBundle(BuildTarget buildPlatform, bool isFromAssetCoordinator = false)
         {
             AssetDatabase.RemoveUnusedAssetBundleNames();
             string rootPath = AppPaths.DataPathResDataRoot;
@@ -188,18 +231,92 @@ namespace ShipDock.Editors
             string[] assetLabelRoots = Directory.GetDirectories(rootPath);
             if (assetLabelRoots.Length == 0)
             {
-                EditorUtility.DisplayDialog("提示", "没有需要打包的资源！！！", "确定");
+                EditorUtility.DisplayDialog("提示", "资源目录下没用文件！！！", "确定");
                 return;
             }
             else { }
 
+            UnityEngine.Object[] selections = null;
+            if (isFromAssetCoordinator)
+            {
+                selections = CheckAssetCoordinator();
+                if (selections == null)
+                {
+                    return;
+                }
+                else { }
+            }
+            else
+            {
+                selections = Selection.GetFiltered<UnityEngine.Object>(SelectionMode.DeepAssets);
+            }
+
             ShipDockEditorData editorData = ShipDockEditorData.Instance;
             editorData.platformPath = GetSuffix(buildPlatform);
             editorData.buildPlatform = buildPlatform;
-
-            UnityEngine.Object[] selections = Selection.GetFiltered<UnityEngine.Object>(SelectionMode.DeepAssets);
-            ShipDockEditorData.Instance.selections = selections;
+            editorData.selections = selections;
+            editorData.isBuildFromCoordinator = isFromAssetCoordinator;
             AssetBundleInfoPopupEditor.Popup();
+        }
+
+        private UnityEngine.Object[] CheckAssetCoordinator()
+        {
+            List<UnityEngine.Object> result = new List<UnityEngine.Object>();
+
+            UnityEngine.Object selection = Selection.activeObject;
+            if (selection is CustomAssetCoordinatorInfo infos)
+            {
+                string bundleName;
+                UnityEngine.Object res;
+                string resName = null;
+                CustomAssetInfoSource[] assetList;
+                CustomAssetsInfoItemSource itemSource;
+                List<CustomAssetsInfoItem> list = infos.GetAssetInfos();
+
+                ShipDockEditorData editorData = ShipDockEditorData.Instance;
+                string coordinatorPath = AssetDatabase.GetAssetPath(selection);
+                editorData.coordinatorPath = coordinatorPath;
+
+                Dictionary<string, string> assetsFromCoordinator;
+                foreach (var item in list)
+                {
+                    itemSource = item.GetJsonSource() as CustomAssetsInfoItemSource;
+                    bundleName = itemSource.bundleName;
+                    assetList = itemSource.assets;
+
+                    assetsFromCoordinator = editorData.assetsFromCoordinator;
+                    if (assetsFromCoordinator == null)
+                    {
+                        assetsFromCoordinator = new Dictionary<string, string>();
+                        editorData.assetsFromCoordinator = assetsFromCoordinator;
+                    }
+                    else { }
+
+                    string path;
+                    int index = 0;
+                    int max = assetList.Length;
+                    foreach (var asset in assetList)
+                    {
+                        path = asset.assetPath;
+                        res = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+
+                        if (assetsFromCoordinator.TryGetValue(path, out resName)) { }
+                        else
+                        {
+                            assetsFromCoordinator[path] = bundleName;
+                        }
+
+                        result.Add(res);
+                        index++;
+                    }
+                }
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("警告", "所选的资源文件不是资源协调器", "确定");
+            }
+
+            return result.Count > 0 ? result.ToArray() : null;
         }
 
         private static void DeleteFileDirection(string directionName)

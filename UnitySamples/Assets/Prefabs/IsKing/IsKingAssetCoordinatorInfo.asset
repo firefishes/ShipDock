@@ -12,13 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0158bb15d45faf841852ecb601e811c6, type: 3}
   m_Name: IsKingAssetCoordinatorInfo
   m_EditorClassIdentifier: 
-  m_ApplyAutoID: 0
+  m_ApplyAutoID: 1
   m_RawData: {fileID: 4900000, guid: b765abec787ec7f429de4385151ad020, type: 3}
   m_Collections:
-  - name: BB
-    id: 0
+  - name: is_king_ui/battle
+    id: -970926592
     m_EditEnabled: 0
-    valid: 0
+    valid: 1
+    assets:
+    - assetName: UIBattle
+      assetPath: Assets/res_data/is_king_ui/battle/UIBattle.prefab
+      m_EditEnabled: 1
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 3063034836683628999, guid: 430e77f4593e4a440b96e55260e31460,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}
+  - name: is_king_map/mission_1
+    id: -544054272
+    m_EditEnabled: 0
+    valid: 1
+    assets:
+    - assetName: Map
+      assetPath: Assets/res_data/is_king_map/mission_1/Map.prefab
+      m_EditEnabled: 1
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 8927210924196817783, guid: 5b0fe0044499f0344a85a22d678c0815,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}
+  - name: is_king_main/configables
+    id: -2123832832
+    m_EditEnabled: 0
+    valid: 1
     assets:
     - assetName: ConfigableItems
       assetPath: Assets/res_data/is_king_main/configables/ConfigableItems.prefab
@@ -29,17 +63,6 @@ MonoBehaviour:
         type: 3}
       tex2D: {fileID: 0}
       sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      textData: {fileID: 0}
-      assetBundle: {fileID: 0}
-    - assetName: grid_4
-      assetPath: Assets/res_data/elim_game_res/texs/grid_4.png
-      m_EditEnabled: 1
-      m_Valid: 1
-      assetType: 2
-      asset: {fileID: 0}
-      tex2D: {fileID: 0}
-      sprite: {fileID: 2800000, guid: 580289f79cc6aa244ab24b6289afea8f, type: 3}
       audioClip: {fileID: 0}
       textData: {fileID: 0}
       assetBundle: {fileID: 0}

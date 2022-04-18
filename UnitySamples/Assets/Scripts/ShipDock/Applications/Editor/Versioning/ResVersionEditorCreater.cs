@@ -173,11 +173,11 @@ namespace ShipDock.Editors
                 List<ScriptableObject> list = default;
                 ShipDockEditorUtils.FindAssetInEditorProject(ref list, "t:ScriptableObject", @"Assets\Prefabs");
                 ClientResVersion clientRes = default;// = (ClientResVersion)list[0];
-                foreach (ScriptableObject i in list)
+                foreach (ScriptableObject item in list)
                 {
-                    if (i.name == ClientVersionFileName)
+                    if (item.name == ClientVersionFileName)
                     {
-                        clientRes = (ClientResVersion)i;
+                        clientRes = (ClientResVersion)item;
                         break;
                     }
                     else { }

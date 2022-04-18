@@ -33,18 +33,26 @@ namespace ShipDock.Editors
         private string mABItemNameKey = "ab_item_name";
         private string mDisplayResShowerKey = "display_res_shower";
         private string mIsBuildVersionsKey = "is_build_versions";
+        private string mCoordinatorPathKey = "coordinator_path";
+        private string mBuildTargetTitleKey = "build_target";
         #endregion
+        private int mBuildTargetStatu;
         private Vector2 mResShowerScrollPos;
 
         public UnityEngine.Object[] ResList { get; set; } = new UnityEngine.Object[0];
 
         protected override void ReadyClientValues()
         {
+            ShipDockEditorData editorData = ShipDockEditorData.Instance;
+            string buildTargetTitle = AssetBundleBuilder.GetBuildPlatFromTitle(editorData.buildPlatform, out mBuildTargetStatu);
+
             SetValueItem(mIsBuildABKey, "true");//是否生成资源包
             SetValueItem(mOverrideToStreamingKey, "false");//是否将生成的资源包覆盖至Streaming目录
             SetValueItem(mABItemNameKey, string.Empty);
             SetValueItem(mDisplayResShowerKey, "true");//是否显示带打包的资源列表
             SetValueItem(mIsBuildVersionsKey, "true");//是否构建资源版本
+            SetValueItem(mCoordinatorPathKey, editorData.coordinatorPath);//资源协调器路径
+            SetValueItem(mBuildTargetTitleKey, buildTargetTitle);//构建资源的目标平台
 
             ResDataVersionEditorCreater.SetEditorValueItems(this);
         }
@@ -92,13 +100,26 @@ namespace ShipDock.Editors
 
             if (isBuildAB)
             {
-                ResList = ShipDockEditorData.Instance.selections;
+                ShipDockEditorData editorData = ShipDockEditorData.Instance;
+                ResList = editorData.selections;
+
+                ValueItemLabel(mBuildTargetTitleKey, "目标平台");
+
+                if (editorData.isBuildFromCoordinator)
+                {
+                    ValueItemLabel(mCoordinatorPathKey, "   资源协调器路径");
+                }
+                else { }
 
                 ShowABWillBuildResult();
 
-                if (GUILayout.Button("Build Assets"))
+                if (mBuildTargetStatu == 0)
                 {
-                    AssetBuilding();
+                    if (GUILayout.Button("Build Assets"))
+                    {
+                        AssetBuilding();
+                    }
+                    else { }
                 }
                 else { }
             }
@@ -199,6 +220,8 @@ namespace ShipDock.Editors
             FileInfo fileInfo;
             List<ABAssetCreater> list;
             string name;
+            Dictionary<string, string> coordinatorABNames = ShipDockEditorData.Instance.assetsFromCoordinator;
+            bool isBuildFromCoordinator = ShipDockEditorData.Instance.isBuildFromCoordinator;
             int starterLen = starter.Length;
             int max = ResList.Length;
             ValueItem item;
@@ -210,6 +233,7 @@ namespace ShipDock.Editors
                 {
                     continue;
                 }
+                else { }
                 assetItemName = item.Value;//"res_1"
                 relativeName = assetItemName.Replace("Assets/".Append(AppPaths.resDataRoot), string.Empty);
                 path = AppPaths.DataPathResDataRoot.Append(relativeName);
@@ -220,7 +244,7 @@ namespace ShipDock.Editors
                 {
                     int index = path.IndexOf(starter, StringComparison.Ordinal);
                     ABAssetCreater creater = new ABAssetCreater(path.Substring(index + starterLen));
-                    abName = creater.GetABName();
+                    abName = isBuildFromCoordinator ? coordinatorABNames[assetItemName] : creater.GetABName();
                     bool isScene = ext == ".unity";
                     if (isScene)
                     {

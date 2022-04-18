@@ -2,28 +2,33 @@
 {
     public class IdentBits
     {
-        private int mFlag;
+        public int Value { get; private set; }
 
         public IdentBits() { }
 
         public void Reclaim()
         {
-            mFlag = 0;
+            Value = 0;
+        }
+
+        public void SetIdentValue(int value)
+        {
+            Value = value;
         }
 
         public bool Check(int value)
         {
-            return (mFlag & (1 << value)) != 0;
+            return (Value & (1 << value)) != 0;
         }
 
-        public void Set(int value)
+        public void Mark(int value)
         {
-            mFlag |= (1 << value);
+            Value |= (1 << value);
         }
 
-        public void Reset(int value)
+        public void ResetMark(int value)
         {
-            mFlag &= ~(1 << value);
+            Value &= ~(1 << value);
         }
     }
 }

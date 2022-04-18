@@ -129,6 +129,7 @@ namespace ShipDock.Loader
             }
             else { }
 
+#if UNITY_EDITOR
             UnityEngine.Object res = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPathValue);
             if (res != default)
             {
@@ -158,6 +159,7 @@ namespace ShipDock.Loader
             {
                 Debug.Log("Do not have res ".Append(assetPathValue));
             }
+#endif
         }
 
         private string GetAssetPatyByAssetType(CustomAssetType assetType)
@@ -188,7 +190,9 @@ namespace ShipDock.Loader
 
             if (res != default)
             {
+#if UNITY_EDITOR
                 result = AssetDatabase.GetAssetPath(res);
+#endif
             }
             else
             {

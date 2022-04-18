@@ -32,23 +32,23 @@ namespace ShipDock.Loader
             return m_BundleName;
         }
 
-        public void SyncFromInfo(ref CustomAssetsInfoItem info, out List<CustomAsset> assets)
+        public void SetBundleName(string abName)
         {
-            //m_BundleName = info.bundleName;
-            //m_Valid = info.valid;
-
-            assets = m_Assets;
+            m_BundleName = abName;
         }
 
-        public void WriteToInfo(ref CustomAssetsInfoItem target, out List<CustomAsset> assets)
+        public void SetAssets(List<CustomAsset> assets)
         {
-            //target.valid = m_Valid;
-            //target.bundleName = m_BundleName;
-
-            assets = m_Assets;
+            m_Assets = assets;
         }
 
 #if UNITY_EDITOR
+        public void Valid()
+        {
+            m_Valid = true;
+            Update();
+        }
+
         private void Update()
         {
             if (m_Valid && !Application.isPlaying)
