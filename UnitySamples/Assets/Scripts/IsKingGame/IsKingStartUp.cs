@@ -54,8 +54,9 @@ namespace IsKing
 
             Consts.D_PLAYER.GetData<PlayerData>().InitPlayer();
 
-            shipDockApp.AppModulars.AddModular(modulars);
-            shipDockApp.AppModulars.NotifyModular(Consts.N_START_BATTLE);
+            DecorativeModulars appModular = shipDockApp.AppModulars;
+            appModular.AddModular(modulars);
+            appModular.NotifyModular(Consts.N_START_BATTLE);
         }
 
         private void InitConfigables(ref ConfigableItemsComponent component)

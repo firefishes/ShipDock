@@ -55,6 +55,11 @@ namespace ShipDock.Notices
             return result;
         }
 
+        public void AddListener(int noticeName, INoticesHandler handler, bool onlyOnce = false)
+        {
+            AddListener(noticeName, handler.ListenerHandler, onlyOnce);
+        }
+
         public void AddListener(int noticeName, Action<INoticeBase<int>> listener, bool onlyOnce = false)
         {
             NoticeHandler<int> handlers;

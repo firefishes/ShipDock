@@ -54,6 +54,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Notices~\Interfaces\INoticesHandler.cs">
+      <Link>ShipDockNotices\INoticesHandler.cs</Link>
+    </Compile>
     <Compile Include="..\..\Notices~\Interfaces\IUpdate.cs">
       <Link>ShipDockNotices\IUpdate.cs</Link>
     </Compile>

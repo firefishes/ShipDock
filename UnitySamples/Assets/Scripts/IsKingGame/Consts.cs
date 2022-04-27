@@ -39,6 +39,8 @@ namespace IsKing
         public const int DN_BATTLE_DATA_UPDATE = 20003;
         /// <summary>获取将领配置</summary>
         public const int DN_GET_HEROS_ITEMS = 20004;
+        /// <summary>发牌：玩家将领牌</summary>
+        public const int DN_PLAYER_HERO_CARD_ADDED = 20005;
         #endregion
 
         #region 数据层代理名

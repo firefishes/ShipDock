@@ -25,6 +25,10 @@ namespace IsKing
             Consts.D_BATTLE
         };
 
+        protected override void Purge()
+        {
+        }
+
         public override void OnDataProxyNotify(IDataProxy data, int keyName)
         {
             if (data is BattleData battleData)
@@ -47,13 +51,14 @@ namespace IsKing
                         Vector2Int troopsValue = battleData.CurrentTroops(Consts.CAMP_PLAYER);
                         UI.UpdatePlayerTroops(troopsValue);
                         break;
+
+                    case Consts.DN_PLAYER_HERO_CARD_ADDED:
+                        Queue<BattleHeroController> queue = battleData.PlayerHeroCardGenerated;
+
+                        break;
                 }
             }
             else { }
-        }
-
-        protected override void Purge()
-        {
         }
 
         protected override void UIModularHandler(INoticeBase<int> param)

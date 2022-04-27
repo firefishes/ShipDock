@@ -1,6 +1,7 @@
 ﻿using ShipDock.Datas;
 using ShipDock.Notices;
 using ShipDock.Tools;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,9 +11,15 @@ namespace IsKing
     {
         private KeyValueList<int, BattleCamp> mCamps;
 
+        public Queue<BattleHeroController> PlayerHeroCardGenerated
+        {
+            get; private set;
+        }
+
         public BattleData() : base(Consts.D_BATTLE)
         {
             mCamps = new KeyValueList<int, BattleCamp>();
+            PlayerHeroCardGenerated = new Queue<BattleHeroController>();
         }
 
         public BattleCamp GetCamp(int campType)
@@ -49,11 +56,8 @@ namespace IsKing
             "log:Player intelligential delta is {0}".Log(battleFields.GetFloatData(Consts.FN_INTELLIGENTIAL_DELTA).ToString());
         }
 
-        public void StartBattle()
+        private void InitPlayerCamp()
         {
-            mCamps[Consts.CAMP_PLAYER] = new BattleCamp();
-            mCamps[Consts.CAMP_ENEMY] = new BattleCamp();
-
             //初始化玩家阵营
             BattleCamp camp = mCamps[Consts.CAMP_PLAYER];
             BattleInfoController controller = camp.BattleInfoController;
@@ -64,11 +68,14 @@ namespace IsKing
             controller.AddListener(Consts.N_INTELLIGENTAL_UPDATE, OnPlayerBattleInfoEventHandler);
             controller.AddListener(Consts.N_INTELLIGENTAL_FINISHED, OnPlayerBattleInfoEventHandler);
             controller.Dispatch(Consts.N_START_COLLECT_INTELLIGENTAL);
+        }
 
+        private void InitEnemyCamp()
+        {
             //初始化敌军阵营
-            camp = mCamps[Consts.CAMP_ENEMY];
-            controller = camp.BattleInfoController;
-            info = controller.Info;
+            BattleCamp camp = mCamps[Consts.CAMP_ENEMY];
+            BattleInfoController controller = camp.BattleInfoController;
+            BattleFields info = controller.Info;
 
             BattleHeroController heroContorller;
             int max = Consts.CAMP_HERO_MAX;
@@ -84,6 +91,15 @@ namespace IsKing
             controller.Dispatch(Consts.N_START_COLLECT_INTELLIGENTAL);
         }
 
+        public void InitBattleData()
+        {
+            mCamps[Consts.CAMP_PLAYER] = new BattleCamp();
+            mCamps[Consts.CAMP_ENEMY] = new BattleCamp();
+
+            InitPlayerCamp();
+            InitEnemyCamp();
+        }
+
         private void OnPlayerBattleInfoEventHandler(INoticeBase<int> param)
         {
             switch (param.Name)
@@ -93,8 +109,6 @@ namespace IsKing
                     break;
                 case Consts.N_INTELLIGENTAL_FINISHED:
                     DataNotify(Consts.DN_PLAYER_INTELLIGENTAL_FINISHED);
-                    BattleCamp camp = GetCamp(Consts.CAMP_PLAYER);
-                    camp.BattleInfoController.ResetFinishCycleFlag();
                     break;
             }
         }
@@ -154,6 +168,18 @@ namespace IsKing
             List<BattleHeroController> result = new List<BattleHeroController>();
             camp.FillIdleBattleHeros(ref result);
             return result;
+        }
+
+        public void AddPlayerHeroCard(params BattleHeroController[] heroControllers)
+        {
+            BattleHeroController item;
+            int max = heroControllers.Length;
+            for (int i = 0; i < max; i++)
+            {
+                item = heroControllers[i];
+                PlayerHeroCardGenerated.Enqueue(item);
+            }
+            DataNotify(Consts.DN_PLAYER_HERO_CARD_ADDED);
         }
     }
 }

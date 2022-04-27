@@ -70,7 +70,7 @@ namespace IsKing
 
             mHeroNotice = param as HeroNotice;
             mHeroNotice.id = mPlayerIntoBattleRatio.HeroID;
-            mHeroNotice.heroController = mPlayerIntoBattleRatio.Hero;
+            mHeroNotice.heroController = mPlayerIntoBattleRatio.HeroController;
         }
     }
 
@@ -94,14 +94,14 @@ namespace IsKing
         public List<BattleHeroController> Heros { get; set; }
         public float Ratio { get; set; }
         public int HeroID { get; set; }
-        public BattleHeroController Hero { get; set; }
+        public BattleHeroController HeroController { get; set; }
 
         public override void Execute()
         {
             int index = Utils.UnityRangeRandom(0, Heros.Count);
 
-            Hero = Heros[index];
-            HeroID = Hero.Info.GetIntData(Consts.FN_ID);
+            HeroController = Heros[index];
+            HeroID = HeroController.Info.GetIntData(Consts.FN_ID);
 
             "log:AI chooset player card from {0} heros, selected index is {1}, id is {2}".Log(Heros.Count.ToString(), index.ToString(), HeroID.ToString());
         }

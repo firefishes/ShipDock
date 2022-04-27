@@ -41,6 +41,7 @@ namespace IsKing
 
             AIRatioNotice AIRatioNotice = Pooling<AIRatioNotice>.From();
             AIRatioNotice.camp = notice.camp;
+
             NotifyModular(Consts.N_SET_GENERAL_INTO_BATTLE_RATIO, AIRatioNotice);
             NotifyModular(Consts.N_COMMIT_PLAYER_AI, notice);
 

@@ -201,6 +201,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04d4a38b31e8ef468fc77edb22afc35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_TesterBrokers: []
+  m_LogsSetting:
+    m_ApplyUnityAssert: 0
+    m_Sync: 1
+    m_EnabledAll: 0
+    m_RefreshTime: 1
+    m_Enableds: []
 --- !u!1 &631455612
 GameObject:
   m_ObjectHideFlags: 0

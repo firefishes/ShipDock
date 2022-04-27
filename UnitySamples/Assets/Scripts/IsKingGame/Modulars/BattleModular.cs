@@ -49,9 +49,10 @@ namespace IsKing
             }
         }
 
-        [ModularNotify(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, Consts.N_PLAYER_CARD_GENERATE)]
+        [ModularNotify(Consts.N_AI_CHOOSE_PLAYER_CARD_HERO, Consts.N_PLAYER_CARD_GENERATE, NotifyTiming = ModularNotifyTiming.BEFORE)]
         private void OnPlayerIntelligentalFinished(INoticeBase<int> param)
         {
+
         }
 
         [ModularNoticeCreate(Consts.N_START_BATTLE)]
@@ -65,7 +66,7 @@ namespace IsKing
         [ModularNoticeListener(Consts.N_START_BATTLE)]
         private void OnStartBattle(INoticeBase<int> obj)
         {
-            Consts.D_BATTLE.GetData<BattleData>().StartBattle();
+            Consts.D_BATTLE.GetData<BattleData>().InitBattleData();
 
             AssetBundles abs = ShipDockApp.Instance.ABs;
             GameObject map = abs.GetAndQuote<GameObject>("is_king_map/mission_1", "Map", out AssetQuoteder quoteder);

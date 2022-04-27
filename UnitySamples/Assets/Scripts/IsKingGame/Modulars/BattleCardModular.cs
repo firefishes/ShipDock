@@ -36,6 +36,10 @@ namespace IsKing
             return cardNotice;
         }
 
+        /// <summary>
+        /// 生成玩家手牌：将领
+        /// </summary>
+        /// <param name="param"></param>
         [ModularNoticeListener(Consts.N_PLAYER_CARD_GENERATE)]
         private void OnPlayerCardGenerateListener(INoticeBase<int> param)
         {
@@ -44,7 +48,10 @@ namespace IsKing
             BattleHeroController heroController = notice.heroControllerFrom;
             //heroController.
             //TODO 根据将领能力生成手牌
-            
+            BattleData data = Consts.D_BATTLE.GetData<BattleData>();
+            data.AddPlayerHeroCard(heroController);
+
+
             notice.ToPool();
         }
     }
