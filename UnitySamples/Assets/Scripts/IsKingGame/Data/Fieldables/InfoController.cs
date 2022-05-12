@@ -6,6 +6,14 @@ namespace IsKing
     {
         public T Info { get; protected set; }
 
+        public int InfoInstanceID
+        {
+            get
+            {
+                return Info.InstanceID;
+            }
+        }
+
         public InfoController(T info)
         {
             Info = info;

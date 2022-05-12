@@ -14,6 +14,14 @@ namespace ShipDock.Datas
     /// </summary>
     public abstract class FieldableData : IFieldableData, IDataUnit, IDispose
     {
+        private static int instanceIDSeed = 0;
+
+        protected List<int> mIntFieldSource;
+        protected List<float> mFloatFieldSource;
+        protected List<string> mStringFieldSource;
+
+        /// <summary>是否为另一个字段化数据的引用</summary>
+        private bool mIsReference;
         /// <summary>整型值</summary>
         private int[] mIntValues;
         /// <summary>浮点型值</summary>
@@ -35,13 +43,12 @@ namespace ShipDock.Datas
             }
         }
 
+        /// <summary>唯一标识</summary>
+        public int InstanceID { get; private set; }
         /// <summary>是否应用自动检测值的修改</summary>
         public bool ApplyAutoChangedCheck { get; set; } = true;
-        /// <summary>整型值的字段名</summary>
         public virtual List<int> IntFieldNames { get; protected set; }
-        /// <summary>浮点型值的字段名</summary>
         public virtual List<int> FloatFieldNames { get; protected set; }
-        /// <summary>字符串型值的字段名</summary>
         public virtual List<int> StringFieldNames { get; protected set; }
 
         public FieldableData() { }
@@ -49,24 +56,50 @@ namespace ShipDock.Datas
         /// <summary>销毁</summary>
         public virtual void Dispose()
         {
+            if (mIsReference)
+            {
+                mAllFields = null;
+            }
+            else { }
+
+            Utils.Reclaim(ref mAllFields);
             Utils.Reclaim(ref mIntValues);
             Utils.Reclaim(ref mFloatValues);
             Utils.Reclaim(ref mStringValues);
             Utils.Reclaim(ref mHasChanges);
-            Utils.Reclaim(ref mAllFields);
             Utils.Reclaim(ref mOnValuesChanged);
+
+            mIsReference = false;
         }
 
         /// <summary>获取整型值的数据源</summary>
-        public abstract List<int> GetIntFieldSource();
+        public virtual List<float> GetFloatFieldSource()
+        {
+            return mFloatFieldSource;
+        }
+
         /// <summary>获取浮点型值的数据源</summary>
-        public abstract List<float> GetFloatFieldSource();
+        public virtual List<int> GetIntFieldSource()
+        {
+            return mIntFieldSource;
+        }
+
         /// <summary>获取字符串型值的数据源</summary>
-        public abstract List<string> GetStringFieldSource();
+        public virtual List<string> GetStringFieldSource()
+        {
+            return mStringFieldSource;
+        }
 
         /// <summary>填充数据</summary>
-        protected void FillValues()
+        protected void FillValues(bool newInstance = false)
         {
+            if (newInstance)
+            {
+                instanceIDSeed++;
+                SetInstanceID(instanceIDSeed);
+            }
+            else { }
+
             FillValuesByFields(IntFieldNames, ref mIntValues, GetIntFieldSource());
             FillValuesByFields(FloatFieldNames, ref mFloatValues, GetFloatFieldSource());
             FillValuesByFields(StringFieldNames, ref mStringValues, GetStringFieldSource());
@@ -87,6 +120,64 @@ namespace ShipDock.Datas
             {
                 mOnValuesChanged.Add(default);
             }
+        }
+
+        public void InitFromFieldableData<T>(ref T fieldableData, bool isReference = true) where T : FieldableData
+        {
+            if (fieldableData != default)
+            {
+                mIsReference = isReference;
+                IntFieldNames = fieldableData.IntFieldNames;
+                FloatFieldNames = fieldableData.FloatFieldNames;
+                StringFieldNames = fieldableData.StringFieldNames;
+
+                List<int> intFieldSourceRaw = fieldableData.GetIntFieldSource();
+                List<float> floatFieldSourceRaw = fieldableData.GetFloatFieldSource();
+                List<string> stringFieldSourceRaw = fieldableData.GetStringFieldSource();
+
+                int max;
+                if (isReference)
+                {
+                    mIntFieldSource = intFieldSourceRaw;
+                }
+                else
+                {
+                    max = intFieldSourceRaw.Count;
+                    for (int i = 0; i < max; i++)
+                    {
+                        mIntFieldSource.Add(intFieldSourceRaw[i]);
+                    }
+                }
+
+                if (isReference)
+                {
+                    mFloatFieldSource = floatFieldSourceRaw;
+                }
+                else
+                {
+                    max = floatFieldSourceRaw.Count;
+                    for (int i = 0; i < max; i++)
+                    {
+                        mFloatFieldSource.Add(floatFieldSourceRaw[i]);
+                    }
+                }
+
+                if (isReference)
+                {
+                    mStringFieldSource = stringFieldSourceRaw;
+                }
+                else
+                {
+                    max = stringFieldSourceRaw.Count;
+                    for (int i = 0; i < max; i++)
+                    {
+                        mStringFieldSource.Add(stringFieldSourceRaw[i]);
+                    }
+                }
+
+                FillValues(true);
+            }
+            else { }
         }
 
         /// <summary>
@@ -126,10 +217,15 @@ namespace ShipDock.Datas
                 values = new T[max];
                 for (int i = 0; i < max; i++)
                 {
-                    values[i] = willFillIn != default ? willFillIn[i] : default;
+                    values[i] = willFillIn != default && (willFillIn.Count > i) ? willFillIn[i] : default;
                 }
             }
             else { }
+        }
+
+        public void SetInstanceID(int value)
+        {
+            InstanceID = value;
         }
 
         public int GetIntData(int fieldName)
@@ -316,6 +412,5 @@ namespace ShipDock.Datas
             else { }
 
         }
-
     }
 }

@@ -10,8 +10,9 @@ namespace IsKing
     public class BattleData : DataProxy
     {
         private KeyValueList<int, BattleCamp> mCamps;
+        private KeyValueList<int, CardInfoController> mPlayerHandCards;
 
-        public Queue<BattleHeroController> PlayerHeroCardGenerated
+        public Queue<CardInfoController> PlayerHandCardGenerated
         {
             get; private set;
         }
@@ -19,7 +20,8 @@ namespace IsKing
         public BattleData() : base(Consts.D_BATTLE)
         {
             mCamps = new KeyValueList<int, BattleCamp>();
-            PlayerHeroCardGenerated = new Queue<BattleHeroController>();
+            mPlayerHandCards = new KeyValueList<int, CardInfoController>();
+            PlayerHandCardGenerated = new Queue<CardInfoController>();
         }
 
         public BattleCamp GetCamp(int campType)
@@ -32,15 +34,16 @@ namespace IsKing
             PlayerData playerData = Consts.D_PLAYER.GetData<PlayerData>();
             List<HeroFields> playerHeros = playerData.Heros.GetTeamHeros();
 
+            HeroFields copy, hero;
             int n = playerHeros.Count;
             int max = Consts.CAMP_HERO_MAX;
             for (int i = 0; i < max; i++)
             {
-                HeroFields copy = new HeroFields();
+                copy = new HeroFields();
                 if (i < n)
                 {
-                    HeroFields hero = playerHeros[i];
-                    hero.CopyToFields(ref copy);
+                    hero = playerHeros[i];
+                    copy.InitFromFieldableData(ref hero);
 
                     BattleHeroController heroContorller = new BattleHeroController(copy);
                     camp.SetCampHero(i, heroContorller);
@@ -54,6 +57,7 @@ namespace IsKing
             "log:Player troops is {0}/{1}".Log(troops.ToString(), troopsMax.ToString());
             "log:Player intelligential is {0}".Log(battleFields.GetFloatData(Consts.FN_INTELLIGENTIAL).ToString());
             "log:Player intelligential delta is {0}".Log(battleFields.GetFloatData(Consts.FN_INTELLIGENTIAL_DELTA).ToString());
+            battleFields.SetFloatData(Consts.FN_INTELLIGENTIAL, 0f);
         }
 
         private void InitPlayerCamp()
@@ -85,6 +89,9 @@ namespace IsKing
                 //heroContorller.Info.SetIntData(Consts.FN_ID, id);
                 camp.SetCampHero(i, heroContorller);
             }
+
+            BattleFields battleFields = camp.BattleInfoController.Info;
+            battleFields.SetFloatData(Consts.FN_INTELLIGENTIAL, 0f);
 
             controller.AddListener(Consts.N_INTELLIGENTAL_UPDATE, OnEnemyBattleInfoEventHandler);
             controller.AddListener(Consts.N_INTELLIGENTAL_FINISHED, OnEnemyBattleInfoEventHandler);
@@ -170,16 +177,37 @@ namespace IsKing
             return result;
         }
 
-        public void AddPlayerHeroCard(params BattleHeroController[] heroControllers)
+        public void AddPlayerCard(ref CardNotice cardNotice)
         {
-            BattleHeroController item;
-            int max = heroControllers.Length;
-            for (int i = 0; i < max; i++)
-            {
-                item = heroControllers[i];
-                PlayerHeroCardGenerated.Enqueue(item);
-            }
+            CardFields cardFields;
+            CardInfoController card;
+
+            int cardType = GetHandCardTypeAdded(ref cardNotice);
+
+            cardFields = new CardFields();
+            cardFields.SetIntData(Consts.FN_CARD_TYPE, cardType);
+            cardFields.SetIntData(Consts.FN_TARGET_TYPE, 0);
+            cardFields.SetIntData(Consts.FN_NEED_TARGET, 0);
+
+            card = new CardInfoController(cardFields);
+            PlayerHandCardGenerated.Enqueue(card);
+
+            mPlayerHandCards[card.InfoInstanceID] = card;
+
             DataNotify(Consts.DN_PLAYER_HERO_CARD_ADDED);
+        }
+
+        private int GetHandCardTypeAdded(ref CardNotice cardNotice)
+        {
+            int result = Consts.CARD_TYPE_NONE;
+            BattleHeroController battleHero = cardNotice.heroControllerFrom;
+            List<BattleHeroController> idles = GetIdleBattleHeros(cardNotice.camp);
+            if (idles.Contains(battleHero))
+            {
+                result = Consts.CARD_TYPE_HERO;
+            }
+            else { }
+            return result;
         }
     }
 }

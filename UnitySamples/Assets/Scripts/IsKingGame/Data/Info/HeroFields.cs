@@ -45,8 +45,11 @@ namespace IsKing
         public override List<int> IntFieldNames { get; protected set; } = Consts.FieldsHeroInfoInt;
         public override List<int> StringFieldNames { get; protected set; } = Consts.FieldsHeroInfoString;
 
+        /// <summary>主帅技</summary>
         public int SkillCIC { get; private set; }
+        /// <summary>军师计</summary>
         public int SkillCounsellor { get; private set; }
+        /// <summary>武将技</summary>
         public int[] SkillGeneral { get; private set; }
 
         public HeroFields() { }
@@ -78,7 +81,7 @@ namespace IsKing
                 (float)heroItem.aow,
             };
 
-            FillValues();
+            FillValues(true);
             LogFields();
 
             SkillCIC = heroItem.skillCIC;

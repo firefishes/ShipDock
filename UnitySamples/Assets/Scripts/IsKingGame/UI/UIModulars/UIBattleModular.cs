@@ -14,6 +14,7 @@ namespace IsKing
         public const int UI_UPDATE_INTELLIGENCE = 0;
         public const int UI_UPDATE_MORALE = 1;
         public const int UI_UPDATE_TROOPS = 2;
+        public const int UI_UPDATE_BATTLE_CARDS = 3;
 
         public override string ABName { get; } = Consts.AB_UI_BATTLE;
         public override string UIAssetName { get; protected set; } = Consts.UI_BATTLE;
@@ -40,10 +41,6 @@ namespace IsKing
                         UI.UpdatePlayerIntelligence(value);
                         break;
 
-                    case Consts.N_GAIN_GENERAL_ORDER:
-                        UI.UpdateGeneralOrder();
-                        break;
-
                     case Consts.DN_BATTLE_DATA_UPDATE:
                         Vector2 moraleValue = battleData.CurrentMorale(Consts.CAMP_PLAYER);
                         UI.UpdatePlayerMorale(moraleValue);
@@ -53,8 +50,8 @@ namespace IsKing
                         break;
 
                     case Consts.DN_PLAYER_HERO_CARD_ADDED:
-                        Queue<BattleHeroController> queue = battleData.PlayerHeroCardGenerated;
-
+                        Queue<CardInfoController> queue = battleData.PlayerHandCardGenerated;
+                        UI.UpdateGeneralOrder(ref queue);
                         break;
                 }
             }

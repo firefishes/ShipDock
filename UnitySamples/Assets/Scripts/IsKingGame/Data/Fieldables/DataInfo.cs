@@ -5,28 +5,9 @@ namespace IsKing
 {
     public class DataInfo : FieldableData
     {
-        protected List<int> mIntFieldSource;
-        protected List<float> mFloatFieldSource;
-        protected List<string> mStringFieldSource;
-
         public DataInfo()
-        {
+        { 
             FillValues();
-        }
-
-        public override List<float> GetFloatFieldSource()
-        {
-            return mFloatFieldSource;
-        }
-
-        public override List<int> GetIntFieldSource()
-        {
-            return mIntFieldSource;
-        }
-
-        public override List<string> GetStringFieldSource()
-        {
-            return mStringFieldSource;
         }
 
         [System.Diagnostics.Conditional("G_LOG")]

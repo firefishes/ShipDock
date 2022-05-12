@@ -1,16 +1,19 @@
 ﻿using System;
 using ShipDock.Applications;
 using ShipDock.Datas;
+using ShipDock.Interfaces;
 using ShipDock.Loader;
 using ShipDock.Modulars;
 using ShipDock.Notices;
 using ShipDock.Pooling;
+using ShipDock.Tools;
 using UnityEngine;
 
 namespace IsKing
 {
     public class BattleModular : ApplicationModular, IDataExtracter
     {
+        private QueueExecuter mBattleQueue;
 
         public override void Purge()
         {
@@ -21,6 +24,8 @@ namespace IsKing
             ModularName = Consts.M_BATTLE;
 
             this.DataProxyLink(Consts.D_BATTLE);
+
+            mBattleQueue = new QueueExecuter(false);
         }
 
         protected override void InitCustomHandlers()
@@ -64,7 +69,7 @@ namespace IsKing
         }
 
         [ModularNoticeListener(Consts.N_START_BATTLE)]
-        private void OnStartBattle(INoticeBase<int> obj)
+        private void OnStartBattle(INoticeBase<int> param)
         {
             Consts.D_BATTLE.GetData<BattleData>().InitBattleData();
 
@@ -72,6 +77,14 @@ namespace IsKing
             GameObject map = abs.GetAndQuote<GameObject>("is_king_map/mission_1", "Map", out AssetQuoteder quoteder);
 
             Consts.UIM_BATTLE.LoadAndOpenUI<UIBattleModular>(default, Consts.AB_UI_BATTLE);
+        }
+
+        [ModularNoticeListener(Consts.N_ADD_BATTLE_EXECUTER_UNIT)]
+        private void OnAddBattleExecuterUnit(INoticeBase<int> param)
+        {
+            IParamNotice<IQueueExecuter> notice = param as IParamNotice<IQueueExecuter>;
+            IQueueExecuter unit = notice.ParamValue;
+            mBattleQueue.Add(unit);
         }
     }
 

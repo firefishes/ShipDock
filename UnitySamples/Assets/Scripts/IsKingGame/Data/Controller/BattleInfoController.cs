@@ -72,7 +72,7 @@ namespace IsKing
 
             cur += delta;
 
-            mIsFinishCycle = cur >= max;
+            mIsFinishCycle = max > 0f && cur >= max;
             if (mIsFinishCycle)
             {
                 cur -= max;

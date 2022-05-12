@@ -49,21 +49,10 @@ namespace IsKing
             //heroController.
             //TODO 根据将领能力生成手牌
             BattleData data = Consts.D_BATTLE.GetData<BattleData>();
-            data.AddPlayerHeroCard(heroController);
-
+            data.AddPlayerCard(ref notice);
+            //这里生成其他牌
 
             notice.ToPool();
-        }
-    }
-
-    public class CardNotice : Notice
-    {
-        public int camp;
-        public BattleHeroController heroControllerFrom;
-
-        public override void ToPool()
-        {
-            Pooling<CardNotice>.To(this);
         }
     }
 }

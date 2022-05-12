@@ -13,19 +13,19 @@ namespace IsKing
         /// <summary>开始情报收集</summary>
         public const int N_START_COLLECT_INTELLIGENTAL = 10001;
         /// <summary>情报收集完成</summary>
-        public const int N_INTELLIGENTAL_FINISHED = 10001;
+        public const int N_INTELLIGENTAL_FINISHED = 10002;
         /// <summary>情报收集中</summary>
-        public const int N_INTELLIGENTAL_UPDATE = 10002;
+        public const int N_INTELLIGENTAL_UPDATE = 10003;
         /// <summary>创建玩家手牌</summary>
-        public const int N_PLAYER_CARD_GENERATE = 10003;
+        public const int N_PLAYER_CARD_GENERATE = 10004;
         /// <summary>AI 选择生成牌的玩家将领</summary>
-        public const int N_AI_CHOOSE_PLAYER_CARD_HERO = 10004;
-        /// <summary>获得将令</summary>
-        public const int N_GAIN_GENERAL_ORDER = 10005;
+        public const int N_AI_CHOOSE_PLAYER_CARD_HERO = 10005;
+        /// <summary>添加战斗队列执行单元</summary>
+        public const int N_ADD_BATTLE_EXECUTER_UNIT = 10006;
         /// <summary>设置玩家获得将领出阵牌的概率</summary>
-        public const int N_SET_GENERAL_INTO_BATTLE_RATIO = 10006;
+        public const int N_SET_GENERAL_INTO_BATTLE_RATIO = 10007;
         /// <summary>提交玩家AI结果</summary>
-        public const int N_COMMIT_PLAYER_AI = 10007;
+        public const int N_COMMIT_PLAYER_AI = 10008;
         #endregion
 
         #region 数据层消息
@@ -39,7 +39,7 @@ namespace IsKing
         public const int DN_BATTLE_DATA_UPDATE = 20003;
         /// <summary>获取将领配置</summary>
         public const int DN_GET_HEROS_ITEMS = 20004;
-        /// <summary>发牌：玩家将领牌</summary>
+        /// <summary>发牌：玩家将领牌，获得将令</summary>
         public const int DN_PLAYER_HERO_CARD_ADDED = 20005;
         #endregion
 
@@ -214,10 +214,12 @@ namespace IsKing
 
         /// <summary>阵营包含的总将领数</summary>
         public const int CAMP_HERO_MAX = 8;
+        /// <summary>无阵营</summary>
+        public const int CAMP_NONE = 0;
         /// <summary>玩家阵营</summary>
-        public const int CAMP_PLAYER = 0;
+        public const int CAMP_PLAYER = 1;
         /// <summary>敌方阵营</summary>
-        public const int CAMP_ENEMY = 1;
+        public const int CAMP_ENEMY = 2;
 
         public const int ITEM_HERO = 0;
         public const int ITEM_SKILL = 1;
@@ -253,5 +255,16 @@ namespace IsKing
         public const int SKILL_EFFECT_TYPE_REDUCE = 201;
         /// <summary>倍率</summary>
         public const int SKILL_EFFECT_TYPE_TIME = 202;
+
+        /// <summary>默认</summary>
+        public const int CARD_TYPE_NONE = 0;
+        /// <summary>将领牌</summary>
+        public const int CARD_TYPE_HERO = 1;
+        /// <summary>计策牌</summary>
+        public const int CARD_TYPE_SKILL = 2;
+        /// <summary>兵力牌</summary>
+        public const int CARD_TYPE_TROOPS = 3;
+        /// <summary>辎重牌</summary>
+        public const int CARD_TYPE_ITEMS = 4;
     }
 }

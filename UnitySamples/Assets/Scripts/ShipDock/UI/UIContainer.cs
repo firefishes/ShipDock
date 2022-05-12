@@ -21,7 +21,7 @@ namespace ShipDock.UI
         [SerializeField]
 #if ODIN_INSPECTOR
         [Title("UI")]
-        [LabelText("广播就绪消息"), Indent(1)]
+        [LabelText("自动初始化"), Indent(1)]
 #endif
         private bool m_ApplyInitSelf;
 
@@ -119,7 +119,8 @@ namespace ShipDock.UI
             if(param is IParamNotice<IUISubgroup> notice)
             {
                 IUISubgroup element = notice.ParamValue;
-                mUISubgroup[element.ChangerTaskName] = element;
+                string changerTaskName = element.ChangerTaskName;
+                mUISubgroup[changerTaskName] = element;
             }
             else { }
         }
@@ -129,12 +130,21 @@ namespace ShipDock.UI
             mUIChangerTasker?.UpdateUITasks();
         }
 
-        public void UpdatSubgroup(string taskName)
+        public void UpdatSubgroup(string taskName, INoticeBase<int> notice = default)
         {
+            if (notice != default)
+            {
+                this.Dispatch(notice);
+            }
+            else { }
+
             IUISubgroup element = mUISubgroup[taskName];
             if (element != default)
             {
-                mUIChangerTasker.AddChangeTask(element.ChangerTaskName, element.ChangerTaskerDuring, element.ChangerTaskerHandler);
+                string changerTaskName = element.ChangerTaskName;
+                float changerTaskerDuring = element.ChangerTaskerDuring;
+                System.Action<TimeGapper> handler = element.ChangerTaskerHandler;
+                mUIChangerTasker.AddChangeTask(changerTaskName, changerTaskerDuring, handler);
             }
             else { }
         }
