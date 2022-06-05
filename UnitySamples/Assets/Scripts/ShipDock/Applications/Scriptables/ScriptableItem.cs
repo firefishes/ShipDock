@@ -1,8 +1,8 @@
 ﻿using LitJson;
 using System;
 using System.Collections.Generic;
-#if ODIN_INSPECTOR
 using UnityEngine;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 

@@ -432,7 +432,7 @@ namespace ShipDock.Editors
 #else
             IExcelDataReader excelReader = ExcelReaderFactory.CreateBinaryReader(stream);//xls
 #endif
-
+            Debug.Log(excelReader.IsValid);
             DataSet result = excelReader.AsDataSet();
             DataTable dataTable = result.Tables[sheetIndex];//下标0表示excel文件中第一张表的数据
             rowSize = dataTable.Rows.Count;

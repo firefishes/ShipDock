@@ -1,7 +1,7 @@
 ﻿#if ODIN_INSPECTOR
-using ShipDock.Tools;
 using Sirenix.OdinInspector;
 #endif
+using ShipDock.Tools;
 using System;
 using UnityEditor;
 using UnityEngine;

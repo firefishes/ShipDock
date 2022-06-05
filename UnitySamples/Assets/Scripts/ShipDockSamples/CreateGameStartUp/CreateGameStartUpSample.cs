@@ -7,9 +7,11 @@ public class CreateGameStartUpSample : ShipDockAppComponent
     private string mSampleExplain = "\n点击编辑器菜单栏中的 ShipDock/Create Application 菜单自动生成框架应用预制体，\n并挂一个继承自 ShipDockAppComponent 的组件（例如本案例的 CreateGameStartUpSample 组件），\n即可开始使用 ShpiDock 框架）";
     private string mLogWithParam = "log:\n|--------------------\n| 即将演示 {0} 次重启，并在最后一次重启关闭 ShipDock 框架\n|--------------------";
 
-    protected override string GetLocalsDescription<T>(ref string locals, ref T item)
+    public override void ApplicationCloseHandler()
     {
-        return string.Empty;
+        base.ApplicationCloseHandler();
+
+        "ShipDock Sample exited..".Log();
     }
 
     public override void EnterGameHandler()
