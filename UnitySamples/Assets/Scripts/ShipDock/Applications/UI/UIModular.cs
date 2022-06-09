@@ -40,7 +40,7 @@ namespace ShipDock.Applications
         /// <summary>需要关联的数据代理</summary>
         public abstract int[] DataProxyLinks { get; set; }
         /// <summary>UI层级</summary>
-        public virtual int UILayer { get; protected set; }
+        //public virtual int UILayer { get; protected set; }
         /// <summary>UI 关闭后的回调函数</summary>
         public Action OnUIClose { get; set; }
 

@@ -20,7 +20,7 @@ namespace IsKing
             mIntelligenceNotice.ParamValue = value;
             mIntelligenceNotice.SetNoticeName(UIBattleModular.UI_UPDATE_INTELLIGENCE);
 
-            UpdatSubgroup("battleIntellige", mIntelligenceNotice);
+            UpdateSubgroup("battleIntellige", mIntelligenceNotice);
         }
 
         internal void UpdatePlayerMorale(Vector2 moraleValue)
@@ -28,7 +28,7 @@ namespace IsKing
             mMoraleNotice.ParamValue = moraleValue;
             mMoraleNotice.SetNoticeName(UIBattleModular.UI_UPDATE_MORALE);
 
-            UpdatSubgroup("battleMorale", mMoraleNotice);
+            UpdateSubgroup("battleMorale", mMoraleNotice);
         }
 
         internal void UpdatePlayerTroops(Vector2Int troopsValue)
@@ -36,14 +36,14 @@ namespace IsKing
             mTroopsNotice.ParamValue = troopsValue;
             mTroopsNotice.SetNoticeName(UIBattleModular.UI_UPDATE_TROOPS);
 
-            UpdatSubgroup("battleTroops", mTroopsNotice);
+            UpdateSubgroup("battleTroops", mTroopsNotice);
         }
 
         internal void UpdateGeneralOrder(ref Queue<CardInfoController> cardQueue)
         {
             mGainCardNotice.ParamValue = cardQueue;
             mGainCardNotice.SetNoticeName(UIBattleModular.UI_UPDATE_BATTLE_CARDS);
-            UpdatSubgroup("GeneralOrder", mGainCardNotice);
+            UpdateSubgroup("GeneralOrder", mGainCardNotice);
         }
     }
 }

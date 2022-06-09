@@ -130,7 +130,7 @@ namespace ShipDock.UI
             mUIChangerTasker?.UpdateUITasks();
         }
 
-        public void UpdatSubgroup(string taskName, INoticeBase<int> notice = default)
+        public void UpdateSubgroup(string taskName, INoticeBase<int> notice = default)
         {
             if (notice != default)
             {
