@@ -23,10 +23,23 @@ namespace ShipDock.UI
 
         protected virtual void Start()
         {
+            string changerTaskName = GetChangerTaskName();
+
+            if (string.IsNullOrEmpty(changerTaskName)) { }
+            else
+            {
+                ChangerTaskName = changerTaskName;
+            }
+
             ChangerTaskerHandler = OnTaskerChange;
             IUISubgroup subgroup = this;
             m_UIOwner?.GetInstanceID().BroadcastWithParam(subgroup);
             m_UIOwner?.Add(OnUIHandler);
+        }
+
+        protected virtual string GetChangerTaskName()
+        {
+            return string.Empty;
         }
 
         protected virtual void OnUIHandler(INoticeBase<int> param) { }

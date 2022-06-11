@@ -16,7 +16,7 @@ public class SampleMVC : ShipDockAppComponent
 
         param.ParamValue = new IDataProxy[]
         {
-            new SampleModel(),
+            new SampleMVCData(),
         };
     }
 
