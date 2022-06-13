@@ -36,7 +36,7 @@ public class SampleGameMissionModular : ApplicationModular
         switch (noticeName)
         {
             case SampleConsts.N_SAMPLE_GAME_ENTER_MISSION:
-                "log".Log("响应消息");
+                "log".Log("装饰消息");
                 (notice as IParamNotice<int>).ParamValue = 10;
                 break;
         }
