@@ -33,7 +33,7 @@ public class SampleMVCData : DataProxy
         }
         else { }
 
-        DataNotify(SampleConsts.DN_SAMPLE_DATA_2_NOTIFY);
+        DataNotify(SampleConsts.DN_SAMPLE_MVC_DATA_CHANGED);
     }
 
     /// <summary>

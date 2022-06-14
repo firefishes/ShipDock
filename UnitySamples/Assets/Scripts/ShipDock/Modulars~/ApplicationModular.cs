@@ -402,7 +402,7 @@ namespace ShipDock.Modulars
             Modulars?.NotifyModularAndRelease(name, notice);
         }
 
-        public void NotifyModular(Action<INoticeBase<int>> method, INoticeBase<int> notice = default)
+        public void NotifyModularPipeline(Action<INoticeBase<int>> method, INoticeBase<int> notice = default)
         {
             if (method != default)
             {

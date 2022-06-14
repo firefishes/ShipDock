@@ -48,7 +48,7 @@ namespace IsKing
 #if G_LOG
                         "log".Log("Card generating..");
 #endif
-                        NotifyModular(OnPlayerIntelligentalFinished);
+                        NotifyModularPipeline(OnPlayerIntelligentalFinished);
                         break;
                 }
             }

@@ -55,7 +55,7 @@ public class UIWindowModular : UIModular<UIWindow>
         {
             switch (keyName)
             {
-                case SampleConsts.DN_SAMPLE_DATA_2_NOTIFY:
+                case SampleConsts.DN_SAMPLE_MVC_DATA_CHANGED:
                     //数据更新后通知 UI 刷新，执行后续流程
                     UI.ShowByData(mvcData.CurrentData);
                     break;

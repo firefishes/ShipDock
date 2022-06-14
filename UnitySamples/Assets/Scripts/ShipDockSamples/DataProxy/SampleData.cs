@@ -6,6 +6,7 @@ using ShipDock.Datas;
 public class SampleData : DataProxy
 {
     private int mValue;
+    private int mMissionIndex;
 
     public int ActorHp
     {
@@ -17,6 +18,18 @@ public class SampleData : DataProxy
         get
         {
             return mValue;
+        }
+    }
+
+    public int MissionIndex
+    {
+        set
+        {
+            mMissionIndex = value;
+        }
+        get
+        {
+            return mMissionIndex;
         }
     }
 

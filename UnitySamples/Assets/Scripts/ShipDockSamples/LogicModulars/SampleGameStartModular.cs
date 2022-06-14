@@ -3,6 +3,9 @@ using ShipDock.Notices;
 
 public class SampleGameStartModular : ApplicationModular
 {
+    /// <summary>
+    /// 游戏流程模块
+    /// </summary>
     public SampleGameStartModular()
     {
         ModularName = SampleConsts.M_SAMPLE_GAME_START;
@@ -16,8 +19,12 @@ public class SampleGameStartModular : ApplicationModular
     {
         base.InitCustomHandlers();
 
+        //侦听模块消息
         AddNoticeHandler(OnGameStart);
+        //侦听模块消息
+        AddNoticeHandler(OnGameContinue);
 
+        //添加可发送的模块消息管道
         AddNotifies(OnGameEnterMission);
     }
 
@@ -25,14 +32,20 @@ public class SampleGameStartModular : ApplicationModular
     private void OnGameStart(INoticeBase<int> obj)
     {
         "log".Log("开始游戏");
-        NotifyModular(OnGameEnterMission);
+        //以管道方式广播模块消息
+        NotifyModularPipeline(OnGameEnterMission);
     }
 
-    [ModularNotify(SampleConsts.N_SAMPLE_GAME_ENTER_MISSION, NotifyTiming = ModularNotifyTiming.BEFORE)]
-    private void OnGameEnterMission(INoticeBase<int> obj)
+    /// <summary>
+    /// 管道消息可定义其响应的优先级
+    /// </summary>
+    /// <param name="obj"></param>
+    [ModularNoticeListener(SampleConsts.N_SAMPLE_GAME_MISSION_FINISHED, 1)]
+    private void OnGameContinue(INoticeBase<int> obj)
     {
-        IParamNotice<int> notice = obj as IParamNotice<int>;
-        int mission = notice.ParamValue;
-        "log: 进入第 {0} 关".Log(mission.ToString());
+        "log".Log("关卡结束，游戏继续");
     }
+
+    [ModularNotify(SampleConsts.N_SAMPLE_GAME_ENTER_MISSION, SampleConsts.N_SAMPLE_GAME_LOAD_MISSION, NotifyTiming = ModularNotifyTiming.BEFORE)]
+    private void OnGameEnterMission(INoticeBase<int> param) { }
 }
