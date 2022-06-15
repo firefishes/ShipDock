@@ -32,3 +32,15 @@ MonoBehaviour:
       audioClip: {fileID: 0}
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
+    - assetName: Cube
+      assetPath: Assets/res_data/samples/prefabs/Cube.prefab
+      m_EditEnabled: 1
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 8537708425003223787, guid: 8a5c7f8dff4b8bf46a7115099098bf97,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}

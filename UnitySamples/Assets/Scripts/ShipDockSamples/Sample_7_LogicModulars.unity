@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd3bb2700dd205646b7ddeba8616cd18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FrameRate: 40
+  m_FrameRate: 60
   m_Locals: CN
   m_DevelopSubgroup:
     playerPrefsVersion: 0.0.0
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_TesterBrokers: []
   m_LogsSetting:
     m_ApplyUnityAssert: 0
-    m_Sync: 1
+    m_Sync: 0
     m_EnabledAll: 0
     m_RefreshTime: 1
     m_Enableds: []
