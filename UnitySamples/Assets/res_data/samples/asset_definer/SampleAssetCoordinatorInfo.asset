@@ -17,7 +17,7 @@ MonoBehaviour:
   m_Collections:
   - name: sample_res
     id: 0
-    m_EditEnabled: 1
+    m_EditEnabled: 0
     valid: 1
     assets:
     - assetName: SampleWindow
@@ -43,4 +43,20 @@ MonoBehaviour:
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       textData: {fileID: 0}
+      assetBundle: {fileID: 0}
+  - name: sample_configs
+    id: 0
+    m_EditEnabled: 0
+    valid: 1
+    assets:
+    - assetName: puzzles_config
+      assetPath: Assets/res_data/configs/puzzles_config.bytes
+      m_EditEnabled: 1
+      m_Valid: 1
+      assetType: 4
+      asset: {fileID: 0}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 4900000, guid: d6864ad478905094183e048bc4a880bf, type: 3}
       assetBundle: {fileID: 0}

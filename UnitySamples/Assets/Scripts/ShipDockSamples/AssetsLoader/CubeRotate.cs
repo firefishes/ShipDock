@@ -7,9 +7,9 @@ public class CubeRotate : MonoBehaviour
     void Update()
     {
         float deltaTime = Time.deltaTime;
-        float x = Utils.UnityRangeRandom(1f, 10f);
-        float y = Utils.UnityRangeRandom(1f, 10f);
-        float z = Utils.UnityRangeRandom(1f, 10f);
+        float x = Utils.UnityRangeRandom(0f, 300f);
+        float y = Utils.UnityRangeRandom(0f, 300f);
+        float z = Utils.UnityRangeRandom(0f, 300f);
         transform.Rotate(x * deltaTime, y * deltaTime, z * deltaTime);
     }
 }
