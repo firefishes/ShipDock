@@ -2,6 +2,7 @@ using ShipDock.Applications;
 using ShipDock.Datas;
 using ShipDock.Notices;
 using ShipDock.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,5 +34,11 @@ public class SampleMVC : ShipDockAppComponent
 
             UIMgr.Open<UIWindowModular>(SampleConsts.U_SAMPLE);
         });
+
+        //SampleConsts.U_SAMPLE.LoadAndOpenUI<UIWindowModular>(OnUIWindowOpen, "window2");
+    }
+
+    private void OnUIWindowOpen(UIWindowModular modular)
+    {
     }
 }

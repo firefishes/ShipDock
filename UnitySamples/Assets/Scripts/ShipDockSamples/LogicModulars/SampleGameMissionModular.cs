@@ -32,7 +32,7 @@ public class SampleGameMissionModular : ApplicationModular
         AddNoticeHandler(OnLoadMissionNoticeHandler);
 
         //添加可发送的模块消息管道
-        AddNotifies(OnMissionFinished);
+        AddPipelineNotifies(OnMissionFinished);
     }
 
     [ModularNoticeCreate(SampleConsts.N_SAMPLE_GAME_ENTER_MISSION)]

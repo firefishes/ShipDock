@@ -25,7 +25,7 @@ public class SampleGameStartModular : ApplicationModular
         AddNoticeHandler(OnGameContinue);
 
         //添加可发送的模块消息管道
-        AddNotifies(OnGameEnterMission);
+        AddPipelineNotifies(OnGameEnterMission);
     }
 
     [ModularNoticeListener(SampleConsts.N_SAMPLE_GAME_START, 1)]

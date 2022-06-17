@@ -299,7 +299,7 @@ namespace ShipDock.Modulars
             mModularAttributes = default;
         }
 
-        protected void AddNotifies(Action<INoticeBase<int>> method, bool inherit = false)
+        protected void AddPipelineNotifies(Action<INoticeBase<int>> method, bool inherit = false)
         {
             if (!mModularNotifierMapper.ContainsKey(method))
             {

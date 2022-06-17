@@ -35,7 +35,7 @@ namespace IsKing
             AddNoticeCreater(OnCreateStartBattleNotice);
             AddNoticeHandler(OnStartBattle);
 
-            AddNotifies(OnPlayerIntelligentalFinished);
+            AddPipelineNotifies(OnPlayerIntelligentalFinished);
         }
 
         public void OnDataProxyNotify(IDataProxy data, int DCName)
