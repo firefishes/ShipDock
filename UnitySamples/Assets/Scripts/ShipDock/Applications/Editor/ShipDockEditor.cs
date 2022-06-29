@@ -15,6 +15,9 @@ namespace ShipDock.Editors
     /// </summary>
     public abstract class ShipDockEditor : EditorWindow
     {
+        public const string TRUE = "true";
+        public const string FALSE = "false";
+
         /// <summary>
         /// 初始化编辑器窗口
         /// </summary>
@@ -142,11 +145,19 @@ namespace ShipDock.Editors
         /// <summary>
         /// 将值写入编辑器的缓存
         /// </summary>
-        /// <param name="keyField"></param>
-        public void WriteValueItemDataToEditor(string keyField)
+        /// <param name="keyFields"></param>
+        public void WriteValueItemDataToEditor(params string[] keyFields)
         {
-            string value = mValueItemMapper[keyField].Value;
-            EditorPrefs.SetString(keyField, value);
+            foreach (var item in keyFields)
+            {
+                string value = mValueItemMapper[item].Value;
+                EditorPrefs.SetString(item, value);
+                if (string.IsNullOrEmpty(value)) { }
+                else
+                {
+                    Debug.Log(string.Format("Write key [{0}] to [{1}]", item, value));
+                }
+            }
         }
 
         /// <summary>
@@ -156,12 +167,12 @@ namespace ShipDock.Editors
         public void ReadValueItemValueFromEditor(string keyField)
         {
             string value = EditorPrefs.GetString(keyField);
-            ValueItem item = ValueItem.New(value);
-            if (mValueItemMapper != default)
+            SetValueItem(keyField, value);
+            if (string.IsNullOrEmpty(value)) { }
+            else
             {
-                mValueItemMapper[keyField] = item;
+                Debug.Log(string.Format("Read value [{0}] from key [{1}]", value, keyField));
             }
-            else { }
         }
 
         /// <summary>
@@ -256,6 +267,40 @@ namespace ShipDock.Editors
         }
 
         /// <summary>
+        /// 使用编辑器字段值绘制 按钮 控件
+        /// </summary>
+        /// <param name="keyField"></param>
+        /// <param name="title"></param>
+        /// <param name="formater"></param>
+        public bool ValueItemButton(string keyField, string title = "", string formater = "")
+        {
+            bool result = false;
+
+            ValueItem item = GetValueItem(keyField);
+
+            bool flag = item != default;
+            string buttonLabel = flag ? item.Value : title;
+
+            if (string.IsNullOrEmpty(formater)) { }
+            else
+            {
+                if (flag)
+                {
+                    buttonLabel = string.Format(formater, buttonLabel);
+                }
+                else { }
+            }
+
+            if (GUILayout.Button(buttonLabel))
+            {
+                result = true;
+            }
+            else { }
+
+            return result;
+        }
+
+        /// <summary>
         /// 对编辑器扩展的控件进行区域排版
         /// </summary>
         /// <param name="title"></param>
@@ -286,6 +331,25 @@ namespace ShipDock.Editors
                 }
                 else { }
             }
+        }
+
+        protected void LayoutH(Action action)
+        {
+            EditorGUILayout.BeginHorizontal();
+            action?.Invoke();
+            EditorGUILayout.EndHorizontal();
+        }
+
+        protected void LayoutV(Action action)
+        {
+            EditorGUILayout.BeginVertical();
+            action?.Invoke();
+            EditorGUILayout.EndVertical();
+        }
+
+        protected void LayoutSpace(float width, bool expand = false)
+        {
+            EditorGUILayout.Space(width, expand);
         }
 
         private void OnGUI()

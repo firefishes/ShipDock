@@ -46,11 +46,11 @@ namespace ShipDock.Editors
             ShipDockEditorData editorData = ShipDockEditorData.Instance;
             string buildTargetTitle = AssetBundleBuilder.GetBuildPlatFromTitle(editorData.buildPlatform, out mBuildTargetStatu);
 
-            SetValueItem(mIsBuildABKey, "true");//是否生成资源包
-            SetValueItem(mOverrideToStreamingKey, "false");//是否将生成的资源包覆盖至Streaming目录
+            SetValueItem(mIsBuildABKey, TRUE);//是否生成资源包
+            SetValueItem(mOverrideToStreamingKey, FALSE);//是否将生成的资源包覆盖至Streaming目录
             SetValueItem(mABItemNameKey, string.Empty);
-            SetValueItem(mDisplayResShowerKey, "true");//是否显示带打包的资源列表
-            SetValueItem(mIsBuildVersionsKey, "true");//是否构建资源版本
+            SetValueItem(mDisplayResShowerKey, TRUE);//是否显示带打包的资源列表
+            SetValueItem(mIsBuildVersionsKey, TRUE);//是否构建资源版本
             SetValueItem(mCoordinatorPathKey, editorData.coordinatorPath);//资源协调器路径
             SetValueItem(mBuildTargetTitleKey, buildTargetTitle);//构建资源的目标平台
 

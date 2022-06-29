@@ -61,17 +61,21 @@ namespace ShipDock.Editors
         /// </summary>
         private static void InitExeclDefs()
         {
-            Setting = new ExeclSetting
+            if (Setting == default)
             {
-                classDefine = new ExeclDefination(0, 0),
-                generateFileName = new ExeclDefination(1, 0),
-                classType = new ExeclDefination(0, 1),
-                IDFieldName = new ExeclDefination(0, 2),
-                dataStart = new ExeclDefination(5, 1),
-                dataType = new ExeclDefination(1, 0),
-                keyFieldDef = new ExeclDefination(3, 0),
-                noteFieldDef = new ExeclDefination(4, 0),
-            };
+                Setting = new ExeclSetting
+                {
+                    classDefine = new ExeclDefination(0, 0),
+                    generateFileName = new ExeclDefination(1, 0),
+                    classType = new ExeclDefination(0, 1),
+                    IDFieldName = new ExeclDefination(0, 2),
+                    dataStart = new ExeclDefination(5, 1),
+                    dataType = new ExeclDefination(1, 0),
+                    keyFieldDef = new ExeclDefination(3, 0),
+                    noteFieldDef = new ExeclDefination(4, 0),
+                };
+            }
+            else { }
         }
 
         /// <summary>
@@ -102,6 +106,8 @@ namespace ShipDock.Editors
             public string notes = "%notes%";
         }
 
+        public const string DEFAULT_CSHARP_CODE_RELATE_PATH = "/HotFix~/StaticConfigs/";
+
         /// <summary>生成配置文件的基础路径</summary>
         public static string configFileBasePath = string.Empty;
         /// <summary>生成配置文件的相对路径</summary>
@@ -109,7 +115,7 @@ namespace ShipDock.Editors
         /// <summary>生成配置文件代码类的基础路径</summary>
         public static string configCSharpCodeFileBasePath = string.Empty;
         /// <summary>生成配置文件代码类的相对路径</summary>
-        public static string configCSharpCodeFileRelativePath = "/HotFix~/StaticConfigs/";
+        public static string configCSharpCodeFileRelativePath = DEFAULT_CSHARP_CODE_RELATE_PATH;
 
         public static string GetCSharpCodeFilePath(string className)
         {
@@ -162,8 +168,6 @@ namespace ShipDock.Editors
             int dataStartRow = defination.row;
             int dataStartCol = defination.column;
 
-            Debug.Log(rowSize);
-
             string cellData;
             for (int i = dataStartRow; i < rowSize; i++)
             {
@@ -171,11 +175,12 @@ namespace ShipDock.Editors
                 if (string.IsNullOrEmpty(cellData))
                 {
                     rowSize = i;//找到数据起始列为空的一行，作为数据最终行
-                    Debug.Log(rowSize);
                     break;
                 }
                 else { }
             }
+
+            Debug.Log("Rows max is " + rowSize);
 
             StringBuilder sb = new StringBuilder();
 
@@ -432,7 +437,6 @@ namespace ShipDock.Editors
 #else
             IExcelDataReader excelReader = ExcelReaderFactory.CreateBinaryReader(stream);//xls
 #endif
-            Debug.Log(excelReader.IsValid);
             DataSet result = excelReader.AsDataSet();
             DataTable dataTable = result.Tables[sheetIndex];//下标0表示excel文件中第一张表的数据
             rowSize = dataTable.Rows.Count;

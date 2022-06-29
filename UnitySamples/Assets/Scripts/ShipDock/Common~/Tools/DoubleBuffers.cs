@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 namespace ShipDock.Tools
 {
+    /// <summary>
+    /// 
+    /// 双缓冲队列更新器
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class DoubleBuffers<T> : IDispose
     {
         private bool mIsDisposed;
@@ -12,6 +20,17 @@ namespace ShipDock.Tools
         private Queue<T> mCacheBack;
         private Queue<T> mCache;
         private Queue<T> mEnqueueCache;
+
+        public T Current { get; private set; }
+        public Action<int, T> OnDequeue { get; set; }
+
+        public bool HasQueueItem
+        {
+            get
+            {
+                return mCache != default ? (mCache.Count > 0) : false;
+            }
+        }
 
         public DoubleBuffers()
         {
@@ -34,50 +53,45 @@ namespace ShipDock.Tools
 
         public void Step(int dTime)
         {
-            if (!mIsDisposed && mCache != default)
+            if (mCache != default)
             {
-                if (mCache != default)//执行处理中的队列
+                int max = mCache.Count;
+                if (max > 0)
                 {
-                    int max = mCache.Count;
-                    if (max > 0)
+                    while (HasQueueItem)
                     {
                         Current = mCache.Dequeue();
                         OnDequeue?.Invoke(dTime, Current);
                     }
                 }
+                else { }
             }
+            else { }
+
             Current = default;
         }
 
         public void Update(int dTime)
         {
-            if (!mIsDisposed)
+            if (mIsDisposed) { }
+            else
             {
                 mCache = mIsFront ? mCacheBack : mCacheFront;//切换到需要处理的队列
                 mEnqueueCache = mIsFront ? mCacheFront : mCacheBack;
-                if (mCache != default)//执行处理中的队列
-                {
-                    int max = mCache.Count;
-                    if (max > 0)
-                    {
-                        while (mCache.Count > 0)
-                        {
-                            Current = mCache.Dequeue();
-                            OnDequeue?.Invoke(dTime, Current);
-                        }
-                    }
-                }
+
+                Step(dTime);
+
                 mIsFront = !mIsFront;
             }
-            Current = default;
         }
 
         /// <summary>
-        /// 添加在下一帧只需要执行一次的函数
+        /// 添加在下一帧需要执行的队列项
         /// </summary>
         public void Enqueue(T target, bool isCheckContains = true)
         {
-            if (!mIsDisposed)
+            if (mIsDisposed) { }
+            else
             {
                 if (mEnqueueCache != default)
                 {
@@ -87,16 +101,15 @@ namespace ShipDock.Tools
                         {
                             mEnqueueCache.Enqueue(target);
                         }
+                        else { }
                     }
                     else
                     {
                         mEnqueueCache.Enqueue(target);
                     }
                 }
+                else { }
             }
         }
-
-        public T Current { get; private set; }
-        public Action<int, T> OnDequeue { get; set; }
     }
 }

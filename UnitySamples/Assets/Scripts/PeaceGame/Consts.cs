@@ -14,5 +14,15 @@ namespace Peace
         /// <summary>≈‰÷√ ˝æ›</summary>
         public const int D_CONFIGS = 2;
         #endregion
+
+        public const int M_MESSAGE = 2000;
+        public const int M_BATTLE = 2001;
+
+        public const int N_MSG_ADD = 10000;
+        public const int N_MSG_QUEUE = 10001;
+
+        public const int MSG_ENTER_BATTLE = 20000;
+
+
     }
 }

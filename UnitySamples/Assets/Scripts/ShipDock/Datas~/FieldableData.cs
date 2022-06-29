@@ -104,6 +104,12 @@ namespace ShipDock.Datas
             FillValuesByFields(FloatFieldNames, ref mFloatValues, GetFloatFieldSource());
             FillValuesByFields(StringFieldNames, ref mStringValues, GetStringFieldSource());
             
+            if (mAllFields == default)
+            {
+                mAllFields = new List<int>();
+            }
+            else { }
+
             int max = 0;
             AddFieldsToAllFieldNames(IntFieldNames, ref max);
             AddFieldsToAllFieldNames(FloatFieldNames, ref max);
@@ -187,12 +193,6 @@ namespace ShipDock.Datas
         /// <param name="totalFieldCount"></param>
         private void AddFieldsToAllFieldNames(List<int> list, ref int totalFieldCount)
         {
-            if (mAllFields == default)
-            {
-                mAllFields = new List<int>();
-            }
-            else { }
-
             int count = list != default ? list.Count : 0;
             if(count > 0)
             {

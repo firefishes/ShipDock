@@ -148,6 +148,8 @@ public class CustomUpdateNotice : Notice
     {
         base.ToPool();
 
+        deltaTime = -1f;
+
         Pooling<CustomUpdateNotice>.To(this);
 
         "log: CustomUpdateNotice instance count is {0}".Log(instanceCount.ToString());
