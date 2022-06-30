@@ -1,6 +1,6 @@
-using System.Collections;
+using ShipDock.Applications;
+using ShipDock.Config;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Peace
 {
@@ -23,6 +23,19 @@ namespace Peace
 
         public const int MSG_ENTER_BATTLE = 20000;
 
+        public const int CONF_GROUP_CONFIGS = 1;
 
+        public const string CONF_EQUIPMENT = "peaceequipment";
+
+        public const string AB_CONFIGS = "peace/configs";
+
+        /// <summary>游戏配置案例中获取配置的扩展方法</summary>
+        public static Dictionary<int, ConfigT> GetConfigTable<ConfigT>(this string configName) where ConfigT : IConfig, new()
+        {
+            ConfigData data = D_CONFIGS.GetData<ConfigData>();
+            ConfigsResult configs = data.GetConfigs(CONF_GROUP_CONFIGS);
+            Dictionary<int, ConfigT> dic = configs.GetConfigRaw<ConfigT>(configName, out _);
+            return dic;
+        }
     }
 }

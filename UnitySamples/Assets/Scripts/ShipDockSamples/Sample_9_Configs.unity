@@ -654,9 +654,10 @@ MonoBehaviour:
     applyManifestAutoPath: 0
     remoteAssetVersions: {fileID: 0}
     resUpdatePopupPath: res_update_popup/ResUpdatePopup
-    configNames:
+    configNames: []
+    assetNamePreload:
+    - sample_res
     - sample_configs
-    assetNamePreload: []
     changeDebugSettings: 0
     logColorDefault: {r: 0, g: 0, b: 0, a: 0}
     logColorDebug: {r: 0, g: 0, b: 0, a: 0}
@@ -994,7 +995,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1755063390}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df39580f79b933141be0802efa1ec9cb, type: 3}
   m_Name: 
