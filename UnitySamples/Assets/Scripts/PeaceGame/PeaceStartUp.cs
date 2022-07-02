@@ -46,13 +46,6 @@ namespace Peace
             DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
             modluars.AddModular(modulars);
 
-            //IParamNotice<string> notice = new ParamNotice<string>()
-            //{
-            //    ParamValue = "！！！",
-            //};
-
-            //modluars.NotifyModular(Consts.N_MSG_ADD, MessageNotice.Create(Consts.MSG_ENTER_BATTLE, notice));
-
             LoadConfig();
         }
 
@@ -78,19 +71,27 @@ namespace Peace
         //配置加载完成
         private void OnConfigLoaded(ConfigsResult configResult)
         {
-            ConfigData data = Consts.D_CONFIGS.GetData<ConfigData>();
-
             //向配置数据代理中添加已加载的配置数据，并使用一个组名做对应
+            ConfigData data = Consts.D_CONFIGS.GetData<ConfigData>();
             data.AddConfigs(Consts.CONF_GROUP_CONFIGS, configResult);
 
             //通过封装过的扩展方法从配置数据代理中获取配置
-            Dictionary<int, PeaceEquipment> equipmentConfTable = Consts.CONF_EQUIPMENT.GetConfigTable<PeaceEquipment>();
+            //Dictionary<int, PeaceEquipment> equipmentConfTable = Consts.CONF_EQUIPMENT.GetConfigTable<PeaceEquipment>();
 
-            //从配置中读取数据
-            int id = 20000;
-            PeaceEquipment config = equipmentConfTable[id];
-            Debug.Log(config.name);
-            Debug.Log(config.propertyValues);
+            ////从配置中读取数据
+            //int id = 20000;
+            //PeaceEquipment config = equipmentConfTable[id];
+            //Debug.Log(config.name);
+            //Debug.Log(config.propertyValues);
+
+            IParamNotice<string> notice = new ParamNotice<string>()
+            {
+                ParamValue = "！！！",
+            };
+
+            DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
+            modluars.NotifyModular(Consts.N_MSG_ADD, MessageNotice.Create(Consts.MSG_GAME_READY, notice));
+
         }
     }
 }

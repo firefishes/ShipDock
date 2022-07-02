@@ -21,7 +21,8 @@ namespace Peace
         public const int N_MSG_ADD = 10000;
         public const int N_MSG_QUEUE = 10001;
 
-        public const int MSG_ENTER_BATTLE = 20000;
+        public const int MSG_GAME_READY = 20000;
+        public const int MSG_ENTER_BATTLE = 20001;
 
         public const int CONF_GROUP_CONFIGS = 1;
 
