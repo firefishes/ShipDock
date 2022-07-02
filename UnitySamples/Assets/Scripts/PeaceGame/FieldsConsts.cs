@@ -52,20 +52,20 @@ namespace Peace
         /// <summary>交际</summary>
         public const int F_ROLE_SOCIAL = 18;
 
-        /// <summary>常规部队</summary>
-        public const int F_TROOP_TYPE_COMMON = 19;
-        /// <summary>侦察部队</summary>
-        public const int F_TROOP_TYPE_RECONNOITRE = 20;
-        /// <summary>火力部队</summary>
-        public const int F_TROOP_TYPE_FIREPOWER = 21;
-        /// <summary>运输部队</summary>
-        public const int F_TROOP_TYPE_TRANSPORT = 22;
-        /// <summary>装甲部队</summary>
-        public const int F_TROOP_TYPE_ARMOURED = 23;
-        /// <summary>海军部队</summary>
-        public const int F_TROOP_TYPE_NAVY = 24;
-        /// <summary>空天部队</summary>
-        public const int F_TROOP_TYPE_SPACE_AIR = 25;
+        /// <summary>破坏</summary>
+        public const int F_EQUIPMENT_RUIN = 18;
+        /// <summary>杀伤</summary>
+        public const int F_EQUIPMENT_KILL = 19;
+        /// <summary>防空/summary>
+        public const int F_EQUIPMENT_AIR_DEF = 20;
+        /// <summary>强化/summary>
+        public const int F_EQUIPMENT_INTENSIFY = 21;
+        /// <summary>电子战/summary>
+        public const int F_EQUIPMENT_ECM_WAR = 22;
+        /// <summary>运载/summary>
+        public const int F_EQUIPMENT_TRANSPORT = 24;
+        /// <summary>科技/summary>
+        public const int F_EQUIPMENT_SCIENCE_TECH = 25;
     }
 
 }
