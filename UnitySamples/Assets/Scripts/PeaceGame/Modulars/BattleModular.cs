@@ -22,13 +22,13 @@ namespace Peace
         {
             switch(message)
             {
-                case Consts.MSG_ENTER_BATTLE:
+                case Consts.MSG_GAME_READY:
                     IParamNotice<string> msgNotice = notice as IParamNotice<string>;
                     string s = msgNotice.ParamValue;
                     Debug.Log(s);
 
                     msgNotice.ParamValue = msgNotice.ParamValue.Append("£¡");
-                    AddMessageToQueue(Consts.MSG_ENTER_BATTLE, msgNotice);
+                    AddMessageToQueue(Consts.MSG_GAME_READY, msgNotice);
 
                     break;
             }
