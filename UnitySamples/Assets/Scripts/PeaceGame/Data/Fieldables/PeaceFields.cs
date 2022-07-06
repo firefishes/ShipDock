@@ -9,7 +9,6 @@ namespace Peace
     {
         public PeaceFields()
         {
-            FillValues();
         }
     }
 }
