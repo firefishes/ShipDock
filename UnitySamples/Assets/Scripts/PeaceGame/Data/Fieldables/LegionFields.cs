@@ -10,6 +10,8 @@ namespace Peace
     /// </summary>
     public class LegionFields : BaseFields, ITroopFields
     {
+        private static List<int> newIntFields;
+
         /// <summary>归属引用</summary>
         private LegionFields mOwner;
         /// <summary>军团资源</summary>
@@ -17,7 +19,7 @@ namespace Peace
         /// <summary>容量组控件</summary>
         private VolumeGroupControl mVolumeGroupControl;
 
-        public override List<int> IntFieldNames { get; protected set; } = FieldsConsts.IntFieldsLegion;
+        public override List<int> IntFieldNames { get; protected set; } = GetNewIntFields(ref newIntFields, FieldsConsts.IntFieldsLegion);
 
         public override void InitFieldsFromConfig(IConfig config)
         {

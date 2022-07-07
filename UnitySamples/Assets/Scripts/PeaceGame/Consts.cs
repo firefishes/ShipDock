@@ -27,6 +27,7 @@ namespace Peace
         public const int CONF_GROUP_CONFIGS = 1;
 
         public const string CONF_EQUIPMENT = "peaceequipment";
+        public const string CONF_ORGANIZATIONS = "peaceorganizations";
 
         public const string AB_CONFIGS = "peace/configs";
 

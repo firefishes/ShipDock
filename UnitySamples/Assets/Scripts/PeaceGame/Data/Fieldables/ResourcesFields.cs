@@ -9,7 +9,9 @@ namespace Peace
     /// </summary>
     public class ResourcesFields : BaseFields
     {
-        public override List<int> IntFieldNames { get; protected set; } = FieldsConsts.IntFieldsResources;
+        private static List<int> newIntFields;
+
+        public override List<int> IntFieldNames { get; protected set; } = GetNewIntFields(ref newIntFields, FieldsConsts.IntFieldsResources);
 
         public override void InitFieldsFromConfig(IConfig config)
         {

@@ -53,7 +53,7 @@ namespace Peace
         public const int F_MAIN_EQUIPMENT_ID = 19;
 
         /// <summary>部队编制类型</summary>
-        public const int F_ORGANIZATION_TYPE = 20;
+        public const int F_ORG_LEVEL_NAME = 20;
         /// <summary>权限值</summary>
         public const int F_ORGANIZATION_VALUE = 21;
         /// <summary>是否基础编制</summary>
@@ -135,7 +135,6 @@ namespace Peace
 
         /// <summary>军团威望/summary>
         public const int F_PRESTIGE = 57;
-
         /// <summary>耐久/summary>
         public const int F_STAMINA = 58;
 
@@ -186,6 +185,19 @@ namespace Peace
             F_PROVISIONS,
             F_MAIN_EQUIPMENT_ID,
             F_STAMINA,
+        };
+        #endregion
+
+        #region 编制信息字段
+        public readonly static List<int> IntFieldsOrganization = new List<int>
+        {
+            F_ORGANIZATION_VALUE,
+            F_IS_BASE_ORGANIZATION,
+        };
+
+        public readonly static List<int> StringFieldsOrganization = new List<int>
+        {
+            F_ORG_LEVEL_NAME,
         };
         #endregion
     }

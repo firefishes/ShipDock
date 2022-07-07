@@ -126,6 +126,12 @@ namespace ShipDock.Datas
             {
                 mOnValuesChanged.Add(default);
             }
+
+            AfterFilledData();
+        }
+
+        protected virtual void AfterFilledData()
+        {
         }
 
         public void InitFromFieldableData<T>(ref T fieldableData, bool isReference = true) where T : FieldableData

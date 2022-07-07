@@ -11,6 +11,65 @@ namespace Peace
     /// </summary>
     public abstract class BaseFields : PeaceFields
     {
+        /// <summary>
+        /// 获取连接了新的整型字段的字段列表
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <param name="vs"></param>
+        /// <returns></returns>
+        protected static List<int> GetNewIntFields(ref List<int> fields, List<int> vs)
+        {
+            if (fields == default)
+            {
+                List<int> defaultFields = FieldsConsts.IntFieldsBase;
+
+                int max = defaultFields.Count;
+                fields = new List<int>(max + vs.Count);
+                for (int i = 0; i < max; i++)
+                {
+                    fields.Add(defaultFields[i]);
+                }
+
+                max = vs.Count;
+                for (int i = 0; i < max; i++)
+                {
+                    fields.Add(vs[i]);
+                }
+            }
+            else { }
+
+            return fields;
+        }
+
+        /// <summary>
+        /// 获取连接了新的文本字段的字段列表
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <param name="vs"></param>
+        /// <returns></returns>
+        protected static List<int> GetNewStringFields(ref List<int> fields, List<int> vs)
+        {
+            if (fields == default)
+            {
+                List<int> defaultFields = FieldsConsts.StringFieldsBase;
+
+                int max = defaultFields.Count;
+                fields = new List<int>(max + vs.Count);
+                for (int i = 0; i < max; i++)
+                {
+                    fields.Add(defaultFields[i]);
+                }
+
+                max = vs.Count;
+                for (int i = 0; i < max; i++)
+                {
+                    fields.Add(vs[i]);
+                }
+            }
+            else { }
+
+            return fields;
+        }
 
         public bool IsInited { get; private set; }
         public override List<int> IntFieldNames { get; protected set; } = FieldsConsts.IntFieldsBase;
@@ -23,25 +82,40 @@ namespace Peace
             IsInited = false;
         }
 
+        /// <summary>
+        /// 通过配置对象进行初始化
+        /// </summary>
+        /// <param name="config"></param>
         public virtual void InitFieldsFromConfig(IConfig config)
         {
             int configID = config != default ? config.GetID() : -1;
             mIntFieldSource = new List<int>()
             {
+                //客户端 ID
                 -1,
+                //服务端 ID
                 -1,
+                //配置 ID
                 configID,
             };
 
+            //设置名称字段数据源
             mStringFieldSource = new List<string>
             {
                 GetNameFieldSource(ref config),
             };
         }
 
-        public void SetID(int id)
+        protected override void AfterFilledData()
         {
-            SetIntData(FieldsConsts.F_ID, id);
+            base.AfterFilledData();
+
+            SetIntData(FieldsConsts.F_ID, InstanceID);
+        }
+
+        public int GetID()
+        {
+            return GetIntData(FieldsConsts.F_ID);
         }
 
         public void SetSID(int sid)
@@ -54,9 +128,33 @@ namespace Peace
             SetStringData(FieldsConsts.F_NAME, name);
         }
 
+        /// <summary>
+        /// 获取名称字段的数据源
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         protected virtual string GetNameFieldSource(ref IConfig config)
         {
             return string.Empty;
+        }
+
+        /// <summary>
+        /// 使用默认值设置整型字段数据
+        /// </summary>
+        /// <param name="fields"></param>
+        protected void SetDefaultIntData(List<int> fields)
+        {
+            if (fields != default)
+            {
+                int max = fields.Count;
+                List<int> list = new List<int>(max);
+                for (int i = 0; i < max; i++)
+                {
+                    list.Add(default);
+                }
+                mIntFieldSource.Contact(list);
+            }
+            else { }
         }
     }
 

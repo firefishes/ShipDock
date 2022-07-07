@@ -60,6 +60,7 @@ namespace Peace
 
             //向配置辅助器添加需要绑定的配置类，此类为工具自动生成
             mConfigHelper.AddHolderType<PeaceEquipment>(Consts.CONF_EQUIPMENT);
+            mConfigHelper.AddHolderType<PeaceOrganizations>(Consts.CONF_ORGANIZATIONS);
             //设置配置名
             mLoadConfigNames = mConfigHelper.HolderTypes;
 
@@ -76,21 +77,31 @@ namespace Peace
             data.AddConfigs(Consts.CONF_GROUP_CONFIGS, configResult);
 
             //通过封装过的扩展方法从配置数据代理中获取配置
-            //Dictionary<int, PeaceEquipment> equipmentConfTable = Consts.CONF_EQUIPMENT.GetConfigTable<PeaceEquipment>();
+            Dictionary<int, PeaceOrganizations> testConfTable = Consts.CONF_ORGANIZATIONS.GetConfigTable<PeaceOrganizations>();
 
             ////从配置中读取数据
-            //int id = 20000;
-            //PeaceEquipment config = equipmentConfTable[id];
-            //Debug.Log(config.name);
-            //Debug.Log(config.propertyValues);
-
-            IParamNotice<string> notice = new ParamNotice<string>()
+            foreach (var item in testConfTable)
             {
-                ParamValue = "！！！",
-            };
+                OrganizationFields fields = new OrganizationFields();
+                fields.InitFieldsFromConfig(item.Value);
 
-            DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
-            modluars.NotifyModular(Consts.N_MSG_ADD, MessageNotice.Create(Consts.MSG_GAME_READY, notice));
+                Debug.Log(fields.GetStringData(FieldsConsts.F_ORG_LEVEL_NAME));
+                Debug.Log(fields.GetIntData(FieldsConsts.F_ORGANIZATION_VALUE));
+                Debug.Log(fields.GetIntData(FieldsConsts.F_IS_BASE_ORGANIZATION) == 0 ? false : true);
+            }
+
+            TroopFields troopFields = new TroopFields();
+            troopFields.InitFieldsFromConfig();
+            troopFields.SetTroops(1000, 1000);
+            Debug.Log("ID ".Append(troopFields.GetID().ToString(), ":", troopFields.TroopLevelName(), " 兵力 ", troopFields.GetTroops().ToString()));
+
+            //IParamNotice<string> notice = new ParamNotice<string>()
+            //{
+            //    ParamValue = "！！！",
+            //};
+
+            //DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
+            //modluars.NotifyModular(Consts.N_MSG_ADD, MessageNotice.Create(Consts.MSG_GAME_READY, notice));
 
         }
     }
