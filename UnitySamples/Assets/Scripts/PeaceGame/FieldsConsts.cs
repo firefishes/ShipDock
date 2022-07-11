@@ -20,9 +20,9 @@ namespace Peace
         public const int F_CONF_ID = 4;
 
         /// <summary>总部 ID</summary>
-        public const int F_HEADQUARTERS_ID = 5;
+        //public const int F_HEADQUARTERS_ID = 5;
         /// <summary>军团指挥官 ID</summary>
-        public const int F_LEGION_OFFICER_ID = 6;
+        //public const int F_LEGION_OFFICER_ID = 6;
 
         /// <summary>信用点</summary>
         public const int F_CREDIT_POINT = 7;
@@ -68,11 +68,11 @@ namespace Peace
         /// <summary>战功</summary>
         public const int F_ACHIEVEMENT = 26;
         /// <summary>军衔</summary>
-        public const int F_MILITARY_RANK = 27;
+        //public const int F_MILITARY_RANK = 27;
         /// <summary>军职</summary>
-        public const int F_STRIPES = 28;
+        //public const int F_STRIPES = 28;
         /// <summary>指挥权</summary>
-        public const int F_COMMAND_RIGHT = 29;
+        //public const int F_COMMAND_RIGHT = 29;
 
         /// <summary>指挥</summary>
         public const int F_ROLE_COMMAND = 30;
@@ -155,8 +155,6 @@ namespace Peace
         #region 军团信息字段
         public readonly static List<int> IntFieldsLegion = new List<int>
         {
-            F_LEGION_OFFICER_ID,
-            F_HEADQUARTERS_ID,
             F_PRESTIGE,
             F_TROOPS,
         };
@@ -198,6 +196,31 @@ namespace Peace
         public readonly static List<int> StringFieldsOrganization = new List<int>
         {
             F_ORG_LEVEL_NAME,
+        };
+        #endregion
+
+        #region 军官信息字段
+        public readonly static List<int> IntFieldsOfficer = new List<int>
+        {
+            F_GENDER,
+            F_LOYAL,
+            F_ACHIEVEMENT,
+        };
+
+        public readonly static List<int> StringFieldsOfficer = new List<int>
+        {
+            F_FULL_NAME,
+        };
+        #endregion
+
+        #region 人物属性信息字段
+        public readonly static List<int> IntFieldsRole = new List<int>
+        {
+            F_ROLE_COMMAND,
+            F_ROLE_THINKING,
+            F_ROLE_INFORMATION,
+            F_ROLE_SCIENTIFIC,
+            F_ROLE_SOCIAL,
         };
         #endregion
     }

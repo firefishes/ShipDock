@@ -1,0 +1,350 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6360270082117253365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6360270082117253366}
+  - component: {fileID: 6360270082117253367}
+  m_Layer: 0
+  m_Name: CustomAsset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6360270082117253366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270082117253365}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6360270083837972624}
+  m_Father: {fileID: 6360270083162481566}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6360270082117253367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270082117253365}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df39580f79b933141be0802efa1ec9cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Info: {fileID: 11400000, guid: b61842a7319b64b41b311a5a71cd384a, type: 2}
+  m_Assets:
+  - {fileID: 6360270083837972625}
+  m_SyncCusntomList: 0
+  m_RemoveEmptyAssets: 0
+--- !u!1 &6360270082980720758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6360270082980720759}
+  - component: {fileID: 6360270082980720752}
+  m_Layer: 0
+  m_Name: AssetPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6360270082980720759
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270082980720758}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6360270083162481566}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6360270082980720752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270082980720758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ba061e1b2c80542b2ab7601ee0dd26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyPoolItemParent: 0
+--- !u!1 &6360270083162481570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6360270083162481566}
+  - component: {fileID: 6360270083162481565}
+  - component: {fileID: 6360270083162481564}
+  - component: {fileID: 6360270083162481571}
+  m_Layer: 0
+  m_Name: PeaceGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6360270083162481566
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270083162481570}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6360270082980720759}
+  - {fileID: 6360270082117253366}
+  - {fileID: 6360270083800359694}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6360270083162481565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270083162481570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0df3d842850594a5694c0db7a0fa3198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ReadyNoticeName: -1007
+  m_AddItemNoticeName: -1005
+  m_RemoveItemNoticeName: -1006
+  m_CallLateItemNoticeName: -1008
+--- !u!114 &6360270083162481564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270083162481570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3bb2700dd205646b7ddeba8616cd18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FrameRate: 40
+  m_Locals: CN
+  m_DevelopSubgroup:
+    playerPrefsVersion: 0.0.0
+    m_playerPrefsVersionCached: 
+    assetNameResData: res_data
+    startUpIoC: 0
+    loadConfig:
+      serverName: ShipDockConfigServer
+      deliverName: LoadConfig
+      alias: ConfigNotice
+    applyIoCLoadConfigs: 0
+    configInitedNoticeName: -1009
+    applyManifestAutoPath: 0
+    remoteAssetVersions: {fileID: 0}
+    resUpdatePopupPath: res_update_popup/ResUpdatePopup
+    configNames: []
+    assetNamePreload:
+    - peace/configs
+    changeDebugSettings: 0
+    logColorDefault: {r: 0, g: 0, b: 0, a: 0}
+    logColorDebug: {r: 0, g: 0, b: 0, a: 0}
+    logColorWarning: {r: 0, g: 0, b: 0, a: 0}
+    logColorError: {r: 0, g: 0, b: 0, a: 0}
+    logColorTodo: {r: 0, g: 0, b: 0, a: 0}
+  m_HotFixSubgroup:
+    applyILRuntime: 0
+    initerNameInResource: Initer
+    initerClassName: ShipDock.GameRunner
+    initerGameCompSetter: SetGameComponent
+  m_ShowGameAppEvents: 0
+  m_GameAppEvents:
+    createTestersEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    getGameServersEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    serversFinishedEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    initProfileEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    initProfileDataEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    getServerConfigsEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    getLocalsConfigItemEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    enterGameEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    getDataProxyEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    updateRemoteAssetEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    frameworkCloseEvent:
+      m_PersistentCalls:
+        m_Calls: []
+--- !u!114 &6360270083162481571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270083162481570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0cd2d11ea897946aff0f448a74d16b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6360270083800359693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6360270083800359694}
+  - component: {fileID: 6360270083800359695}
+  m_Layer: 0
+  m_Name: TesterAsserter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6360270083800359694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270083800359693}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6360270083162481566}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6360270083800359695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270083800359693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f04d4a38b31e8ef468fc77edb22afc35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TesterBrokers: []
+  m_LogsSetting:
+    m_ApplyUnityAssert: 0
+    m_Sync: 0
+    m_EnabledAll: 0
+    m_RefreshTime: 1
+    m_Enableds: []
+--- !u!1 &6360270083837972631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6360270083837972624}
+  - component: {fileID: 6360270083837972625}
+  m_Layer: 0
+  m_Name: 'peace/configs: peaceequipment, others 2'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6360270083837972624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270083837972631}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6360270082117253366}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6360270083837972625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6360270083837972631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Valid: 1
+  m_BundleName: peace/configs
+  m_Assets:
+  - assetName: peaceequipment
+    customAssetType: 4
+    asset: {fileID: 0}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 4900000, guid: c3ca01306b67191409f7d73248db0ceb, type: 3}
+    assetBundle: {fileID: 0}
+    refresh: 0
+  - assetName: peaceorganizations
+    customAssetType: 4
+    asset: {fileID: 0}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 4900000, guid: 260d5cb0aea9b3044acf4caeb6b11052, type: 3}
+    assetBundle: {fileID: 0}
+    refresh: 0

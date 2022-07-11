@@ -48,7 +48,7 @@ namespace ShipDock.Applications
 
         [Tooltip("资源总依赖清单所在的ab包文件")]
 #if ODIN_INSPECTOR
-        [LabelText("资源根目录名"), SuffixLabel("Assets/", true)]
+        [LabelText("资源根目录名"), SuffixLabel("Assets/")]
 #endif 
         public string assetNameResData = "res_data";
 

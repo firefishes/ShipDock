@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using ShipDock.Config;
 using ShipDock.Interfaces;
+using ShipDock.Pooling;
 using ShipDock.Tools;
 
 namespace Peace
 {
+
     /// <summary>
     /// 军团属性字段
     /// </summary>
-    public class LegionFields : BaseFields, ITroopFields
+    public class LegionFields : BaseFields, ITroopFields, ILegionFields
     {
         private static List<int> newIntFields;
 
@@ -21,15 +23,33 @@ namespace Peace
 
         public override List<int> IntFieldNames { get; protected set; } = GetNewIntFields(ref newIntFields, FieldsConsts.IntFieldsLegion);
 
+        protected override void Purge()
+        {
+            base.Purge();
+
+            mVolumeGroupControl?.Reset();
+        }
+
+        public override void ToPool()
+        {
+            Pooling<LegionFields>.To(this);
+        }
+
         public override void InitFieldsFromConfig(IConfig config)
         {
             base.InitFieldsFromConfig(config);
 
-            mOwner = this;
+            if (IsInited) { }
+            else
+            {
+                mOwner = this;
 
-            mResources = new ResourcesFields();
+                mResources = new ResourcesFields();
 
-            mVolumeGroupControl = new VolumeGroupControl();
+                mVolumeGroupControl = new VolumeGroupControl();
+
+                FillValues(true);
+            }
 
             ValueVolumeGroup group = mVolumeGroupControl.VolumeGroup;
             group.AddValueVolume(FieldsConsts.F_TROOPS);
@@ -37,8 +57,6 @@ namespace Peace
             group.AddValueVolume(FieldsConsts.F_METAL);
             group.AddValueVolume(FieldsConsts.F_ENERGY);
             group.AddValueVolume(FieldsConsts.F_SUPPLIES);
-
-            FillValues(true);
         }
 
         public override void Dispose()
@@ -47,6 +65,8 @@ namespace Peace
 
             mVolumeGroupControl?.Dispose();
 
+            mResources?.Dispose();
+            mResources = default;
             mOwner = default;
         }
 
@@ -119,12 +139,10 @@ namespace Peace
         #region 军团军官 ID 和 基地 ID
         public void SetLegionOfficerID(int officerID)
         {
-            SetIntData(FieldsConsts.F_LEGION_OFFICER_ID, officerID);
         }
 
         public void SetLegionHeadquartersID(int headquartersID)
         {
-            SetIntData(FieldsConsts.F_HEADQUARTERS_ID, headquartersID);
         }
         #endregion
     }
@@ -137,6 +155,11 @@ namespace Peace
         public VolumeGroupControl()
         {
             VolumeGroup = new ValueVolumeGroup();
+        }
+
+        public void Reset()
+        {
+            VolumeGroup?.Reset();
         }
 
         public void Dispose()

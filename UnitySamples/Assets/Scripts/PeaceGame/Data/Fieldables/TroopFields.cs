@@ -1,35 +1,10 @@
 using ShipDock.Config;
+using ShipDock.Pooling;
+using ShipDock.Tools;
 using System.Collections.Generic;
 
 namespace Peace
 {
-    /// <summary>
-    /// 部队字段接口
-    /// </summary>
-    public interface ITroopFields
-    {
-        int GetTroops();
-        void SetTroops(int current, int max = -1);
-    }
-
-    /// <summary>
-    /// 战场元素接口
-    /// </summary>
-    public interface IBattleElementFields
-    {
-        int GetStamina();
-        void SetStamina(int current);
-    }
-
-    /// <summary>
-    /// 部队编制接口
-    /// </summary>
-    public interface ITroopOrganization
-    {
-        OrganizationFields Organization { get; }
-        string TroopLevelName();
-        int OrganizationValue { get; }
-    }
 
     /// <summary>
     /// 部队属性字段
@@ -38,6 +13,7 @@ namespace Peace
     {
         private static List<int> newIntFields;
 
+        private string mOrganizationLevelName;
         /// <summary>归属引用</summary>
         private TroopFields mOwner;
         /// <summary>容量组控件</summary>
@@ -52,37 +28,51 @@ namespace Peace
                 return Organization.GetIntData(FieldsConsts.F_ORGANIZATION_VALUE);
             }
         }
-
+        
+        /// <summary>部队编制</summary>
         public OrganizationFields Organization { get; private set; }
+
+        public override void ToPool()
+        {
+            Pooling<TroopFields>.To(this);
+        }
 
         public override void InitFieldsFromConfig(IConfig config = default)
         {
             base.InitFieldsFromConfig(config);
 
-            mOwner = this;
+            int orgID = 100;
+            mOrganizationLevelName = string.Empty;
 
-            //使用默认值初始化所有整型字段数据
-            SetDefaultIntData(FieldsConsts.IntFieldsTroops);
+            if (IsInited) { }
+            else
+            {
+                mOwner = this;
 
-            //初始化容量组件
-            mVolumeGroupControl = new VolumeGroupControl();
+                //使用默认值初始化所有整型字段数据
+                SetDefaultIntData(FieldsConsts.IntFieldsTroops);
+
+                //初始化容量组件
+                mVolumeGroupControl = new VolumeGroupControl();
+
+                //填充字段数据
+                FillValues(true);
+
+                //初始化部队编制
+                if (config == default)
+                {
+                    SetTroops(0, 0);
+                }
+                else { }
+
+                Organization = new OrganizationFields();
+            }
+
             ValueVolumeGroup group = mVolumeGroupControl.VolumeGroup;
 
             //新建兵力容量
             group.AddValueVolume(FieldsConsts.F_TROOPS);
 
-            //填充字段数据
-            FillValues(true);
-
-            //初始化部队编制
-            int orgID = 100;
-            if (config == default)
-            {
-                SetTroops(0, 0);
-            }
-            else { }
-
-            Organization = new OrganizationFields();
             Organization.InitFieldsFromConfig(orgID);
         }
 
@@ -113,7 +103,14 @@ namespace Peace
         #region 部队级别
         public string TroopLevelName()
         {
-            return Organization.GetStringData(FieldsConsts.F_ORG_LEVEL_NAME).Append(" 级部队");
+            if (string.IsNullOrEmpty(mOrganizationLevelName))
+            {
+                string levelName = Organization.GetStringData(FieldsConsts.F_ORG_LEVEL_NAME);
+                mOrganizationLevelName = levelName.Append(" 级部队");
+            }
+            else { }
+
+            return mOrganizationLevelName;
         }
         #endregion
     }

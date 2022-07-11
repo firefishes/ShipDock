@@ -90,13 +90,18 @@ namespace ShipDock.Datas
             return mStringFieldSource;
         }
 
+        protected virtual void IDAdvanced()
+        {
+            instanceIDSeed++;
+            SetInstanceID(instanceIDSeed);
+        }
+
         /// <summary>填充数据</summary>
         protected void FillValues(bool newInstance = false)
         {
             if (newInstance)
             {
-                instanceIDSeed++;
-                SetInstanceID(instanceIDSeed);
+                IDAdvanced();
             }
             else { }
 
@@ -108,7 +113,10 @@ namespace ShipDock.Datas
             {
                 mAllFields = new List<int>();
             }
-            else { }
+            else
+            {
+                mAllFields.Clear();
+            }
 
             int max = 0;
             AddFieldsToAllFieldNames(IntFieldNames, ref max);

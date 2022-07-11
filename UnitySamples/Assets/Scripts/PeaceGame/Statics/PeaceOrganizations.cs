@@ -16,6 +16,14 @@ namespace StaticConfig
         /// <summary>
         public string name;
         /// <summary>
+        /// 军衔
+        /// <summary>
+        public string militaryRank;
+        /// <summary>
+        /// 军职
+        /// <summary>
+        public string stripes;
+        /// <summary>
         /// 编制名
         /// <summary>
         public string levelName;
@@ -51,6 +59,8 @@ namespace StaticConfig
         {
             id = buffer.ReadInt();
             name = buffer.ReadString();
+            militaryRank = buffer.ReadString();
+            stripes = buffer.ReadString();
             levelName = buffer.ReadString();
             organaizationValue = buffer.ReadInt();
             troops = buffer.ReadInt();

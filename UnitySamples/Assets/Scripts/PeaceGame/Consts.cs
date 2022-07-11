@@ -26,10 +26,39 @@ namespace Peace
 
         public const int CONF_GROUP_CONFIGS = 1;
 
-        public const string CONF_EQUIPMENT = "peaceequipment";
-        public const string CONF_ORGANIZATIONS = "peaceorganizations";
+        public const string CONF_EQUIPMENT = "equipments";
+        public const string CONF_ORGANIZATIONS = "organizations";
 
         public const string AB_CONFIGS = "peace/configs";
+
+        #region 军衔
+        /// <summary>少尉衔</summary>
+        public const int ORG_TYPE_P = 1;
+        /// <summary>中尉衔</summary>
+        public const int ORG_TYPE_C = 2;
+        /// <summary>上尉衔</summary>
+        public const int ORG_TYPE_B = 3;
+        /// <summary>少校衔</summary>
+        public const int ORG_TYPE_R = 4;
+        /// <summary>中校衔</summary>
+        public const int ORG_TYPE_BR = 5;
+        /// <summary>上校衔</summary>
+        public const int ORG_TYPE_D = 6;
+        /// <summary>准将衔</summary>
+        public const int ORG_TYPE_A = 7;
+        /// <summary>少将衔</summary>
+        public const int ORG_TYPE_GA = 8;
+        /// <summary>中将衔</summary>
+        public const int ORG_TYPE_MGA = 9;
+        /// <summary>上将衔</summary>
+        public const int ORG_TYPE_LGA = 10;
+        /// <summary>二等上将衔</summary>
+        public const int ORG_TYPE_FA = 11;
+        /// <summary>一等上将衔</summary>
+        public const int ORG_TYPE_MFA = 12;
+        /// <summary>特等上将衔</summary>
+        public const int ORG_TYPE_LFA = 13;
+        #endregion
 
         #region 部队类型
         /// <summary>常规部队</summary>

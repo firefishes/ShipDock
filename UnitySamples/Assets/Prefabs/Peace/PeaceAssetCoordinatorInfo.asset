@@ -17,11 +17,11 @@ MonoBehaviour:
   m_Collections:
   - name: peace/configs
     id: 0
-    m_EditEnabled: 1
+    m_EditEnabled: 0
     valid: 1
     assets:
-    - assetName: peaceequipment
-      assetPath: Assets/res_data/configs/peaceequipment.bytes
+    - assetName: equipments
+      assetPath: Assets/res_data/configs/equipments.bytes
       m_EditEnabled: 1
       m_Valid: 1
       assetType: 4
@@ -29,10 +29,10 @@ MonoBehaviour:
       tex2D: {fileID: 0}
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
-      textData: {fileID: 4900000, guid: c3ca01306b67191409f7d73248db0ceb, type: 3}
+      textData: {fileID: 4900000, guid: 4c1c339cb787c39458a58e3896c23636, type: 3}
       assetBundle: {fileID: 0}
-    - assetName: peaceorganizations
-      assetPath: Assets/res_data/configs/peaceorganizations.bytes
+    - assetName: organizations
+      assetPath: Assets/res_data/configs/organizations.bytes
       m_EditEnabled: 1
       m_Valid: 1
       assetType: 4
@@ -40,5 +40,16 @@ MonoBehaviour:
       tex2D: {fileID: 0}
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
-      textData: {fileID: 4900000, guid: 260d5cb0aea9b3044acf4caeb6b11052, type: 3}
+      textData: {fileID: 4900000, guid: 2c9e24aa9b5a0c343846f214e3524db8, type: 3}
+      assetBundle: {fileID: 0}
+    - assetName: officers
+      assetPath: Assets/res_data/configs/officers.bytes
+      m_EditEnabled: 1
+      m_Valid: 1
+      assetType: 4
+      asset: {fileID: 0}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 4900000, guid: 5d63e8e1d4227a543af1cbff2580087d, type: 3}
       assetBundle: {fileID: 0}

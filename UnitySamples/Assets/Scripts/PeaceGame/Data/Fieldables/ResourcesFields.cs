@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using ShipDock.Config;
-using ShipDock.Tools;
+using ShipDock.Pooling;
+using System.Collections.Generic;
 
 namespace Peace
 {
@@ -17,7 +17,16 @@ namespace Peace
         {
             base.InitFieldsFromConfig(config);
 
-            FillValues(true);
+            if (IsInited) { }
+            else
+            {
+                FillValues(true);
+            }
+        }
+
+        public override void ToPool()
+        {
+            Pooling<ResourcesFields>.To(this);
         }
     }
 }
