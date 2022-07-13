@@ -56,7 +56,7 @@ namespace Peace
                 mVolumeGroupControl = new VolumeGroupControl();
 
                 //填充字段数据
-                FillValues(true);
+                FillValues(true); 
 
                 //初始化部队编制
                 if (config == default)
