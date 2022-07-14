@@ -16,3 +16,9 @@ E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjec
 E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockRelates\obj\Debug\ShipDockRelates.csproj.CoreCompileInputs.cache
 E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockRelates\obj\Debug\ShipDockRelates.dll
 E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects\ShipDockRelates\obj\Debug\ShipDockRelates.pdb
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects~\ShipDockRelates\bin\Debug\ShipDockRelates.dll
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects~\ShipDockRelates\bin\Debug\ShipDockRelates.pdb
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects~\ShipDockRelates\obj\Debug\ShipDockRelates.csprojAssemblyReference.cache
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects~\ShipDockRelates\obj\Debug\ShipDockRelates.csproj.CoreCompileInputs.cache
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects~\ShipDockRelates\obj\Debug\ShipDockRelates.dll
+E:\Work\BuildShip\ShipDock\UnitySamples\Assets\Scripts\ShipDock\SourceCodeProjects~\ShipDockRelates\obj\Debug\ShipDockRelates.pdb

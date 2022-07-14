@@ -33,15 +33,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -58,34 +58,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Loaders~\AssetBundleInfo.cs">
+    <Compile Include="..\..\Loaders\AssetBundleInfo.cs">
       <Link>ShipDockLoader\AssetBundleInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\AssetBundles.cs">
+    <Compile Include="..\..\Loaders\AssetBundles.cs">
       <Link>ShipDockLoader\AssetBundles.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\AssetQuoteder.cs">
+    <Compile Include="..\..\Loaders\AssetQuoteder.cs">
       <Link>ShipDockLoader\AssetQuoteder.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\AssetsLoader.cs">
+    <Compile Include="..\..\Loaders\AssetsLoader.cs">
       <Link>ShipDockLoader\AssetsLoader.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\Events\LoaderEvents.cs">
+    <Compile Include="..\..\Loaders\Events\LoaderEvents.cs">
       <Link>ShipDockLoader\LoaderEvents.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\Interfaces\IAssetBundleInfo.cs">
+    <Compile Include="..\..\Loaders\Interfaces\IAssetBundleInfo.cs">
       <Link>ShipDockLoader\IAssetBundleInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\Interfaces\IAssetBundles.cs">
+    <Compile Include="..\..\Loaders\Interfaces\IAssetBundles.cs">
       <Link>ShipDockLoader\IAssetBundles.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\Interfaces\ICustomAssetBundle.cs">
+    <Compile Include="..\..\Loaders\Interfaces\ICustomAssetBundle.cs">
       <Link>ShipDockLoader\ICustomAssetBundle.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\Loader.cs">
+    <Compile Include="..\..\Loaders\Loader.cs">
       <Link>ShipDockLoader\Loader.cs</Link>
     </Compile>
-    <Compile Include="..\..\Loaders~\LoaderOpertion.cs">
+    <Compile Include="..\..\Loaders\LoaderOpertion.cs">
       <Link>ShipDockLoader\LoaderOpertion.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

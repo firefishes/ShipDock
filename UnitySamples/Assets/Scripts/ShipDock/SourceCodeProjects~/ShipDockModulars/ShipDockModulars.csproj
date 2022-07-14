@@ -33,18 +33,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore">
-      <HintPath>..\ShipDockCore\bin\Debug\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -57,19 +58,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Modulars~\ApplicationModular.cs">
+    <Compile Include="..\..\Modulars\ApplicationModular.cs">
       <Link>ShipDockModulars\ApplicationModular.cs</Link>
     </Compile>
-    <Compile Include="..\..\Modulars~\DecorativeModulars.cs">
+    <Compile Include="..\..\Modulars\DecorativeModulars.cs">
       <Link>ShipDockModulars\DecorativeModulars.cs</Link>
     </Compile>
-    <Compile Include="..\..\Modulars~\IAppModulars.cs">
+    <Compile Include="..\..\Modulars\IAppModulars.cs">
       <Link>ShipDockModulars\IAppModulars.cs</Link>
     </Compile>
-    <Compile Include="..\..\Modulars~\IModular.cs">
+    <Compile Include="..\..\Modulars\IModular.cs">
       <Link>ShipDockModulars\IModular.cs</Link>
     </Compile>
-    <Compile Include="..\..\Modulars~\ModularHandlers.cs">
+    <Compile Include="..\..\Modulars\ModularHandlers.cs">
       <Link>ShipDockModulars\ModularHandlers.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

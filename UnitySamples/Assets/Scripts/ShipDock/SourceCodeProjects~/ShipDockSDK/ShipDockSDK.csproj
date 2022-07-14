@@ -33,20 +33,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -63,79 +63,79 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\SDK~\AlertParam.cs">
+    <Compile Include="..\..\SDK\AlertParam.cs">
       <Link>ShipDockSDK\AlertParam.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\AndroidCreator.cs">
+    <Compile Include="..\..\SDK\AndroidCreator.cs">
       <Link>ShipDockSDK\AndroidCreator.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\DetectFaceSDK.cs">
+    <Compile Include="..\..\SDK\DetectFaceSDK.cs">
       <Link>ShipDockSDK\DetectFaceSDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\IAlipaySDK.cs">
+    <Compile Include="..\..\SDK\Interface\IAlipaySDK.cs">
       <Link>ShipDockSDK\IAlipaySDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\IApplePaySDK.cs">
+    <Compile Include="..\..\SDK\Interface\IApplePaySDK.cs">
       <Link>ShipDockSDK\IApplePaySDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\IDetectFaceSDK.cs">
+    <Compile Include="..\..\SDK\Interface\IDetectFaceSDK.cs">
       <Link>ShipDockSDK\IDetectFaceSDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\IHuaweiSDK.cs">
+    <Compile Include="..\..\SDK\Interface\IHuaweiSDK.cs">
       <Link>ShipDockSDK\IHuaweiSDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\INativeSDK.cs">
+    <Compile Include="..\..\SDK\Interface\INativeSDK.cs">
       <Link>ShipDockSDK\INativeSDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\IOralEvaluation.cs">
+    <Compile Include="..\..\SDK\Interface\IOralEvaluation.cs">
       <Link>ShipDockSDK\IOralEvaluation.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\IPlatformSDK.cs">
+    <Compile Include="..\..\SDK\Interface\IPlatformSDK.cs">
       <Link>ShipDockSDK\IPlatformSDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\ISDKCreator.cs">
+    <Compile Include="..\..\SDK\Interface\ISDKCreator.cs">
       <Link>ShipDockSDK\ISDKCreator.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\ITalkingDataSDK.cs">
+    <Compile Include="..\..\SDK\Interface\ITalkingDataSDK.cs">
       <Link>ShipDockSDK\ITalkingDataSDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\ITencentCloud.cs">
+    <Compile Include="..\..\SDK\Interface\ITencentCloud.cs">
       <Link>ShipDockSDK\ITencentCloud.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\Interface\IWechatSDK.cs">
+    <Compile Include="..\..\SDK\Interface\IWechatSDK.cs">
       <Link>ShipDockSDK\IWechatSDK.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\IOSCreator.cs">
+    <Compile Include="..\..\SDK\IOSCreator.cs">
       <Link>ShipDockSDK\IOSCreator.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\MacCreator.cs">
+    <Compile Include="..\..\SDK\MacCreator.cs">
       <Link>ShipDockSDK\MacCreator.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKAndroid.cs">
+    <Compile Include="..\..\SDK\SDKAndroid.cs">
       <Link>ShipDockSDK\SDKAndroid.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKAndroidBase.cs">
+    <Compile Include="..\..\SDK\SDKAndroidBase.cs">
       <Link>ShipDockSDK\SDKAndroidBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKCreatorFactory.cs">
+    <Compile Include="..\..\SDK\SDKCreatorFactory.cs">
       <Link>ShipDockSDK\SDKCreatorFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKDeviceAudio.cs">
+    <Compile Include="..\..\SDK\SDKDeviceAudio.cs">
       <Link>ShipDockSDK\SDKDeviceAudio.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKHuawei.cs">
+    <Compile Include="..\..\SDK\SDKHuawei.cs">
       <Link>ShipDockSDK\SDKHuawei.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKIos.cs">
+    <Compile Include="..\..\SDK\SDKIos.cs">
       <Link>ShipDockSDK\SDKIos.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKMac.cs">
+    <Compile Include="..\..\SDK\SDKMac.cs">
       <Link>ShipDockSDK\SDKMac.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKManager.cs">
+    <Compile Include="..\..\SDK\SDKManager.cs">
       <Link>ShipDockSDK\SDKManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\SDK~\SDKMessages.cs">
+    <Compile Include="..\..\SDK\SDKMessages.cs">
       <Link>ShipDockSDK\SDKMessages.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

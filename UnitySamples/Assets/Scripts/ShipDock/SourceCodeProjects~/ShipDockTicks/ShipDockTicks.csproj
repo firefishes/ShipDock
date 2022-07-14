@@ -33,16 +33,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ShipDockCore\bin\Debug\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\ShipDockNotices\bin\Debug\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -59,25 +59,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Ticks~\MethodUpdater.cs">
+    <Compile Include="..\..\Ticks\MethodUpdater.cs">
       <Link>ShipDockTicks\MethodUpdater.cs</Link>
     </Compile>
-    <Compile Include="..\..\Ticks~\ShipDockTicks.cs">
+    <Compile Include="..\..\Ticks\ShipDockTicks.cs">
       <Link>ShipDockTicks\ShipDockTicks.cs</Link>
     </Compile>
-    <Compile Include="..\..\Ticks~\ThreadTicks.cs">
+    <Compile Include="..\..\Ticks\ThreadTicks.cs">
       <Link>ShipDockTicks\ThreadTicks.cs</Link>
     </Compile>
-    <Compile Include="..\..\Ticks~\TicksLater.cs">
+    <Compile Include="..\..\Ticks\TicksLater.cs">
       <Link>ShipDockTicks\TicksLater.cs</Link>
     </Compile>
-    <Compile Include="..\..\Ticks~\TicksUpdater.cs">
+    <Compile Include="..\..\Ticks\TicksUpdater.cs">
       <Link>ShipDockTicks\TicksUpdater.cs</Link>
     </Compile>
-    <Compile Include="..\..\Ticks~\TimingCallbacker.cs">
+    <Compile Include="..\..\Ticks\TimingCallbacker.cs">
       <Link>ShipDockTicks\TimingCallbacker.cs</Link>
     </Compile>
-    <Compile Include="..\..\Ticks~\UpdatesCacher.cs">
+    <Compile Include="..\..\Ticks\UpdatesCacher.cs">
       <Link>ShipDockTicks\UpdatesCacher.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

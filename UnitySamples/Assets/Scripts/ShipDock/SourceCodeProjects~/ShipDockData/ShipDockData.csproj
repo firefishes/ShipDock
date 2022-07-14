@@ -33,12 +33,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -55,43 +55,43 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Datas~\ClientData.cs">
+    <Compile Include="..\..\Datas\ClientData.cs">
       <Link>ShipDockDatas\ClientData.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\ClientLocalInfo.cs">
+    <Compile Include="..\..\Datas\ClientLocalInfo.cs">
       <Link>ShipDockDatas\ClientLocalInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\DataProxy.cs">
+    <Compile Include="..\..\Datas\DataProxy.cs">
       <Link>ShipDockDatas\DataProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\DataProxyCacher.cs">
+    <Compile Include="..\..\Datas\DataProxyCacher.cs">
       <Link>ShipDockDatas\DataProxyCacher.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\DatasExtension.cs">
+    <Compile Include="..\..\Datas\DatasExtension.cs">
       <Link>ShipDockDatas\DatasExtension.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\DataStorager.cs">
+    <Compile Include="..\..\Datas\DataStorager.cs">
       <Link>ShipDockDatas\DataStorager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\DataWarehouse.cs">
+    <Compile Include="..\..\Datas\DataWarehouse.cs">
       <Link>ShipDockDatas\DataWarehouse.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\DeviceLocalInfo.cs">
+    <Compile Include="..\..\Datas\DeviceLocalInfo.cs">
       <Link>ShipDockDatas\DeviceLocalInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\FieldableData.cs">
+    <Compile Include="..\..\Datas\FieldableData.cs">
       <Link>ShipDockDatas\FieldableData.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\Interfaces\IDataProxy.cs">
+    <Compile Include="..\..\Datas\Interfaces\IDataProxy.cs">
       <Link>ShipDockDatas\IDataProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\Interfaces\IDataUnit.cs">
+    <Compile Include="..\..\Datas\Interfaces\IDataUnit.cs">
       <Link>ShipDockDatas\IDataUnit.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\Interfaces\IFieldableData.cs">
+    <Compile Include="..\..\Datas\Interfaces\IFieldableData.cs">
       <Link>ShipDockDatas\IFieldableData.cs</Link>
     </Compile>
-    <Compile Include="..\..\Datas~\LocalsManager.cs">
+    <Compile Include="..\..\Datas\LocalsManager.cs">
       <Link>ShipDockDatas\LocalsManager.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

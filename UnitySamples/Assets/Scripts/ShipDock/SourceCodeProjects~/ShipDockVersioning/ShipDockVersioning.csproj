@@ -33,15 +33,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockLoader">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockLoader.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockLoader.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Sirenix.OdinInspector.Attributes">
@@ -82,13 +82,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\ResVersioning~\ClientResVersion.cs">
+    <Compile Include="..\..\ResVersioning\ClientResVersion.cs">
       <Link>ShipDockVersioning\ClientResVersion.cs</Link>
     </Compile>
-    <Compile Include="..\..\ResVersioning~\ResDataVersion.cs">
+    <Compile Include="..\..\ResVersioning\ResDataVersion.cs">
       <Link>ShipDockVersioning\ResDataVersion.cs</Link>
     </Compile>
-    <Compile Include="..\..\ResVersioning~\ResVersion.cs">
+    <Compile Include="..\..\ResVersioning\ResVersion.cs">
       <Link>ShipDockVersioning\ResVersion.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

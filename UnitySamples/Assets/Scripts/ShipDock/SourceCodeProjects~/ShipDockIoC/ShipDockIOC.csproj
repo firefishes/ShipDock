@@ -33,27 +33,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTicks, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTicks.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTicks.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -70,58 +70,58 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\IoC~\Applications\Servers\MainServer.cs">
+    <Compile Include="..\..\IoC\Applications\Servers\MainServer.cs">
       <Link>ShipDockIOC\MainServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Attributes\ResolvableAttribute.cs">
+    <Compile Include="..\..\IoC\Servers\Attributes\ResolvableAttribute.cs">
       <Link>ShipDockIOC\ResolvableAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Attributes\ServerPriority.cs">
+    <Compile Include="..\..\IoC\Servers\Attributes\ServerPriority.cs">
       <Link>ShipDockIOC\ServerPriority.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Infos\ResolvableInfo.cs">
+    <Compile Include="..\..\IoC\Servers\Infos\ResolvableInfo.cs">
       <Link>ShipDockIOC\ResolvableInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Interfaces\IResolvable.cs">
+    <Compile Include="..\..\IoC\Servers\Interfaces\IResolvable.cs">
       <Link>ShipDockIOC\IResolvable.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Interfaces\IResolvableConfig.cs">
+    <Compile Include="..\..\IoC\Servers\Interfaces\IResolvableConfig.cs">
       <Link>ShipDockIOC\IResolvableConfig.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Interfaces\IResolverCacher.cs">
+    <Compile Include="..\..\IoC\Servers\Interfaces\IResolverCacher.cs">
       <Link>ShipDockIOC\IResolverCacher.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Interfaces\IResolverHandler.cs">
+    <Compile Include="..\..\IoC\Servers\Interfaces\IResolverHandler.cs">
       <Link>ShipDockIOC\IResolverHandler.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Interfaces\IResolverParamer.cs">
+    <Compile Include="..\..\IoC\Servers\Interfaces\IResolverParamer.cs">
       <Link>ShipDockIOC\IResolverParamer.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Interfaces\IServer.cs">
+    <Compile Include="..\..\IoC\Servers\Interfaces\IServer.cs">
       <Link>ShipDockIOC\IServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Interfaces\IServersHolder.cs">
+    <Compile Include="..\..\IoC\Servers\Interfaces\IServersHolder.cs">
       <Link>ShipDockIOC\IServersHolder.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Resolvable.cs">
+    <Compile Include="..\..\IoC\Servers\Resolvable.cs">
       <Link>ShipDockIOC\Resolvable.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\ResolvableBinder.cs">
+    <Compile Include="..\..\IoC\Servers\ResolvableBinder.cs">
       <Link>ShipDockIOC\ResolvableBinder.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\ResolvableConfigItem.cs">
+    <Compile Include="..\..\IoC\Servers\ResolvableConfigItem.cs">
       <Link>ShipDockIOC\ResolvableConfigItem.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\ResolverHandler.cs">
+    <Compile Include="..\..\IoC\Servers\ResolverHandler.cs">
       <Link>ShipDockIOC\ResolverHandler.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Server.cs">
+    <Compile Include="..\..\IoC\Servers\Server.cs">
       <Link>ShipDockIOC\Server.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\ServerExtension.cs">
+    <Compile Include="..\..\IoC\Servers\ServerExtension.cs">
       <Link>ShipDockIOC\ServerExtension.cs</Link>
     </Compile>
-    <Compile Include="..\..\IoC~\Servers\Servers.cs">
+    <Compile Include="..\..\IoC\Servers\Servers.cs">
       <Link>ShipDockIOC\Servers.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

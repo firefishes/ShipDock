@@ -33,11 +33,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore">
-      <HintPath>..\ShipDockCore\bin\Debug\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -54,28 +54,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Notices~\Interfaces\INoticesHandler.cs">
+    <Compile Include="..\..\Notices\Interfaces\INoticesHandler.cs">
       <Link>ShipDockNotices\INoticesHandler.cs</Link>
     </Compile>
-    <Compile Include="..\..\Notices~\Interfaces\IUpdate.cs">
+    <Compile Include="..\..\Notices\Interfaces\IUpdate.cs">
       <Link>ShipDockNotices\IUpdate.cs</Link>
     </Compile>
-    <Compile Include="..\..\Notices~\NoticeBroadcaster.cs">
+    <Compile Include="..\..\Notices\NoticeBroadcaster.cs">
       <Link>ShipDockNotices\NoticeBroadcaster.cs</Link>
     </Compile>
-    <Compile Include="..\..\Notices~\NoticesObserver.cs">
+    <Compile Include="..\..\Notices\NoticesObserver.cs">
       <Link>ShipDockNotices\NoticesObserver.cs</Link>
     </Compile>
-    <Compile Include="..\..\Notices~\NotificationInfo.cs">
+    <Compile Include="..\..\Notices\NotificationInfo.cs">
       <Link>ShipDockNotices\NotificationInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Notices~\ShipDockConsts.cs">
+    <Compile Include="..\..\Notices\ShipDockConsts.cs">
       <Link>ShipDockNotices\ShipDockConsts.cs</Link>
     </Compile>
-    <Compile Include="..\..\Notices~\ShipDockNotification.cs">
+    <Compile Include="..\..\Notices\ShipDockNotification.cs">
       <Link>ShipDockNotices\ShipDockNotification.cs</Link>
     </Compile>
-    <Compile Include="..\..\Notices~\UpdaterNotice.cs">
+    <Compile Include="..\..\Notices\UpdaterNotice.cs">
       <Link>ShipDockNotices\UpdaterNotice.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -33,16 +33,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -59,16 +59,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Executers~\Interfaces\IQueueExecuter.cs">
+    <Compile Include="..\..\Executers\Interfaces\IQueueExecuter.cs">
       <Link>ShipDockPhases\IQueueExecuter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Executers~\QueueExecuter.cs">
+    <Compile Include="..\..\Executers\QueueExecuter.cs">
       <Link>ShipDockPhases\QueueExecuter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Executers~\StepQueueItem.cs">
+    <Compile Include="..\..\Executers\StepQueueItem.cs">
       <Link>ShipDockPhases\StepQueueItem.cs</Link>
     </Compile>
-    <Compile Include="..\..\Executers~\TimerQueueItem.cs">
+    <Compile Include="..\..\Executers\TimerQueueItem.cs">
       <Link>ShipDockPhases\TimerQueueItem.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

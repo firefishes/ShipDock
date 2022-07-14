@@ -33,22 +33,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockLoader">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockLoader.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockLoader.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -66,16 +69,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Sounds~\SoundEffects.cs">
+    <Compile Include="..\..\Sounds\SoundEffects.cs">
       <Link>ShipDockSounds\SoundEffects.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sounds~\SoundInfo.cs">
+    <Compile Include="..\..\Sounds\SoundInfo.cs">
       <Link>ShipDockSounds\SoundInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sounds~\SoundItem.cs">
+    <Compile Include="..\..\Sounds\SoundItem.cs">
       <Link>ShipDockSounds\SoundItem.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sounds~\SoundTrack.cs">
+    <Compile Include="..\..\Sounds\SoundTrack.cs">
       <Link>ShipDockSounds\SoundTrack.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

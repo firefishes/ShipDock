@@ -33,11 +33,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -58,37 +58,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Core~\Framework\Framework.cs">
+    <Compile Include="..\..\Core\Framework\Framework.cs">
       <Link>ShipDockCore\Framework.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Framework\FrameworkUnitBrige.cs">
+    <Compile Include="..\..\Core\Framework\FrameworkUnitBrige.cs">
       <Link>ShipDockCore\FrameworkUnitBrige.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Framework\Interfaces\ICustomFramework.cs">
+    <Compile Include="..\..\Core\Framework\Interfaces\ICustomFramework.cs">
       <Link>ShipDockCore\ICustomFramework.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Framework\Interfaces\IFrameworkUnit.cs">
+    <Compile Include="..\..\Core\Framework\Interfaces\IFrameworkUnit.cs">
       <Link>ShipDockCore\IFrameworkUnit.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Framework\Interfaces\IUpdatesComponent.cs">
+    <Compile Include="..\..\Core\Framework\Interfaces\IUpdatesComponent.cs">
       <Link>ShipDockCore\IUpdatesComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Notices\Interfaces\INoticeBase.cs">
+    <Compile Include="..\..\Core\Notices\Interfaces\INoticeBase.cs">
       <Link>ShipDockCore\INoticeBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Notices\Interfaces\INotificationSender.cs">
+    <Compile Include="..\..\Core\Notices\Interfaces\INotificationSender.cs">
       <Link>ShipDockCore\INotificationSender.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Notices\Notice.cs">
+    <Compile Include="..\..\Core\Notices\Notice.cs">
       <Link>ShipDockCore\Notice.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Notices\NoticeHandler.cs">
+    <Compile Include="..\..\Core\Notices\NoticeHandler.cs">
       <Link>ShipDockCore\NoticeHandler.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Notices\Notifications.cs">
+    <Compile Include="..\..\Core\Notices\Notifications.cs">
       <Link>ShipDockCore\Notifications.cs</Link>
     </Compile>
-    <Compile Include="..\..\Core~\Notices\ParamNotice.cs">
+    <Compile Include="..\..\Core\Notices\ParamNotice.cs">
       <Link>ShipDockCore\ParamNotice.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

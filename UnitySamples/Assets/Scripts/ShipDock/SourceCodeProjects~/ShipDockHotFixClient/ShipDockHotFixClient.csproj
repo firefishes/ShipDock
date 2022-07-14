@@ -33,28 +33,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
     </Reference>
     <Reference Include="ShipDockConfig">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockConfig.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockConfig.dll</HintPath>
     </Reference>
     <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockDatas">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockDatas.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockDatas.dll</HintPath>
     </Reference>
     <Reference Include="ShipDockModulars">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockModulars.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockModulars.dll</HintPath>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockUI">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockUI.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,22 +70,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\HotFixClient~\HotFixBase.cs">
+    <Compile Include="..\..\HotFixClient\HotFixBase.cs">
       <Link>ShipDockHotFixClient\HotFixBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\HotFixClient~\HotFixBaseUI.cs">
+    <Compile Include="..\..\HotFixClient\HotFixBaseUI.cs">
       <Link>ShipDockHotFixClient\HotFixBaseUI.cs</Link>
     </Compile>
-    <Compile Include="..\..\HotFixClient~\HotFixClient.cs">
+    <Compile Include="..\..\HotFixClient\HotFixClient.cs">
       <Link>ShipDockHotFixClient\HotFixClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\HotFixClient~\HotFixData.cs">
+    <Compile Include="..\..\HotFixClient\HotFixData.cs">
       <Link>ShipDockHotFixClient\HotFixData.cs</Link>
     </Compile>
-    <Compile Include="..\..\HotFixClient~\ShipDockUIExtensions.cs">
+    <Compile Include="..\..\HotFixClient\ShipDockUIExtensions.cs">
       <Link>ShipDockHotFixClient\ShipDockUIExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\HotFixClient~\UISkin.cs">
+    <Compile Include="..\..\HotFixClient\UISkin.cs">
       <Link>ShipDockHotFixClient\UISkin.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

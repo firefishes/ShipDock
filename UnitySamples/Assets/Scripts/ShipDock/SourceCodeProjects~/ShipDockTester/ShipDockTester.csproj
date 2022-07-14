@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -55,16 +55,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Tester~\DebugUtils.cs">
+    <Compile Include="..\..\Tester\DebugUtils.cs">
       <Link>ShipDockTester\DebugUtils.cs</Link>
     </Compile>
-    <Compile Include="..\..\Tester~\ShipDockLogExtension.cs">
+    <Compile Include="..\..\Tester\ShipDockLogExtension.cs">
       <Link>ShipDockTester\ShipDockLogExtension.cs</Link>
     </Compile>
-    <Compile Include="..\..\Tester~\Tester.cs">
+    <Compile Include="..\..\Tester\Tester.cs">
       <Link>ShipDockTester\Tester.cs</Link>
     </Compile>
-    <Compile Include="..\..\Tester~\TesterBaseApp.cs">
+    <Compile Include="..\..\Tester\TesterBaseApp.cs">
       <Link>ShipDockTester\TesterBaseApp.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

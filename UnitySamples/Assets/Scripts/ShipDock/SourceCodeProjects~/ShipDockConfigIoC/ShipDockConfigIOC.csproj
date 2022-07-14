@@ -33,36 +33,36 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockConfig">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockConfig.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockConfig.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockDatas">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockDatas.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockDatas.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockIOC">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockIOC.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockIOC.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockLoader">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockLoader.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockLoader.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -79,22 +79,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\ConfigableIoC~\ConfigHelper.cs">
+    <Compile Include="..\..\ConfigableIoC\ConfigHelper.cs">
       <Link>ShipDockConfigIOC\ConfigHelper.cs</Link>
     </Compile>
-    <Compile Include="..\..\ConfigableIoC~\Datas\ConfigData.cs">
+    <Compile Include="..\..\ConfigableIoC\Datas\ConfigData.cs">
       <Link>ShipDockConfigIOC\ConfigData.cs</Link>
     </Compile>
-    <Compile Include="..\..\ConfigableIoC~\Notices\ConfigNotice.cs">
+    <Compile Include="..\..\ConfigableIoC\Notices\ConfigNotice.cs">
       <Link>ShipDockConfigIOC\ConfigNotice.cs</Link>
     </Compile>
-    <Compile Include="..\..\ConfigableIoC~\Notices\ConfigsResult.cs">
+    <Compile Include="..\..\ConfigableIoC\Notices\ConfigsResult.cs">
       <Link>ShipDockConfigIOC\ConfigsResult.cs</Link>
     </Compile>
-    <Compile Include="..\..\ConfigableIoC~\Notices\IConfigNotice.cs">
+    <Compile Include="..\..\ConfigableIoC\Notices\IConfigNotice.cs">
       <Link>ShipDockConfigIOC\IConfigNotice.cs</Link>
     </Compile>
-    <Compile Include="..\..\ConfigableIoC~\Servers\ConfigServer.cs">
+    <Compile Include="..\..\ConfigableIoC\Servers\ConfigServer.cs">
       <Link>ShipDockConfigIOC\ConfigServer.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

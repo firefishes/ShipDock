@@ -33,16 +33,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockLoader">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockLoader.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockLoader.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -59,19 +59,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Configable~\ConfigHelper\ConfigHolder.cs">
+    <Compile Include="..\..\Configable\ConfigHelper\ConfigHolder.cs">
       <Link>ShipDockConfig\ConfigHolder.cs</Link>
     </Compile>
-    <Compile Include="..\..\Configable~\ConfigHelper\IConfig.cs">
+    <Compile Include="..\..\Configable\ConfigHelper\IConfig.cs">
       <Link>ShipDockConfig\IConfig.cs</Link>
     </Compile>
-    <Compile Include="..\..\Configable~\ConfigHelper\IConfigHolder.cs">
+    <Compile Include="..\..\Configable\ConfigHelper\IConfigHolder.cs">
       <Link>ShipDockConfig\IConfigHolder.cs</Link>
     </Compile>
-    <Compile Include="..\..\Configable~\DataParser.cs">
+    <Compile Include="..\..\Configable\DataParser.cs">
       <Link>ShipDockConfig\DataParser.cs</Link>
     </Compile>
-    <Compile Include="..\..\Configable~\TDData.cs">
+    <Compile Include="..\..\Configable\TDData.cs">
       <Link>ShipDockConfig\TDData.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

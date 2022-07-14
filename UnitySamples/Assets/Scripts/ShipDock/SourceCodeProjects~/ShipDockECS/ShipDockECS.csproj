@@ -33,20 +33,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ShipDockCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ShipDockCore">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -63,91 +63,91 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\ECS~\Applications\BehaviourIDsComponent.cs">
+    <Compile Include="..\..\ECS\Applications\BehaviourIDsComponent.cs">
       <Link>ShipDockECS\BehaviourIDsComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\ClusteringComponent.cs">
+    <Compile Include="..\..\ECS\Applications\ClusteringComponent.cs">
       <Link>ShipDockECS\ClusteringComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Datas\BulletData.cs">
+    <Compile Include="..\..\ECS\Applications\Datas\BulletData.cs">
       <Link>ShipDockECS\BulletData.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Datas\WorldMovement.cs">
+    <Compile Include="..\..\ECS\Applications\Datas\WorldMovement.cs">
       <Link>ShipDockECS\WorldMovement.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\EntitasComponentable.cs">
+    <Compile Include="..\..\ECS\Applications\EntitasComponentable.cs">
       <Link>ShipDockECS\EntitasComponentable.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Interfaces\IBulletBehaviour.cs">
+    <Compile Include="..\..\ECS\Applications\Interfaces\IBulletBehaviour.cs">
       <Link>ShipDockECS\IBulletBehaviour.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Interfaces\ICommonBulletChecker.cs">
+    <Compile Include="..\..\ECS\Applications\Interfaces\ICommonBulletChecker.cs">
       <Link>ShipDockECS\ICommonBulletChecker.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Interfaces\ICommonOverlayMapper.cs">
+    <Compile Include="..\..\ECS\Applications\Interfaces\ICommonOverlayMapper.cs">
       <Link>ShipDockECS\ICommonOverlayMapper.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Interfaces\IProcessing.cs">
+    <Compile Include="..\..\ECS\Applications\Interfaces\IProcessing.cs">
       <Link>ShipDockECS\IProcessing.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Interfaces\IProcessingComponent.cs">
+    <Compile Include="..\..\ECS\Applications\Interfaces\IProcessingComponent.cs">
       <Link>ShipDockECS\IProcessingComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Interfaces\IWorldIntercatable.cs">
+    <Compile Include="..\..\ECS\Applications\Interfaces\IWorldIntercatable.cs">
       <Link>ShipDockECS\IWorldIntercatable.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\StaticWorldComponent.cs">
+    <Compile Include="..\..\ECS\Applications\StaticWorldComponent.cs">
       <Link>ShipDockECS\StaticWorldComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\Systems\WorldSceneSystem.cs">
+    <Compile Include="..\..\ECS\Applications\Systems\WorldSceneSystem.cs">
       <Link>ShipDockECS\WorldSceneSystem.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\WorldComponent.cs">
+    <Compile Include="..\..\ECS\Applications\WorldComponent.cs">
       <Link>ShipDockECS\WorldComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\WorldItem\WorldInteracter.cs">
+    <Compile Include="..\..\ECS\Applications\WorldItem\WorldInteracter.cs">
       <Link>ShipDockECS\WorldInteracter.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Applications\WorldMovementComponent.cs">
+    <Compile Include="..\..\ECS\Applications\WorldMovementComponent.cs">
       <Link>ShipDockECS\WorldMovementComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\ComponentGroup.cs">
+    <Compile Include="..\..\ECS\ComponentGroup.cs">
       <Link>ShipDockECS\ComponentGroup.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\DataComponent.cs">
+    <Compile Include="..\..\ECS\DataComponent.cs">
       <Link>ShipDockECS\DataComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Interfaces\Commons\IPositionEntitas.cs">
+    <Compile Include="..\..\ECS\Interfaces\Commons\IPositionEntitas.cs">
       <Link>ShipDockECS\IPositionEntitas.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Interfaces\IDataComponent.cs">
+    <Compile Include="..\..\ECS\Interfaces\IDataComponent.cs">
       <Link>ShipDockECS\IDataComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Interfaces\IShipDockComponent.cs">
+    <Compile Include="..\..\ECS\Interfaces\IShipDockComponent.cs">
       <Link>ShipDockECS\IShipDockComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Interfaces\IShipDockComponentContext.cs">
+    <Compile Include="..\..\ECS\Interfaces\IShipDockComponentContext.cs">
       <Link>ShipDockECS\IShipDockComponentContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Interfaces\IShipDockEntitas.cs">
+    <Compile Include="..\..\ECS\Interfaces\IShipDockEntitas.cs">
       <Link>ShipDockECS\IShipDockEntitas.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\Interfaces\ISystemComponent.cs">
+    <Compile Include="..\..\ECS\Interfaces\ISystemComponent.cs">
       <Link>ShipDockECS\ISystemComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\ShipDockComponent.cs">
+    <Compile Include="..\..\ECS\ShipDockComponent.cs">
       <Link>ShipDockECS\ShipDockComponent.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\ShipDockComponentContext.cs">
+    <Compile Include="..\..\ECS\ShipDockComponentContext.cs">
       <Link>ShipDockECS\ShipDockComponentContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\ShipDockECS.cs">
+    <Compile Include="..\..\ECS\ShipDockECS.cs">
       <Link>ShipDockECS\ShipDockECS.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\ShipDockEntitas.cs">
+    <Compile Include="..\..\ECS\ShipDockEntitas.cs">
       <Link>ShipDockECS\ShipDockEntitas.cs</Link>
     </Compile>
-    <Compile Include="..\..\ECS~\SystemComponent.cs">
+    <Compile Include="..\..\ECS\SystemComponent.cs">
       <Link>ShipDockECS\SystemComponent.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

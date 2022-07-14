@@ -46,82 +46,82 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Common~\Applications\Interfaces\ICamerLens.cs">
+    <Compile Include="..\..\Common\Applications\Interfaces\ICamerLens.cs">
       <Link>ShipDockCommon\ICamerLens.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Applications\Loom.cs">
+    <Compile Include="..\..\Common\Applications\Loom.cs">
       <Link>ShipDockCommon\Loom.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Applications\Tools\AppPaths.cs">
+    <Compile Include="..\..\Common\Applications\Tools\AppPaths.cs">
       <Link>ShipDockCommon\AppPaths.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Applications\Tools\FileOperater.cs">
+    <Compile Include="..\..\Common\Applications\Tools\FileOperater.cs">
       <Link>ShipDockCommon\FileOperater.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Pooling\AllPools.cs">
+    <Compile Include="..\..\Common\Pooling\AllPools.cs">
       <Link>ShipDockCommon\AllPools.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Pooling\Interfaces\IPool.cs">
+    <Compile Include="..\..\Common\Pooling\Interfaces\IPool.cs">
       <Link>ShipDockCommon\IPool.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Pooling\Interfaces\IPoolBase.cs">
+    <Compile Include="..\..\Common\Pooling\Interfaces\IPoolBase.cs">
       <Link>ShipDockCommon\IPoolBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Pooling\Interfaces\IPoolItem.cs">
+    <Compile Include="..\..\Common\Pooling\Interfaces\IPoolItem.cs">
       <Link>ShipDockCommon\IPoolItem.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Pooling\Pooling.cs">
+    <Compile Include="..\..\Common\Pooling\Pooling.cs">
       <Link>ShipDockCommon\Pooling.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\ByteBuffer.cs">
+    <Compile Include="..\..\Common\Tools\ByteBuffer.cs">
       <Link>ShipDockCommon\ByteBuffer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\ColorUtils.cs">
+    <Compile Include="..\..\Common\Tools\ColorUtils.cs">
       <Link>ShipDockCommon\ColorUtils.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\DoubleBuffers.cs">
+    <Compile Include="..\..\Common\Tools\DoubleBuffers.cs">
       <Link>ShipDockCommon\DoubleBuffers.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\IdentBits.cs">
+    <Compile Include="..\..\Common\Tools\IdentBits.cs">
       <Link>ShipDockCommon\IdentBits.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\IntegerID.cs">
+    <Compile Include="..\..\Common\Tools\IntegerID.cs">
       <Link>ShipDockCommon\IntegerID.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\IntegerMapper.cs">
+    <Compile Include="..\..\Common\Tools\IntegerMapper.cs">
       <Link>ShipDockCommon\IntegerMapper.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\Interfaces\IDispose.cs">
+    <Compile Include="..\..\Common\Tools\Interfaces\IDispose.cs">
       <Link>ShipDockCommon\IDispose.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\KeyValueList.cs">
+    <Compile Include="..\..\Common\Tools\KeyValueList.cs">
       <Link>ShipDockCommon\KeyValueList.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\ScopeChecker.cs">
+    <Compile Include="..\..\Common\Tools\ScopeChecker.cs">
       <Link>ShipDockCommon\ScopeChecker.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\ShipDockExtension.cs">
+    <Compile Include="..\..\Common\Tools\ShipDockExtension.cs">
       <Link>ShipDockCommon\ShipDockExtension.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\Singletons.cs">
+    <Compile Include="..\..\Common\Tools\Singletons.cs">
       <Link>ShipDockCommon\Singletons.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\StringUtils.cs">
+    <Compile Include="..\..\Common\Tools\StringUtils.cs">
       <Link>ShipDockCommon\StringUtils.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\Subgroups\AnimationSubgroup.cs">
+    <Compile Include="..\..\Common\Tools\Subgroups\AnimationSubgroup.cs">
       <Link>ShipDockCommon\AnimationSubgroup.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\Subgroups\AssetSubgroup.cs">
+    <Compile Include="..\..\Common\Tools\Subgroups\AssetSubgroup.cs">
       <Link>ShipDockCommon\AssetSubgroup.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\TimeGapper.cs">
+    <Compile Include="..\..\Common\Tools\TimeGapper.cs">
       <Link>ShipDockCommon\TimeGapper.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\Utils.cs">
+    <Compile Include="..\..\Common\Tools\Utils.cs">
       <Link>ShipDockCommon\Utils.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common~\Tools\ValueItem.cs">
+    <Compile Include="..\..\Common\Tools\ValueItem.cs">
       <Link>ShipDockCommon\ValueItem.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

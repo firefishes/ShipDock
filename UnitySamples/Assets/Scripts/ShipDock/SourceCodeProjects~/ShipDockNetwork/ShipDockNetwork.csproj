@@ -33,22 +33,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShipDockCommon">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCommon.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockCore">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockCore.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockLoader">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockLoader.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockLoader.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockNotices">
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockNotices.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockNotices.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ShipDockTester, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ShipDockPlugins\Framework_2018_4\ShipDockTester.dll</HintPath>
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,46 +71,46 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Network~\Driver\HTTPDriver.cs">
+    <Compile Include="..\..\Network\Driver\HTTPDriver.cs">
       <Link>ShipDockNetwork\HTTPDriver.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\Driver\HTTPJsonRequestInfo.cs">
+    <Compile Include="..\..\Network\Driver\HTTPJsonRequestInfo.cs">
       <Link>ShipDockNetwork\HTTPJsonRequestInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\Driver\HttpRequestType.cs">
+    <Compile Include="..\..\Network\Driver\HttpRequestType.cs">
       <Link>ShipDockNetwork\HttpRequestType.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\Driver\HttpUtility.cs">
+    <Compile Include="..\..\Network\Driver\HttpUtility.cs">
       <Link>ShipDockNetwork\HttpUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\HTTPIniter\CommonResponserIniter.cs">
+    <Compile Include="..\..\Network\HTTPIniter\CommonResponserIniter.cs">
       <Link>ShipDockNetwork\CommonResponserIniter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\HTTPIniter\NotificationResponseIniter.cs">
+    <Compile Include="..\..\Network\HTTPIniter\NotificationResponseIniter.cs">
       <Link>ShipDockNetwork\NotificationResponseIniter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\HTTPIniter\ResponserIniter.cs">
+    <Compile Include="..\..\Network\HTTPIniter\ResponserIniter.cs">
       <Link>ShipDockNetwork\ResponserIniter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\Interfaces\IHttpRequester.cs">
+    <Compile Include="..\..\Network\Interfaces\IHttpRequester.cs">
       <Link>ShipDockNetwork\IHttpRequester.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\Interfaces\IRequesterParamer.cs">
+    <Compile Include="..\..\Network\Interfaces\IRequesterParamer.cs">
       <Link>ShipDockNetwork\IRequesterParamer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\NetDistributer.cs">
+    <Compile Include="..\..\Network\NetDistributer.cs">
       <Link>ShipDockNetwork\NetDistributer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\Requester\NotificationRequester.cs">
+    <Compile Include="..\..\Network\Requester\NotificationRequester.cs">
       <Link>ShipDockNetwork\NotificationRequester.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\Requester\RequestBase.cs">
+    <Compile Include="..\..\Network\Requester\RequestBase.cs">
       <Link>ShipDockNetwork\RequestBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\Responser\RequestResponser.cs">
+    <Compile Include="..\..\Network\Responser\RequestResponser.cs">
       <Link>ShipDockNetwork\RequestResponser.cs</Link>
     </Compile>
-    <Compile Include="..\..\Network~\ServiceURL.cs">
+    <Compile Include="..\..\Network\ServiceURL.cs">
       <Link>ShipDockNetwork\ServiceURL.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
