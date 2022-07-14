@@ -1,0 +1,16 @@
+{
+    "name": "ShipDockCore",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5a3724813f2d34f4e8fd3c6fb433db77"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

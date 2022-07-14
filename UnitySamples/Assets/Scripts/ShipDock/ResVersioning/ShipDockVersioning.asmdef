@@ -1,0 +1,18 @@
+{
+    "name": "ShipDockVersioning",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5a3724813f2d34f4e8fd3c6fb433db77",
+        "GUID:6b747ffc0ec537c4a852703fa03f6081",
+        "GUID:0f1a58d1af7b17e419760f453f3b5573"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

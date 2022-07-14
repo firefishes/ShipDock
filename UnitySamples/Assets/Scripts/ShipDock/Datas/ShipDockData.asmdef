@@ -1,0 +1,17 @@
+{
+    "name": "ShipDockData",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5a3724813f2d34f4e8fd3c6fb433db77",
+        "GUID:f9ad9cee6ab220746b78798c83dd24a0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

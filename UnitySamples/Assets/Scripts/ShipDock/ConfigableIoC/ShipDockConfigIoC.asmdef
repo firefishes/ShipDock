@@ -1,0 +1,23 @@
+{
+    "name": "ShipDockConfigIoC",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5a3724813f2d34f4e8fd3c6fb433db77",
+        "GUID:6b747ffc0ec537c4a852703fa03f6081",
+        "GUID:9341fbc6fea7bcb4da5e5accab4f9afa",
+        "GUID:dbbc02515ce2ae14b90e0696bb23649c",
+        "GUID:e8818675b423e1d43bc8f7f1a446a76b",
+        "GUID:79a8a29860b70b34da74777b935b3183",
+        "GUID:f9ad9cee6ab220746b78798c83dd24a0",
+        "GUID:0f1a58d1af7b17e419760f453f3b5573"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

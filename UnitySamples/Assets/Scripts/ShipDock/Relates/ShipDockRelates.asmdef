@@ -1,0 +1,20 @@
+{
+    "name": "ShipDockRelates",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5a3724813f2d34f4e8fd3c6fb433db77",
+        "GUID:dbbc02515ce2ae14b90e0696bb23649c",
+        "GUID:6136853c16d07ed47849982f3626cf00",
+        "GUID:79a8a29860b70b34da74777b935b3183",
+        "GUID:f9ad9cee6ab220746b78798c83dd24a0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
