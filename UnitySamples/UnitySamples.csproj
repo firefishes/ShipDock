@@ -1,0 +1,1389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9AE88DFA-9C87-0B29-A4F7-59AD0C77FC16}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectGenerator>VSTU</UnityProjectGenerator>
+    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityBuildTarget>Android:13</UnityBuildTarget>
+    <UnityVersion>2018.3.9f1</UnityVersion>
+    <RootNamespace></RootNamespace>
+    <LangVersion>6</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoConfig>true</NoConfig>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_3_9;UNITY_2018_3;UNITY_2018;UNITY_INCLUDE_TESTS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_TEXTURE_STREAMING;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_VIDEO;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_LOCALIZATION;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_EVENT_QUEUE;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_AR;UNITY_HAS_GOOGLEVR;UNITY_HAS_TANGO;ENABLE_SPATIALTRACKING;ENABLE_RUNTIME_PERMISSIONS;UNITY_ASTC_ONLY_DECOMPRESS;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_VSTU;_RELEASE;G_LOG;COLOR_LOG;ODIN_INSPECTOR;ODIN_INSPECTOR;_ILRUNTIME;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_3_9;UNITY_2018_3;UNITY_2018;UNITY_INCLUDE_TESTS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_TEXTURE_STREAMING;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_VIDEO;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_LOCALIZATION;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_EVENT_QUEUE;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_AR;UNITY_HAS_GOOGLEVR;UNITY_HAS_TANGO;ENABLE_SPATIALTRACKING;ENABLE_RUNTIME_PERMISSIONS;UNITY_ASTC_ONLY_DECOMPRESS;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_VSTU;_RELEASE;G_LOG;COLOR_LOG;ODIN_INSPECTOR;ODIN_INSPECTOR;_ILRUNTIME;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Managed/UnityEngine/UnityEngine">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.AIModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.ARModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.AccessibilityModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.AnimationModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.AssetBundleModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.AudioModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.BaselibModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.BaselibModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.ClothModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.CoreModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.CrashReportingModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.DirectorModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.FileSystemHttpModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.FileSystemHttpModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.GameCenterModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.GridModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.HotReloadModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.IMGUIModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.ImageConversionModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.InputModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.JSONSerializeModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.LocalizationModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.LocalizationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.ParticleSystemModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.PerformanceReportingModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.PhysicsModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.Physics2DModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.ProfilerModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.ProfilerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.ScreenCaptureModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.SharedInternalsModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.SpatialTrackingModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.SpatialTrackingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.SpriteMaskModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.SpriteShapeModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.StreamingModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.StreamingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.StyleSheetsModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.StyleSheetsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.SubstanceModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.SubstanceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.TLSModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.TLSModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.TerrainModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.TerrainPhysicsModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.TextCoreModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.TextCoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.TextRenderingModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.TilemapModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.TimelineModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.TimelineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UIModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UIElementsModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UNETModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UmbraModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UmbraModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UnityAnalyticsModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UnityConnectModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UnityTestProtocolModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UnityWebRequestModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.VFXModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.VFXModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.VRModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.VehiclesModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.VideoModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.WindModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEngine/UnityEngine.XRModule">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/UnityEditor">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Managed/Unity.Locator">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\Managed/Unity.Locator.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>F:/Softs/Unity2018.3.9/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>F:/Softs/Unity2018.3.9/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>F:/Softs/Unity2018.3.9/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GoogleAudioSpatializer">
+      <HintPath>F:/Softs/Unity2018.3.9/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>F:/Softs/Unity2018.3.9/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="Pathfinding.Ionic.Zip.Reduced">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/ConfigTool/OtherPlugins/EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/ConfigTool/OtherPlugins/Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/ConfigTool/OtherPlugins/ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntim.Mono.Cecil">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/ILRuntime/Plugins/ILRuntim.Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/ILRuntime/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/ILRuntime/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.OdinInspector.Attributes">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.OdinInspector.Editor">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Serialization.Config">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Sirenix/Assemblies/Sirenix.Serialization.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Sirenix/Assemblies/Sirenix.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Utilities">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Sirenix/Assemblies/Sirenix.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Utilities.Editor">
+      <HintPath>Assets/Scripts/ShipDock/Applications/Others/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockCommon">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockConfig">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockConfig.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockConfigIOC">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockConfigIOC.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockCore">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockDatas">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockDatas.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockECS">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockECS.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockFSM">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockFSM.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockIOC">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockIOC.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockLoader">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockModulars">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockModulars.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockNotices">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockNotices.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockPhases">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockPhases.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockSounds">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockSounds.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockTester">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockTester.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockTicks">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockTicks.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockUI">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockUI.dll</HintPath>
+    </Reference>
+    <Reference Include="ShipDockVersioning">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/ShipDockVersioning.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Framework_2018_4/UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Zip_2018_3_9f1/I18N.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.West">
+      <HintPath>Assets/Scripts/ShipDock/ShipDockPlugins/Zip_2018_3_9f1/I18N.West.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Editor">
+      <HintPath>E:/Work/BuildShip/ShipDock/UnitySamples/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.StandardEvents">
+      <HintPath>E:/Work/BuildShip/ShipDock/UnitySamples/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Tracker">
+      <HintPath>E:/Work/BuildShip/ShipDock/UnitySamples/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.AppContext">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Concurrent">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Collections.Concurrent.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.NonGeneric">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Collections.NonGeneric.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Specialized">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Collections.Specialized.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.ComponentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.EventBasedAsync">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.ComponentModel.EventBasedAsync.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Primitives">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.ComponentModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.TypeConverter">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.ComponentModel.TypeConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Console">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Common">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Contracts">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Debug">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.FileVersionInfo">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.FileVersionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Process">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.Process.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.StackTrace">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.StackTrace.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TextWriterTraceListener">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.TextWriterTraceListener.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tools">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TraceSource">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.TraceSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Diagnostics.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Primitives">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Drawing.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Dynamic.Runtime">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Dynamic.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization.Calendars">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Globalization.Calendars.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Globalization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization.Extensions">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Globalization.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.ZipFile">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.DriveInfo">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.FileSystem.DriveInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Watcher">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.FileSystem.Watcher.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.IsolatedStorage">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.IsolatedStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.MemoryMappedFiles">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.MemoryMappedFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Pipes">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.Pipes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.UnmanagedMemoryStream">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.IO.UnmanagedMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Expressions">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Linq.Expressions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Parallel">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Linq.Parallel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Queryable">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Linq.Queryable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.NameResolution">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.NameResolution.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.NetworkInformation">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.NetworkInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Ping">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.Ping.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Primitives">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Requests">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.Requests.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Security">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Sockets">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebHeaderCollection">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.WebHeaderCollection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebSockets.Client">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.WebSockets.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebSockets">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Net.WebSockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ObjectModel">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.ObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Extensions">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Reflection.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Primitives">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Reflection.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Reader">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Resources.Reader.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.ResourceManager">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Resources.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Writer">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Resources.Writer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.VisualC">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.CompilerServices.VisualC.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Handles">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.Handles.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.InteropServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Numerics">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.Serialization.Formatters.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Json">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.Serialization.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Primitives">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.Serialization.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Xml">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Runtime.Serialization.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Claims">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Security.Claims.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Csp">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Security.Cryptography.Csp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Security.Principal.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.SecureString">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Security.SecureString.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Text.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.Extensions">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Text.Encoding.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Text.RegularExpressions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Overlapped">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Threading.Overlapped.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Parallel">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Threading.Tasks.Parallel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Thread">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Threading.Thread.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.ThreadPool">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Threading.ThreadPool.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Timer">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Threading.Timer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.ReaderWriter">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XDocument">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Xml.XDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Xml.XmlDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlSerializer">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Xml.XmlSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Xml.XPath.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath.XDocument">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\System.Xml.XPath.XDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\Extensions\2.0.0\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.WindowsRuntime">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\Extensions\2.0.0\System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.ComponentModel.Composition.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.IO.Compression.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Runtime.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.ServiceModel.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Transactions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Serialization">
+      <HintPath>F:\Softs\Unity2018.3.9\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Sirenix.OdinInspector.CompatibilityLayer.Editor.csproj">
+      <Project>{6FAC026A-32B0-044B-AD76-DDA07FEEDB0E}</Project>
+      <Name>Sirenix.OdinInspector.CompatibilityLayer.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="AstarPathfindingProject.csproj">
+      <Project>{ED9DD779-6FF9-FAA1-2F73-A8019CB22921}</Project>
+      <Name>AstarPathfindingProject</Name>
+    </ProjectReference>
+    <ProjectReference Include="Sirenix.OdinInspector.CompatibilityLayer.csproj">
+      <Project>{2F22AB3E-9BB3-EC58-1A3F-FD22DDDA7BBC}</Project>
+      <Name>Sirenix.OdinInspector.CompatibilityLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="PackageToolsEditor.csproj">
+      <Project>{C84BEC28-66A0-D5C4-FAE1-D5CA8972CC93}</Project>
+      <Name>PackageToolsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="ILRuntime.csproj">
+      <Project>{BE4E56A2-436E-995B-9A54-9119691F4E01}</Project>
+      <Name>ILRuntime</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
+      <Project>{3A848AB7-9891-EDDA-D555-BF184C2F81F4}</Project>
+      <Name>Unity.TextMeshPro.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.PackageManagerUI.Editor.csproj">
+      <Project>{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}</Project>
+      <Name>Unity.PackageManagerUI.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="AstarPathfindingProjectEditor.csproj">
+      <Project>{B6250B22-F8BE-601E-E0E6-B7D4C3AF750D}</Project>
+      <Name>AstarPathfindingProjectEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.CollabProxy.Editor.csproj">
+      <Project>{C12CEEC6-100C-58A2-DE36-314E4DE5E40B}</Project>
+      <Name>Unity.CollabProxy.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Fingers.csproj">
+      <Project>{033EB19D-325C-9C91-208F-13FB8261AD3B}</Project>
+      <Name>Fingers</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.TextMeshPro.csproj">
+      <Project>{07A21C90-D344-AE1A-8456-9910C203B41A}</Project>
+      <Name>Unity.TextMeshPro</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Analytics.DataPrivacy.csproj">
+      <Project>{D6E266C6-3D1F-28C8-9FEB-2A01E44DBF77}</Project>
+      <Name>Unity.Analytics.DataPrivacy</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Scripts\ElimlnateGame\ComboRule.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Components\EliminatePlayComponent.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Components\GridComponent.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\BoardGrids.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\CoreExecuter\CreateSkillGridExecuter.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\CoreExecuter\GridElimlnateExecuter.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\CoreExecuter\GridSupplementExecuter.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\ElimlnateCore.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\GameEffects.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\GridCreater.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\GridOperater.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\Helpers\GridsRearranger.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\Helpers\GridType.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\Helpers\GridUpdateInfo.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\Helpers\LinedComboRule.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Core\LineInputCore.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\GridEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\IEffectInfo.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnElimlnates\BatchEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnElimlnates\EliminateGravityEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnElimlnates\ElimlnateEffectAttract.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnElimlnates\ElimlnateEffectBlast.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnGrid\GridAttractOutEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnGrid\GridBlastEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnGrid\GridChoosenEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnGrid\GridEnterEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnGrid\GridGravityEnterEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnGrid\GridRemainsEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\OnGrid\GridSkillPreviewEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\Params\ElimlnateEffectParam.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\Params\GridEffectParam.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\TweenableInfo\ElimlnateTweenEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\TweenableInfo\TweenEffect.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Effects\TweenableInfo\TweenEffectBase.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Grids\ElimlnateGrid.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Grids\GridSkillTriggers\GridSkillTrigger.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Grids\GridSkillTriggers\GridSkillTriggerClickUp.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Grids\ISkillGridTrigger.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Grids\NormalGrid.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\GridTypes.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Infos\EliminateData.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Infos\EliminateResult.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Infos\GridCreateInfo.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\Infos\GridOperateInfo.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\UI\UIEliminatePlay.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGame\UI\UIEliminatePlayModular.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGameApp\ElimConsts.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGameApp\ElimGame.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGameApp\ElimGrid.cs" />
+    <Compile Include="Assets\Scripts\ElimlnateGameApp\UIElimModular.cs" />
+    <Compile Include="Assets\Scripts\IsKingGame\IsKingStartUp.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\DevelopSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\GameApplicationEvents.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\HotFixSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\IShipDockApp.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\IStartingUpdatePopup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\LogsSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\Scenes.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\ServerContainerSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\ShipDockAppComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\AppScenes\ShipDockGame.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\AniStateBehaviour.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\AniStateFX.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\AssetsPooling.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\AssetsPoolingComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\ComponentBridge.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\FrameRateComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\HotFix\HotFixerAppEnter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\HotFix\HotFixerComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\HotFix\HotFixerInteractor.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\HotFix\HotFixerLoadedNoticeInfo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\HotFix\HotFixerUI.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\HotFix\HotFixerUIAgent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\HotFix\UIModularHotFixer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\LanguageComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\Lens\CamerLens.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\Lens\UICanvasScaler.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\Lens\VirtualCameraSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\NoticeComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\ParticalsCollecter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\PhysicsCheckerSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\Res\Interfaces\IResBridge.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\Res\ResBridge.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\Res\ResPrefabBridge.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\Res\ResSpriteBridge.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\Res\ResTextureBridge.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\TesterComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\TimeUpdater.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\UpdatesComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Components\UVChainLightningComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Effects\EffectManager.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\AppHotFixConfigBase.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\ApplicationModularAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\ClientLocalInfoAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\CoroutineAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\DataProxyAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\DeviceLocalInfoAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\HotFixerInteractorAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\IConfigAdapater.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\IDataExtracterAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\IDisposeAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\IEnumerable_1_ObjectAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\IEnumerable_1_StringAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\IEnumerableAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\IEnumeratorAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\ILoopScrollItemDataAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\INotificationSenderAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\IPoolableAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\MonoBehaviourAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\NoticeAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\UIModularHotFixerAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeAdaptors\ValueItemAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\Adapters\CoroutineAdapter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\HotFixBridge.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\HotFixer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\ILMethodCacher.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\ILRuntimeAdaptor.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\ILRuntimeExtension.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\ILRuntimeHotFix.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\ILRuntimeIniter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\ILRuntimeInvokeCacher.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\Infos\HotFixerStartUpInfo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\Infos\HotFixerSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\Interfaces\IAppILRuntime.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\Interfaces\IHotFixConfig.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ILRuntimeHotFix\SceneNodeSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\IndependentChildren.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Interactors\PerspectiveInputer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineBlendListCamera.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineBrain.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineClearShot.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineCollider.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineConfiner.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineDollyCart.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineExternalCamera.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineFollowZoom.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineFreeLook.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineMixingCamera.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachinePath.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachinePipeline.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineSmoother.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineSmoothPath.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineStateDrivenCamera.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineTargetGroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Behaviours\CinemachineVirtualCamera.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineBasicMultiChannelPerlin.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineComposer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineFramingTransposer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineGroupComposer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineHardLockToTarget.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineHardLookAt.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineOrbitalTransposer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachinePOV.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineSameAsFollowObject.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineTrackedDolly.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Components\CinemachineTransposer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\AxisState.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CameraState.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachineBlend.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachineBlenderSettings.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachineComponentBase.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachineCore.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachineDebugLogger.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachineExtension.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachinePathBase.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachinePropertyAttribute.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\CinemachineVirtualCameraBase.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\GaussianFilter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\ICinemachineCamera.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\ICinemachineComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\LensSettings.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\NoiseSettings.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\Predictor.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\ReflectionHelpers.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\SplineHelpers.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Base\Runtime\Core\UnityVectorExtensions.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\PostFX\CinemachinePostFX.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\PostFX\CinemachinePostProcessing.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Timeline\CinemachineMixer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Timeline\CinemachineShot.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\Timeline\CinemachineTrack.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\ConfigTool\ExcelTool.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\ConfigTool\IConfigItem.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTweenPro\DOTweenProShortcuts.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTweenPro\DOTweenTextMeshPro.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTweenPro\DOTweenTk2d.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\AnimationBase.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\AnimationLayer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\BaseDemo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\BoneOffset.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\BoundingBox.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\CoreElement.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\DragonBonesEvent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\HelloDragonBones.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\InverseKinematics.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\LightShader.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\Performance.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\ReplaceAnimtion.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\ReplaceSkin.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\ReplaceSlotDisplay.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\3rdParty\MiniJSON.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\animation\Animation.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\animation\AnimationState.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\animation\BaseTimelineState.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\animation\IAnimatable.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\animation\TimelineState.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\animation\WorldClock.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\armature\Armature.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\armature\Bone.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\armature\Constraint.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\armature\DeformVertices.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\armature\IArmatureProxy.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\armature\Slot.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\armature\TransformObject.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\core\BaseObject.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\core\DragonBones.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\event\EventObject.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\event\IEventDispatcher.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\factory\BaseFactory.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\geom\ColorTransform.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\geom\Matrix.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\geom\Point.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\geom\Rectangle.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\geom\Transform.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\AnimationConfig.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\AnimationData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\ArmatureData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\BoundingBoxData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\CanvasData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\ConstraintData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\DisplayData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\DragonBonesData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\SkinData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\TextureAtlasData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\model\UserData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\parser\BinaryDataParser.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\parser\BinaryDataReader.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\parser\BinaryDataWriter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\parser\DataParser.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\parser\ObjectDataParser.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\MeshBuffer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\UnityArmatureComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\UnityCombineMeshs.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\UnityDragonBonesData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\UnityEventDispatcher.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\UnityFactory.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\UnitySlot.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\UnityTextureAtlasData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Scripts\unity\UnityUGUIDisplay.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Lighting\MeshLightmapSetting.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Lighting\PrefabLightmapData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Lighting\SerializedLightmapSetting.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\IJsonWrapper.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\JsonData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\JsonException.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\JsonMapper.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\JsonMockWrapper.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\JsonReader.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\JsonWriter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\Lexer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\LitJson\ParserToken.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\AttributeProcessorForListItemsExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\AttributeProcessorPriorityExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\Bar.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\BasicAttributeProcessorExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\CustomAttributeProcessorLocatorExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\CustomizeDictionaryKeyValueExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\Foo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\PutAttributesOnAnyType.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\SelfAndChildrenExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Attribute Processors\Scripts\TabGroupByDeclaringType.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\CustomDrawerExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\CustomGroupExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\GenericDrawerExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\GenericMenuExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\HealthBarExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\InstancedDrawerExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\MinesweeperExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\PriorityExamples.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\ReflectionExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\StringMemberHelperExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Custom Drawers\Scripts\ValidationExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Character\Character.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Character\CharacterAlignment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Character\CharacterEquipment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Character\CharacterOverview.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Character\CharacterStats.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Items\Armor.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Items\ConsumableItem.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Items\EquipableItem.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Items\Item.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Items\ItemTypes.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Items\WeaponItem.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Misc\ItemSlot.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Misc\StatList.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Misc\StatType.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Scripts\Misc\StatValue.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Animation.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\AnimationState.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\AnimationStateData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Atlas.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\AtlasAttachmentLoader.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\Attachment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\AttachmentLoader.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\AttachmentType.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\BoundingBoxAttachment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\ClippingAttachment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\MeshAttachment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\PathAttachment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\PointAttachment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\RegionAttachment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Attachments\VertexAttachment.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\BlendMode.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Bone.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\BoneData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Event.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\EventData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\ExposedList.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\IConstraint.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\IkConstraint.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\IkConstraintData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\IUpdatable.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Json.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\MathUtils.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\PathConstraint.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\PathConstraintData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Skeleton.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\SkeletonBinary.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\SkeletonBounds.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\SkeletonClipping.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\SkeletonData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\SkeletonJson.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Skin.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Slot.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\SlotData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\TransformConstraint.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\TransformConstraintData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-csharp\Triangulator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\AttackSpineboy.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\DataAssetsFromExportsExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\DraggableTransform.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\FootSoldierExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\BasicPlatformerController.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\ConstrainedCamera.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\Raptor.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\SpineBeginnerTwo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\SpineBlinkPlayer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\SpineboyBeginnerInput.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\SpineboyBeginnerModel.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\SpineboyBeginnerView.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\SpineboyTargetController.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Getting Started Scripts\TransitionDictionaryExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Goblins.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\HandleEventWithAudioExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\HurtFlashEffect.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\MaterialPropertyBlockExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Mix and Match Character Customize\EquipAssetExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Mix and Match Character Customize\EquipButtonExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Mix and Match Character Customize\EquipsVisualsComponentExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Mix and Match Character Customize\EquipSystemExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\MixAndMatch.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\MixAndMatchGraphic.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\RaggedySpineboy.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Rotator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\BoneLocalOverride.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\CombinedSkin.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\Legacy\AtlasRegionAttacher.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\Legacy\CustomSkin.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\Legacy\SpriteAttacher.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\Sample VertexEffects\JitterEffectExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\Sample VertexEffects\TwoByTwoTransformEffectExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\SkeletonAnimationMulti\SkeletonAnimationMulti.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\SkeletonColorInitialize.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\SlotTintBlackFollower.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Sample Components\SpineEventUnityHandler.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\SpawnFromSkeletonDataExample.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\Spineboy.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\SpineboyBodyTilt.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\SpineboyFacialExpression.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\SpineboyFootplanter.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\SpineboyFreeze.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\SpineboyPole.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Scripts\SpineGauge.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Asset Types\AnimationReferenceAsset.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Asset Types\AtlasAsset.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Asset Types\EventDataReferenceAsset.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Asset Types\RegionlessAttachmentLoader.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Asset Types\SkeletonDataAsset.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Components\BoneFollower.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Components\PointFollower.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Components\SkeletonAnimation.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Components\SkeletonAnimationIgnoreTimeScale.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Components\SkeletonAnimator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Components\SkeletonRenderer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\ISkeletonAnimation.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\DoubleBuffered.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\SpineMesh.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\Unused\ArraysMeshGenerator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\Unused\ArraysSimpleMeshGenerator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\Unused\ArraysSubmeshedMeshGenerator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\Unused\ArraysSubmeshSetMeshGenerator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\Unused\DoubleBufferedMesh.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\Unused\ISimpleMeshGenerator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Mesh Generation\Unused\ISubmeshedMeshGenerator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\AttachmentTools\AttachmentTools.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\BoundingBoxFollower\BoundingBoxFollower.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\CustomMaterials\SkeletonRendererCustomMaterials.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Ghost\SkeletonGhost.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Ghost\SkeletonGhostRenderer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Ragdoll\SkeletonRagdoll.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Ragdoll\SkeletonRagdoll2D.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonGraphic\BoneFollowerGraphic.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonGraphic\SkeletonGraphic.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonRenderSeparator\SkeletonPartsRenderer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonRenderSeparator\SkeletonRenderSeparator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonUtility Modules\SkeletonUtilityEyeConstraint.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonUtility Modules\SkeletonUtilityGroundConstraint.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonUtility Modules\SkeletonUtilityKinematicShadow.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SlotBlendModes\SlotBlendModes.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\TK2D\SpriteCollectionAttachmentLoader.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\YieldInstructions\WaitForSpineAnimationComplete.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\YieldInstructions\WaitForSpineEvent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\YieldInstructions\WaitForSpineTrackEntryEnd.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\SkeletonExtensions.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\SkeletonUtility\SkeletonUtility.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\SkeletonUtility\SkeletonUtilityBone.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\SkeletonUtility\SkeletonUtilityConstraint.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\SpineAttributes.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ScenarioBased\SceneInfosMapper.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ScenarioBased\ValueItemType.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\SceneSigns\SceneSignSphereCross.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Servers\CamerasServer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Servers\Interfaces\IDataServer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ShipDockApp.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\ShipDockAppExtension.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\AnimatorParamer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\CommonUpdaters.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\DataSerialize.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\TimingTasker.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\TreeData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\ValueSubgroup.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\Vector3Lerper.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\ZipHelper.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\Tools\ZipInfo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\UI\ILoopScrollItemData.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\UI\LoopScrollItem.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\UI\LoopScrollView.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\UI\UIChangingTasker.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\UI\UILayer.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Applications\UI\UIModular.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Components\AssetInfos\CustomAsset.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Components\AssetInfos\CustomAssetBundle.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Components\AssetInfos\CustomAssetComponentInfo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Components\AssetInfos\CustomAssetCoordinatorInfo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Components\AssetInfos\CustomAssetInfo.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Components\CustomAssetComponent.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\Components\CustomAssetCoordinator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\AlertParam.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\AndroidCreator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\DetectFaceSDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\IAlipaySDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\IApplePaySDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\IDetectFaceSDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\IHuaweiSDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\INativeSDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\IOralEvaluation.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\IPlatformSDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\ISDKCreator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\ITalkingDataSDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\ITencentCloud.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\Interface\IWechatSDK.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\IOSCreator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\MacCreator.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKAndroid.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKAndroidBase.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKCreatorFactory.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKDeviceAudio.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKHuawei.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKIos.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKMac.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKManager.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\SDK\SDKMessages.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\ShipDockNetwork\HTTPCertificate.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\ShipDockNetwork\IEncryptionHelper.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\ShipDockNetwork\RSACryptoHelper.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\ShipDockRelates\Relates\ServerRelater.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\UI\Components\UIPointerArea.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\UI\Components\UIRoot.cs" />
+    <Compile Include="Assets\Scripts\ShipDock\UI\UI.cs" />
+    <Compile Include="Assets\Scripts\ShipDockSamples\AssetsLoader\ShipDOckAssets.cs" />
+    <Compile Include="Assets\Scripts\ShipDockSamples\ColorableLog\ColorableLogSample.cs" />
+    <Compile Include="Assets\Scripts\ShipDockSamples\CreateGameStartUp\CreateGameStartUpSample.cs" />
+    <Compile Include="Assets\Scripts\ShipDockSamples\LoadScene\LoadSceneSample.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\AstarPathfindingProject.asmdef" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\Editor\AstarPathfindingProjectEditor.asmdef" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\Editor\EditorAssets\Materials\NavmeshOutline.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\ExampleScenes\Materials\DiffuseAlwaysVisible.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\ExampleScenes\Materials\Projector Light.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\ExampleScenes\_Example Scenes.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\PackageTools\Editor\PackageToolsEditor.asmdef" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\Plugins\DotNetZip\DotNetZipLicense.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\Plugins\dependencies.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\Readme.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\Readme_upgrading.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\AstarPathfindingProject\link.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Cinemachine\ReleaseNotes.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\DOTween.XML" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTweenPro\DOTweenPro.XML" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTweenPro\Editor\DOTweenProEditor.XML" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DOTweenPro\readme.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DemiLib\Core\DemiLib.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Demos\Scripts\LightTestShader.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Resources\Shaders\DB_BlendMode_Grab.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\DragonBones\Resources\Shaders\DB_BlendMode_UIGrab.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Fingers\Script\Fingers.asmdef" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Fingers\Script\Other\XamarinAndroidTouchAdapter.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\ILRuntime\ILRuntime.asmdef" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Assemblies\Sirenix.OdinInspector.Attributes.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Assemblies\Sirenix.OdinInspector.Editor.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Assemblies\Sirenix.Serialization.Config.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Assemblies\Sirenix.Utilities.Editor.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Assemblies\Sirenix.Utilities.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Assemblies\link.xml" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Demos\Sample - RPG Editor\Icons\icons_by_ravenmore.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Odin Inspector\Scripts\Editor\Sirenix.OdinInspector.CompatibilityLayer.Editor.asmdef" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Odin Inspector\Scripts\Sirenix.OdinInspector.CompatibilityLayer.asmdef" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Sirenix\Readme.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Dragon\dragon.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Dragon\license.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Eyes\eyes.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\FootSoldier\Equipment\Equipment.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\FootSoldier\FS_White.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\FootSoldier\license.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Gauge\Gauge.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Goblins\goblins.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Hero\hero-pro.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Hero\license.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Raggedy Spineboy\Raggedy Spineboy.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Raptor\raptor.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Spineunitygirl\Doi.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\Strechyman\stretchyman-diffuse-pma.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\spineboy-pro\spineboy-pro.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\spineboy-unity\spineboy-unity.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\Spine Examples\Spine\spineboy-unity\spineboy.atlas.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Editor\Resources\SpineAssetDatabaseMarker.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\CustomMaterials\SkeletonRendererCustomMaterials.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Ghost\Shaders\Spine-Special-Skeleton-Ghost.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Spine-Skeleton-Fill.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Spine-Skeleton-Tint.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CGIncludes\ShaderMaths.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CGIncludes\ShaderShared.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CGIncludes\SpriteLighting.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CGIncludes\SpritePixelLighting.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CGIncludes\SpriteShadows.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CGIncludes\SpriteSpecular.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CGIncludes\SpriteUnlit.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CGIncludes\SpriteVertexLighting.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CameraDepthNormalsTexture.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CameraDepthTexture.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\CameraNormalsTexture.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\ShaderShared.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpriteDepthNormalsTexture.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpriteLighting.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpritePixelLighting.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpriteShadows.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpriteUnlit.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpriteVertexLighting.cginc" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpritesPixelLit.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpritesUnlit.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Sprite\SpritesVertexLit.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Straight Alpha\Spine-Straight-Skeleton-Fill.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\Shaders\Straight Alpha\Spine-Straight-Skeleton-Tint.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonGraphic\Shaders\Spine-SkeletonGraphic-TintBlack.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonGraphic\Shaders\Spine-SkeletonGraphic.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SkeletonRenderSeparator\SkeletonRenderSeparator.txt" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SlotBlendModes\Spine-Skeleton-PMA-Multiply.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Modules\SlotBlendModes\Spine-Skeleton-PMA-Screen.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Shaders\Spine-Skeleton-TintBlack.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Shaders\Spine-Skeleton.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Shaders\Spine-SkeletonLit.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Shaders\Utility\Hidden-Spine-Bones.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\Shaders\Utility\HiddenPass.shader" />
+    <None Include="Assets\Scripts\ShipDock\Applications\Others\Spine\spine-unity\Assets\spine-unity\version.txt" />
+    <None Include="Packages\com.unity.analytics\DataPrivacy\Unity.Analytics.DataPrivacy.asmdef" />
+    <None Include="Packages\com.unity.analytics\Tests\Editor\Unity.Analytics.StandardEvents\Unity.Analytics.StandardEvents.EditorTests.asmdef" />
+    <None Include="Packages\com.unity.analytics\Tests\Runtime\DataPrivacy\Unity.Analytics.DataPrivacy.Tests.asmdef" />
+    <None Include="Packages\com.unity.collab-proxy\Editor\Resources\Styles\CollabHistoryCommon.uss" />
+    <None Include="Packages\com.unity.collab-proxy\Editor\Resources\Styles\CollabHistoryDark.uss" />
+    <None Include="Packages\com.unity.collab-proxy\Editor\Resources\Styles\CollabHistoryLight.uss" />
+    <None Include="Packages\com.unity.collab-proxy\Editor\Unity.CollabProxy.Editor.asmdef" />
+    <None Include="Packages\com.unity.collab-proxy\Tests\Editor\Unity.CollabProxy.EditorTests.asmdef" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Light.uss" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\Alert.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageAddFromUrlField.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageDetails.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageGroup.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageItem.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageList.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageManagerToolbar.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageManagerWindow.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageSearchToolbar.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageStatusBar.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Unity.PackageManagerUI.Editor.asmdef" />
+    <None Include="Packages\com.unity.package-manager-ui\Tests\Editor\Unity.PackageManagerUI.EditorTests.asmdef" />
+    <None Include="Packages\com.unity.textmeshpro\Scripts\Editor\Unity.TextMeshPro.Editor.asmdef" />
+    <None Include="Packages\com.unity.textmeshpro\Scripts\Runtime\Unity.TextMeshPro.asmdef" />
+    <None Include="Packages\com.unity.textmeshpro\Tests\Editor\Unity.TextMeshPro.Editor.Tests.asmdef" />
+    <None Include="Packages\com.unity.textmeshpro\Tests\Runtime\Unity.TextMeshPro.Tests.asmdef" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
+</Project>
