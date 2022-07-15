@@ -584,7 +584,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: ODIN_INSPECTOR;G_LOG;G_LOG_COLOR
+    1: ODIN_INSPECTOR;G_LOG;COLOR_LOG
     7: _RELEASE;G_LOG;COLOR_LOG;ODIN_INSPECTOR;_ILRUNTIME
   additionalCompilerArguments: {}
   platformArchitecture: {}
