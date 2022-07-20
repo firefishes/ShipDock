@@ -77,16 +77,38 @@ namespace ShipDock.Tools
         /// <param name="fieldName"></param>
         /// <param name="current"></param>
         /// <param name="max"></param>
-        public void SetVolumeCurrent<T>(int fieldName, int current, ref T fields) where T : FieldableData
+        public void SetVolumeCurrent<T>(int fieldName, int current, T fields = default) where T : FieldableData
         {
             if (mValueVolumes.IsContainsKey(fieldName))
             {
                 ValueVolume volume = mValueVolumes[fieldName];
                 volume.Current = current;
                 mValueVolumes[fieldName] = volume;
-                fields.SetIntData(fieldName, volume.Current);
+                if (fields != default)
+                {
+                    fields.SetIntData(fieldName, volume.Current);
+                }
+                else { }
             }
             else { }
+        }
+
+        public int GetVolumeCurrent<T>(int fieldName, T fields = default, int defaultValue = 0) where T : FieldableData
+        {
+            int result = defaultValue;
+            if (mValueVolumes.IsContainsKey(fieldName))
+            {
+                ValueVolume volume = mValueVolumes[fieldName];
+                result = volume.Current;
+                mValueVolumes[fieldName] = volume;
+                if (fields != default)
+                {
+                    result = fields.GetIntData(fieldName);
+                }
+                else { }
+            }
+            else { }
+            return result;
         }
     }
 }

@@ -91,7 +91,7 @@ namespace Peace
             }
 
             TroopFields troopFields = new TroopFields();
-            troopFields.InitFieldsFromConfig();
+            troopFields.InitFields();
             troopFields.SetTroops(1000, 1000);
             Debug.Log("ID ".Append(troopFields.GetID().ToString(), ":", troopFields.TroopLevelName(), " ±øÁ¦ ", troopFields.GetTroops().ToString()));
 

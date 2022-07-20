@@ -28,6 +28,7 @@ namespace Peace
                     Debug.Log(s);
 
                     msgNotice.ParamValue = msgNotice.ParamValue.Append("£¡");
+
                     AddMessageToQueue(Consts.MSG_GAME_READY, msgNotice);
 
                     break;

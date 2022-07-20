@@ -1,6 +1,7 @@
 using ShipDock.Config;
 using ShipDock.Pooling;
 using ShipDock.Tools;
+using StaticConfig;
 using System.Collections.Generic;
 
 namespace Peace
@@ -9,13 +10,11 @@ namespace Peace
     /// <summary>
     /// 部队属性字段
     /// </summary>
-    public class TroopFields : BaseFields, ITroopFields, IBattleElementFields, ITroopOrganization
+    public class TroopFields : BaseFields, ITroopFields, IBattleElementFields, ITroopOrganization, IEquipmentProperties
     {
         private static List<int> newIntFields;
 
         private string mOrganizationLevelName;
-        /// <summary>归属引用</summary>
-        private TroopFields mOwner;
         /// <summary>容量组控件</summary>
         private VolumeGroupControl mVolumeGroupControl;
 
@@ -28,27 +27,37 @@ namespace Peace
                 return Organization.GetIntData(FieldsConsts.F_ORGANIZATION_VALUE);
             }
         }
-        
+
+        /// <summary>人物属性</summary>
+        public EquipmentFields EquipmentFields { get; private set; }
+
         /// <summary>部队编制</summary>
         public OrganizationFields Organization { get; private set; }
 
         public override void ToPool()
         {
+            mVolumeGroupControl?.Reset();
+
+            Organization?.ToPool();
+            EquipmentFields?.ToPool();
+
+            Organization = default;
+            EquipmentFields = default;
+
             Pooling<TroopFields>.To(this);
         }
 
-        public override void InitFieldsFromConfig(IConfig config = default)
+        protected override void Init()
         {
-            base.InitFieldsFromConfig(config);
-
-            int orgID = 100;
             mOrganizationLevelName = string.Empty;
 
-            if (IsInited) { }
+            if (IsInited)
+            {
+                IDAdvanced();
+                AfterFilledData();
+            }
             else
             {
-                mOwner = this;
-
                 //使用默认值初始化所有整型字段数据
                 SetDefaultIntData(FieldsConsts.IntFieldsTroops);
 
@@ -56,35 +65,37 @@ namespace Peace
                 mVolumeGroupControl = new VolumeGroupControl();
 
                 //填充字段数据
-                FillValues(true); 
-
-                //初始化部队编制
-                if (config == default)
-                {
-                    SetTroops(0, 0);
-                }
-                else { }
-
-                Organization = new OrganizationFields();
+                FillValues(true);
             }
+        }
+
+        protected override void AfterFilledData()
+        {
+            base.AfterFilledData();
+
+            //初始化部队编制
+            SetTroops(0, 0);
+
+            int orgID = 100;
+            Organization = Pooling<OrganizationFields>.From();
+            Organization.InitFieldsFromConfig(orgID);
+
+            EquipmentFields = Pooling<EquipmentFields>.From();
 
             ValueVolumeGroup group = mVolumeGroupControl.VolumeGroup;
-
             //新建兵力容量
             group.AddValueVolume(FieldsConsts.F_TROOPS);
-
-            Organization.InitFieldsFromConfig(orgID);
         }
 
         #region 部队兵力
         public void SetTroops(int current, int max = -1)
         {
-            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_TROOPS, current, ref mOwner, max);
+            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_TROOPS, current, this, max);
         }
 
         public int GetTroops()
         {
-            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_TROOPS, ref mOwner);
+            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_TROOPS, this);
         }
         #endregion
 
@@ -111,6 +122,13 @@ namespace Peace
             else { }
 
             return mOrganizationLevelName;
+        }
+        #endregion
+
+        #region 部队属性
+        public void SetPropertiesByConfig(PeaceEquipment config)
+        {
+            EquipmentFields.InitFieldsFromConfig(config);
         }
         #endregion
     }

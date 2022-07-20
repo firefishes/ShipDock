@@ -70,6 +70,8 @@ namespace Peace
             return fields;
         }
 
+        protected IConfig Config { get; private set; }
+
         public bool IsInited { get; private set; }
         public override List<int> IntFieldNames { get; protected set; } = FieldsConsts.IntFieldsBase;
         public override List<int> StringFieldNames { get; protected set; } = FieldsConsts.StringFieldsBase;
@@ -85,6 +87,7 @@ namespace Peace
 
         protected virtual void Purge()
         {
+            Config = default;
         }
 
         public virtual void Revert()
@@ -103,15 +106,27 @@ namespace Peace
             int configID = config != default ? config.GetID() : -1;
             string nameValue = GetNameFieldSource(ref config);
 
+            Config = config;
+
+            InitFields(configID, nameValue);
+        }
+
+        /// <summary>
+        /// 通过 ID 参数初始化
+        /// </summary>
+        /// <param name="configID"></param>
+        /// <param name="nameValue"></param>
+        public virtual void InitFields(int configID = -1, string nameValue = default)
+        {
             if (IsInited)
             {
-                IDAdvanced();
                 //客户端 ID
-                SetIntData(FieldsConsts.F_ID, InstanceID);
+                SetIntData(FieldsConsts.F_ID, -1);
                 //服务端 ID
                 SetIntData(FieldsConsts.F_S_ID, -1);
                 //配置 ID
                 SetIntData(FieldsConsts.F_CONF_ID, configID);
+
                 //设置名称字段数据源
                 SetStringData(FieldsConsts.F_NAME, nameValue);
             }
@@ -133,7 +148,11 @@ namespace Peace
                     nameValue,
                 };
             }
+
+            Init();
         }
+
+        protected abstract void Init();
 
         protected override void AfterFilledData()
         {
@@ -179,6 +198,12 @@ namespace Peace
             {
                 if (fields != default)
                 {
+                    if (mIntFieldSource == default)
+                    {
+                        mIntFieldSource = new List<int>();
+                    }
+                    else { }
+
                     int max = fields.Count;
                     List<int> list = new List<int>(max);
                     for (int i = 0; i < max; i++)

@@ -10,4 +10,14 @@ namespace StaticConfig
             return result;
         }
     }
+
+    public partial class PeaceEquipment
+    {
+        public int[] GetEquipmentPropertyValues()
+        {
+            int[] result = DataParser.ParseParamToInts(ref propertyValues);
+            return result;
+        }
+    }
+
 }

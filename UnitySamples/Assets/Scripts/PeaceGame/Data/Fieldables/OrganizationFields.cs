@@ -21,6 +21,8 @@ namespace Peace
 
         public override void ToPool()
         {
+            OrganizationsConfig = default;
+
             Pooling<OrganizationFields>.To(this);
         }
 
@@ -32,32 +34,37 @@ namespace Peace
             InitFieldsFromConfig(config);
         }
 
-        public override void InitFieldsFromConfig(IConfig config)
+        protected override void Init()
         {
-            base.InitFieldsFromConfig(config);
+            if (IsInited)
+            {
+                IDAdvanced();
+                AfterFilledData();
+            }
+            else
+            {
+                SetDefaultIntData(FieldsConsts.IntFieldsOrganization);
 
-            OrganizationsConfig = config as PeaceOrganizations;
+                mStringFieldSource.Add(string.Empty);
+
+                FillValues(true);
+            }
+        }
+
+        protected override void AfterFilledData()
+        {
+            base.AfterFilledData();
+
+            OrganizationsConfig = Config as PeaceOrganizations;
 
             int organizationsValue = OrganizationsConfig.organaizationValue;
             int flag = OrganizationsConfig.isCommon ? 1 : 0;
             string levelName = OrganizationsConfig.levelName;
 
-            if (IsInited)
-            {
-                SetIntData(FieldsConsts.F_ORGANIZATION_VALUE, organizationsValue);
-                SetIntData(FieldsConsts.F_IS_BASE_ORGANIZATION, flag);
+            SetIntData(FieldsConsts.F_ORGANIZATION_VALUE, organizationsValue);
+            SetIntData(FieldsConsts.F_IS_BASE_ORGANIZATION, flag);
 
-                SetStringData(FieldsConsts.F_ORG_LEVEL_NAME, levelName);
-            }
-            else
-            {
-                mIntFieldSource.Add(organizationsValue);
-                mIntFieldSource.Add(flag);
-
-                mStringFieldSource.Add(levelName);
-
-                FillValues(true);
-            }
+            SetStringData(FieldsConsts.F_ORG_LEVEL_NAME, levelName);
         }
 
         protected override string GetNameFieldSource(ref IConfig config)

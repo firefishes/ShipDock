@@ -19,29 +19,39 @@ namespace Peace
             Pooling<RoleFields>.To(this);
         }
 
-        public override void InitFieldsFromConfig(IConfig config)
+        protected override void Init()
         {
-            base.InitFieldsFromConfig(config);
-
-            PeaceOfficer peaceOfficer = config as PeaceOfficer;
-            int[] properties = peaceOfficer.GetRolePropertyValues();
-
             if (IsInited)
             {
                 mIntFieldSource.Clear();
+
+                IDAdvanced();
+                AfterFilledData();
             }
             else
             {
                 SetDefaultIntData(FieldsConsts.IntFieldsRole);
-            }
 
-            int max = properties.Length;
-            for (int i = 0; i < max; i++)
+                FillValues(true);
+            }
+        }
+
+        protected override void AfterFilledData()
+        {
+            base.AfterFilledData();
+
+            PeaceOfficer peaceOfficer = Config as PeaceOfficer;
+            int[] properties = peaceOfficer != default ? peaceOfficer.GetRolePropertyValues() : default;
+
+            int max = properties != default ? properties.Length : 0;
+            if (max > 0)
             {
-                mIntFieldSource.Add(properties[i]);
+                for (int i = 0; i < max; i++)
+                {
+                    SetIntData(FieldsConsts.IntFieldsRole[i], properties[i]);
+                }
             }
-
-            FillValues(!IsInited);
+            else { }
         }
     }
 }

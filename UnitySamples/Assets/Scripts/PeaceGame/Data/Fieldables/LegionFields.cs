@@ -14,14 +14,22 @@ namespace Peace
     {
         private static List<int> newIntFields;
 
-        /// <summary>归属引用</summary>
-        private LegionFields mOwner;
         /// <summary>军团资源</summary>
         private ResourcesFields mResources;
         /// <summary>容量组控件</summary>
         private VolumeGroupControl mVolumeGroupControl;
 
         public override List<int> IntFieldNames { get; protected set; } = GetNewIntFields(ref newIntFields, FieldsConsts.IntFieldsLegion);
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            mVolumeGroupControl?.Dispose();
+
+            mResources?.Dispose();
+            mResources = default;
+        }
 
         protected override void Purge()
         {
@@ -32,24 +40,33 @@ namespace Peace
 
         public override void ToPool()
         {
+            mResources?.ToPool();
+
             Pooling<LegionFields>.To(this);
         }
 
-        public override void InitFieldsFromConfig(IConfig config)
+        protected override void Init()
         {
-            base.InitFieldsFromConfig(config);
-
-            if (IsInited) { }
+            if (IsInited)
+            {
+                IDAdvanced();
+                AfterFilledData();
+            }
             else
             {
-                mOwner = this;
-
-                mResources = new ResourcesFields();
-
                 mVolumeGroupControl = new VolumeGroupControl();
+
+                SetDefaultIntData(FieldsConsts.IntFieldsLegion);
 
                 FillValues(true);
             }
+        }
+
+        protected override void AfterFilledData()
+        {
+            base.AfterFilledData();
+
+            mResources = Pooling<ResourcesFields>.From();
 
             ValueVolumeGroup group = mVolumeGroupControl.VolumeGroup;
             group.AddValueVolume(FieldsConsts.F_TROOPS);
@@ -59,68 +76,57 @@ namespace Peace
             group.AddValueVolume(FieldsConsts.F_SUPPLIES);
         }
 
-        public override void Dispose()
-        {
-            base.Dispose();
-
-            mVolumeGroupControl?.Dispose();
-
-            mResources?.Dispose();
-            mResources = default;
-            mOwner = default;
-        }
-
         #region 军团常规资源
         public void SetCreditPoint(int current, int max = -1)
         {
-            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_CREDIT_POINT, current, ref mResources, max);
+            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_CREDIT_POINT, current, mResources, max);
         }
 
         public int GetCreditPoint()
         {
-            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_CREDIT_POINT, ref mResources);
+            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_CREDIT_POINT, mResources);
         }
 
         public void SetMetal(int current, int max = -1)
         {
-            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_METAL, current, ref mResources, max);
+            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_METAL, current, mResources, max);
         }
 
         public int GetMetal()
         {
-            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_METAL, ref mResources);
+            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_METAL, mResources);
         }
 
         public void SetEnergy(int current, int max = -1)
         {
-            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_ENERGY, current, ref mResources, max);
+            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_ENERGY, current, mResources, max);
         }
 
         public int GetEnergy()
         {
-            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_ENERGY, ref mResources);
+            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_ENERGY, mResources);
         }
 
         public void SetSupplies(int current, int max = -1)
         {
-            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_SUPPLIES, current, ref mResources, max);
+            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_SUPPLIES, current, mResources, max);
         }
 
         public int GetSupplies()
         {
-            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_SUPPLIES, ref mResources);
+            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_SUPPLIES, mResources);
         }
         #endregion
 
         #region 军团兵力
         public void SetTroops(int current, int max = -1)
         {
-            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_TROOPS, current, ref mOwner, max);
+            mVolumeGroupControl.SetVolumeData(FieldsConsts.F_TROOPS, current, this, max);
         }
 
         public int GetTroops()
         {
-            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_TROOPS, ref mOwner);
+            return mVolumeGroupControl.GetVolumeData(FieldsConsts.F_TROOPS, this);
         }
         #endregion
 
@@ -176,7 +182,7 @@ namespace Peace
         /// <param name="current"></param>
         /// <param name="baseFields"></param>
         /// <param name="max"></param>
-        public void SetVolumeData<T>(int fieldName, int current, ref T baseFields, int max = -1) where T : BaseFields
+        public void SetVolumeData<T>(int fieldName, int current, T baseFields = default, int max = -1) where T : BaseFields
         {
             if (max >= 0)
             {
@@ -184,7 +190,7 @@ namespace Peace
             }
             else { }
 
-            VolumeGroup.SetVolumeCurrent(fieldName, current, ref baseFields);
+            VolumeGroup.SetVolumeCurrent(fieldName, current, baseFields);
         }
 
         /// <summary>
@@ -194,9 +200,9 @@ namespace Peace
         /// <param name="fieldName"></param>
         /// <param name="baseFields"></param>
         /// <returns></returns>
-        public int GetVolumeData<T>(int fieldName, ref T baseFields) where T : BaseFields
+        public int GetVolumeData<T>(int fieldName, T baseFields = default, int defaultValue = 0) where T : BaseFields
         {
-            return baseFields.GetIntData(fieldName);
+            return VolumeGroup.GetVolumeCurrent(fieldName, baseFields, defaultValue);
         }
         #endregion
     }

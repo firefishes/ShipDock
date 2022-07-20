@@ -33,7 +33,13 @@ namespace Peace
             }
         }
 
-        public PeaceOrganizations OrganizationsConfig => throw new System.NotImplementedException();
+        public PeaceOrganizations OrganizationsConfig
+        {
+            get
+            {
+                return Organization.OrganizationsConfig;
+            }
+        }
 
         /// <summary>
         /// 人物属性
@@ -45,27 +51,36 @@ namespace Peace
             Pooling<OfficerFields>.To(this);
         }
 
-        public override void InitFieldsFromConfig(IConfig config)
+        protected override void Init()
         {
-            base.InitFieldsFromConfig(config);
-
-            if (IsInited) { }
+            if (IsInited)
+            {
+                IDAdvanced();
+                AfterFilledData();
+            }
             else
             {
-                //SetOrganization(100);
-
-                PeaceOfficer peaceOfficer = config as PeaceOfficer;
-
-                RoleFields = new RoleFields();
-                RoleFields.InitFieldsFromConfig(peaceOfficer);
-
-                mIntFieldSource.Add(peaceOfficer.gender);
-                mIntFieldSource.Add(0);
-                mIntFieldSource.Add(0);
+                SetDefaultIntData(FieldsConsts.IntFieldsOfficer);
 
                 //填充字段数据
                 FillValues(true);
             }
+        }
+
+        protected override void AfterFilledData()
+        {
+            base.AfterFilledData();
+
+            //SetOrganization(100);
+
+            PeaceOfficer peaceOfficer = Config as PeaceOfficer;
+
+            RoleFields = new RoleFields();
+            RoleFields.InitFieldsFromConfig(peaceOfficer);
+
+            mIntFieldSource.Add(peaceOfficer.gender);
+            mIntFieldSource.Add(0);
+            mIntFieldSource.Add(0);
         }
 
         #region 军衔、军职、部队级别名、编制权限值

@@ -13,6 +13,15 @@ namespace Peace
     }
 
     /// <summary>
+    /// 装备属性接口
+    /// </summary>
+    public interface IEquipmentProperties
+    {
+        void SetPropertiesByConfig(PeaceEquipment config);
+        EquipmentFields EquipmentFields { get; }
+    }
+
+    /// <summary>
     /// 战场元素接口
     /// </summary>
     public interface IBattleElementFields

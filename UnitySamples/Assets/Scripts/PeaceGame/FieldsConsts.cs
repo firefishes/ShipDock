@@ -137,6 +137,8 @@ namespace Peace
         public const int F_PRESTIGE = 57;
         /// <summary>耐久/summary>
         public const int F_STAMINA = 58;
+        /// <summary>精密/summary>
+        public const int F_PRECISE = 59;
 
         #region 基础信息字段
         public readonly static List<int> IntFieldsBase = new List<int>
@@ -221,6 +223,31 @@ namespace Peace
             F_ROLE_INFORMATION,
             F_ROLE_SCIENTIFIC,
             F_ROLE_SOCIAL,
+        };
+        #endregion
+
+        #region 装备属性信息字段
+        public readonly static List<int> IntFieldsEquipment = new List<int>
+        {
+            F_RUIN,
+            F_KILL,
+            F_AIR_DEF,
+            F_INTENSIFY,
+            F_ECM_WAR,
+            F_TRANSPORT,
+            F_SCIENCE_TECH,
+        };
+        #endregion
+
+        #region 据点属性信息字段
+        public readonly static List<int> IntFieldsFortifiedPoint = new List<int>
+        {
+            F_BUSINESS,
+            F_MINING,
+            F_INDUSTRY,
+            F_DEFENCE,
+            F_DEPTH,
+            F_LANDFORM,
         };
         #endregion
     }

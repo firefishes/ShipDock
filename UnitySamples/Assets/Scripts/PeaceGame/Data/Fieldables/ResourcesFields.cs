@@ -13,20 +13,29 @@ namespace Peace
 
         public override List<int> IntFieldNames { get; protected set; } = GetNewIntFields(ref newIntFields, FieldsConsts.IntFieldsResources);
 
+        public override void ToPool()
+        {
+            Pooling<ResourcesFields>.To(this);
+        }
+
         public override void InitFieldsFromConfig(IConfig config)
         {
             base.InitFieldsFromConfig(config);
 
-            if (IsInited) { }
+            if (IsInited)
+            {
+                IDAdvanced();
+                AfterFilledData();
+            }
             else
             {
+                SetDefaultIntData(FieldsConsts.IntFieldsResources);
                 FillValues(true);
             }
         }
 
-        public override void ToPool()
+        protected override void Init()
         {
-            Pooling<ResourcesFields>.To(this);
         }
     }
 }
