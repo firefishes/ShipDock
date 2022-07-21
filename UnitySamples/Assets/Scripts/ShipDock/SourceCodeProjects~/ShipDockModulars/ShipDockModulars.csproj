@@ -48,6 +48,10 @@
       <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTester.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ShipDockTicks">
+      <HintPath>..\..\ShipDockPlugins\Framework_2018_4~\ShipDockTicks.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -70,8 +74,17 @@
     <Compile Include="..\..\Modulars\IModular.cs">
       <Link>ShipDockModulars\IModular.cs</Link>
     </Compile>
+    <Compile Include="..\..\Modulars\MessageModular.cs">
+      <Link>ShipDockModulars\MessageModular.cs</Link>
+    </Compile>
     <Compile Include="..\..\Modulars\ModularHandlers.cs">
       <Link>ShipDockModulars\ModularHandlers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Modulars\Notices\MessageNotice.cs">
+      <Link>ShipDockModulars\MessageNotice.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Modulars\QueueableNoticesModular.cs">
+      <Link>ShipDockModulars\QueueableNoticesModular.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

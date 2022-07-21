@@ -26,6 +26,10 @@
         public const int NOTICE_APPLICATION_PAUSE = -1010;
         /// <summary>显示帧率</summary>
         public const int NOTICE_FPS_SHOW = -1011;
+        /// <summary>加入消息队列</summary>
+        public const int NOTICE_MSG_ADD = -1012;
+        /// <summary>处理消息队列</summary>
+        public const int NOTICE_MSG_QUEUE = -1013;
 
         /// <summary>配置功能相关的服务容器名</summary>
         public const string SERVER_CONFIG = "ShipDockConfigServer";

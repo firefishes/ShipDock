@@ -40,7 +40,7 @@ namespace Peace
 
             IModular[] modulars = new IModular[]
             {
-                new MessageModular(),
+                new MessageModular(Consts.M_MESSAGE),
                 new BattleModular(),
             };
             DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
@@ -95,13 +95,13 @@ namespace Peace
             troopFields.SetTroops(1000, 1000);
             Debug.Log("ID ".Append(troopFields.GetID().ToString(), ":", troopFields.TroopLevelName(), " ±øÁ¦ ", troopFields.GetTroops().ToString()));
 
-            //IParamNotice<string> notice = new ParamNotice<string>()
-            //{
-            //    ParamValue = "£¡£¡£¡",
-            //};
+            IParamNotice<string> notice = new ParamNotice<string>()
+            {
+                ParamValue = "£¡£¡£¡",
+            };
 
-            //DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
-            //modluars.NotifyModular(Consts.N_MSG_ADD, MessageNotice.Create(Consts.MSG_GAME_READY, notice));
+            DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
+            modluars.NotifyModular(ShipDockConsts.NOTICE_MSG_ADD, MessageNotice.Create(Consts.MSG_GAME_READY, notice));
 
         }
     }

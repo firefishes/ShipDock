@@ -1,28 +1,39 @@
 using ShipDock.Commons;
-using ShipDock.Modulars;
 using ShipDock.Notices;
 using ShipDock.Tools;
 
-namespace Peace
+namespace ShipDock.Modulars
 {
+    /// <summary>
+    /// 消息队列模块
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public class MessageModular : ApplicationModular
     {
-        public override int ModularName { get; protected set; } = Consts.M_MESSAGE;
-
         private bool mHasMessageQueue;
-        private DoubleBuffers<IPeaceNotice> mDoubleBuffers;
-        private IPeaceNotice mNoticeWillAdd;
-        private MethodUpdater mMessageUpdater;
+        private DoubleBuffers<IMessageNotice> mDoubleBuffers;
+        private IMessageNotice mNoticeWillAdd;
+        private IUpdate mMessageUpdater;
+
+        public MessageModular(int modularName) : base()
+        {
+            ModularName = modularName;
+        }
 
         public override void Purge()
         {
+            UpdaterNotice.RemoveSceneUpdater(mMessageUpdater);
+
+            mDoubleBuffers?.Dispose();
         }
 
         public override void InitModular()
         {
             base.InitModular();
 
-            mDoubleBuffers = new DoubleBuffers<IPeaceNotice>()
+            mDoubleBuffers = new DoubleBuffers<IMessageNotice>()
             {
                 OnDequeue = OnMessageDequeue,
             };
@@ -42,10 +53,10 @@ namespace Peace
             AddNoticeHandler(OnMessageAdd);
         }
 
-        [ModularNoticeListener(Consts.N_MSG_ADD)]
+        [ModularNoticeListener(ShipDockConsts.NOTICE_MSG_ADD)]
         private void OnMessageAdd(INoticeBase<int> param)
         {
-            mNoticeWillAdd = param as IPeaceNotice;
+            mNoticeWillAdd = param as IMessageNotice;
             if (mNoticeWillAdd != default)
             {
                 if (mNoticeWillAdd != default)
@@ -64,13 +75,14 @@ namespace Peace
             mDoubleBuffers.Update(deltaTime);
         }
 
-        private void OnMessageDequeue(int dTime, IPeaceNotice param)
+        private void OnMessageDequeue(int dTime, IMessageNotice param)
         {
             mHasMessageQueue = param != default;
 
             if (mHasMessageQueue)
             {
-                NotifyModular(Consts.N_MSG_QUEUE, param);
+                //派发处理消息的模块消息
+                NotifyModular(ShipDockConsts.NOTICE_MSG_QUEUE, param);
                 param.ToPool();
             }
             else { }

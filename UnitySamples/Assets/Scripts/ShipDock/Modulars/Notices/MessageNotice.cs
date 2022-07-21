@@ -1,12 +1,15 @@
 using ShipDock.Notices;
 using ShipDock.Pooling;
 
-namespace Peace
+namespace ShipDock.Modulars
 {
-    public sealed class MessageNotice : PeaceNotice
+    public interface IMessageNotice : INotice
     {
-        public INoticeBase<int> MsgNotice { get; private set; }
+        int Message { get; }
+    }
 
+    public sealed class MessageNotice : Notice, IMessageNotice
+    {
         public static MessageNotice Create(int message, INoticeBase<int> notice = default)
         {
             MessageNotice result = Pooling<MessageNotice>.From();
@@ -14,6 +17,10 @@ namespace Peace
             result.SetMsgNotice(notice);
             return result;
         }
+
+        public int Message { get; private set; }
+
+        public INoticeBase<int> MsgNotice { get; private set; }
 
         protected override void Purge()
         {
@@ -32,6 +39,11 @@ namespace Peace
             base.ToPool();
 
             Pooling<MessageNotice>.To(this);
+        }
+
+        public void SetMessage(int message)
+        {
+            Message = message;
         }
     }
 }
