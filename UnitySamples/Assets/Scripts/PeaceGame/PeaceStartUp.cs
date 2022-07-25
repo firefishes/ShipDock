@@ -42,6 +42,7 @@ namespace Peace
             {
                 new MessageModular(Consts.M_MESSAGE),
                 new BattleModular(),
+                new WorldModular(),
             };
             DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
             modluars.AddModular(modulars);
@@ -72,6 +73,9 @@ namespace Peace
         //配置加载完成
         private void OnConfigLoaded(ConfigsResult configResult)
         {
+            Consts.D_CONFIGS.SetConfigDataDefaultName();
+            Consts.CONF_GROUP_CONFIGS.SetConfigGroupDefaultName();
+
             //向配置数据代理中添加已加载的配置数据，并使用一个组名做对应
             ConfigData data = Consts.D_CONFIGS.GetData<ConfigData>();
             data.AddConfigs(Consts.CONF_GROUP_CONFIGS, configResult);
@@ -94,15 +98,6 @@ namespace Peace
             troopFields.InitFields();
             troopFields.SetTroops(1000, 1000);
             Debug.Log("ID ".Append(troopFields.GetID().ToString(), ":", troopFields.TroopLevelName(), " 兵力 ", troopFields.GetTroops().ToString()));
-
-            IParamNotice<string> notice = new ParamNotice<string>()
-            {
-                ParamValue = "！！！",
-            };
-
-            DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
-            modluars.NotifyModular(ShipDockConsts.NOTICE_MSG_ADD, MessageNotice.Create(Consts.MSG_GAME_READY, notice));
-
         }
     }
 }

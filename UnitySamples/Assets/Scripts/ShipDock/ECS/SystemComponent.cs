@@ -5,6 +5,9 @@ namespace ShipDock.ECS
 {
     public abstract class SystemComponent : ShipDockComponent, ISystemComponent
     {
+        public int[] RelateComponents { get; set; }
+        protected IShipDockComponentContext Context { get; private set; }
+
         private KeyValueList<int, IShipDockComponent> mRelatedComponents;
 
         public SystemComponent()
@@ -60,13 +63,16 @@ namespace ShipDock.ECS
                     {
                         mRelatedComponents[name] = item;
                     }
+                    else { }
                 }
+                else { }
             }
             bool needCheckReFill = (max > 0) && (mRelatedComponents.Size != max);
             if (needCheckReFill)
             {
                 manager.RelateComponentsReFiller += ReFillRelateComponents;
             }
+            else { }
         }
 
         /// <summary>
@@ -87,7 +93,9 @@ namespace ShipDock.ECS
                         remain--;
                         mRelatedComponents[name] = target;
                     }
+                    else { }
                 }
+                else { }
             }
 
             bool needCheckReFill = remain > 0;
@@ -95,6 +103,7 @@ namespace ShipDock.ECS
             {
                 manager.RelateComponentsReFiller -= ReFillRelateComponents;
             }
+            else { }
         }
 
         /// <summary>
@@ -122,9 +131,6 @@ namespace ShipDock.ECS
                 entitas.AddComponent(this);
             }
         }
-
-        public int[] RelateComponents { get; set; }
-        protected IShipDockComponentContext Context { get; private set; }
 
     }
 }

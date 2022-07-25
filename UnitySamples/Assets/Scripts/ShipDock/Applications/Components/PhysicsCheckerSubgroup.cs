@@ -29,6 +29,8 @@ namespace ShipDock.Applications
                 mRayAndHitInfo.radius = m_Radius;
                 mRayAndHitInfo.layerMask = m_ColliderLayer.value;
             }
+            else { }
+
         }
 #endif
 
@@ -51,19 +53,43 @@ namespace ShipDock.Applications
         private RayAndHitInfo mRayAndHitInfo;
         private ICommonOverlayMapper mCommonColliderMapper;
 
-        public void SetSubgroup(IShipDockEntitas entitas, ICommonOverlayMapper commonCollider)
+        public bool CheckerEnabled
         {
-            bool hasData = commonCollider.IsDataValid(ref entitas);
+            get
+            {
+                return m_CheckerEnabled;
+            }
+            set
+            {
+                m_CheckerEnabled = value;
+            }
+        }
+
+        public TimeGapper CheckGapper
+        {
+            get
+            {
+                return m_CheckGapper;
+            }
+        }
+
+        public Transform CheckerOwner { get; set; }
+        public int SubgroupID { get; private set; } = int.MaxValue;
+
+        public void SetSubgroup(IShipDockEntitas entitas, ICommonOverlayMapper overlayMapper)
+        {
+            bool hasData = overlayMapper.IsDataValid(ref entitas);
             if (hasData)
             {
-                BehaviourIDs ids = commonCollider.GetEntitasData(ref entitas);
+                BehaviourIDs ids = overlayMapper.GetEntitasData(ref entitas);
                 SubgroupID = ids.gameItemID;
 
-                mCommonColliderMapper = commonCollider;
+                mCommonColliderMapper = overlayMapper;
                 mCommonColliderMapper.PhysicsChecked(SubgroupID, true);
                 mBridge = new ComponentBridge(OnInit);
                 mBridge.Start();
             }
+            else { }
         }
 
         private void OnInit()
@@ -85,6 +111,7 @@ namespace ShipDock.Applications
                 m_CheckRange.isTrigger = true;
                 m_CheckRange.radius = m_Radius;
             }
+            else { }
 #endif
         }
 
@@ -112,6 +139,7 @@ namespace ShipDock.Applications
                 {
                     mCommonColliderMapper.OverlayChecked(SubgroupID, id, isTrigger, isCollided);
                 }
+                else { }
             }
             else
             {
@@ -128,6 +156,7 @@ namespace ShipDock.Applications
                 {
                     mCommonColliderMapper.OverlayChecked(SubgroupID, id, isTrigger, isCollided);
                 }
+                else { }
             }
             else
             {
@@ -141,6 +170,8 @@ namespace ShipDock.Applications
             {
                 return;
             }
+            else { }
+
             int id = other.GetInstanceID();
             AddColliding(id, true, false, out int statu);
         }
@@ -151,6 +182,8 @@ namespace ShipDock.Applications
             {
                 return;
             }
+            else { }
+
             int id = other.GetInstanceID();
             RemoveColliding(id, true, false, out int statu);
         }
@@ -161,6 +194,8 @@ namespace ShipDock.Applications
             {
                 return;
             }
+            else { }
+
             int id = collision.collider.GetInstanceID();
             AddColliding(id, false, true, out _);
         }
@@ -171,6 +206,8 @@ namespace ShipDock.Applications
             {
                 return;
             }
+            else { }
+
             int id = collision.collider.GetInstanceID();
             RemoveColliding(id, false, true, out _);
         }
@@ -191,6 +228,8 @@ namespace ShipDock.Applications
             {
                 return;
             }
+            else { }
+
             mCollidersOverlay = Physics.OverlapSphere(transform.position, mRayAndHitInfo.radius, mRayAndHitInfo.layerMask);
             int max = mCollidersOverlay != default ? mCollidersOverlay.Length : 0;
             if (max > 0)
@@ -205,8 +244,12 @@ namespace ShipDock.Applications
                     {
                         AddColliding(id, isTrigger, isCollider, out _);
                     }
+                    else { }
+
                 }
             }
+            else { }
+
             mCommonColliderMapper.PhysicsChecked(SubgroupID);
 #if UNITY_EDITOR
             UpdateInfoForEditor();
@@ -217,28 +260,5 @@ namespace ShipDock.Applications
         {
             m_CheckGapper.totalTime = time;
         }
-
-        public bool CheckerEnabled
-        {
-            get
-            {
-                return m_CheckerEnabled;
-            }
-            set
-            {
-                m_CheckerEnabled = value;
-            }
-        }
-
-        public TimeGapper CheckGapper
-        {
-            get
-            {
-                return m_CheckGapper;
-            }
-        }
-
-        public Transform CheckerOwner { get; set; }
-        public int SubgroupID { get; private set; } = int.MaxValue;
     }
 }

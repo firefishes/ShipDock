@@ -67,7 +67,9 @@ namespace ShipDock.Applications
                 {
                     DropWorldItem(ref target);
                 }
+                else { }
             }
+            else { }
 
             return base.DropEntitas(target, entitasID);
         }
@@ -98,6 +100,8 @@ namespace ShipDock.Applications
             {
                 return false;
             }
+            else { }
+
             int id = mWorldItem.worldItemID;
             return IsWorldItemValid(ref mWorldItem) && !mWorldItemMapper.ContainsKey(id);
         }
@@ -119,6 +123,8 @@ namespace ShipDock.Applications
                 SetClusteringPosition(ref target);
                 CheckClustering(ref target);
             }
+            else { }
+
             CheckAround(ref target);
             CheckWorldEvents();
         }
@@ -133,6 +139,7 @@ namespace ShipDock.Applications
                 mBehaviourIdsCompChecked = true;
                 mHasBehaviourIDs = BehaviourIDsComp != default;
             }
+            else { }
 
             if (mHasBehaviourIDs && IsWorldItemValid(ref mWorldItem))
             {
@@ -148,6 +155,7 @@ namespace ShipDock.Applications
                     mAroundMapper[aroundID] = mMovement;
                 }
             }
+            else { }
         }
 
         private void WalkEachAroundItem(ref IShipDockEntitas target, BehaviourIDs ids)
@@ -180,10 +188,14 @@ namespace ShipDock.Applications
                         {
                             break;
                         }
+                        else { }
                     }
+                    else { }
                 }
                 BehaviourIDsComp.PhysicsCheckReset(aroundID);
             }
+            else { }
+
             AroundsChecked(ref target, aroundID);
         }
 
@@ -214,7 +226,9 @@ namespace ShipDock.Applications
                     mWorldItemMapper.Put(mWorldItem.worldItemID, mWorldItem);
                     AfterWorldItemCached(ref target);
                 }
+                else { }
             }
+            else { }
         }
 
         protected WorldInteracter GetWorldItemFromCache(int worldItemID)
@@ -247,9 +261,12 @@ namespace ShipDock.Applications
                             mClusteringData.IsGroupCached = true;
                             mGroupsMapper[id] = mClusteringData;
                         }
+                        else { }
                     }
                 }
+                else { }
             }
+            else { }
         }
 
         /// <summary>
@@ -268,8 +285,11 @@ namespace ShipDock.Applications
                         mEventItem.Dispatch(mItemNotice);//派发世界物体消息
                         mItemNotice.ToPool();
                     }
+                    else { }
                 }
+                else { }
             }
+            else { }
         }
 
         private bool IsEventItemValid()

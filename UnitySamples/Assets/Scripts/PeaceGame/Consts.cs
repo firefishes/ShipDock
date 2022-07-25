@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Peace
 {
+    /// <summary>
+    /// 常量类
+    /// </summary>
     public static class Consts
     {
         #region 数据层代理名
@@ -15,21 +18,32 @@ namespace Peace
         public const int D_CONFIGS = 2;
         #endregion
 
+        #region 模块名
         public const int M_MESSAGE = 2000;
         public const int M_BATTLE = 2001;
+        public const int M_WORLD = 2002;
+        #endregion
 
-        public const int N_MSG_ADD = 10000;
-        public const int N_MSG_QUEUE = 10001;
+        #region 消息名
+        //public const int N_MSG_ADD = 10000;
+        //public const int N_MSG_QUEUE = 10001;
+        #endregion
 
+        #region 管道消息名
         public const int MSG_GAME_READY = 20000;
         public const int MSG_ENTER_BATTLE = 20001;
+        #endregion
 
+        #region 配置
         public const int CONF_GROUP_CONFIGS = 1;
 
         public const string CONF_EQUIPMENT = "equipments";
         public const string CONF_ORGANIZATIONS = "organizations";
+        #endregion
 
+        #region 资源包名
         public const string AB_CONFIGS = "peace/configs";
+        #endregion
 
         #region 军衔
         /// <summary>少尉衔</summary>
@@ -76,14 +90,5 @@ namespace Peace
         /// <summary>空天部队</summary>
         public const int TROOP_TYPE_SPACE_AIR = 7;
         #endregion
-
-        /// <summary>游戏配置案例中获取配置的扩展方法</summary>
-        public static Dictionary<int, ConfigT> GetConfigTable<ConfigT>(this string configName) where ConfigT : IConfig, new()
-        {
-            ConfigData data = D_CONFIGS.GetData<ConfigData>();
-            ConfigsResult configs = data.GetConfigs(CONF_GROUP_CONFIGS);
-            Dictionary<int, ConfigT> dic = configs.GetConfigRaw<ConfigT>(configName, out _);
-            return dic;
-        }
     }
 }

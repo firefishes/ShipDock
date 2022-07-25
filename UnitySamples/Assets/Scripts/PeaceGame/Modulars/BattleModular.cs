@@ -1,4 +1,5 @@
 using ShipDock.Notices;
+using ShipDock.Pooling;
 using UnityEngine;
 
 namespace Peace
@@ -19,13 +20,15 @@ namespace Peace
             switch(message)
             {
                 case Consts.MSG_GAME_READY:
+                    int count = Pooling<ParamNotice<string>>.Instance.UsedCount;
+                    //Debug.Log(count);
                     IParamNotice<string> msgNotice = notice as IParamNotice<string>;
                     string s = msgNotice.ParamValue;
-                    Debug.Log(s);
+                    //Debug.Log(s);
+                    msgNotice.ToPool();
+                    //msgNotice.ParamValue = msgNotice.ParamValue.Append("£¡");
 
-                    msgNotice.ParamValue = msgNotice.ParamValue.Append("£¡");
-
-                    AddMessageToQueue(Consts.MSG_GAME_READY, msgNotice);
+                    //AddMessageToQueue(Consts.MSG_GAME_READY, msgNotice);
 
                     break;
             }

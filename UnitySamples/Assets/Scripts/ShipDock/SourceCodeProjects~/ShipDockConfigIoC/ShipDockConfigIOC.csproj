@@ -79,6 +79,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ConfigableIoC\ConfigableIoCExtension.cs">
+      <Link>ShipDockConfigIOC\ConfigableIoCExtension.cs</Link>
+    </Compile>
     <Compile Include="..\..\ConfigableIoC\ConfigHelper.cs">
       <Link>ShipDockConfigIOC\ConfigHelper.cs</Link>
     </Compile>

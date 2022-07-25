@@ -77,14 +77,19 @@ namespace ShipDock.ECS
             if (mDatas.ContainsKey(target))
             {
                 mDataKeys.Remove(target);
+
                 int index = mDataKeys.IndexOf(target);
                 if (index != -1)
                 {
                     mInvalidDatasIndex.Remove(index);
                 }
+                else { }
+
                 T data = mDatas.Remove(target);
                 DropData(ref data);
             }
+            else { }
+
             return base.DropEntitas(target, entitasID);
         }
 
@@ -110,6 +115,7 @@ namespace ShipDock.ECS
                     {
                         mInvalidDatasIndex.Remove(index);
                     }
+                    else { }
                 }
                 else
                 {
@@ -117,8 +123,10 @@ namespace ShipDock.ECS
                     {
                         mInvalidDatasIndex.Add(index);
                     }
+                    else { }
                 }
             }
+            else { }
         }
 
         /// <summary>

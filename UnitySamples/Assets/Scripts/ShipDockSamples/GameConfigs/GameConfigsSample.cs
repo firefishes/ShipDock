@@ -52,6 +52,9 @@ public class GameConfigsSample : ShipDockAppComponent
     //配置加载完成
     private void OnConfigLoaded(ConfigsResult configResult)
     {
+        SampleConsts.D_CONFIGS.SetConfigDataDefaultName();
+        SampleConsts.CONF_GROUP_CONFIGS.SetConfigGroupDefaultName();
+
         ConfigData data = SampleConsts.D_CONFIGS.GetData<ConfigData>();
 
         //向配置数据代理中添加已加载的配置数据，并使用一个组名做对应

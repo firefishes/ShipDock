@@ -16,11 +16,12 @@ namespace ShipDock.Applications
                 item.Add(target.WorldItemHandler);
                 item.WorldItemDispose = target.WorldItemDispose;
             }
+            else { }
         }
 
         public int worldItemID;
         public int groupID;
-        public int aroundID;     
+        public int aroundID;
         public bool isDroped;
 
         public Action WorldItemDispose { get; set; }

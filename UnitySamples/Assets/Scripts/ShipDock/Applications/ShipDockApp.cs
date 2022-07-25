@@ -135,6 +135,52 @@ namespace ShipDock.Applications
             }
         }
 
+        public void Clean()
+        {
+            IsStarted = false;
+
+            ShipDockConsts.NOTICE_APPLICATION_CLOSE.Broadcast();
+
+            ILRuntimeHotFix?.Clear();
+
+            Utils.Reclaim(ref mFSMUpdaters);
+            Utils.Reclaim(ref mStateUpdaters);
+
+            Locals?.Dispose();
+            Effects?.Dispose();
+            Notificater?.Dispose();
+            TicksUpdater?.Dispose();
+            ECSContext?.Dispose();
+            Servers?.Dispose();
+            StateMachines?.Dispose();
+            Datas?.Dispose();
+            AssetsPooling?.Dispose();
+            ABs?.Dispose();
+            PerspectivesInputer?.Dispose();
+            AppModulars?.Dispose();
+
+            Tester?.Dispose();
+
+            AllPools.ResetAllPooling();
+
+            Notificater = default;
+            TicksUpdater = default;
+            ECSContext = default;
+            Servers = default;
+            StateMachines = default;
+            AssetsPooling = default;
+            ABs = default;
+            UIs = default;
+            Locals = default;
+            Effects = default;
+            Tester = default;
+            PerspectivesInputer = default;
+            ILRuntimeHotFix = default;
+            AppModulars = default;
+
+            GC.Collect();
+        }
+
         public void Start(int ticks)
         {
             Application.targetFrameRate = ticks <= 0 ? 10 : ticks;
@@ -380,28 +426,31 @@ namespace ShipDock.Applications
             }
         }
 
+        /// <summary>
+        /// 初始化ECS模块的更新模式
+        /// </summary>
         private void InitECSUpdateModes()
         {
-            MethodUpdater updater = ShipDockECSSetting.isMergeUpdateMode ?
-                new MethodUpdater
-                {
-                    Update = MergeUpdateMode
-                } :
-                new MethodUpdater
-                {
-                    Update = AlternateFrameUpdateMode//框架默认为此模式
-                };
+            MethodUpdater updater = new MethodUpdater();
+            if (ShipDockECSSetting.isMergeUpdateMode)
+            {
+                updater.Update = MergeUpdateMode;
+            }
+            else
+            {
+                updater.Update = AlternateFrameUpdateMode;//框架默认为此模式
+            }
             UpdaterNotice.AddUpdater(updater);
 
-            updater = ShipDockECSSetting.isMergeUpdateMode ?
-                new MethodUpdater
-                {
-                    Update = MergeUpdateModeInScene
-                } :
-                new MethodUpdater
-                {
-                    Update = AlternateFramUpdateModeInScene
-                };
+            updater = new MethodUpdater();
+            if (ShipDockECSSetting.isMergeUpdateMode)
+            {
+                updater.Update = MergeUpdateModeInScene;
+            }
+            else
+            {
+                updater.Update = AlternateFramUpdateModeInScene;//框架默认为此模式
+            }
             UpdaterNotice.AddSceneUpdater(updater);
         }
 
@@ -464,25 +513,25 @@ namespace ShipDock.Applications
         /// <summary>
         /// 主线程的场景更新已就绪，用于需要在主线程中更新的组件
         /// </summary>
-        private void OnSceneUpdateReady2(INoticeBase<int> obj)
-        {
-            ShipDockConsts.NOTICE_SCENE_UPDATE_READY.Remove(OnSceneUpdateReady2);
+        //private void OnSceneUpdateReady2(INoticeBase<int> obj)
+        //{
+        //    ShipDockConsts.NOTICE_SCENE_UPDATE_READY.Remove(OnSceneUpdateReady2);
 
-            MethodUpdater updater = ShipDockECSSetting.isMergeUpdateMode ?
-                new MethodUpdater
-                {
-                    Update = MergeUpdateModeInScene
-                } :
-                new MethodUpdater
-                {
-                    Update = AlternateFramUpdateModeInScene
-                };
+        //    MethodUpdater updater = ShipDockECSSetting.isMergeUpdateMode ?
+        //        new MethodUpdater
+        //        {
+        //            Update = MergeUpdateModeInScene
+        //        } :
+        //        new MethodUpdater
+        //        {
+        //            Update = AlternateFramUpdateModeInScene
+        //        };
 
-            UpdaterNotice notice = Pooling<UpdaterNotice>.From();
-            notice.ParamValue = updater;
-            ShipDockConsts.NOTICE_ADD_SCENE_UPDATE.Broadcast(notice);
-            notice.ToPool();
-        }
+        //    UpdaterNotice notice = Pooling<UpdaterNotice>.From();
+        //    notice.ParamValue = updater;
+        //    ShipDockConsts.NOTICE_ADD_SCENE_UPDATE.Broadcast(notice);
+        //    notice.ToPool();
+        //}
 
         /// <summary>
         /// 交替更新帧模式（用于主线程的场景更新）
@@ -535,52 +584,6 @@ namespace ShipDock.Applications
         private void ComponentUnitUpdateInScene(Action<int> target)
         {
             UpdaterNotice.SceneCallLater(target);
-        }
-
-        public void Clean()
-        {
-            IsStarted = false;
-
-            ShipDockConsts.NOTICE_APPLICATION_CLOSE.Broadcast();
-
-            ILRuntimeHotFix?.Clear();
-
-            Utils.Reclaim(ref mFSMUpdaters);
-            Utils.Reclaim(ref mStateUpdaters);
-
-            Locals?.Dispose();
-            Effects?.Dispose();
-            Notificater?.Dispose();
-            TicksUpdater?.Dispose();
-            ECSContext?.Dispose();
-            Servers?.Dispose();
-            StateMachines?.Dispose();
-            Datas?.Dispose();
-            AssetsPooling?.Dispose();
-            ABs?.Dispose();
-            PerspectivesInputer?.Dispose();
-            AppModulars?.Dispose();
-
-            Tester?.Dispose();
-
-            AllPools.ResetAllPooling();
-
-            Notificater = default;
-            TicksUpdater = default;
-            ECSContext = default;
-            Servers = default;
-            StateMachines = default;
-            AssetsPooling = default;
-            ABs = default;
-            UIs = default;
-            Locals = default;
-            Effects = default;
-            Tester = default;
-            PerspectivesInputer = default;
-            ILRuntimeHotFix = default;
-            AppModulars = default;
-
-            GC.Collect();
         }
 
         public void AddStart(Action method)

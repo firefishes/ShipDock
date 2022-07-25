@@ -12,6 +12,11 @@ namespace ShipDock.Modulars
     /// </summary>
     public class MessageModular : ApplicationModular
     {
+        public static void AddMessage(DecorativeModulars modulars, int message, INoticeBase<int> paramNotice)
+        {
+            modulars?.NotifyModular(ShipDockConsts.NOTICE_MSG_ADD, MessageNotice.Create(message, paramNotice));
+        }
+
         private bool mHasMessageQueue;
         private DoubleBuffers<IMessageNotice> mDoubleBuffers;
         private IMessageNotice mNoticeWillAdd;

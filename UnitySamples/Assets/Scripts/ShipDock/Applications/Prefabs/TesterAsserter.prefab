@@ -101,8 +101,8 @@ MonoBehaviour:
       logID: tester hited
       testerName: 
     - m_Title: 
-      m_TitleValue: "\u65AD\u8A00\u6D4B\u8BD5\u6D41\u7A0B\u5DF2\u901A\u8FC7 - ON -
-        ID: all tester hited"
+      m_TitleValue: "\u65AD\u8A00\u6D4B\u8BD5\u6D41\u7A0B\u5DF2\u901A\u8FC7 - ON
+        - ID: all tester hited"
       enabled: 1
       m_Edit: 0
       decs: "\u65AD\u8A00\u6D4B\u8BD5\u6D41\u7A0B\u5DF2\u901A\u8FC7"

@@ -56,28 +56,27 @@ namespace ShipDock.Tools
 
         public bool TimeAdvanced(float dTime)
         {
-            if (!isStart)
+            bool result = !isStart;
+            if (result) { }
+            else
             {
-                return true;
-            }
-            else { }
-
-            time += dTime;
-            bool result = time >= totalTime;
-            if (result)
-            {
-                Stop();
-                if (isAnew)
+                time += dTime;
+                result = time >= totalTime;
+                if (result)
                 {
-                    time = 0f;
+                    Stop();
+                    if (isAnew)
+                    {
+                        time = 0f;
+                    }
+                    else
+                    {
+                        time -= totalTime;
+                    }
+                    mPrevEnd = time;
                 }
-                else
-                {
-                    time -= totalTime;
-                }
-                mPrevEnd = time;
+                else { }
             }
-            else { }
 
             return result;
         }

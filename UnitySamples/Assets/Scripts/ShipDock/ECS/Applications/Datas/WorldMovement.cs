@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ShipDock.Applications
 {
@@ -80,6 +79,8 @@ namespace ShipDock.Applications
             {
                 PathingEnd();
             }
+            else { }
+
             return result;
         }
 
@@ -135,6 +136,8 @@ namespace ShipDock.Applications
             {
                 SpeedRevert = MoveSpeed;
             }
+            else { }
+
             MoveSpeed = 0f;
         }
 
@@ -148,6 +151,7 @@ namespace ShipDock.Applications
                 MoveSpeed = SpeedRevert;
                 SpeedRevert = 0f;
             }
+            else { }
         }
 
         /// <summary>

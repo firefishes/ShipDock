@@ -8,33 +8,46 @@ namespace ShipDock.ECS
 {
     public static class ShipDockECSSetting
     {
+        /// <summary>是否启用合并更新模式</summary>
         public static bool isMergeUpdateMode = false;
+        /// <summary>是否启用帧后更新模式</summary>
         public static bool isUpdateByCallLate = false;
     }
 
     /// <summary>
     /// 
-    /// ECS组件上下文环境
+    /// ECS上下文环境
     /// 
     /// </summary>
     public class ShipDockComponentContext : IShipDockComponentContext
     {
         private int mFinalUpdateTime;
         private IShipDockEntitas mFinalUpdateEntitas;
+        /// <summary>当前执行更新的系统</summary>
         private IShipDockComponent mSystem;
+        /// <summary>所有组件及系统</summary>
         private List<IShipDockComponent> mComponents;
+        /// <summary>需要在子线程中更新的组件 ID 列表</summary>
         private List<int> mUpdateByTicks;
+        /// <summary>需要在主线程中更新的组件 ID 列表</summary>
         private List<int> mUpdateByScene;
-        private List<int> mDeletdComponents;
+        /// <summary>被标记为须要删除的组件 ID 列表</summary>
+        private List<int> mDeletedComponents;
+        /// <summary>组件名与组件自动ID的映射 </summary>
         private KeyValueList<int, int> mNameAutoIDMapper;
+        /// <summary>组件对象映射 </summary>
         private IntegerMapper<IShipDockComponent> mMapper;
+        #region 帧末调用队列相关
         private Action<int, IShipDockEntitas> mFinalUpdateMethod;
         private DoubleBuffers<int> mQueueUpdateTime;
         private DoubleBuffers<IShipDockEntitas> mQueueUpdateEntitas;
         private DoubleBuffers<Action<int, IShipDockEntitas>> mQueueUpdateExecute;
+        #endregion
 
-        public Action<int, IShipDockComponent, IShipDockComponentContext> RelateComponentsReFiller { get; set; }
+        /// <summary>预更新</summary>
         public Action<List<int>, bool> PreUpdate { get; set; }
+        /// <summary>重填充系统的关联组件的回调</summary>
+        public Action<int, IShipDockComponent, IShipDockComponentContext> RelateComponentsReFiller { get; set; }
         public int CountTime { get; private set; }
         public int FrameTimeInScene { get; set; }
 
@@ -44,7 +57,7 @@ namespace ShipDock.ECS
             mNameAutoIDMapper = new KeyValueList<int, int>();
             mMapper = new IntegerMapper<IShipDockComponent>();
 
-            mDeletdComponents = new List<int>();
+            mDeletedComponents = new List<int>();
             mUpdateByTicks = new List<int>();
             mUpdateByScene = new List<int>();
             mComponents = new List<IShipDockComponent>();
@@ -56,11 +69,12 @@ namespace ShipDock.ECS
             mQueueUpdateExecute.OnDequeue += OnQueueUpdateExecute;
         }
 
+        #region 销毁和重置
         public void Dispose()
         {
             Utils.Reclaim(ref mUpdateByTicks);
             Utils.Reclaim(ref mUpdateByScene);
-            Utils.Reclaim(ref mDeletdComponents);
+            Utils.Reclaim(ref mDeletedComponents);
             Utils.Reclaim(ref mComponents);
             Utils.Reclaim(mQueueUpdateTime);
             Utils.Reclaim(mQueueUpdateEntitas);
@@ -71,8 +85,10 @@ namespace ShipDock.ECS
             PreUpdate = default;
             mSystem = default;
         }
+        #endregion
 
-        public int Create<T>(T target, int name, bool isUpdateByScene = false, params int[] willRelateComponents) where T : IShipDockComponent, new()
+        #region 创建组件或系统
+        public int Create<T>(T target, int name, bool isUpdateByScene = false, params int[] willRelateComponents) where T : IShipDockComponent
         {
             SetComponentUpdateMode(target, isUpdateByScene, willRelateComponents);
             AddComponentToMapper(name, ref target, out int autoID);
@@ -84,13 +100,12 @@ namespace ShipDock.ECS
         {
             T target = new T();
 
-            SetComponentUpdateMode(target, isUpdateByScene, willRelateComponents);
-            AddComponentToMapper(name, ref target, out int autoID);
+            int result = Create(target, name, isUpdateByScene, willRelateComponents);
             
-            return autoID;
+            return result;
         }
 
-        private void AddComponentToMapper<T>(int name, ref T target, out int autoID) where T : IShipDockComponent, new()
+        private void AddComponentToMapper<T>(int name, ref T target, out int autoID) where T : IShipDockComponent
         {
             autoID = mMapper.Add(target, out int statu);
             if (statu == 0)
@@ -108,53 +123,60 @@ namespace ShipDock.ECS
                 autoID = -1;
             }
         }
+        #endregion
 
-        private void SetComponentUpdateMode<T>(T target, bool isUpdateByScene = false, params int[] willRelateComponents) where T : IShipDockComponent, new()
+        /// <summary>
+        /// 设置组件的更新模式
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="target">组件</param>
+        /// <param name="isUpdateByScene">是否使用场景主线程更新</param>
+        /// <param name="willRelateComponents">需要关联的组件</param>
+        private void SetComponentUpdateMode<T>(T target, bool isUpdateByScene = false, params int[] willRelateComponents) where T : IShipDockComponent
         {
             bool isSystem = target.IsSystem;
             if (isSystem)
             {
+                //若为系统则设置关联的组件
                 ISystemComponent system = target as ISystemComponent;
                 system.RelateComponents = willRelateComponents;
             }
+            else { }
+
             target.SetSceneUpdate(isUpdateByScene);
             target.OnFinalUpdateForTime = OnFinalUpdateForTime;
             target.OnFinalUpdateForEntitas = OnFinalUpdateForEntitas;
             target.OnFinalUpdateForExecute = OnFinalUpdateForExecute;
 
             mComponents.Add(target);
+
             int index = mComponents.Count - 1;
             if (isSystem)
             {
                 if (isUpdateByScene)
                 {
+                    //使用主线程的帧更新组件
                     mUpdateByScene.Add(index);
                 }
                 else
                 {
+                    //使用子线程的帧更新组件
                     mUpdateByTicks.Add(index);
                 }
             }
+            else { }
         }
 
-        private void OnFinalUpdateForExecute(Action<int, IShipDockEntitas> method)
-        {
-            mQueueUpdateExecute.Enqueue(method, false);
-        }
-
-        private void OnFinalUpdateForEntitas(IShipDockEntitas entitas)
-        {
-            mQueueUpdateEntitas.Enqueue(entitas, false);
-        }
-
-        private void OnFinalUpdateForTime(int time)
-        {
-            mQueueUpdateTime.Enqueue(time, false);
-        }
-
+        /// <summary>
+        /// 创建一个新实体，根据参数指定的组件名向实体添加组件后返回
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="nameArgs"></param>
+        /// <returns></returns>
         public T GetEntitasWithComponents<T>(params int[] nameArgs) where T : IShipDockEntitas, new()
         {
             T result = new T();
+
             int max = nameArgs.Length;
             int name;
             IShipDockComponent component;
@@ -166,6 +188,7 @@ namespace ShipDock.ECS
                 {
                     result.AddComponent(component);
                 }
+                else { }
             }
             return result;
         }
@@ -181,42 +204,107 @@ namespace ShipDock.ECS
                 int id = mNameAutoIDMapper[name];
                 component = mMapper.Get(id);
             }
+            else { }
             return component;
         }
 
+        #region 帧末更新队列相关
+        private void OnFinalUpdateForExecute(Action<int, IShipDockEntitas> method)
+        {
+            mQueueUpdateExecute.Enqueue(method, false);
+        }
+
+        private void OnFinalUpdateForEntitas(IShipDockEntitas entitas)
+        {
+            mQueueUpdateEntitas.Enqueue(entitas, false);
+        }
+
+        private void OnFinalUpdateForTime(int time)
+        {
+            mQueueUpdateTime.Enqueue(time, false);
+        }
+
+        /// <summary>
+        /// 执行所有需要帧末执行的队列业务
+        /// </summary>
+        /// <param name="time"></param>
+        private void FinalUpdate(int time)
+        {
+            mQueueUpdateTime.Step(time);
+            mQueueUpdateEntitas.Step(time);
+            mQueueUpdateExecute.Step(time);
+            mFinalUpdateEntitas = default;
+            mFinalUpdateMethod = default;
+        }
+
+        /// <summary>
+        /// 提供于外部双缓冲更新器使用的回调方法
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="current"></param>
+        private void OnQueueUpdateExecute(int time, Action<int, IShipDockEntitas> current)
+        {
+            mFinalUpdateTime = mQueueUpdateTime.Current;
+            mFinalUpdateEntitas = mQueueUpdateEntitas.Current;
+            mFinalUpdateMethod = current;
+
+            if (mFinalUpdateEntitas == default)
+            {
+                mFinalUpdateMethod.Invoke(mFinalUpdateTime, default);
+            }
+            else
+            {
+                if (!mFinalUpdateEntitas.WillDestroy && (mFinalUpdateEntitas.ID != int.MaxValue))
+                {
+                    mFinalUpdateMethod.Invoke(mFinalUpdateTime, mFinalUpdateEntitas);
+                }
+                else { }
+            }
+        }
+        #endregion
+
+        #region 移除、销毁组件相关
         /// <summary>
         /// 标记需要移除的组件
         /// </summary>
         public void RemoveComponent(IShipDockComponent target)
         {
-            if (!mDeletdComponents.Contains(target.ID))
+            if (!mDeletedComponents.Contains(target.ID))
             {
-                mDeletdComponents.Add(target.ID);
+                mDeletedComponents.Add(target.ID);
             }
+            else { }
         }
 
         /// <summary>
-        /// 移除已标记为可移除的组件
+        /// 销毁已标记为可移除的组件
         /// </summary>
         public void RemoveSingedComponents()
         {
             IShipDockComponent target;
-            int max = mDeletdComponents.Count;
+            int max = mDeletedComponents.Count;
             for (int i = 0; i < max; i++)
             {
-                int id = mDeletdComponents[i];
+                int id = mDeletedComponents[i];
                 target = mMapper.Get(id);
 
                 RemoveComponentAndClear(ref target, id);
 
                 target.Dispose();
             }
+
             if (max > 0)
             {
-                mDeletdComponents.Clear();
+                mDeletedComponents.Clear();
             }
+            else { }
         }
 
+        /// <summary>
+        /// 移除组件并清理组件相关的映射数据
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="aid"></param>
         private void RemoveComponentAndClear(ref IShipDockComponent target, int aid)
         {
             RemoveNameFromIDMapper(aid);
@@ -240,8 +328,11 @@ namespace ShipDock.ECS
             {
                 mNameAutoIDMapper.Remove(id);
             }
+            else { }
         }
+        #endregion
 
+        #region 根据当前的执行顺序获取组件
         private void RefComponentByIndex(int value, ref int compIndex, ref List<int> updateList, ref IShipDockComponent comp)
         {
             compIndex = updateList[value];
@@ -254,9 +345,11 @@ namespace ShipDock.ECS
             List<int> list = isSceneUpdate ? mUpdateByScene : mUpdateByTicks;
             RefComponentByIndex(value, ref index, ref list, ref comp);
         }
+        #endregion
 
+        #region 子线程更新模式相关
         /// <summary>
-        /// 更新组件的同时检测需要释放的组件
+        /// 更新组件的同时检测需要释放的组件（运行于子线程，暂时没用到）
         /// </summary>
         public void UpdateAndFreeComponents(int time, Action<Action<int>> method = default)
         {
@@ -266,7 +359,7 @@ namespace ShipDock.ECS
             {
                 RefComponentByIndex(i, ref compIndex, ref mUpdateByTicks, ref mSystem);
 
-                if ((mSystem != default) && !mDeletdComponents.Contains(mSystem.ID))
+                if ((mSystem != default) && !mDeletedComponents.Contains(mSystem.ID))
                 {
                     if (method == default)
                     {
@@ -279,6 +372,7 @@ namespace ShipDock.ECS
                         method.Invoke(mSystem.FreeComponent);
                     }
                 }
+                else { }
             }
 
             FinalUpdate(time);
@@ -287,11 +381,11 @@ namespace ShipDock.ECS
         }
 
         /// <summary>
-        /// 更新组件
+        /// 更新组件（运行于子线程）
         /// </summary>
         public void UpdateComponentUnit(int time, Action<Action<int>> method = default)
         {
-            CountTime += time;//与主线程的帧率时间保持一致，避更新新过快
+            CountTime += time;//与主线程的帧率时间保持一致，避免更新过快
 
             IShipDockComponent item;
             while (CountTime > FrameTimeInScene)
@@ -311,10 +405,12 @@ namespace ShipDock.ECS
                         {
                             continue;
                         }
+                        else { }
 
                         if (item.IsSystemChanged)
                         {
-                            if (!mDeletdComponents.Contains(item.ID))
+                            if (mDeletedComponents.Contains(item.ID)) { }
+                            else
                             {
                                 if (method == default)
                                 {
@@ -325,45 +421,20 @@ namespace ShipDock.ECS
                                     method.Invoke(item.UpdateComponent);
                                 }
                             }
+
                             item.SystemChecked();
                         }
+                        else { }
                     }
+                    else { }
                 }
                 FinalUpdate(time);
                 CountTime -= FrameTimeInScene;
             }
         }
 
-        private void OnQueueUpdateExecute(int time, Action<int, IShipDockEntitas> current)
-        {
-            mFinalUpdateTime = mQueueUpdateTime.Current;
-            mFinalUpdateEntitas = mQueueUpdateEntitas.Current;
-            mFinalUpdateMethod = current;
-
-            if (mFinalUpdateEntitas == default)
-            {
-                mFinalUpdateMethod.Invoke(mFinalUpdateTime, default);
-            }
-            else
-            {
-                if (!mFinalUpdateEntitas.WillDestroy && (mFinalUpdateEntitas.ID != int.MaxValue))
-                {
-                    mFinalUpdateMethod.Invoke(mFinalUpdateTime, mFinalUpdateEntitas);
-                }
-            }
-        }
-
-        private void FinalUpdate(int time)
-        {
-            mQueueUpdateTime.Step(time);
-            mQueueUpdateEntitas.Step(time);
-            mQueueUpdateExecute.Step(time);
-            mFinalUpdateEntitas = default;
-            mFinalUpdateMethod = default;
-        }
-
         /// <summary>
-        /// 检测是否有需要释放的组件
+        /// 检测是否有需要释放的组件（运行于子线程）
         /// </summary>
         public void FreeComponentUnit(int time, Action<Action<int>> method = default)
         {
@@ -373,7 +444,7 @@ namespace ShipDock.ECS
             {
                 RefComponentByIndex(i, ref compIndex, ref mUpdateByTicks, ref mSystem);
 
-                if ((mSystem != default) && !mDeletdComponents.Contains(mSystem.ID))
+                if ((mSystem != default) && !mDeletedComponents.Contains(mSystem.ID))
                 {
                     if (method == default)
                     {
@@ -384,9 +455,15 @@ namespace ShipDock.ECS
                         method.Invoke(mSystem.FreeComponent);
                     }
                 }
+                else { }
             }
         }
+        #endregion
 
+        #region 主线程更新模式相关
+        /// <summary>
+        /// 更新组件的同时检测需要释放的组件（运行于主线程，暂时没用到）
+        /// </summary>
         public void UpdateAndFreeComponentsInScene(int time, Action<Action<int>> method = default)
         {
             int compIndex = 0;
@@ -395,7 +472,7 @@ namespace ShipDock.ECS
             {
                 RefComponentByIndex(i, ref compIndex, ref mUpdateByScene, ref mSystem);
 
-                if ((mSystem != default) && !mDeletdComponents.Contains(mSystem.ID))
+                if ((mSystem != default) && !mDeletedComponents.Contains(mSystem.ID))
                 {
                     if (method == default)
                     {
@@ -408,10 +485,14 @@ namespace ShipDock.ECS
                         method.Invoke(mSystem.FreeComponent);
                     }
                 }
+                else { }
             }
             RemoveSingedComponents();
         }
 
+        /// <summary>
+        /// 更新组件（主线程）
+        /// </summary>
         public void UpdateComponentUnitInScene(int time, Action<Action<int>> method = default)
         {
             int compIndex = 0;
@@ -421,7 +502,7 @@ namespace ShipDock.ECS
             {
                 RefComponentByIndex(i, ref compIndex, ref mUpdateByScene, ref item);
 
-                if ((item != default) && !mDeletdComponents.Contains(item.ID))
+                if ((item != default) && !mDeletedComponents.Contains(item.ID))
                 {
                     if (method == default)
                     {
@@ -432,9 +513,13 @@ namespace ShipDock.ECS
                         method.Invoke(item.UpdateComponent);
                     }
                 }
+                else { }
             }
         }
 
+        /// <summary>
+        /// 检测是否有需要释放的组件（运行于主线程）
+        /// </summary>
         public void FreeComponentUnitInScene(int time, Action<Action<int>> method = default)
         {
             int compIndex = 0;
@@ -444,7 +529,7 @@ namespace ShipDock.ECS
             {
                 RefComponentByIndex(i, ref compIndex, ref mUpdateByScene, ref item);
 
-                if ((item != default) && !mDeletdComponents.Contains(item.ID))
+                if ((item != default) && !mDeletedComponents.Contains(item.ID))
                 {
                     if (method == default)
                     {
@@ -455,7 +540,9 @@ namespace ShipDock.ECS
                         method.Invoke(item.FreeComponent);
                     }
                 }
+                else { }
             }
         }
+        #endregion
     }
 }

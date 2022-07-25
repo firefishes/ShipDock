@@ -52,13 +52,4 @@ public static class SampleConsts
 
     /// <summary>游戏配置案例中的配置名</summary>
     public const string CONF_PUZZLES = "puzzles_config";
-
-    /// <summary>游戏配置案例中获取配置的扩展方法</summary>
-    public static Dictionary<int, ConfigT> GetConfigTable<ConfigT>(this string configName) where ConfigT : IConfig, new()
-    {
-        ConfigData data = D_CONFIGS.GetData<ConfigData>();
-        ConfigsResult configs = data.GetConfigs(CONF_GROUP_CONFIGS);
-        Dictionary<int, ConfigT> dic = configs.GetConfigRaw<ConfigT>(configName, out _);
-        return dic;
-    }
 }

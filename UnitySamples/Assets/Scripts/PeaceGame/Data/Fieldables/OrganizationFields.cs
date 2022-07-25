@@ -1,3 +1,4 @@
+using ShipDock.Applications;
 using ShipDock.Config;
 using ShipDock.Pooling;
 using StaticConfig;
