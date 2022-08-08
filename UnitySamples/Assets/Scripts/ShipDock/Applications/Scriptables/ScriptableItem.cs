@@ -31,12 +31,12 @@ namespace ShipDock.Scriptables
         public string name;
 
 #if ODIN_INSPECTOR
-        [EnableIf("@m_EditEnabled && mIDEditEnabled")]
+        [EnableIf("@m_EditEnabled && mIDEditEnabled"), Indent()]
 #endif
         public int id;
 
 #if ODIN_INSPECTOR
-        [LabelText("修改"), OnValueChanged("OnEditEnabledChanged"), ShowIf("@ShouldEditChooseShow()")]
+        [LabelText("修改"), OnValueChanged("OnEditEnabledChanged"), ShowIf("@ShouldEditChooseShow()"), Indent()]
 #endif
         [SerializeField]
         private bool m_EditEnabled;

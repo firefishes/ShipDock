@@ -82,7 +82,7 @@ namespace ShipDock.Applications
             mGroupsMapper.Remove(mWorldItem.groupID);
             mAroundMapper.Remove(mWorldItem.aroundID);
 
-            List<int> list = BehaviourIDsComp.GetAroundList(ref target);
+            List<int> list = BehaviourIDsComp.GetAroundIDs(ref target);
             list?.Clear();
 
             BehaviourIDs ids = BehaviourIDsComp.GetEntitasData(ref target);
@@ -165,7 +165,7 @@ namespace ShipDock.Applications
             float distance;
             AroundsCheckedInfo info;
             WorldMovement itemMovement;
-            List<int> list = BehaviourIDsComp.GetAroundList(ref target);
+            List<int> list = BehaviourIDsComp.GetAroundIDs(ref target);
             int max = (list != default) ? list.Count : 0;
             if (max > 0)
             {
@@ -214,12 +214,18 @@ namespace ShipDock.Applications
         }
 
         /// <summary>
-        /// 检测世界交换物体的缓存
+        /// 检测世界交互物体的缓存
         /// </summary>
         private void CheckWorldItemCaches(ref IShipDockEntitas target)
         {
             if (WorldComp.IsDataValid(ref target))
             {
+                if (mWorldItemMapper.ContainsKey(mWorldItem.worldItemID))
+                {
+                    return;
+                }
+                else { }
+
                 mWorldItem = WorldComp.GetEntitasData(ref target);
                 if (ShouldAddToWorldItems())
                 {

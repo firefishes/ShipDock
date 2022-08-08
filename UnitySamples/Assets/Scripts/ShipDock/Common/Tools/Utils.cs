@@ -661,8 +661,10 @@ namespace ShipDock.Tools
         }
     }
 
+    [Serializable]
     public class RayAndHitInfo
     {
+        public string name;
         public Vector3 start;
         public Vector3 direction;
         public Ray ray;

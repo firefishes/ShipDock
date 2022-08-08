@@ -1,4 +1,5 @@
-﻿using ShipDock.Notices;
+﻿using ShipDock.ECS;
+using ShipDock.Notices;
 using System;
 using UnityEngine;
 
@@ -6,11 +7,12 @@ namespace ShipDock.Applications
 {
     public class WorldInteracter : INotificationSender
     {
-        public static void Init<T>(int componentName, WorldInteracter item, EntitasComponentable entitas, GameObject gameObject, IWorldIntercatable target = default) where T : WorldComponent
+        public static void Init<T>(int componentName, WorldInteracter item, IShipDockEntitas entitas, GameObject gameObject, IWorldIntercatable target = default) where T : WorldComponent
         {
             T comp = entitas.GetComponentByName<T>(componentName);
             item = comp.GetEntitasData(ref entitas);
             item.worldItemID = gameObject.GetInstanceID();
+
             if (target != default)
             {
                 item.Add(target.WorldItemHandler);

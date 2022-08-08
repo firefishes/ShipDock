@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ShipDock.Datas
 {
@@ -49,6 +50,10 @@ namespace ShipDock.Datas
             else
             {
                 DeviceInfo = JsonUtility.FromJson<DeviceT>(infoRaw);
+                if (DeviceInfo.all_accounts == default)
+                {
+                    DeviceInfo.all_accounts = new List<string>();
+                }
                 Debug.Log(string.Format("Last device info init success, account id is {0}", infoRaw));
             }
         }
@@ -83,17 +88,17 @@ namespace ShipDock.Datas
                     UpdateLocalData(oldInfoKey, infoRaw);
                     ClientInfo = default;
 
-                    GetClientInfoByAccountID(ref lastAccountID);
+                    RefillClientInfoByAccountID(ref lastAccountID);
                 }
                 else { }
             }
             else
             {
-                GetClientInfoByAccountID(ref lastAccountID);
+                RefillClientInfoByAccountID(ref lastAccountID);
             }
         }
 
-        private void GetClientInfoByAccountID(ref string lastAccountID)
+        private void RefillClientInfoByAccountID(ref string lastAccountID)
         {
             string infoKey = ClientDataConsts.PLAYER_INFO.Append(lastAccountID);
             string infoRaw = GetLocalStringData(infoKey);
@@ -241,13 +246,23 @@ namespace ShipDock.Datas
 
         public void FlushInfos()
         {
-            FlushDeviceInfo();
             FlushClientInfo();
+            FlushDeviceInfo();
             PlayerPrefs.Save();
         }
 
         public void FlushDeviceInfo()
         {
+            if (ClientInfo != default && !string.IsNullOrEmpty(ClientInfo.accountID))
+            {
+                if (DeviceInfo.all_accounts.Contains(ClientInfo.accountID)) { }
+                else
+                {
+                    DeviceInfo.all_accounts.Add(ClientInfo.accountID);
+                }
+            }
+            else { }
+
             string json = JsonUtility.ToJson(DeviceInfo);
             string deviceInfoKey = GetDeviceInfoKey();
             UpdateLocalData(deviceInfoKey, json);

@@ -65,12 +65,12 @@ namespace ShipDock.Versioning
 
         #region 编辑器扩展相关
         /// <summary>本次资源打包变更项</summary>
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         [SerializeField, Header("以下仅生效于编辑器")]
 #if ODIN_INSPECTOR
         [LabelText("本次资源打包变更项"), ShowIf("@this.m_ResChanged.Length > 0")]
 #endif
-        private ResVersion[] m_ResChanged;
+        private ResVersion[] m_ResChanged = new ResVersion[0];
 
         [SerializeField]
 #if ODIN_INSPECTOR
@@ -199,8 +199,8 @@ namespace ShipDock.Versioning
             else { }
 #endif
         }
-#endif
-        #endregion
+//#endif
+#endregion
 
         /// <summary>本地缓存的资源版本配置</summary>
         public ResDataVersion CachedVersion { get; private set; }

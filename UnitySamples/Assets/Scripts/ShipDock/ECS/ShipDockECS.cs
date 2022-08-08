@@ -4,6 +4,19 @@ namespace ShipDock.ECS
 {
     public class ShipDockECS : Singletons<ShipDockECS>
     {
-        public IShipDockComponentContext Context { get; private set; } = Framework.Instance.GetUnit<IShipDockComponentContext>(Framework.UNIT_ECS);
+        public IShipDockComponentContext Context
+        {
+            get
+            {
+                return mContexts.CurrentContext;
+            }
+        }
+
+        private ECSContext mContexts;
+
+        public ShipDockECS()
+        {
+            mContexts = Framework.Instance.GetUnit<ECSContext>(Framework.UNIT_ECS);
+        }
     }
 }

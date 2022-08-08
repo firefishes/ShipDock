@@ -16,6 +16,10 @@ namespace Peace
         public const int D_PLAYER = 1;
         /// <summary>配置数据</summary>
         public const int D_CONFIGS = 2;
+        /// <summary>军团数据</summary>
+        public const int D_LEGION = 3;
+        /// <summary>军团数据</summary>
+        public const int D_TROOPS = 4;
         #endregion
 
         #region 模块名
@@ -32,6 +36,12 @@ namespace Peace
         #region 管道消息名
         public const int MSG_GAME_READY = 20000;
         public const int MSG_ENTER_BATTLE = 20001;
+        public const int MSG_ADD_UPDATER = 20002;
+        public const int MSG_RM_UPDATER = 20003;
+        #endregion
+
+        #region 数据消息名
+        public const int DN_NEW_GAME_CREATED = 30000;
         #endregion
 
         #region 配置
@@ -43,6 +53,15 @@ namespace Peace
 
         #region 资源包名
         public const string AB_CONFIGS = "peace/configs";
+        public const string AB_LOGOIN = "peace/ui_login";
+        #endregion
+
+        #region UI资源名
+        public const string U_LOGIN = "UILogin";
+        #endregion
+
+        #region UI模块名
+        public const string UM_LOGIN = "UMLogin";
         #endregion
 
         #region 军衔
@@ -90,5 +109,14 @@ namespace Peace
         /// <summary>空天部队</summary>
         public const int TROOP_TYPE_SPACE_AIR = 7;
         #endregion
+
+        /// <summary>ECS世界上下文</summary>
+        public const int ECS_CONTEXT_PEACE = 1;
+
+        /// <summary>世界系统</summary>
+        public const int SYSTEM_WORLD = 1;
+
+        /// <summary>位移组件</summary>
+        public const int COMP_MOVEMENT = 1;
     }
 }

@@ -6,6 +6,14 @@ namespace ShipDock.Commons
     public class MethodUpdater : IUpdate, IDispose
     {
 
+        public Action<int> Update { get; set; }
+        public Action<int> FixedUpdate { get; set; }
+        public Action LateUpdate { get; set; }
+        public bool IsUpdate { get; set; } = true;
+        public bool IsFixedUpdate { get; set; } = true;
+        public bool IsLateUpdate { get; set; } = true;
+        public bool Asynced { get; set; }
+
         public virtual void Dispose()
         {
             Asynced = false;
@@ -38,14 +46,6 @@ namespace ShipDock.Commons
         public void RemoveUpdate()
         {
         }
-
-        public Action<int> Update { get; set; }
-        public Action<int> FixedUpdate { get; set; }
-        public Action LateUpdate { get; set; }
-        public bool IsUpdate { get; set; } = true;
-        public bool IsFixedUpdate { get; set; } = true;
-        public bool IsLateUpdate { get; set; } = true;
-        public bool Asynced { get; set; }
     }
 
 }

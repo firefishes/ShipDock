@@ -94,6 +94,8 @@ public static class ShipDockAppExtension
         uis.CloseResourceUI(name, willDestroy, activeSelfControlHide);
     }
 
+    private const string LOG_OPEN_UI = "log:Open UI {0}";
+
     /// <summary>
     /// 打开热更界面
     /// </summary>
@@ -105,7 +107,7 @@ public static class ShipDockAppExtension
         UIManager uis = Framework.Instance.GetUnit<UIManager>(Framework.UNIT_UI);
         T result = uis.Open<T>(stackName, () =>
         {
-            "log:Open UI {0}".Log(stackName);
+            LOG_OPEN_UI.Log(stackName);
             return new T();
         });
         return result;

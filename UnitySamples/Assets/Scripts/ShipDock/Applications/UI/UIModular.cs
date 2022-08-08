@@ -9,6 +9,30 @@ using UnityEngine;
 namespace ShipDock.Applications
 {
     /// <summary>
+    /// 基于界面接口方式的 UI 模块实现
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="InterfaceT"></typeparam>
+    public abstract class UIModularImpl<T, InterfaceT> : UIModular<T> where T : MonoBehaviour, InterfaceT, INotificationSender
+    {
+        protected InterfaceT UIImpl { get; private set; }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            UIImpl = default;
+        }
+
+        protected override void FillUIInstance(ref T ui)
+        {
+            base.FillUIInstance(ref ui);
+
+            UIImpl = ui;
+        }
+    }
+
+    /// <summary>
     /// UI模块
     /// </summary>
     public abstract class UIModular<T> : UIStack, IUIModular, IDataExtracter where T : MonoBehaviour, INotificationSender
@@ -39,8 +63,6 @@ namespace ShipDock.Applications
         public virtual string ABName { get; }
         /// <summary>需要关联的数据代理</summary>
         public abstract int[] DataProxyLinks { get; set; }
-        /// <summary>UI层级</summary>
-        //public virtual int UILayer { get; protected set; }
         /// <summary>UI 关闭后的回调函数</summary>
         public Action OnUIClose { get; set; }
 
@@ -48,8 +70,26 @@ namespace ShipDock.Applications
 
         public UIModular(T ui)
         {
-            mUI = ui;
+            FillUIInstance(ref ui);
         }
+
+        public virtual void Dispose()
+        {
+            this.DataProxyDelink(DataProxyLinks);
+            mUI.Remove(UIModularHandler);
+
+            Purge();
+
+            UnityEngine.Object.Destroy(mUI.gameObject);
+
+            OnUIClose = default;
+            UIs = default;
+            ABs = default;
+            mUI = default;
+            Datas = default;
+        }
+
+        protected abstract void Purge();
 
         public override void Init()
         {
@@ -70,7 +110,8 @@ namespace ShipDock.Applications
                 int id = ui.GetInstanceID();
                 id.Broadcast(notice);
 
-                mUI = (T)notice.ParamValue;
+                T instance = (T)notice.ParamValue;
+                FillUIInstance(ref instance);
                 notice.ToPool();
             }
             else { }
@@ -78,6 +119,11 @@ namespace ShipDock.Applications
             UILayer layer = mUI.GetComponent<UILayer>();
             SetUIParent(ref layer);
             mUI.Add(UIModularHandler);
+        }
+
+        protected virtual void FillUIInstance(ref T ui)
+        {
+            mUI = ui;
         }
 
         private void SetUIParent(ref UILayer layer)
@@ -194,23 +240,5 @@ namespace ShipDock.Applications
             }
             else { }
         }
-
-        public virtual void Dispose()
-        {
-            this.DataProxyDelink(DataProxyLinks);
-            mUI.Remove(UIModularHandler);
-
-            Purge();
-
-            UnityEngine.Object.Destroy(mUI.gameObject);
-
-            OnUIClose = default;
-            UIs = default;
-            ABs = default;
-            mUI = default;
-            Datas = default;
-        }
-
-        protected abstract void Purge();
     }
 }

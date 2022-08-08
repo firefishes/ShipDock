@@ -6,19 +6,32 @@ namespace ShipDock.UI
     public interface IUIStack
     {
         Action<bool> OnExit { get; set; }
-
-        void Init();//初始化
-        void Enter();//开启
-        void Interrupt();//中断
-        void StackAdvance();//标记为栈提前
-        void ResetAdvance();//重置栈提前标记
-        void Renew();//唤醒
-        void Exit(bool isDestroy);//退出
-        bool IsExited { get; }//是否已退出
-        bool IsStackAdvanced { get; }//是否已标记为栈提前
-        string UIAssetName { get; }//在资源包中的名称
-        string Name { get; }//模块名（栈名）
-        bool IsStackable { get; }//是否用栈管理
+        /// <summary>是否已退出</summary>
+        bool IsExited { get; }
+        /// <summary>是否已标记为栈提前</summary>
+        bool IsStackAdvanced { get; }
+        /// <summary>在资源包中的名称</summary>
+        string UIAssetName { get; }
+        /// <summary>模块名（栈名）</summary>
+        string Name { get; }
+        /// <summary>是否用栈管理</summary>
+        bool IsStackable { get; }
+        /// <summary>UI所处的层级</summary>
         int UILayer { get; }
+
+        /// <summary>初始化</summary>
+        void Init();
+        /// <summary>开启</summary>
+        void Enter();
+        /// <summary>中断</summary>
+        void Interrupt();
+        /// <summary>标记为栈提前</summary>
+        void StackAdvance();
+        /// <summary>重置栈提前标记</summary>
+        void ResetAdvance();
+        /// <summary>唤醒</summary>
+        void Renew();
+        /// <summary>退出</summary>
+        void Exit(bool isDestroy);
     }
 }

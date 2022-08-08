@@ -25,7 +25,12 @@ namespace ShipDock.Applications
     public class BehaviourIDsComponent : DataComponent<BehaviourIDs>, ICommonOverlayMapper
     {
 
+        private const string LOG_OVERLAY_CHECKED = "log: BehaviourIDs overlay checked, {0} added, gameObject id = {1}";
+
+        /// <summary>周围映射</summary>
         private KeyValueList<int, List<int>> mArounds;
+        private KeyValueList<int, List<int>> mAroundColliders;
+        private KeyValueList<int, List<int>> mAroundCollisions;
         private KeyValueList<int, bool> mPhysicsCheckable;
 
         public Action<IShipDockEntitas> AfterAnimatorIDSet { get; set; }
@@ -36,6 +41,8 @@ namespace ShipDock.Applications
             base.Init(context);
 
             mArounds = new KeyValueList<int, List<int>>();
+            mAroundColliders = new KeyValueList<int, List<int>>();
+            mAroundCollisions = new KeyValueList<int, List<int>>();
             mPhysicsCheckable = new KeyValueList<int, bool>();
         }
 
@@ -48,10 +55,18 @@ namespace ShipDock.Applications
         {
             base.DropData(ref target);
 
-            mPhysicsCheckable.Remove(target.gameItemID);
+            int id = target.gameItemID;
+            mPhysicsCheckable.Remove(id);
 
-            List<int> list = mArounds.Remove(target.gameItemID);
+            List<int> list = mArounds.Remove(id);
             Utils.Reclaim(ref list);
+
+            list = mAroundColliders.Remove(id);
+            Utils.Reclaim(ref list);
+
+            list = mAroundCollisions.Remove(id);
+            Utils.Reclaim(ref list);
+
         }
 
         public void SetAnimatorID<E>(ref E target, ref Animator animator) where E : IShipDockEntitas
@@ -79,13 +94,46 @@ namespace ShipDock.Applications
         }
 
         /// <summary>
+        /// 检测碰撞的可用性
+        /// </summary>
+        /// <param name="gameItemID"></param>
+        /// <param name="id"></param>
+        /// <param name="overlayed"></param>
+        /// <param name="isCollision"></param>
+        private void CheckAroundsEnabled(int gameItemID, int id, bool overlayed, bool isCollision)
+        {
+            KeyValueList<int, List<int>> list = isCollision ? mAroundCollisions : mAroundColliders;
+            List<int> ids = list[gameItemID];
+            if (ids != default)
+            {
+                if (overlayed)
+                {
+                    if (ids.IndexOf(id) >= 0) { }
+                    else
+                    {
+                        ids.Add(id);
+                    }
+                }
+                else
+                {
+                    if (ids.IndexOf(id) < 0) { }
+                    else
+                    {
+                        ids.Remove(id);
+                    }
+                }
+            }
+            else { }
+        }
+
+        /// <summary>
         /// 处理物理检测
         /// </summary>
         /// <param name="gameItemID">中心id</param>
         /// <param name="id">已检测到的id</param>
-        /// <param name="isTrigger">是否为触发器</param>
-        /// <param name="isCollided">是否为碰撞器</param>
-        public void OverlayChecked(int gameItemID, int id, bool isTrigger, bool isCollided)
+        /// <param name="overlayed">是否为触发器</param>
+        /// <param name="isCollision">是否为碰撞器</param>
+        public void OverlayChecked(int gameItemID, int id, bool overlayed, bool isCollision)
         {
             if ((gameItemID != int.MaxValue) && mPhysicsCheckable[gameItemID])
             {
@@ -101,27 +149,61 @@ namespace ShipDock.Applications
 
                     mPhysicsCheckable[gameItemID] = true;
                 }
-                if (!list.Contains(id))
+
+                if (list.Contains(id)) { }
+                else
                 {
                     list.Add(id);
-                    "log: BehaviourIDs overlay checked, {0} added, gameObject id = {1}".Log(id.ToString(), gameItemID.ToString());
+
+                    LOG_OVERLAY_CHECKED.Log(id.ToString(), gameItemID.ToString());
                 }
+
+                CheckAroundsEnabled(gameItemID, id, overlayed, isCollision);
             }
+            else { }
         }
 
         /// <summary>
         /// 获取物理检测到的周围物体的id列表
         /// </summary>
-        public List<int> GetAroundList<E>(ref E target) where E : IShipDockEntitas
+        public List<int> GetAroundIDs<E>(ref E target) where E : IShipDockEntitas
         {
             if (!IsDataValid(ref target))
             {
                 return default;
             }
+            else { }
 
+            return GetAroundIDsByMapper(ref target, ref mArounds);
+        }
+
+        public List<int> GetAroundColliderIDs<E>(ref E target) where E : IShipDockEntitas
+        {
+            if (!IsDataValid(ref target))
+            {
+                return default;
+            }
+            else { }
+
+            return GetAroundIDsByMapper(ref target, ref mAroundColliders);
+        }
+
+        public List<int> GetAroundCollisionIDs<E>(ref E target) where E : IShipDockEntitas
+        {
+            if (!IsDataValid(ref target))
+            {
+                return default;
+            }
+            else { }
+
+            return GetAroundIDsByMapper(ref target, ref mAroundCollisions);
+        }
+
+        private List<int> GetAroundIDsByMapper<E>(ref E target, ref KeyValueList<int, List<int>> mapper) where E : IShipDockEntitas
+        {
             BehaviourIDs ids = GetEntitasData(ref target);
             int id = ids.gameItemID;
-            List<int> result = mArounds[id];
+            List<int> result = mapper[id];
             return result;
         }
 
@@ -134,6 +216,7 @@ namespace ShipDock.Applications
             {
                 mPhysicsCheckable[gameItemID] = true;
             }
+            else { }
         }
 
         /// <summary>
@@ -149,6 +232,7 @@ namespace ShipDock.Applications
                 int count = list.Count;
                 list.Clear();
             }
+            else { }
         }
 
         /// <summary>

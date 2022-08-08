@@ -1,19 +1,45 @@
-﻿using ShipDock.Tools;
+﻿using ShipDock.Pooling;
+using ShipDock.Tools;
 using System.Collections.Generic;
 
 namespace ShipDock.ECS
 {
-    public class ShipDockEntitas : IShipDockEntitas
+    public class ShipDockEntitas : IShipDockEntitas, IPoolable
     {
-        private List<int> mBindedToComponentIDs = new List<int>();
-
-        public virtual void InitComponents()
+        public static IShipDockEntitas CreateEntitas()
         {
+            return Pooling<ShipDockEntitas>.From();
         }
 
-        public virtual void Dispose()
+        private IShipDockComponentContext mContext;
+
+        public List<int> ComponentList { get; } = new List<int>();
+        public int ID { get; private set; } = int.MaxValue;
+        public bool WillDestroy { get; protected set; } = false;
+
+        private List<int> mBindedToComponentIDs = new List<int>();
+
+        public void Revert() { }
+
+        public void ToPool()
+        {
+            Pooling<ShipDockEntitas>.To(this);
+        }
+
+        public void InitComponents()
+        {
+            mContext = ShipDockECS.Instance.Context;
+        }
+
+        public void Dispose()
         {
             WillDestroy = true;
+        }
+
+        public void AddComponent(int componentName)
+        {
+            IShipDockComponent component = mContext.RefComponentByName(componentName);
+            AddComponent(component);
         }
 
         /// <summary>
@@ -27,14 +53,16 @@ namespace ShipDock.ECS
                 ComponentList.Add(component.ID);
                 mBindedToComponentIDs.Add(autoID);
             }
+            else { }
         }
 
-        public virtual void SetEntitasID(int id)
+        public void SetEntitasID(int id)
         {
             if (ID == int.MaxValue)
             {
                 ID = id;
             }
+            else { }
         }
 
         /// <summary>
@@ -54,17 +82,25 @@ namespace ShipDock.ECS
                     ComponentList.Remove(id);
                     component.DropEntitas(this, entitasID);
                 }
+                else { }
             }
+            else { }
+
             if (WillDestroy)
             {
                 if ((ComponentList != default) && (ComponentList.Count == 0))
                 {
                     List<int> list = ComponentList;
                     Utils.Reclaim(ref list);
-                    Utils.Reclaim(ref mBindedToComponentIDs);
+                    Utils.Reclaim(ref mBindedToComponentIDs, false);
                     ID = int.MaxValue;
+                    WillDestroy = false;
+
+                    ToPool();
                 }
+                else { }
             }
+            else { }
         }
 
         public bool HasComponent(int componentID)
@@ -90,8 +126,25 @@ namespace ShipDock.ECS
             return id;
         }
 
-        public List<int> ComponentList { get; } = new List<int>();
-        public int ID { get; private set; } = int.MaxValue;
-        public bool WillDestroy { get; protected set; } = false;
+        /// <summary>
+        /// 获取一个已经添加到实体的组件
+        /// </summary>
+        public T GetComponentByName<T>(int name) where T : IShipDockComponent
+        {
+            return (T)mContext.RefComponentByName(name);
+        }
+
+        public T GetComponentFromEntitas<T>(int aid) where T : IShipDockComponent
+        {
+            T result = default;
+            if (HasComponent(aid))
+            {
+                int index = ComponentList.IndexOf(aid);
+                result = (T)mContext.RefComponentByName(ComponentList[index]);
+            }
+            else { }
+
+            return result;
+        }
     }
 }

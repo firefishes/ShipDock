@@ -110,7 +110,7 @@ namespace ShipDock.UI
                                 temp = sceneItem.keyField.Append(" {", sceneItem.value.name, "}");
                                 break;
                             case SceneNodeType.ANIMATOR:
-                                temp = sceneItem.keyField.Append("Animator {", sceneItem.animator.name, "}");
+                                temp = sceneItem.keyField.Append(" Animator {", sceneItem.animator.name, "}");
                                 break;
                             case SceneNodeType.CAMERA:
                                 temp = sceneItem.keyField.Append(" Camera {", sceneItem.lens.name, "}");

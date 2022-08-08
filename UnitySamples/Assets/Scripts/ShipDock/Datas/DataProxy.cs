@@ -6,11 +6,13 @@ namespace ShipDock.Datas
 {
     public class DataProxy : IDataProxy
     {
+        private Queue<int> mDataNotifies;
         private List<IDataExtracter> mDataHandlers;
         private Action<IDataProxy, int> mOnDataProxyNotify;
 
         public DataProxy()
         {
+            mDataNotifies = new Queue<int>();
             mDataHandlers = new List<IDataExtracter>();
         }
 
@@ -21,6 +23,7 @@ namespace ShipDock.Datas
 
         public virtual void Dispose()
         {
+            Utils.Reclaim(ref mDataNotifies);
             Utils.Reclaim(ref mDataHandlers);
             mOnDataProxyNotify = default;
         }
@@ -34,12 +37,12 @@ namespace ShipDock.Datas
                 for (int i = 0; i < max; i++)
                 {
                     keyName = keys[i];
-                    mOnDataProxyNotify?.Invoke(this, keyName);
+                    DataNotify(keyName);
                 }
             }
             else
             {
-                mOnDataProxyNotify?.Invoke(this, int.MaxValue);
+                DataNotify(int.MaxValue);
             }
         }
 
@@ -57,7 +60,7 @@ namespace ShipDock.Datas
             else { }
 
             mDataHandlers.Add(dataHandler);
-            mOnDataProxyNotify += dataHandler.OnDataProxyNotify;
+            AddDataProxyNotify(dataHandler.OnDataProxyNotify);
         }
 
         public virtual void Unregister(IDataExtracter dataHandler)
@@ -69,7 +72,7 @@ namespace ShipDock.Datas
             else { }
 
             mDataHandlers.Remove(dataHandler);
-            mOnDataProxyNotify -= dataHandler.OnDataProxyNotify;
+            RemoveDataProxyNotify(dataHandler.OnDataProxyNotify);
         }
 
         public void AddDataProxyNotify(Action<IDataProxy, int> notifyHandler)

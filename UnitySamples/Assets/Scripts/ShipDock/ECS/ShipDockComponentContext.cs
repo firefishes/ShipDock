@@ -1,5 +1,6 @@
 ﻿#define _G_LOG
 
+using ShipDock.Interfaces;
 using ShipDock.Tools;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,55 @@ namespace ShipDock.ECS
         public static bool isMergeUpdateMode = false;
         /// <summary>是否启用帧后更新模式</summary>
         public static bool isUpdateByCallLate = false;
+    }
+
+    public class ECSContext : IDispose
+    {
+        public IShipDockComponentContext CurrentContext { get; private set; }
+
+        private int mFrameTimeInScene;
+        private KeyValueList<int, IShipDockComponentContext> mMapper;
+
+        public ECSContext(int frameTimeInScene)
+        {
+            mFrameTimeInScene = frameTimeInScene;
+            mMapper = new KeyValueList<int, IShipDockComponentContext>();
+        }
+
+        public void Dispose()
+        {
+            CurrentContext = default;
+            Utils.Reclaim(ref mMapper, true, true);
+        }
+
+        public void CreateContext(int name)
+        {
+            if (mMapper.ContainsKey(name)) { }
+            else
+            {
+                mMapper[name] = new ShipDockComponentContext()
+                {
+                    FrameTimeInScene = mFrameTimeInScene,
+                };
+            }
+        }
+
+        public IShipDockComponentContext GetContext(int name = int.MaxValue)
+        {
+            IShipDockComponentContext context = default;
+            if (mMapper.Size > 0)
+            {
+                name = (name == int.MaxValue) ? mMapper.Keys[0] : name;
+                context = mMapper[name];
+            }
+            else { }
+            return context;
+        }
+
+        public void ActiveECSContext(int name = int.MaxValue)
+        {
+            CurrentContext = GetContext(name);
+        }
     }
 
     /// <summary>

@@ -686,10 +686,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3522404231564722863, guid: 9af1981d32ed35b42b9df18214908169,
+    - target: {fileID: 6360270082117253367, guid: 9af1981d32ed35b42b9df18214908169,
         type: 3}
-      propertyPath: m_LogsSetting.m_Sync
-      value: 0
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6360270083162481566, guid: 9af1981d32ed35b42b9df18214908169,
         type: 3}

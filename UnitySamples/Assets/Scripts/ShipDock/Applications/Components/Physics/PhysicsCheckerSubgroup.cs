@@ -26,8 +26,8 @@ namespace ShipDock.Applications
             if (m_CheckRange != default)
             {
                 m_Radius = m_CheckRange.radius;
-                mRayAndHitInfo.radius = m_Radius;
-                mRayAndHitInfo.layerMask = m_ColliderLayer.value;
+                RayAndHit.radius = m_Radius;
+                RayAndHit.layerMask = m_ColliderLayer.value;
             }
             else { }
 
@@ -37,11 +37,13 @@ namespace ShipDock.Applications
         [Header("检测半径")]
         [SerializeField]
         private float m_Radius = 2f;
+
         [Header("是否激活")]
         [SerializeField]
         private bool m_CheckerEnabled;
         [SerializeField]
         private LayerMask m_ColliderLayer;
+
         [Header("检测频率")]
         [SerializeField]
         private TimeGapper m_CheckGapper = new TimeGapper();
@@ -50,7 +52,6 @@ namespace ShipDock.Applications
         private Collider mColliderItem;
         private Collider[] mCollidersOverlay;
         private ComponentBridge mBridge;
-        private RayAndHitInfo mRayAndHitInfo;
         private ICommonOverlayMapper mCommonColliderMapper;
 
         public bool CheckerEnabled
@@ -73,23 +74,27 @@ namespace ShipDock.Applications
             }
         }
 
+        public RayAndHitInfo RayAndHit { get; private set; }
         public Transform CheckerOwner { get; set; }
         public int SubgroupID { get; private set; } = int.MaxValue;
 
-        public void SetSubgroup(IShipDockEntitas entitas, ICommonOverlayMapper overlayMapper)
+        public void SetCommonOverlayMapper(ICommonOverlayMapper overlayMapper)
         {
-            bool hasData = overlayMapper.IsDataValid(ref entitas);
-            if (hasData)
+            if (SubgroupID != int.MaxValue)
             {
-                BehaviourIDs ids = overlayMapper.GetEntitasData(ref entitas);
-                SubgroupID = ids.gameItemID;
-
                 mCommonColliderMapper = overlayMapper;
                 mCommonColliderMapper.PhysicsChecked(SubgroupID, true);
-                mBridge = new ComponentBridge(OnInit);
-                mBridge.Start();
             }
             else { }
+        }
+
+        public void Init(Transform trans, BehaviourIDs ids)
+        {
+            CheckerOwner = trans;
+            SubgroupID = ids.gameItemID;
+
+            mBridge = new ComponentBridge(OnInit);
+            mBridge.Start();
         }
 
         private void OnInit()
@@ -97,7 +102,7 @@ namespace ShipDock.Applications
             mBridge.Dispose();
 
             mColliderLayer = m_ColliderLayer.value;
-            mRayAndHitInfo = new RayAndHitInfo
+            RayAndHit = new RayAndHitInfo
             {
                 ray = new Ray(),
                 layerMask = mColliderLayer,
@@ -130,14 +135,14 @@ namespace ShipDock.Applications
             SubgroupID = int.MaxValue;
         }
 
-        private void AddColliding(int id, bool isTrigger, bool isCollided, out int statu)
+        private void AddColliding(int id, bool isCollision, out int statu)
         {
             statu = 0;
             if (mCommonColliderMapper != default)
             {
                 if (m_CheckerEnabled)
                 {
-                    mCommonColliderMapper.OverlayChecked(SubgroupID, id, isTrigger, isCollided);
+                    mCommonColliderMapper.OverlayChecked(SubgroupID, id, true, isCollision);
                 }
                 else { }
             }
@@ -147,14 +152,14 @@ namespace ShipDock.Applications
             }
         }
 
-        private void RemoveColliding(int id, bool isTrigger, bool isCollided, out int statu)
+        private void RemoveColliding(int id, bool isCollision, out int statu)
         {
             statu = 0;
             if (mCommonColliderMapper != default)
             {
                 if (m_CheckerEnabled)
                 {
-                    mCommonColliderMapper.OverlayChecked(SubgroupID, id, isTrigger, isCollided);
+                    mCommonColliderMapper.OverlayChecked(SubgroupID, id, false, isCollision);
                 }
                 else { }
             }
@@ -164,7 +169,7 @@ namespace ShipDock.Applications
             }
         }
 
-        public void TriggerEnter(Collider other)
+        public void TriggerEnter(ref Collider other)
         {
             if (SubgroupID == int.MaxValue)
             {
@@ -173,10 +178,10 @@ namespace ShipDock.Applications
             else { }
 
             int id = other.GetInstanceID();
-            AddColliding(id, true, false, out int statu);
+            AddColliding(id, false, out int statu);
         }
 
-        public void TriggerExit(Collider other)
+        public void TriggerExit(ref Collider other)
         {
             if (SubgroupID == int.MaxValue)
             {
@@ -185,10 +190,10 @@ namespace ShipDock.Applications
             else { }
 
             int id = other.GetInstanceID();
-            RemoveColliding(id, true, false, out int statu);
+            RemoveColliding(id, false, out int statu);
         }
 
-        public void CollisionEnter(Collision collision)
+        public void CollisionEnter(ref Collision collision)
         {
             if (SubgroupID == int.MaxValue)
             {
@@ -197,10 +202,10 @@ namespace ShipDock.Applications
             else { }
 
             int id = collision.collider.GetInstanceID();
-            AddColliding(id, false, true, out _);
+            AddColliding(id, true, out _);
         }
 
-        public void CollisionExit(Collision collision)
+        public void CollisionExit(ref Collision collision)
         {
             if (SubgroupID == int.MaxValue)
             {
@@ -209,11 +214,17 @@ namespace ShipDock.Applications
             else { }
 
             int id = collision.collider.GetInstanceID();
-            RemoveColliding(id, false, true, out _);
+            RemoveColliding(id, true, out _);
         }
 
-        public void UpdatePhysicsCheck(ref Transform transform, bool isTrigger, bool isCollider)
+        public void UpdatePhysicsCheck(ref Transform transform, bool isCollision)
         {
+            if (SubgroupID == int.MaxValue)
+            {
+                return;
+            }
+            else { }
+
             if (m_CheckGapper.isStart)
             {
                 m_CheckGapper.TimeAdvanced(Time.deltaTime);
@@ -224,13 +235,7 @@ namespace ShipDock.Applications
                 m_CheckGapper.Start();
             }
 
-            if (SubgroupID == int.MaxValue)
-            {
-                return;
-            }
-            else { }
-
-            mCollidersOverlay = Physics.OverlapSphere(transform.position, mRayAndHitInfo.radius, mRayAndHitInfo.layerMask);
+            mCollidersOverlay = Physics.OverlapSphere(transform.position, RayAndHit.radius, RayAndHit.layerMask);
             int max = mCollidersOverlay != default ? mCollidersOverlay.Length : 0;
             if (max > 0)
             {
@@ -242,10 +247,9 @@ namespace ShipDock.Applications
                     id = mColliderItem.GetInstanceID();
                     if (id != SubgroupID)
                     {
-                        AddColliding(id, isTrigger, isCollider, out _);
+                        AddColliding(id, isCollision, out _);
                     }
                     else { }
-
                 }
             }
             else { }

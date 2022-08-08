@@ -11,10 +11,13 @@ namespace ShipDock.Loader
     [Serializable]
     public class CustomAssetsInfoItem : ScriptableItem
     {
+#if ODIN_INSPECTOR
+        [Indent()]
+#endif
         public bool valid = true;
 
 #if ODIN_INSPECTOR
-        [ShowIf("@this.valid")]
+        [ShowIf("@this.valid"), Indent()]
 #endif
         public CustomAssetInfo[] assets;
 

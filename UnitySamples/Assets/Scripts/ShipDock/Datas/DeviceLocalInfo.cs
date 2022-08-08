@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ShipDock.Datas
 {
@@ -8,6 +9,7 @@ namespace ShipDock.Datas
         public bool has_allowed_microphone;
         public bool has_agree_privacy;
         public bool has_allowed_camera;
+        public List<string> all_accounts = new List<string>();
 
         public DeviceLocalInfo() { }
     }

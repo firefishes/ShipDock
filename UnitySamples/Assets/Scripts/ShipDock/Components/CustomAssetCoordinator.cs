@@ -83,10 +83,11 @@ namespace ShipDock.Loader
             if (m_Info != null)
             {
                 CustomAssetComponent[] list = GetComponentsInChildren<CustomAssetComponent>();
-                foreach (var item in list)
-                {
-                    DestroyImmediate(item.gameObject);
-                }
+                //foreach (var item in list)
+                //{
+                //    DestroyImmediate(item.gameObject);
+                //}
+                list = new CustomAssetComponent[list.Length];
 
                 List<CustomAssetsInfoItem> infos = m_Info.GetAssetInfos();
                 foreach (CustomAssetsInfoItem item in infos)

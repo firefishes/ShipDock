@@ -12,8 +12,16 @@ namespace ShipDock.Modulars
     /// </summary>
     public class MessageModular : ApplicationModular
     {
-        public static void AddMessage(DecorativeModulars modulars, int message, INoticeBase<int> paramNotice)
+        private static IAppModulars modulars;
+
+        public static void AddMessage(int message, INoticeBase<int> paramNotice)
         {
+            if (modulars == default)
+            {
+                modulars = Framework.Instance.GetUnit<DecorativeModulars>(Framework.UNIT_MODULARS);
+            }
+            else { }
+
             modulars?.NotifyModular(ShipDockConsts.NOTICE_MSG_ADD, MessageNotice.Create(message, paramNotice));
         }
 

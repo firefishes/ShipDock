@@ -1,4 +1,6 @@
 using ShipDock.Notices;
+using ShipDock.Tools;
+using System;
 
 namespace ShipDock.Modulars
 {
@@ -10,13 +12,18 @@ namespace ShipDock.Modulars
     /// </summary>
     public abstract class QueueableNoticesModular : ApplicationModular
     {
+        private KeyValueList<int, Action<INoticeBase<int>>> mMessageSettles;
+
         public QueueableNoticesModular(int modularName) : base()
         {
             ModularName = modularName;
+
+            mMessageSettles = new KeyValueList<int, Action<INoticeBase<int>>>();
         }
 
         public override void Purge()
         {
+            mMessageSettles?.Clear();
         }
 
         protected override void InitCustomHandlers()
@@ -57,6 +64,26 @@ namespace ShipDock.Modulars
         {
             MessageNotice notice = MessageNotice.Create(message, param);
             NotifyModular(ShipDockConsts.NOTICE_MSG_ADD, notice);
+        }
+
+        protected void SetMessageSettle(int message, Action<INoticeBase<int>> handler)
+        {
+            mMessageSettles[message] = handler;
+        }
+
+        protected void ResetMessageSettle(int message)
+        {
+            mMessageSettles.Remove(message);
+        }
+
+        protected void ExecuteMessageSettle(int message, ref INoticeBase<int> param)
+        {
+            Action<INoticeBase<int>> method = mMessageSettles[message];
+            if (method != default)
+            {
+                method?.Invoke(param);
+            }
+            else { }
         }
     }
 

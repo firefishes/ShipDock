@@ -53,3 +53,20 @@ MonoBehaviour:
       audioClip: {fileID: 0}
       textData: {fileID: 4900000, guid: 5d63e8e1d4227a543af1cbff2580087d, type: 3}
       assetBundle: {fileID: 0}
+  - name: peace/ui_login
+    id: 0
+    m_EditEnabled: 0
+    valid: 1
+    assets:
+    - assetName: UILogin
+      assetPath: Assets/res_data/peace/ui/UILogin.prefab
+      m_EditEnabled: 1
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 7152355303091064762, guid: b65e9b96e4ad0e74788d4f243e5f9ca5,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}

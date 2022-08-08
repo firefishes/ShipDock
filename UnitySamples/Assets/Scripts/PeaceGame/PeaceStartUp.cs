@@ -4,6 +4,7 @@ using ShipDock.Modulars;
 using ShipDock.Notices;
 using ShipDock.Pooling;
 using StaticConfig;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,8 +27,10 @@ namespace Peace
 
             param.ParamValue = new IDataProxy[]
             {
-                new ConfigData(Consts.D_CONFIGS),
                 new PlayerData(),
+                new ConfigData(Consts.D_CONFIGS),
+                new LegionData(Consts.D_LEGION),
+                new TroopsData(Consts.D_TROOPS),
             };
         }
 
@@ -42,7 +45,7 @@ namespace Peace
             {
                 new MessageModular(Consts.M_MESSAGE),
                 new BattleModular(),
-                new WorldModular(),
+                new PeaceWorldModular(),
             };
             DecorativeModulars modluars = ShipDockApp.Instance.AppModulars;
             modluars.AddModular(modulars);
@@ -80,6 +83,14 @@ namespace Peace
             ConfigData data = Consts.D_CONFIGS.GetData<ConfigData>();
             data.AddConfigs(Consts.CONF_GROUP_CONFIGS, configResult);
 
+            Consts.UM_LOGIN.OpenUI<UILoginModular>();
+
+            Test();
+
+        }
+
+        private void Test()
+        {
             //通过封装过的扩展方法从配置数据代理中获取配置
             Dictionary<int, PeaceOrganizations> testConfTable = Consts.CONF_ORGANIZATIONS.GetConfigTable<PeaceOrganizations>();
 

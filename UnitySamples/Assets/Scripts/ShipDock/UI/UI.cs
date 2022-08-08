@@ -16,6 +16,20 @@ namespace ShipDock.UI
         /// <summary>资源对象池引用</summary>
         private AssetsPooling mUIPooling;
 
+        protected AssetsPooling UIPooling
+        {
+            get
+            {
+                if (!Destroyed && (mUIPooling == default))
+                {
+                    mUIPooling = ShipDockApp.Instance.AssetsPooling;
+                }
+                else { }
+
+                return mUIPooling;
+            }
+        }
+
         /// <summary>标识UI是否有修改</summary>
         public bool UIChanged { get; set; }
         /// <summary>销毁</summary>
@@ -88,20 +102,6 @@ namespace ShipDock.UI
         protected virtual MonoBehaviour GetUIReadyParam()
         {
             return this;
-        }
-
-        protected AssetsPooling UIPooling
-        {
-            get
-            {
-                if (!Destroyed && (mUIPooling == default))
-                {
-                    mUIPooling = ShipDockApp.Instance.AssetsPooling;
-                }
-                else { }
-
-                return mUIPooling;
-            }
         }
 
         public void AddChild(Transform tf)

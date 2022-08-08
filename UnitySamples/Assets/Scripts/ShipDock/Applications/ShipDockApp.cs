@@ -79,7 +79,7 @@ namespace ShipDock.Applications
         public StateMachines StateMachines { get; private set; }
         public PerspectiveInputer PerspectivesInputer { get; private set; }
         public DecorativeModulars AppModulars { get; private set; }
-        public ShipDockComponentContext ECSContext { get; private set; }
+        public ECSContext ECSContext { get; private set; }
         public ILRuntimeHotFix ILRuntimeHotFix { get; private set; }
         public IFrameworkUnit[] FrameworkUnits { get; private set; }
         public Action MergeCallOnMainThread { get; set; }
@@ -197,15 +197,14 @@ namespace ShipDock.Applications
             AssertFrameworkInit(int.MaxValue);
             AssertFrameworkInit(0);
 
-            Notificater = NotificatonsInt.Instance.Notificater;//new Notifications<int>();//新建消息中心
+            Notificater = NotificatonsInt.Instance.Notificater;//新建消息中心
             ABs = new AssetBundles();//新建资源包管理器
             Servers = new Servers();//新建服务容器管理器
             DataWarehouse datas = new DataWarehouse();//新建数据管理器
             AssetsPooling = new AssetsPooling();//新建场景资源对象池
-            ECSContext = new ShipDockComponentContext//新建 ECS 组件上下文
-            {
-                FrameTimeInScene = (int)(Time.deltaTime * UpdatesCacher.UPDATE_CACHER_TIME_SCALE)
-            };
+            int frameTimeInScene = (int)(Time.deltaTime * UpdatesCacher.UPDATE_CACHER_TIME_SCALE);
+            ECSContext = new ECSContext(frameTimeInScene);//新建ECS世界上下文
+
             StateMachines = new StateMachines//新建有限状态机管理器
             {
                 FSMFrameUpdater = OnFSMFrameUpdater,
@@ -459,23 +458,30 @@ namespace ShipDock.Applications
         /// </summary>
         private void AlternateFrameUpdateMode(int time)
         {
+            IShipDockComponentContext context = ECSContext.CurrentContext;
+            if (context == default)
+            {
+                return;
+            }
+            else { }
+
             if (ShipDockECSSetting.isUpdateByCallLate)
             {
-                ECSContext.UpdateComponentUnit(time, ComponentUnitUpdate);
+                context.UpdateComponentUnit(time, ComponentUnitUpdate);
                 if (mFrameSign > 0)
                 {
-                    ECSContext.FreeComponentUnit(time, ComponentUnitUpdate);//奇数帧检测是否有需要释放的实体
-                    ECSContext.RemoveSingedComponents();
+                    context.FreeComponentUnit(time, ComponentUnitUpdate);//奇数帧检测是否有需要释放的实体
+                    context.RemoveSingedComponents();
                 }
                 else { }
             }
             else
             {
-                ECSContext.UpdateComponentUnit(time);//框架默认为此模式
+                context.UpdateComponentUnit(time);//框架默认为此模式
                 if (mFrameSign > 0)
                 {
-                    ECSContext.FreeComponentUnit(time);//奇数帧检测是否有需要释放的实体，框架默认为此模式
-                    ECSContext.RemoveSingedComponents();
+                    context.FreeComponentUnit(time);//奇数帧检测是否有需要释放的实体，框架默认为此模式
+                    context.RemoveSingedComponents();
                 }
                 else { }
             }
@@ -488,17 +494,18 @@ namespace ShipDock.Applications
         /// </summary>
         private void MergeUpdateMode(int time)
         {
+            IShipDockComponentContext context = ECSContext.CurrentContext;
             if (ShipDockECSSetting.isUpdateByCallLate)
             {
-                ECSContext.UpdateComponentUnit(time, ComponentUnitUpdate);
-                ECSContext.FreeComponentUnit(time, ComponentUnitUpdate);
-                ECSContext.RemoveSingedComponents();
+                context.UpdateComponentUnit(time, ComponentUnitUpdate);
+                context.FreeComponentUnit(time, ComponentUnitUpdate);
+                context.RemoveSingedComponents();
             }
             else
             {
-                ECSContext.UpdateComponentUnit(time);
-                ECSContext.FreeComponentUnit(time);
-                ECSContext.RemoveSingedComponents();
+                context.UpdateComponentUnit(time);
+                context.FreeComponentUnit(time);
+                context.RemoveSingedComponents();
             }
         }
 
@@ -538,23 +545,24 @@ namespace ShipDock.Applications
         /// </summary>
         private void AlternateFramUpdateModeInScene(int time)
         {
+            IShipDockComponentContext context = ECSContext.CurrentContext;
             if (ShipDockECSSetting.isUpdateByCallLate)
             {
-                ECSContext.UpdateComponentUnitInScene(time, ComponentUnitUpdateInScene);
+                context.UpdateComponentUnitInScene(time, ComponentUnitUpdateInScene);
                 if (mFrameSignInScene > 0)
                 {
-                    ECSContext.FreeComponentUnitInScene(time, ComponentUnitUpdateInScene);//奇数帧检测是否有需要释放的实体
-                    ECSContext.RemoveSingedComponents();
+                    context.FreeComponentUnitInScene(time, ComponentUnitUpdateInScene);//奇数帧检测是否有需要释放的实体
+                    context.RemoveSingedComponents();
                 }
                 else { }
             }
             else
             {
-                ECSContext.UpdateComponentUnitInScene(time);
+                context.UpdateComponentUnitInScene(time);
                 if (mFrameSignInScene > 0)
                 {
-                    ECSContext.FreeComponentUnitInScene(time);//奇数帧检测是否有需要释放的实体
-                    ECSContext.RemoveSingedComponents();
+                    context.FreeComponentUnitInScene(time);//奇数帧检测是否有需要释放的实体
+                    context.RemoveSingedComponents();
                 }
                 else { }
             }
@@ -567,17 +575,18 @@ namespace ShipDock.Applications
         /// </summary>
         private void MergeUpdateModeInScene(int time)
         {
+            IShipDockComponentContext context = ECSContext.CurrentContext;
             if (ShipDockECSSetting.isUpdateByCallLate)
             {
-                ECSContext.UpdateComponentUnitInScene(time, ComponentUnitUpdateInScene);
-                ECSContext.FreeComponentUnitInScene(time, ComponentUnitUpdateInScene);
-                ECSContext.RemoveSingedComponents();
+                context.UpdateComponentUnitInScene(time, ComponentUnitUpdateInScene);
+                context.FreeComponentUnitInScene(time, ComponentUnitUpdateInScene);
+                context.RemoveSingedComponents();
             }
             else
             {
-                ECSContext.UpdateComponentUnitInScene(time);
-                ECSContext.FreeComponentUnitInScene(time);
-                ECSContext.RemoveSingedComponents();
+                context.UpdateComponentUnitInScene(time);
+                context.FreeComponentUnitInScene(time);
+                context.RemoveSingedComponents();
             }
         }
 

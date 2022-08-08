@@ -1,50 +1,47 @@
 ﻿using ShipDock.Datas;
 using ShipDock.Notices;
+using System;
+using UnityEngine;
 
 namespace Peace
 {
     public class PlayerData : DataProxy
     {
-        private LocalClient mLocalClient;
-
         public NoticesObserver Events { get; private set; }
+        public LocalClient LocalClient { get; private set; }
 
         public PlayerData() : base(Consts.D_PLAYER)
         {
             Events = new NoticesObserver();
-            //Events.AddListener(N_GET_NEW_HEROS, OnGetNewHeros);
-
+            
             ShipDockConsts.NOTICE_APPLICATION_CLOSE.Add(OnApplicationClose);
-
         }
 
         public void InitPlayer()
         {
-            mLocalClient = new LocalClient();
-            mLocalClient.Sync();
-
-            PeaceClientInfo clientInfo = mLocalClient.ClientInfo;
-            //Heros.Init(ref clientInfo);
+            LocalClient = new LocalClient();
+            LocalClient.Sync();
         }
 
-        private void OnGetNewHeros(INoticeBase<int> param)
+        public void LoadNewPlayer()
         {
-            ParamNotice<int[]> notice = param as ParamNotice<int[]>;
-            //notice.ParamValue = Heros.GetNewHeroIDs();
+            LocalClient.CreateNewClient();
+            LocalClient.ClientInfo.accountID = DateTime.UtcNow.ToLongTimeString();
+            Save();
+
+            DataNotify(Consts.DN_NEW_GAME_CREATED);
         }
 
         private void OnApplicationClose(INoticeBase<int> obj)
         {
-            PeaceClientInfo clientInfo = mLocalClient.ClientInfo;
-
-            //Heros.SyncHerosToClient(ref clientInfo);
+            PeaceClientInfo clientInfo = LocalClient.ClientInfo;
 
             Save();
         }
 
         public void Save()
         {
-            mLocalClient?.FlushInfos();
+            LocalClient?.FlushInfos();
         }
     }
 
