@@ -254,4 +254,9 @@ static public class ShipDockExtension
         float a = target.Length > 3 ? target[3] / COLOR_MAX : 1f;
         return new Color(target[0] / COLOR_MAX, target[1] / COLOR_MAX, target[2] / COLOR_MAX, a);
     }
+
+    public static bool NotNull<T>(this T target)
+    {
+        return default != target;
+    }
 }
