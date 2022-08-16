@@ -26,6 +26,7 @@ namespace Peace
         public const int M_MESSAGE = 2000;
         public const int M_BATTLE = 2001;
         public const int M_WORLD = 2002;
+        public const int M_DATA = 2003;
         #endregion
 
         #region 消息名
@@ -54,14 +55,17 @@ namespace Peace
         #region 资源包名
         public const string AB_CONFIGS = "peace/configs";
         public const string AB_LOGOIN = "peace/ui_login";
+        public const string AB_UI_MAIN = "peace/ui_main";
         #endregion
 
         #region UI资源名
         public const string U_LOGIN = "UILogin";
+        public const string U_HEADQUARTERS = "UIHeadquarters";
         #endregion
 
         #region UI模块名
         public const string UM_LOGIN = "UMLogin";
+        public const string UM_HEADQUARTERS = "UMHeadquarters";
         #endregion
 
         #region 军衔

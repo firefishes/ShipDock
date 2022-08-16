@@ -90,7 +90,7 @@ namespace ShipDock.Datas
             else { }
 
             //检测循环次数是否大于最大次数
-            flag = (mDataNotifyStack.Count > 1) ? (allowLoopedStackOverflow > mLooped) : true;
+            flag = (mDataNotifyStack.Count > 1) ? (allowLoopedStackOverflow >= mLooped) : true;
             if (flag)
             {
                 //无循环调用时才可派发数据变更通知

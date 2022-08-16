@@ -16,7 +16,7 @@ namespace Peace
         public override string UIAssetName { get; protected set; } = Consts.U_LOGIN;
         public override string Name { get; protected set; } = Consts.UM_LOGIN;
         public override int UILayer { get; protected set; } = UILayerType.WINDOW;
-        public override int[] DataProxyLinks { get; set; }
+        public override int[] DataProxyLinks { get; set; } = new int[] { Consts.D_PLAYER };
 
 
         protected override void Purge()
@@ -35,7 +35,8 @@ namespace Peace
             PlayerData playerData = Consts.D_PLAYER.GetData<PlayerData>();
             PeaceClientInfo clientInfo = playerData.LocalClient.ClientInfo;
 
-            UIImpl.CheckLoadGameEnabled(clientInfo.accountID != "0");
+            bool enabled = clientInfo.accountID != "0";
+            UIImpl.CheckLoadGameEnabled(enabled);
         }
 
         public override void OnDataProxyNotify(IDataProxy data, int keyName)
@@ -46,7 +47,11 @@ namespace Peace
                 {
                     case Consts.DN_NEW_GAME_CREATED:
                         PeaceClientInfo clientInfo = playerData.LocalClient.ClientInfo;
-                        UIImpl.CheckLoadGameEnabled(clientInfo.accountID != "0");
+
+                        bool enabled = clientInfo.accountID != "0";
+                        UIImpl.CheckLoadGameEnabled(enabled);
+
+                        Consts.UM_LOGIN.Close();
                         break;
                 }
             }

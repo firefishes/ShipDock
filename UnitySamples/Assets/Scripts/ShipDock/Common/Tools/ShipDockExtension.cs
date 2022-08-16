@@ -257,6 +257,6 @@ static public class ShipDockExtension
 
     public static bool NotNull<T>(this T target)
     {
-        return default != target;
+        return null != target;
     }
 }
