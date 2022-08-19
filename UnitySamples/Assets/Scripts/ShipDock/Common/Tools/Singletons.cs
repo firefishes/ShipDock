@@ -43,7 +43,7 @@ namespace ShipDock.Tools
             else { }
         }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             instance = default;
         }

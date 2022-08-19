@@ -58,7 +58,7 @@ namespace ShipDock.Applications
 
         protected override void Purge()
         {
-            mCompBridge?.Dispose();
+            mCompBridge?.Reclaim();
             mCompBridge = default;
             m_Settings.Clear();
             m_Settings = default;
@@ -183,7 +183,7 @@ namespace ShipDock.Applications
             }
             else
             {
-                mIDAsNotice?.Dispose();
+                mIDAsNotice?.Reclaim();
             }
 
             if (m_LoadedNoticeInfo.IsSendInRenderObject)

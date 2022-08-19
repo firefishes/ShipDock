@@ -46,7 +46,7 @@ public static class ShipDockUIExtensions
                 {
                     if (suc)
                     {
-                        ld?.Dispose();
+                        ld?.Reclaim();
                         uis.OnLoadingShower?.Invoke(false);
 
                         T result = OpenHotFixUI<T>(stackName);

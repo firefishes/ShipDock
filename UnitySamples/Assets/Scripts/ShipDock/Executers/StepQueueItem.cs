@@ -45,6 +45,7 @@ namespace ShipDock.Tools
             {
                 QueueNext();
             }
+            else { }
         }
 
         /// <summary>以上一帧时间差为间隔检测步骤的完成情况</summary>
@@ -67,12 +68,13 @@ namespace ShipDock.Tools
         public bool IgnoreInQueue { get; set; }
         #endregion
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             if (mIsDispose)
             {
                 return;
             }
+            else { }
             
             mIsDispose = true;
 
@@ -82,7 +84,7 @@ namespace ShipDock.Tools
 
         public void Revert()
         {
-            Dispose();
+            Reclaim();
         }
 
         public virtual void Commit()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ShipDock.Notices
 {
-    public class NoticeHandler<NameT> : IDispose
+    public class NoticeHandler<NameT> : IReclaim
     {
         public static NoticeHandler<NameT> Create(NameT name, INotificationSender sender = default)
         {
@@ -46,6 +46,15 @@ namespace ShipDock.Notices
             return result;
         }
 
+        public void Reclaim()
+        {
+            NoticeCount = 0;
+
+            mHandler = default;
+            Name = default;
+            Sender = default;
+        }
+
         public void Add(Action<INoticeBase<NameT>> handler)
         {
             if (handler == null)
@@ -70,15 +79,6 @@ namespace ShipDock.Notices
         public void Invoke(ref INoticeBase<NameT> param)
         {
             mHandler?.Invoke(param);
-        }
-
-        public void Dispose()
-        {
-            NoticeCount = 0;
-
-            mHandler = default;
-            Name = default;
-            Sender = default;
         }
     }
 

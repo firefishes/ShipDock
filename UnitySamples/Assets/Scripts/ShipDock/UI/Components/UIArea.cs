@@ -48,7 +48,7 @@ namespace ShipDock.UI
         {
             Events?.Clean();
 
-            mMapper?.Dispose();
+            mMapper?.Reclaim();
             mUIAreaNotice?.ToPool();
             mUIAreaNotice = default;
             mCurrent = default;

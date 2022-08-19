@@ -3,7 +3,7 @@ using System;
 
 namespace ShipDock.ECS
 {
-    public interface IShipDockComponent : IDispose
+    public interface IShipDockComponent : IReclaim
     {
         void Init(IShipDockComponentContext context);
         IShipDockEntitas GetEntitas(int id);

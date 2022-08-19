@@ -50,10 +50,10 @@ namespace ShipDock.Applications
 
             public ILTypeInstance ILInstance { get { return instance; } }
 
-            public override void Dispose()
+            public override void Reclaim()
             {
                 if (mDispose_0.CheckShouldInvokeBase(this.instance))
-                    base.Dispose();
+                    base.Reclaim();
                 else
                     mDispose_0.Invoke(this.instance);
             }

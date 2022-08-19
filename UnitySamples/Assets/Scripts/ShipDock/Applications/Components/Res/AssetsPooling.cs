@@ -33,7 +33,7 @@ namespace ShipDock.Pooling
         /// <summary>以游戏脚本为模板的对象池集合</summary>
         private KeyValueList<int, Stack<Component>> mCompPool;
         /// <summary>是否已被销毁</summary>
-        private bool mIsDispose;
+        private bool mIsReclaimed;
         #endregion
 
         public AssetsPooling()
@@ -48,9 +48,9 @@ namespace ShipDock.Pooling
         /// <summary>
         /// 销毁对象池管理器
         /// </summary>
-        public void Dispose()
+        public void Reclaim()
         {
-            mIsDispose = true;
+            mIsReclaimed = true;
 
             DestroyPool(ref mPool);
             DestroyPool(ref mCompPool);
@@ -60,7 +60,7 @@ namespace ShipDock.Pooling
 
             PoolContainer = null;
 
-            mIsDispose = false;
+            mIsReclaimed = false;
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace ShipDock.Pooling
         #region 归还对象
         public void ToPool<T>(int poolName, T target, OnComponentPoolItem<T> onRevert = null, bool visible = false) where T : Component
         {
-            if (target == null || mIsDispose)
+            if (target == null || mIsReclaimed)
             {
                 return;
             }
@@ -246,7 +246,7 @@ namespace ShipDock.Pooling
 
         public void ToPool(int poolName, GameObject target, OnGameObjectPoolItem onRevert = null, bool visible = false)
         {
-            if (target == null || mIsDispose)
+            if (target == null || mIsReclaimed)
             {
                 return;
             }

@@ -18,6 +18,7 @@ namespace ShipDock.Applications
             {
                 infos = source;
             }
+            else { }
 
             V info;
             int max = infos.Length;
@@ -29,9 +30,9 @@ namespace ShipDock.Applications
             }
         }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             Utils.Reclaim(ref infos, true, m_DisposeInfos);
         }

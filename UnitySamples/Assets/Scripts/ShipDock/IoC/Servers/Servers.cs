@@ -60,7 +60,7 @@ namespace ShipDock.Server
             }
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             IsServersReady = false;
             mCanCheckServers = false;
@@ -360,7 +360,7 @@ namespace ShipDock.Server
 
                 if (statu > 0)
                 {
-                    confItem.Dispose();
+                    confItem.Reclaim();
                 }
                 else { }
             }

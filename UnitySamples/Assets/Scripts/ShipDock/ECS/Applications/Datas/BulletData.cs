@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ShipDock.Applications
 {
-    public class BulletData : IDispose
+    public class BulletData : IReclaim
     {
         private Ray mRay;
         private RaycastHit mRayHit;
@@ -24,7 +24,7 @@ namespace ShipDock.Applications
         public Vector3 HitPosition { get; set; }
         public ICommonBulletChecker CommonBulletChecker { get; set; }
 
-        public void Dispose()
+        public void Reclaim()
         {
             CommonBulletChecker = default;
         }

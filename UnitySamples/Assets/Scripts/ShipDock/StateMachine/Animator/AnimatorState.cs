@@ -42,9 +42,9 @@ namespace ShipDock.FSM
 
         public AnimatorState(int name) : base(name) { }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             OnAniCompleted = default;
             Animator = null;

@@ -46,9 +46,9 @@ namespace ShipDock.Applications
             Recreate(totalTime, method, cancelCondition, repeats);
         }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             Stop();
 
@@ -178,7 +178,7 @@ namespace ShipDock.Applications
                     Completion?.Invoke();
                     if (IsAutoDispose)
                     {
-                        Dispose();
+                        Reclaim();
                     }
                     else { }
                 }
@@ -225,7 +225,7 @@ namespace ShipDock.Applications
             {
                 if (IsAutoDispose)
                 {
-                    Dispose();
+                    Reclaim();
                 }
                 else
                 {
@@ -249,7 +249,7 @@ namespace ShipDock.Applications
             {
                 if (IsAutoDispose)
                 {
-                    Dispose();
+                    Reclaim();
                 }
                 else
                 {

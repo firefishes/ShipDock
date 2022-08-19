@@ -6,7 +6,12 @@
     {
         private InterfaceT mParamTemp;
 
-        public void Dispose()
+        public ResolveDelegate<InterfaceT> DelegateTarget { get; private set; }
+        public object ResolverParam { get; set; }
+        public bool OnlyOnce { get; set; }
+        public int ID { get; private set; }
+
+        public void Reclaim()
         {
             OnlyOnce = false;
             mParamTemp = default;
@@ -48,11 +53,6 @@
         {
             ID = id;
         }
-
-        public ResolveDelegate<InterfaceT> DelegateTarget { get; private set; }
-        public object ResolverParam { get; set; }
-        public bool OnlyOnce { get; set; }
-        public int ID { get; private set; }
     }
 
 }

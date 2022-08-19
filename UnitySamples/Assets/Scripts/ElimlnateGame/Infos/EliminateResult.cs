@@ -16,7 +16,7 @@ namespace Elimlnate
             mAllResult = new KeyValueList<int, int>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             ClearResult();
             Purge();

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace ShipDock.Ticks
 {
-    public class UpdatesCacher : IDispose
+    public class UpdatesCacher : IReclaim
     {
         public const int UPDATE_CACHER_TIME_SCALE = 10000;
 
@@ -19,6 +19,8 @@ namespace ShipDock.Ticks
         private List<IUpdate> mCacher;
         private List<IUpdate> mDeleted;
         private TicksLater mTicksLater;
+
+        public bool IsReclaimed { get; private set; }
 
         public UpdatesCacher(int addNoticeName, int removeNoticeName, int callLateNoticeName)
         {
@@ -31,21 +33,26 @@ namespace ShipDock.Ticks
                 mAddItemNoticeName = addNoticeName;
                 mAddItemNoticeName.Add(OnAddItem);
             }
+            else { }
+
             if (removeNoticeName != int.MaxValue)
             {
                 mRemoveItemNoticeName = removeNoticeName;
                 mRemoveItemNoticeName.Add(OnRemoveItem);
             }
+            else { }
+
             if (callLateNoticeName != int.MaxValue)
             {
                 mCallLateNoticeName = callLateNoticeName;
                 mCallLateNoticeName.Add(OnAddCallLate);
             }
+            else { }
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
-            IsDisposed = true;
+            IsReclaimed = true;
 
             mAddItemNoticeName.Remove(OnAddItem);
             mRemoveItemNoticeName.Remove(OnRemoveItem);
@@ -60,10 +67,11 @@ namespace ShipDock.Ticks
 
         private void OnRemoveItem(INoticeBase<int> param)
         {
-            if(IsDisposed)
+            if (IsReclaimed)
             {
                 return;
             }
+            else { }
 
             UpdaterNotice notice = param as UpdaterNotice;
             IUpdate target = notice != default ? notice.ParamValue : default;
@@ -72,14 +80,16 @@ namespace ShipDock.Ticks
             {
                 mDeleted.Add(target);
             }
+            else { }
         }
 
         private void OnAddItem(INoticeBase<int> param)
         {
-            if (IsDisposed)
+            if (IsReclaimed)
             {
                 return;
             }
+            else { }
 
             UpdaterNotice notice = param as UpdaterNotice;
             IUpdate target = notice.ParamValue;
@@ -87,18 +97,22 @@ namespace ShipDock.Ticks
             {
                 mDeleted.Remove(target);
             }
+            else { }
+
             if (!mCacher.Contains(target))
             {
                 mCacher.Add(target);
             }
+            else { }
         }
 
         private void OnAddCallLate(INoticeBase<int> param)
         {
-            if (IsDisposed)
+            if (IsReclaimed)
             {
                 return;
             }
+            else { }
 
             ParamNotice<Action<int>> notice = param as ParamNotice<Action<int>>;
             mTicksLater.CallLater(notice.ParamValue);
@@ -106,10 +120,11 @@ namespace ShipDock.Ticks
 
         public void Update(int time)
         {
-            if (IsDisposed)
+            if (IsReclaimed)
             {
                 return;
             }
+            else { }
 
             int max = mCacher.Count;
             for (int i = 0; i < max; i++)
@@ -125,10 +140,11 @@ namespace ShipDock.Ticks
 
         public void FixedUpdate(int time)
         {
-            if (IsDisposed)
+            if (IsReclaimed)
             {
                 return;
             }
+            else { }
 
             int max = mCacher.Count;
             for (int i = 0; i < max; i++)
@@ -138,16 +154,18 @@ namespace ShipDock.Ticks
                 {
                     mItem.OnFixedUpdate(time);
                 }
+                else { }
             }
             mItem = default;
         }
 
         public void LateUpdate()
         {
-            if (IsDisposed)
+            if (IsReclaimed)
             {
                 return;
             }
+            else { }
 
             int max = mCacher.Count;
             for (int i = 0; i < max; i++)
@@ -157,6 +175,7 @@ namespace ShipDock.Ticks
                 {
                     mItem.OnLateUpdate();
                 }
+                else { }
             }
             mItem = default;
 
@@ -166,10 +185,11 @@ namespace ShipDock.Ticks
 
         public void CheckDeleted()
         {
-            if (IsDisposed)
+            if (IsReclaimed)
             {
                 return;
             }
+            else { }
 
             int max = mDeleted.Count;
             int cacherCount = mCacher.Count;
@@ -180,6 +200,7 @@ namespace ShipDock.Ticks
                 {
                     mCacher.Remove(mItem);
                 }
+                else { }
             }
             mItem = default;
             mDeleted.Clear();
@@ -188,8 +209,7 @@ namespace ShipDock.Ticks
             {
                 mDeleted.TrimExcess();
             }
+            else { }
         }
-
-        public bool IsDisposed { get; private set; }
     }
 }

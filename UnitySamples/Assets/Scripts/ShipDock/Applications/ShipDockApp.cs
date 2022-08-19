@@ -146,20 +146,20 @@ namespace ShipDock.Applications
             Utils.Reclaim(ref mFSMUpdaters);
             Utils.Reclaim(ref mStateUpdaters);
 
-            Locals?.Dispose();
-            Effects?.Dispose();
-            Notificater?.Dispose();
-            TicksUpdater?.Dispose();
-            ECSContext?.Dispose();
-            Servers?.Dispose();
-            StateMachines?.Dispose();
-            Datas?.Dispose();
-            AssetsPooling?.Dispose();
-            ABs?.Dispose();
-            PerspectivesInputer?.Dispose();
-            AppModulars?.Dispose();
+            Locals?.Reclaim();
+            Effects?.Reclaim();
+            Notificater?.Reclaim();
+            TicksUpdater?.Reclaim();
+            ECSContext?.Reclaim();
+            Servers?.Reclaim();
+            StateMachines?.Reclaim();
+            Datas?.Reclaim();
+            AssetsPooling?.Reclaim();
+            ABs?.Reclaim();
+            PerspectivesInputer?.Reclaim();
+            AppModulars?.Reclaim();
 
-            Tester?.Dispose();
+            Tester?.Reclaim();
 
             AllPools.ResetAllPooling();
 

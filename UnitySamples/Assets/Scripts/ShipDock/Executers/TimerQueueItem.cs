@@ -36,6 +36,7 @@ namespace ShipDock.Tools
             {
                 mOnComplete += complete;
             }
+            else { }
             //mTimeUpdater = TimeUpdater.GetTimUpdater(time, TimerComplete);
         }
 
@@ -53,12 +54,13 @@ namespace ShipDock.Tools
         #region 执行队列单元的实现代码
         private bool mIsDispose;
 
-        public void Dispose()
+        public void Reclaim()
         {
             if (mIsDispose)
             {
                 return;
             }
+            else { }
 
             mIsDispose = true;
 

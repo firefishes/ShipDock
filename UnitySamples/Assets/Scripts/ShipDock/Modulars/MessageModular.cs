@@ -39,7 +39,7 @@ namespace ShipDock.Modulars
         {
             UpdaterNotice.RemoveSceneUpdater(mMessageUpdater);
 
-            mDoubleBuffers?.Dispose();
+            mDoubleBuffers?.Reclaim();
         }
 
         public override void InitModular()

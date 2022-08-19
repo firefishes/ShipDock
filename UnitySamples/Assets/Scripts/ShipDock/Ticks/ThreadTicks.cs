@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace ShipDock.Ticks
 {
-    public class ThreadTicks : IDispose
+    public class ThreadTicks : IReclaim
     {
         public const int UNIT_SEC = 1000;
 
@@ -17,6 +17,13 @@ namespace ShipDock.Ticks
             FPS = fps;
             ThreadStart start = new ThreadStart(OnTicks);
             mThreader = new Thread(start);
+        }
+
+        public void Reclaim()
+        {
+            Stop();
+            mOnUpdate = null;
+            mThreader = null;
         }
 
         public void Add(Action<int> method)
@@ -36,13 +43,6 @@ namespace ShipDock.Ticks
                 Thread.Sleep(mSleepTime);
                 mOnUpdate?.Invoke(mSleepTime);
             }
-        }
-
-        public void Dispose()
-        {
-            Stop();
-            mOnUpdate = null;
-            mThreader = null;
         }
 
         public void Start()

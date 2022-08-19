@@ -24,11 +24,11 @@ namespace ShipDock.Notices
             Notificater = new Notifications<T>();
         }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
-            Notificater.Dispose();
+            Notificater.Reclaim();
         }
     }
 
@@ -108,7 +108,7 @@ public static class NoticesExtensions
         NotificatonsInt.Instance.Notificater?.Broadcast(notice);
         if (defaultNotice)
         {
-            notice.Dispose();
+            notice.Reclaim();
         }
         else { }
     }
@@ -144,7 +144,7 @@ public static class NoticesExtensions
         }
         else
         {
-            notice.Dispose();
+            notice.Reclaim();
         }
         return result;
     }
@@ -180,7 +180,7 @@ public static class NoticesExtensions
         NotificatonsInt.Instance.Notificater.Dispatch(notice);
 
         T result = notice.ParamValue;
-        notice.Dispose();
+        notice.Reclaim();
         return result;
     }
 

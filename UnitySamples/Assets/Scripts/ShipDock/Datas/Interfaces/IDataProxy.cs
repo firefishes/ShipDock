@@ -2,7 +2,7 @@
 
 namespace ShipDock.Datas
 {
-    public interface IDataProxy : IDispose
+    public interface IDataProxy : IReclaim
     {
         int DataName { get; }
         void Register(IDataExtracter dataHandler);

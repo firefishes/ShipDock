@@ -12,7 +12,7 @@ namespace ShipDock.Applications
     /// 物理检测器子组件
     /// </summary>
     [Serializable]
-    public class PhysicsCheckerSubgroup : IDispose
+    public class PhysicsCheckerSubgroup : IReclaim
     {
 #if UNITY_EDITOR
         [Header("测试")]
@@ -99,7 +99,7 @@ namespace ShipDock.Applications
 
         private void OnInit()
         {
-            mBridge.Dispose();
+            mBridge.Reclaim();
 
             mColliderLayer = m_ColliderLayer.value;
             RayAndHit = new RayAndHitInfo
@@ -120,10 +120,10 @@ namespace ShipDock.Applications
 #endif
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Utils.Reclaim(ref mCollidersOverlay);
-            mBridge?.Dispose();
+            mBridge?.Reclaim();
 
             mCommonColliderMapper?.RemovePhysicsChecker(SubgroupID);
 

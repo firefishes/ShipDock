@@ -6,13 +6,13 @@ using ShipDock.Tools;
 
 namespace ShipDock.Applications
 {
-    public class ServerRelater : IDispose
+    public class ServerRelater : IReclaim
     {
         private KeyValueList<int, IDataProxy> mDataCached;
         private KeyValueList<int, IShipDockComponent> mCompCached;
         private KeyValueList<string, IServer> mServerCached;
         
-        public void Dispose()
+        public void Reclaim()
         {
             Utils.Reclaim(ref mDataCached);
             Utils.Reclaim(ref mCompCached);

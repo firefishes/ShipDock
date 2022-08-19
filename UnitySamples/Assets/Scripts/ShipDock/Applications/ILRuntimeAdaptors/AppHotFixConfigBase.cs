@@ -55,7 +55,7 @@ public class AppHotFixConfigBase : IHotFixConfig
     {
         return new AutoAdaptorGeneratesDic
         {
-            ["IDisposeAdapter"] = typeof(IDispose),
+            ["IDisposeAdapter"] = typeof(IReclaim),
             ["UIModularHotFixerAdapter"] = typeof(UIModularHotFixer),
             ["HotFixerInteractorAdapter"] = typeof(HotFixerInteractor),
             ["IConfigAdapter"] = typeof(IConfig),

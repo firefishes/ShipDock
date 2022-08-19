@@ -277,8 +277,8 @@ namespace ShipDock.HotFix
             AddSoundsNoticeName.Remove(OnAddSounds);
             RemoveSoundsNoticeName.Remove(OnRemoveSounds);
 
-            Modulars.Dispose();
-            Datas.Dispose();
+            Modulars.Reclaim();
+            Datas.Reclaim();
         }
 
         public void InitGroupConfigs(int dataName, int groupName, ref ConfigsResult result)

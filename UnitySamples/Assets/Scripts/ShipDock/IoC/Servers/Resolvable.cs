@@ -20,7 +20,7 @@ namespace ShipDock.Server
         private Func<Type[], ConstructorInfo> mConstructor;
         private IntegerMapper<string> mResolverIDMapper;
 
-        public void Dispose()
+        public void Reclaim()
         {
             Binder = default;
             InstanceFactory = default;
@@ -112,7 +112,7 @@ namespace ShipDock.Server
             if (hasRef)
             {
                 IResolverHandler handler = mResolvers.Remove(id);
-                handler.Dispose();
+                handler.Reclaim();
                 mResolverIDMapper.Remove(resolverName, out statu);
             }
             else

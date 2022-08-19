@@ -102,7 +102,7 @@ namespace ShipDock.UI
             int initNotice = GetInstanceID();
             initNotice.Remove(OnInitUISubgroup);
 
-            mUISubgroup?.Dispose();
+            mUISubgroup?.Reclaim();
 
             mUIChangerTasker?.Clean();
             m_UINodes?.Clear();

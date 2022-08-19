@@ -116,7 +116,7 @@ namespace ShipDock.Pooling
         }
 
         /// <summary>销毁对象池</summary>
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
 #if UNITY_EDITOR
             AllPools.used.Clear();

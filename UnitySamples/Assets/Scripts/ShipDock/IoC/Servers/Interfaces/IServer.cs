@@ -7,7 +7,7 @@ namespace ShipDock.Server
     /// <summary>
     /// 服务容器接口
     /// </summary>
-    public interface IServer : IDispose
+    public interface IServer : IReclaim
     {
         void InitServer();
         void ServerReady();

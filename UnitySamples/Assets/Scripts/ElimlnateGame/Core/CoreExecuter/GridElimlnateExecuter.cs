@@ -52,7 +52,7 @@ namespace Elimlnate
             if (GridNeedDestroyCount <= 0)
             {
                 QueueNext();
-                Dispose();
+                Reclaim();
             }
             else { }
         }
@@ -74,7 +74,7 @@ namespace Elimlnate
         public Action ActionUnit { get; set; }
         public bool IgnoreInQueue { get; set; }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             if (mIsDispose)
             {

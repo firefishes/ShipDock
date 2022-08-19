@@ -23,7 +23,7 @@ namespace ShipDock.FSM
             mFSMMapper = new KeyValueList<int, IStateMachine>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             var list = mFSMMapper.Keys;
             IStateMachine fsm = default;
@@ -32,14 +32,14 @@ namespace ShipDock.FSM
             {
                 fsm = mFSMMapper.GetValue(list[i]);
 #if ILRUNTIME
-                fsm?.Dispose();
+                fsm?.Reclaim();
 #else
                 Utils.Reclaim(fsm);
 #endif
             }
 
 #if ILRUNTIME
-            mFSMMapper?.Dispose();
+            mFSMMapper?.Reclaim();
 #else
             Utils.Reclaim(ref mFSMMapper);
 #endif
@@ -78,7 +78,7 @@ namespace ShipDock.FSM
             StateMachine fsm = mFSMMapper.Remove(name) as StateMachine;
             if (isDispose && (fsm != default))
             {
-                fsm.Dispose();
+                fsm.Reclaim();
             }
             else { }
         }

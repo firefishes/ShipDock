@@ -48,7 +48,7 @@ namespace ShipDock.Loader
             mABManifests = new KeyValueList<string, AssetBundleManifest>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             mCustomAssets = default;
             Utils.Reclaim(ref mCaches, false, true);
@@ -182,7 +182,7 @@ namespace ShipDock.Loader
                     mABManifests.Remove(name);
 
                     result = info.Asset;
-                    info.Dispose();
+                    info.Reclaim();
                 }
                 else { }
             }

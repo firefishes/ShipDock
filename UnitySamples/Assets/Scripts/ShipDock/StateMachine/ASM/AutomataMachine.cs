@@ -8,9 +8,9 @@ namespace ShipDock.FSM
 
         public AutomataMachine(int name, Action<IStateMachine> fsmRegister = null) : base(name, fsmRegister) { }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             mFAState = default;
         }

@@ -7,6 +7,13 @@ namespace ShipDock.Server
         private static Type typeTemp;
         private static string aliasTemp;
 
+        public int TypeID { get; private set; }
+        public int InterfaceID { get; private set; }
+        public int AliasID { get; private set; }
+        public Type Type { get; private set; }
+        public Type InterfaceType { get; private set; }
+        public string Alias { get; private set; }
+
         public ResolvableConfigItem(string alias)
         {
             Alias = alias;
@@ -14,7 +21,7 @@ namespace ShipDock.Server
             Type = typeof(T);
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Alias = string.Empty;
             Type = default;
@@ -43,12 +50,5 @@ namespace ShipDock.Server
             aliasTemp = string.Empty;
             typeTemp = default;
         }
-
-        public int TypeID { get; private set; }
-        public int InterfaceID { get; private set; }
-        public int AliasID { get; private set; }
-        public Type Type { get; private set; }
-        public Type InterfaceType { get; private set; }
-        public string Alias { get; private set; }
     }
 }

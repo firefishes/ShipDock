@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ShipDock.Applications
 {
-    public class TimingTasker : IDispose
+    public class TimingTasker : IReclaim
     {
         public float dTime;
         public TimeGapper timeGapper;
@@ -21,7 +21,7 @@ namespace ShipDock.Applications
             Name = name;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             completion = default;
             timeGapper.totalTime = 0f;

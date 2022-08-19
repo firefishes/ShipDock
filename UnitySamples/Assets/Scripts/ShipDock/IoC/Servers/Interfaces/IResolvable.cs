@@ -4,7 +4,7 @@ using System;
 
 namespace ShipDock.Server
 {
-    public interface IResolvable : IDispose
+    public interface IResolvable : IReclaim
     {
         void Binding(ref ResolvableBinder target);
         void InitResolver<InterfaceT>(IServersHolder serverHolder, IPoolBase factory = default);

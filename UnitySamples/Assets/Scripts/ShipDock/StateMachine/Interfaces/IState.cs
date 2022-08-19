@@ -11,7 +11,7 @@ namespace ShipDock.FSM
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public interface IState : IDispose
+    public interface IState : IReclaim
     {
         
         void SetFSMName(int FSMName);

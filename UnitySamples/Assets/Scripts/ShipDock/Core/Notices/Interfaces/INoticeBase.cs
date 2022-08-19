@@ -13,7 +13,7 @@ namespace ShipDock.Notices
     /// 用于在发送消息时向消息回调函数或命令对象传递参数
     /// 
     /// </summary>
-    public interface INoticeBase<NameT> : IDispose
+    public interface INoticeBase<NameT> : IReclaim
     {
         /// <summary>设置消息名</summary>
         void SetNoticeName(NameT name);

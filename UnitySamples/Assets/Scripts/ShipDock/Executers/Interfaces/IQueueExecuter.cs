@@ -7,7 +7,7 @@ namespace ShipDock.Interfaces
     public delegate void QueueUnitCompleted(IQueueExecuter param);
 
     /// <summary>队列执行器接口</summary>
-    public interface IQueueExecuter : IDispose
+    public interface IQueueExecuter : IReclaim
     {
         QueueNextUnit OnNextUnit { get; set; }
         QueueUnitExecuted OnUnitExecuted { get; set; }
@@ -26,7 +26,7 @@ namespace ShipDock.Interfaces
  * Copy Code
  * 
     #region 执行队列单元的实现代码
-    private bool mIsDispose;
+    private bool mIsReclaimed;
 
     public int QueueSize { get { return 1; } }
     public QueueNextUnit OnNextUnit { get; set; }
@@ -36,15 +36,15 @@ namespace ShipDock.Interfaces
     public bool ShouldNextAfterCommit { get; }
     public bool IgnoreInQueue { get; set; }
 
-    public virtual void Dispose()
+    public virtual void Reclaim()
     {
-        if (mIsDispose)
+        if (mIsReclaimed)
         {
             return;
         }
         else { }
 
-        mIsDispose = true;
+        mIsReclaimed = true;
 
         OnNextUnit = default;
         OnUnitExecuted = default;

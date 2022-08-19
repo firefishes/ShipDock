@@ -12,7 +12,7 @@ namespace ShipDock.Datas
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public abstract class FieldableData : IFieldableData, IDataUnit, IDispose
+    public abstract class FieldableData : IFieldableData, IDataUnit, IReclaim
     {
         private static int instanceIDSeed = 0;
 
@@ -54,7 +54,7 @@ namespace ShipDock.Datas
         public FieldableData() { }
 
         /// <summary>销毁</summary>
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             if (mIsReference)
             {

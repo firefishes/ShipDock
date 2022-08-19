@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace ShipDock.Loader
 {
-    public class Loader : IDispose
+    public class Loader : IReclaim
     {
         public const int LOADER_ASSETBUNDLE = 0;
         public const int LOADER_TEXT = 1;
@@ -64,7 +64,7 @@ namespace ShipDock.Loader
             InitLoader(loadType);
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             LoaderKey = string.Empty;
             CompleteEvent.RemoveAllListeners();
@@ -105,7 +105,7 @@ namespace ShipDock.Loader
 
         public void InitLoader(int loadType)
         {
-            Dispose();
+            Reclaim();
             SetLoadType(loadType);
         }
 

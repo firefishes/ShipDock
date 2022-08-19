@@ -31,7 +31,7 @@ namespace ShipDock.Loader
             Asset = asset;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Asset = default;
         }

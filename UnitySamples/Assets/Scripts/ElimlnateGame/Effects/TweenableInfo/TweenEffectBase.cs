@@ -86,7 +86,7 @@ namespace Elimlnate
                 if (mUpdater != default)
                 {
                     UpdaterNotice.RemoveSceneUpdater(mUpdater);
-                    mUpdater.Dispose();
+                    mUpdater.Reclaim();
                     mUpdater = default;
                 }
                 else { }

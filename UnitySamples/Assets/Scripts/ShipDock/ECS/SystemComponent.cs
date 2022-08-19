@@ -17,9 +17,9 @@ namespace ShipDock.ECS
             mRelatedComponents = new KeyValueList<int, IShipDockComponent>();
         }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             Context = default;
 

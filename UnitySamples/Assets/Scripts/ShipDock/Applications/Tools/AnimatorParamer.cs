@@ -28,9 +28,9 @@ namespace ShipDock.Applications
         {
         }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             Animator = default;
         }

@@ -19,9 +19,9 @@ namespace ShipDock.FSM
             AniParamer.SetAnimator(ref target);
         }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             AniParamer?.Clear();
             AniParamer = default;

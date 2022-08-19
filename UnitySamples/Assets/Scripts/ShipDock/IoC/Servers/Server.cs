@@ -28,12 +28,13 @@ namespace ShipDock.Server
             {
                 ServerName = serverName;
             }
+            else { }
         }
 
         /// <summary>
         /// 销毁
         /// </summary>
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             Purge();
         }
@@ -102,6 +103,7 @@ namespace ShipDock.Server
                     "error".Log(resolvable == default, "Resolvable is null, alias is " + alias);
                     resolvable.SetResolver(resolverName, target, out statu, onlyOnce);
                 }
+                else { }
             }
         }
 
@@ -117,6 +119,8 @@ namespace ShipDock.Server
                 "error".Log(resolvable == default, "Resolvable is null when MakeResolver, alias is " + alias);
                 resolvable.SetResolver(resolverName, target, out statu, false, true);
             }
+            else { }
+
             return statu;
         }
 
@@ -132,6 +136,8 @@ namespace ShipDock.Server
                 "error".Log(resolvable == default, "Resolvable is null when MakeResolver, alias is " + alias);
                 resolvable.RevokeResolver(resolverName, target);
             }
+            else { }
+
             return statu;
         }
 
@@ -148,6 +154,8 @@ namespace ShipDock.Server
                 raw = resolverHandler.DelegateTarget;
                 resolverHandler.SetDelegate(target);
             }
+            else { }
+
             return raw;
         }
 
@@ -174,6 +182,8 @@ namespace ShipDock.Server
                     resolvable.InitResolver<InterfaceT>(ServersHolder, factoryItem);
                 }
             }
+            else { }
+
             return statu;
         }
 
@@ -195,9 +205,8 @@ namespace ShipDock.Server
         /// <returns>需要获得的实例对象</returns>
         public InterfaceT Resolve<InterfaceT>(string alias, string resolverName = "", ResolveDelegate<InterfaceT> customResolver = default)
         {
-            int resultError;
             InterfaceT result = default;
-            IResolvable resolvable = ServersHolder.GetResolvable(ref alias, out resultError);
+            IResolvable resolvable = ServersHolder.GetResolvable(ref alias, out int resultError);
 
             "error:Resolvable is null, alias is {0}".Log(resolvable == default, alias);
 
@@ -220,6 +229,8 @@ namespace ShipDock.Server
                     {
                         customResolver.Invoke(ref result);
                     }
+                    else { }
+
                     bool isDelive = !string.IsNullOrEmpty(resolverName);
                     if (isDelive)
                     {
@@ -229,6 +240,8 @@ namespace ShipDock.Server
                         {
                             return result;
                         }
+                        else { }
+
                         resolverHandler.SetParam(ref result);
                         resolverHandler.InvokeResolver();
 
@@ -236,9 +249,13 @@ namespace ShipDock.Server
                         {
                             resolvable.RemoveResolver<InterfaceT>(resolverName, out _);
                         }
+                        else { }
                     }
+                    else { }
                 }
+                else { }
             }
+            else { }
             return result;
         }
 

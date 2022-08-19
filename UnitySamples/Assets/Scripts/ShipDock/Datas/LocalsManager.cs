@@ -30,7 +30,7 @@ namespace ShipDock.Datas
             mPairValueIndex = 1;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Local = string.Empty;
             if (mLanguage != null)

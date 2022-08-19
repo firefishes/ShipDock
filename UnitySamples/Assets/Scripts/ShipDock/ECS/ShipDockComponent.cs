@@ -44,7 +44,7 @@ namespace ShipDock.ECS
         public ShipDockComponent() { }
 
         #region 销毁和重置
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             CleanAllEntitas(ref mEntitasIDs);
             CleanAllEntitas(ref mEntitasIDsRelease);

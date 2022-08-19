@@ -51,8 +51,8 @@ namespace ShipDock.Applications
 
             mTrans = default;
 
-            RoleUpdater?.Dispose();
-            mCompBridge?.Dispose();
+            RoleUpdater?.Reclaim();
+            mCompBridge?.Reclaim();
         }
 
         protected virtual void Purge()
@@ -79,7 +79,7 @@ namespace ShipDock.Applications
 
         protected virtual void OnInit()
         {
-            mCompBridge?.Dispose();
+            mCompBridge?.Reclaim();
 
             InitPhysicsChecker();
         }

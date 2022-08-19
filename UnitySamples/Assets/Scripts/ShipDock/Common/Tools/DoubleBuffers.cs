@@ -12,7 +12,7 @@ namespace ShipDock.Tools
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DoubleBuffers<T> : IDispose
+    public class DoubleBuffers<T> : IReclaim
     {
         private bool mIsDisposed;
         private bool mIsFront;
@@ -41,7 +41,7 @@ namespace ShipDock.Tools
             mIsFront = true;
         }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             mIsDisposed = true;
             Current = default;

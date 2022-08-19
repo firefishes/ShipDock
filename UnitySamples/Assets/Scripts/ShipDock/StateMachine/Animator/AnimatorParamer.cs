@@ -57,7 +57,7 @@ namespace ShipDock.FSM
 
         public void Dispose()
         {
-            mFieldMapper?.Dispose();
+            mFieldMapper?.Reclaim();
 
             Owner = default;
         }

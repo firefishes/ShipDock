@@ -4,7 +4,7 @@ using System;
 
 namespace ShipDock.Applications
 {
-    public interface IProcessing : IPoolable, IDispose
+    public interface IProcessing : IPoolable, IReclaim
     {
         void OnProcessing();
         void ProcessingReady();

@@ -10,7 +10,7 @@ namespace ShipDock.Loader
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public interface IAssetBundleInfo : IDispose
+    public interface IAssetBundleInfo : IReclaim
     {
         int BeingUsed { get; set; }
         T GetAsset<T>(string path) where T : Object;

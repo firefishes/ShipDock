@@ -10,7 +10,7 @@ namespace ShipDock.Loader
     /// <summary>
     /// 资源加载器
     /// </summary>
-    public class AssetsLoader : IDispose
+    public class AssetsLoader : IReclaim
     {
         /// <summary>通用加载器</summary>
         private Loader mLoader;
@@ -91,7 +91,7 @@ namespace ShipDock.Loader
             AessetManifest = ABs.GetManifest();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Loaded = 0;
             Utils.Reclaim(mLoader);
@@ -114,7 +114,7 @@ namespace ShipDock.Loader
             {
                 if (mLoader != default)
                 {
-                    mLoader.Dispose();
+                    mLoader.Reclaim();
                 }
                 else { }
 
@@ -131,7 +131,7 @@ namespace ShipDock.Loader
             {
                 if (mLoader != default)
                 {
-                    mLoader.Dispose();
+                    mLoader.Reclaim();
                 }
                 else { }
 

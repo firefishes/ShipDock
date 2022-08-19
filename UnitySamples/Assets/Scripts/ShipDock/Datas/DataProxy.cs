@@ -43,7 +43,7 @@ namespace ShipDock.Datas
             DataName = dataName;
         }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             Utils.Reclaim(ref mDataNotifyStack);
             Utils.Reclaim(ref mDataHandlers);

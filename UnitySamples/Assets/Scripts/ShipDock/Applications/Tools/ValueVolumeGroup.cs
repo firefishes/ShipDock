@@ -6,7 +6,7 @@ namespace ShipDock.Tools
     /// <summary>
     /// ÈÝÁ¿×é
     /// </summary>
-    public class ValueVolumeGroup : IDispose
+    public class ValueVolumeGroup : IReclaim
     {
         private KeyValueList<int, ValueVolume> mValueVolumes;
 
@@ -20,7 +20,7 @@ namespace ShipDock.Tools
             Utils.Reclaim(ref mValueVolumes, false);
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Utils.Reclaim(ref mValueVolumes);
         }

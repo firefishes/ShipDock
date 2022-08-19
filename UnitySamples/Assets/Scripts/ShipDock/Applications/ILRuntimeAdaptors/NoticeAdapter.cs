@@ -64,10 +64,10 @@ namespace ShipDock.Applications
                     mToPool_0.Invoke(this.instance);
             }
 
-            public override void Dispose()
+            public override void Reclaim()
             {
                 if (mDispose_1.CheckShouldInvokeBase(this.instance))
-                    base.Dispose();
+                    base.Reclaim();
                 else
                     mDispose_1.Invoke(this.instance);
             }

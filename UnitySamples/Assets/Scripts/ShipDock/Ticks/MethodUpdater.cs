@@ -3,7 +3,7 @@ using System;
 
 namespace ShipDock.Commons
 {
-    public class MethodUpdater : IUpdate, IDispose
+    public class MethodUpdater : IUpdate, IReclaim
     {
 
         public Action<int> Update { get; set; }
@@ -14,7 +14,7 @@ namespace ShipDock.Commons
         public bool IsLateUpdate { get; set; } = true;
         public bool Asynced { get; set; }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             Asynced = false;
             Update = default;

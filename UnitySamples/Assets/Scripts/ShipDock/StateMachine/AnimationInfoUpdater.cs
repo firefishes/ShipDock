@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ShipDock.FSM
 {
 
-    public class AnimationInfoUpdater : IDispose
+    public class AnimationInfoUpdater : IReclaim
     {
         private ValueItem mConfItem;
         private ValueItem[] mParamsNew;
@@ -23,7 +23,7 @@ namespace ShipDock.FSM
             mParamSet = new List<ValueItem>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             AnimatorTarget = default;
         }

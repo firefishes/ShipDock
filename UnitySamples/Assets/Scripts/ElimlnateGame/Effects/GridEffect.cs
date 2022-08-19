@@ -9,7 +9,7 @@ namespace Elimlnate
     /// <summary>
     /// 作用在单个消除格上的特效，由继承自 ElimlnateEffect 的子类对象管理
     /// </summary>
-    public abstract class GridEffect : IDispose
+    public abstract class GridEffect : IReclaim
     {
         /// <summary>消除格与特效参数信息组成的数据映射</summary>
         private KeyValueList<ElimlnateGrid, IGridEffectInfo> mMapper;
@@ -25,7 +25,7 @@ namespace Elimlnate
             mMapper = new KeyValueList<ElimlnateGrid, IGridEffectInfo>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Clear();
             Purge();

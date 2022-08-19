@@ -11,7 +11,7 @@ namespace ShipDock.Pooling
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public interface IPool<T> : IDispose, IPoolBase
+    public interface IPool<T> : IReclaim, IPoolBase
     {
         T FromPool(Func<T> creater = null);
         void ToPool(T target);

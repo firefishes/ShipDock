@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ShipDock.Tools
 {
-    public class ScopeChecker : IPoolable, IDispose
+    public class ScopeChecker : IPoolable, IReclaim
     {
         public static ScopeChecker GetScopeChecker(float minDist, float angle)
         {
@@ -24,7 +24,7 @@ namespace ShipDock.Tools
         private Vector3 mNorVec;
         private Vector3 mTemVec;
 
-        public void Dispose()
+        public void Reclaim()
         {
             Pooling<ScopeChecker>.To(this);
         }

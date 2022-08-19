@@ -76,6 +76,34 @@ namespace ShipDock.Applications
             mInputData = new InputData();
         }
 
+        public void Reclaim()
+        {
+            DeactiveInput();
+
+            mCamera = default;
+            mInputData = default;
+            mHitTarget = default;
+            mPrevTarget = default;
+            mCurDraging = default;
+
+            mMouseDis = 5;
+            IsNullStart = false;
+
+            onDrag = default;
+            onDragEnd = default;
+            onDragStart = default;
+            onClickUp = default;
+            onClickDown = default;
+            onClickStay = default;
+            onEnter = default;
+            onExit = default;
+            onStay = default;
+            onClick = default;
+            onClickNoneDown = default;
+            onClickNoneUp = default;
+            onClickNoneStay = default;
+        }
+
         /// <summary>打开 Input</summary>
         public void ActvieInputer()
         {
@@ -115,7 +143,7 @@ namespace ShipDock.Applications
         /// <param name="_clickRange">点击范围</param>
         public void Init(bool _isOpen, float _clickRange)
         {
-            Dispose();
+            Reclaim();
 
             if (_isOpen)
             {
@@ -130,15 +158,19 @@ namespace ShipDock.Applications
             {
                 return;
             }
+            else { }
 
             if (mCamera == default)
             {
                 mCamera = Camera.main;
             }
+            else { }
+
             if (mInputData == default)
             {
                 mInputData = new InputData();
             }
+            else { }
 
             mMousePos = Input.mousePosition;
             mInputRay = mCamera.ScreenPointToRay(mMousePos);
@@ -161,16 +193,22 @@ namespace ShipDock.Applications
                     mInputData.screenPosition = mMousePos;
                     onClickDown?.Invoke(mInputData);
                 }
+                else { }
+
                 if (!mIsEnter)
                 {
                     mIsEnter = true;
                     onEnter?.Invoke(mHitTarget);
                 }
+                else { }
+
                 onStay?.Invoke(mHitTarget);
                 if ((mPrevTarget != default) && (mPrevTarget != mHitTarget))
                 {
                     InteractExit();
                 }
+                else { }
+
                 mPrevTarget = mHitTarget;
             }
             else
@@ -185,6 +223,8 @@ namespace ShipDock.Applications
                     mMouseDownPos = Input.mousePosition;
                     onClickNoneDown?.Invoke(mInputData);
                 }
+                else { }
+
                 if (Input.GetMouseButton(0))
                 {
                     mMouseDis = Vector3.Distance(mMouseDownPos, mMousePos);
@@ -199,11 +239,15 @@ namespace ShipDock.Applications
                             onDragStart?.Invoke(mInputData);
                             mIsDragStart = true;
                         }
+                        else { }
+
                         mIsDrag = true;
                         mCurDraging = default;
                         onDrag?.Invoke(mInputData);
                     }
                 }
+                else { }
+
                 if (Input.GetMouseButtonUp(0))
                 {
                     mMouseDis = Vector3.Distance(mMouseDownPos, mMousePos);
@@ -220,12 +264,14 @@ namespace ShipDock.Applications
                     mTargetTrans = default;
                     mCurDraging = default;
                 }
+                else { }
             }
 
             if (mTargetTrans == default && !IsNullStart)
             {
                 return;
             }
+            else { }
 
             if (Input.GetMouseButton(0))
             {
@@ -233,6 +279,8 @@ namespace ShipDock.Applications
                 {
                     onClick?.Invoke(mInputHit.transform.gameObject);
                 }
+                else { }
+
                 mMouseDis = Vector3.Distance(mMouseDownPos, mMousePos);
                 if (mIsDrag == false && mMouseDis < ClickRange)
                 {
@@ -245,6 +293,8 @@ namespace ShipDock.Applications
                         onDragStart?.Invoke(mInputData);
                         mIsDragStart = true;
                     }
+                    else { }
+
                     mIsDrag = true;
                     Vector3 curScreenSpace = new Vector3(mMousePos.x, mMousePos.y, mScreenSpace.z);
                     Vector3 curPosition = mCamera.ScreenToWorldPoint(curScreenSpace) + mOffset;
@@ -256,6 +306,8 @@ namespace ShipDock.Applications
                     onDrag?.Invoke(mInputData);
                 }
             }
+            else { }
+
             if (Input.GetMouseButtonUp(0))
             {
                 mMouseDis = Vector3.Distance(mMouseDownPos, mMousePos);
@@ -263,6 +315,8 @@ namespace ShipDock.Applications
                 {
                     mInputData.target = mTargetTrans;
                 }
+                else { }
+
                 if (mMouseDis < ClickRange && !mIsDrag)
                 {
                     onClickUp?.Invoke(mInputData);
@@ -271,10 +325,12 @@ namespace ShipDock.Applications
                 {
                     onDragEnd?.Invoke(mInputData);
                 }
+
                 mIsDrag = false;
                 mTargetTrans = default;
                 mCurDraging = default;
             }
+            else { }
         }
 
         private void InteractExit()
@@ -286,35 +342,7 @@ namespace ShipDock.Applications
                 mPrevTarget = default;
                 mInputHit = default;
             }
-        }
-
-        public void Dispose()
-        {
-
-            DeactiveInput();
-
-            mCamera = default;
-            mInputData = default;
-            mHitTarget = default;
-            mPrevTarget = default;
-            mCurDraging = default;
-
-            mMouseDis = 5;
-            IsNullStart = false;
-
-            onDrag = default;
-            onDragEnd = default;
-            onDragStart = default;
-            onClickUp = default;
-            onClickDown = default;
-            onClickStay = default;
-            onEnter = default;
-            onExit = default;
-            onStay = default;
-            onClick = default;
-            onClickNoneDown = default;
-            onClickNoneUp = default;
-            onClickNoneStay = default;
+            else { }
         }
     }
 

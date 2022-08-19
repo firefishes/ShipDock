@@ -31,7 +31,7 @@ namespace ShipDock.ECS
             mContext = ShipDockECS.Instance.Context;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             WillDestroy = true;
         }

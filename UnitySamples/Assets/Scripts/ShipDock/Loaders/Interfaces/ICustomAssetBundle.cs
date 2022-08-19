@@ -2,7 +2,7 @@
 
 namespace ShipDock.Loader
 {
-    public interface ICustomAssetBundle : IDispose
+    public interface ICustomAssetBundle : IReclaim
     {
         T GetCustomAsset<T>(string name, string path) where T : UnityEngine.Object;
     }

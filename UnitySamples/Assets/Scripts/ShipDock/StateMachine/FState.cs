@@ -145,7 +145,7 @@ namespace ShipDock.FSM
 
         #region 销毁
         /// <summary>销毁</summary>
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             mIsStateActived = false;
 
@@ -156,7 +156,7 @@ namespace ShipDock.FSM
             {
                 state = mSubStateList.GetValue(list[i]);
 #if ILRUNTIME
-                state?.Dispose();
+                state?.Reclaim();
 #else
                 Utils.Reclaim(state);
 #endif

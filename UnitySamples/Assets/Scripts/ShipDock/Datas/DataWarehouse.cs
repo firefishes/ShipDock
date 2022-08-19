@@ -7,7 +7,7 @@ namespace ShipDock.Datas
     /// 数据代理管理器
     /// 
     /// </summary>
-    public class DataWarehouse
+    public class DataWarehouse : Interfaces.IReclaim
     {
         private KeyValueList<int, IDataProxy> mDataMapper;
 
@@ -16,7 +16,7 @@ namespace ShipDock.Datas
             mDataMapper = new KeyValueList<int, IDataProxy>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Utils.Reclaim(ref mDataMapper, true, true);
         }
@@ -24,10 +24,11 @@ namespace ShipDock.Datas
         public void AddData(IDataProxy target)
         {
             int name = target.DataName;
-            if(mDataMapper.ContainsKey(name))
+            if (mDataMapper.ContainsKey(name))
             {
                 return;
             }
+            else { }
 
             mDataMapper[name] = target;
         }
@@ -39,6 +40,7 @@ namespace ShipDock.Datas
             {
                 return;
             }
+            else { }
 
             mDataMapper.Remove(name);
         }

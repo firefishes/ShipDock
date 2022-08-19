@@ -9,7 +9,7 @@ namespace ShipDock.FSM
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public interface IStateMachine : IDispose {
+    public interface IStateMachine : IReclaim {
 
         void Run(IStateParam param = null, int initState = int.MaxValue);
         void StopStateMachine();

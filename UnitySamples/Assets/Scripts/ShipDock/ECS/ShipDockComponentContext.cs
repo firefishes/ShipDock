@@ -15,7 +15,7 @@ namespace ShipDock.ECS
         public static bool isUpdateByCallLate = false;
     }
 
-    public class ECSContext : IDispose
+    public class ECSContext : IReclaim
     {
         public IShipDockComponentContext CurrentContext { get; private set; }
 
@@ -28,7 +28,7 @@ namespace ShipDock.ECS
             mMapper = new KeyValueList<int, IShipDockComponentContext>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             CurrentContext = default;
             Utils.Reclaim(ref mMapper, true, true);
@@ -340,7 +340,7 @@ namespace ShipDock.ECS
 
                 RemoveComponentAndClear(ref target, id);
 
-                target.Dispose();
+                target.Reclaim();
             }
 
             if (max > 0)

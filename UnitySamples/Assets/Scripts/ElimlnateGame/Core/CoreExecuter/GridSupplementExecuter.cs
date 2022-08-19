@@ -66,7 +66,7 @@ namespace Elimlnate
         public Action ActionUnit { get; set; }
         public bool IgnoreInQueue { get; set; }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             if (mIsDispose)
             {

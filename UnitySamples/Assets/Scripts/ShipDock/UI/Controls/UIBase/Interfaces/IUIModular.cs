@@ -3,7 +3,7 @@ using ShipDock.Notices;
 
 namespace ShipDock.UI
 {
-    public interface IUIModular : INotificationSender, IUIStack, IDispose
+    public interface IUIModular : INotificationSender, IUIStack, IReclaim
     {
         int[] DataProxyLinks { get; }
     }

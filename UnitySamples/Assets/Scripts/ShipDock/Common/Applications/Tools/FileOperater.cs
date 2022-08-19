@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ShipDock.Applications
 {
-    public class FileCommandInfo : IDispose
+    public class FileCommandInfo : IReclaim
     {
         public enum FileCommandInfoReadType
         {
@@ -20,7 +20,7 @@ namespace ShipDock.Applications
         public string RelativePath;
         public FileCommandInfoReadType FileReadType = FileCommandInfoReadType.Bytes;
 
-        public void Dispose()
+        public void Reclaim()
         {
             DataBytes = null;
             DataChars = null;
@@ -54,7 +54,7 @@ namespace ShipDock.Applications
                 DataBytes = Encoding.UTF8.GetBytes(content)
             };
             fileOperater.WriteFile(ref fileCommandInfo);
-            fileCommandInfo.Dispose();
+            fileCommandInfo.Reclaim();
         }
 
         public static void WriteBytes(string content, string filePath, FileOperater operater = default)
@@ -73,7 +73,7 @@ namespace ShipDock.Applications
                 DataBytes = vs
             };
             fileOperater.WriteFile(ref fileCommandInfo);
-            fileCommandInfo.Dispose();
+            fileCommandInfo.Reclaim();
         }
 
         public static string ReadUTF8Text(string filePath, FileOperater operater = null)
@@ -88,7 +88,7 @@ namespace ShipDock.Applications
 
             byte[] bytes = fileCommandInfo.DataBytes;
             string result = (bytes == null) ? string.Empty : Encoding.UTF8.GetString(bytes);
-            fileCommandInfo.Dispose();
+            fileCommandInfo.Reclaim();
 
             return result;
         }
@@ -104,7 +104,7 @@ namespace ShipDock.Applications
             fileOperater.ReadFile(ref fileCommandInfo);
 
             byte[] bytes = fileCommandInfo.DataBytes;
-            fileCommandInfo.Dispose();
+            fileCommandInfo.Reclaim();
 
             return bytes;
         }

@@ -45,7 +45,7 @@ namespace ShipDock.Notices
         #endregion
 
         #region 销毁
-        public void Dispose()
+        public void Reclaim()
         {
             mNoticeHandlers?.Reclaim();
             mHandlersWithSender?.Reclaim();
@@ -101,7 +101,7 @@ namespace ShipDock.Notices
                     if (noticeHolder.NoticeCount <= 0)
                     {
                         mNoticeHandlers.Remove(name);
-                        noticeHolder.Dispose();
+                        noticeHolder.Reclaim();
                     }
                     else { }
                 }
@@ -121,7 +121,7 @@ namespace ShipDock.Notices
                     if (noticeHolder.NoticeCount <= 0)
                     {
                         mHandlersWithSender.Remove(sender);
-                        noticeHolder.Dispose();
+                        noticeHolder.Reclaim();
                     }
                     else { }
                 }

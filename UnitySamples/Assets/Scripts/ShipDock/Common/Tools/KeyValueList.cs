@@ -13,7 +13,7 @@ namespace ShipDock.Tools
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public class KeyValueList<K, V> : IDispose
+    public class KeyValueList<K, V> : IReclaim
     {
         #region 属性
         public int Capacity { get; private set; }
@@ -116,36 +116,38 @@ namespace ShipDock.Tools
         #endregion
 
         #region 销毁
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             Clear();
         }
 
-        public void Dispose(bool isDisposeItems)
+        public void Reclaim(bool isDisposeItems)
         {
             if (isDisposeItems)
             {
-                IDispose item;
+                IReclaim item;
                 int max = Values.Count;
                 for (int i = 0; i < max; i++)
                 {
-                    if (Values[i] is IDispose)
+                    if (Values[i] is IReclaim)
                     {
-                        item = Values[i] as IDispose;
-                        item.Dispose();
+                        item = Values[i] as IReclaim;
+                        item.Reclaim();
                     }
-                    else if(Values[i] is GameObject)
+                    else if (Values[i] is GameObject)
                     {
                         Object.DestroyImmediate(Values[i] as GameObject);
                     }
-                    else if(Values[i] is IPoolable)
+                    else if (Values[i] is IPoolable)
                     {
                         (Values[i] as IPoolable).Revert();
                     }
                     else { }
                 }
             }
-            Dispose();
+            else { }
+
+            Reclaim();
         }
 
         protected void Purge()

@@ -16,11 +16,11 @@ namespace ShipDock.Tools
         /// <summary>
         /// 销毁对象
         /// </summary>
-        public static void Reclaim(IDispose target)
+        public static void Reclaim(IReclaim target)
         {
             if (target != null)
             {
-                target.Dispose();
+                target.Reclaim();
             }
             else { }
         }
@@ -42,11 +42,11 @@ namespace ShipDock.Tools
             {
                 if (isDisposeItems)
                 {
-                    IDispose dp;
+                    IReclaim dp;
                     int max = target.Length;
                     for (int i = 0; i < max; i++)
                     {
-                        dp = target[i] as IDispose;
+                        dp = target[i] as IReclaim;
                         Reclaim(dp);
                     }
                 }
@@ -76,11 +76,11 @@ namespace ShipDock.Tools
 
             if (isDisposeItems)
             {
-                IDispose dp;
+                IReclaim dp;
                 int max = target.Count;
                 for (int i = 0; i < max; i++)
                 {
-                    dp = target[i] as IDispose;
+                    dp = target[i] as IReclaim;
                     Reclaim(dp);
                 }
             }
@@ -109,12 +109,12 @@ namespace ShipDock.Tools
             if (isDisposeItems)
             {
                 T item;
-                IDispose dp;
+                IReclaim dp;
                 int max = target.Count;
                 while (target.Count > 0)
                 {
                     item = target.Dequeue();
-                    dp = item as IDispose;
+                    dp = item as IReclaim;
                     Reclaim(dp);
                 }
             }
@@ -143,12 +143,12 @@ namespace ShipDock.Tools
             if (isDisposeItems)
             {
                 T item;
-                IDispose dp;
+                IReclaim dp;
                 int max = target.Count;
                 while (target.Count > 0)
                 {
                     item = target.Peek();
-                    dp = item as IDispose;
+                    dp = item as IReclaim;
                     Reclaim(dp);
                 }
             }
@@ -174,7 +174,7 @@ namespace ShipDock.Tools
             }
             else { }
 
-            target.Dispose(isDisposeItems);
+            target.Reclaim(isDisposeItems);
 
             if (isSetNull)
             {
@@ -198,7 +198,7 @@ namespace ShipDock.Tools
             {
                 K key;
                 V value;
-                IDispose item;
+                IReclaim item;
                 var keys = target.Keys;
                 int max = keys.Count;
                 var enumer = keys.GetEnumerator();
@@ -206,10 +206,10 @@ namespace ShipDock.Tools
                 {
                     key = enumer.Current;
                     value = target[key];
-                    if (value is IDispose)
+                    if (value is IReclaim)
                     {
-                        item = value as IDispose;
-                        item.Dispose();
+                        item = value as IReclaim;
+                        item.Reclaim();
                     }
                     else { }
 

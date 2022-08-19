@@ -15,7 +15,7 @@ namespace ShipDock.Loader
             mAssetsCacher = new List<KeyValueList<string, CustomAsset>>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Utils.Reclaim(ref mAssetsCacher);
             Utils.Reclaim(ref mBundleMapper);
@@ -42,6 +42,8 @@ namespace ShipDock.Loader
                     {
                         mBundleMapper[bundleName] = new List<int>();
                     }
+                    else { }
+
                     int index = mAssetsCacher.Count - 1;
                     mBundleMapper[bundleName].Add(index);
 
@@ -54,6 +56,7 @@ namespace ShipDock.Loader
                             cahcer[item.assetName] = item;
                         }
                     }
+                    else { }
                 }
             }
         }
@@ -61,7 +64,7 @@ namespace ShipDock.Loader
         public T GetCustomAsset<T>(string name, string path) where T : Object
         {
             T result = default;
-            if(mBundleMapper.ContainsKey(name))
+            if (mBundleMapper.ContainsKey(name))
             {
                 List<int> list = mBundleMapper[name];
                 int index;
@@ -76,8 +79,11 @@ namespace ShipDock.Loader
                     {
                         break;
                     }
+                    else { }
                 }
             }
+            else { }
+
             return result;
         }
     }

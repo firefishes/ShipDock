@@ -53,7 +53,7 @@ namespace ShipDock.Applications
 
         private void OnDestroy()
         {
-            mUpdatesCacher?.Dispose();
+            mUpdatesCacher?.Reclaim();
             mUpdatesCacher = default;
         }
 

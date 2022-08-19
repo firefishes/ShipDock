@@ -3,7 +3,7 @@ using System;
 
 namespace ShipDock.Server
 {
-    public interface IResolvableConfig : IDispose
+    public interface IResolvableConfig : IReclaim
     {
         void Create(IServersHolder servers);
         int TypeID { get; }

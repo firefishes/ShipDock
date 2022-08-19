@@ -137,13 +137,17 @@ namespace ShipDock.Editors
                     Debug.Log("Match the '}{'");
                     data = data.Split(new string[] { "}{" }, System.StringSplitOptions.None)[0].Append("}");
                 }
+                else { }
+
                 remoteVers = JsonUtility.FromJson<ResDataVersion>(data);
 
                 if (remoteVers == default)
                 {
                     Debug.Log("Do not exists remote versions.");
                 }
-                ld.Dispose();
+                else { }
+
+                ld.Reclaim();
             }
             else
             {

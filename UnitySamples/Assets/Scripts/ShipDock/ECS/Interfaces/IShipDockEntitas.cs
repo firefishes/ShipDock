@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ShipDock.ECS
 {
-    public interface IShipDockEntitas : IDispose
+    public interface IShipDockEntitas : IReclaim
     {
         T GetComponentFromEntitas<T>(int aid) where T : IShipDockComponent;
         void InitComponents();

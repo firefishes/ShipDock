@@ -76,9 +76,9 @@ namespace Peace
         public override List<int> IntFieldNames { get; protected set; } = FieldsConsts.IntFieldsBase;
         public override List<int> StringFieldNames { get; protected set; } = FieldsConsts.StringFieldsBase;
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             Purge();
 

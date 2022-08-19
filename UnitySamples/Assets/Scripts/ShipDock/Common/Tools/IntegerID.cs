@@ -12,7 +12,7 @@ namespace ShipDock.Tools
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public class IntegerID<T> : IDispose
+    public class IntegerID<T> : IReclaim
     {
         private IntegerID<T> mNext;
         private KeyValueList<T, int> mMap;
@@ -82,7 +82,7 @@ namespace ShipDock.Tools
         /// <summary>
         /// 销毁本体节点
         /// </summary>
-        public void Dispose()
+        public void Reclaim()
         {
             Purge(ref mNext);
         }

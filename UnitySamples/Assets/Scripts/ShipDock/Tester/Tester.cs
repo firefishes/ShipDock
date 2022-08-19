@@ -59,6 +59,7 @@ namespace ShipDock.Testers
                     instance = new Tester();
                 }
                 else { }
+
                 return instance;
             }
         }
@@ -89,7 +90,7 @@ namespace ShipDock.Testers
             mTesters = new TesterMapper();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Application.logMessageReceived -= OnLogMessageReceived;
             TestBrokers = default;

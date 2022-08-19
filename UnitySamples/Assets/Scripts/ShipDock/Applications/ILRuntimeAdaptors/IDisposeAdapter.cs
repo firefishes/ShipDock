@@ -13,7 +13,7 @@ namespace ShipDock.Applications
         {
             get
             {
-                return typeof(ShipDock.Interfaces.IDispose);
+                return typeof(ShipDock.Interfaces.IReclaim);
             }
         }
 
@@ -30,7 +30,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Interfaces.IDispose, CrossBindingAdaptorType
+        public class Adapter : Interfaces.IReclaim, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;
@@ -51,6 +51,10 @@ namespace ShipDock.Applications
             public void Dispose()
             {
                 dispose.Invoke(instance);
+            }
+
+            public void Reclaim()
+            {
             }
 
             public override string ToString()

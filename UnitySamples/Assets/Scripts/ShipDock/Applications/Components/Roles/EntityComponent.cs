@@ -38,8 +38,8 @@ namespace ShipDock.Applications
         {
             Purge();
 
-            Entity?.Dispose();
-            mCompBridge?.Dispose();
+            Entity?.Reclaim();
+            mCompBridge?.Reclaim();
         }
 
         protected virtual void Purge()
@@ -54,7 +54,7 @@ namespace ShipDock.Applications
 
         private void OnInit()
         {
-            mCompBridge?.Dispose();
+            mCompBridge?.Reclaim();
 
             IShipDockEntitas entity = ShipDockEntitas.CreateEntitas();
 
@@ -67,7 +67,7 @@ namespace ShipDock.Applications
 
         public void FillEntity(IShipDockEntitas entitas)
         {
-            Entity?.Dispose();
+            Entity?.Reclaim();
             Entity = entitas;
             m_EntitasID = Entity.ID;
 

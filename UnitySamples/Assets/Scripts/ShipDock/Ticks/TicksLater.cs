@@ -4,7 +4,7 @@ using System;
 
 namespace ShipDock.Ticks
 {
-    public class TicksLater : IDispose
+    public class TicksLater : IReclaim
     {
         private DoubleBuffers<Action<int>> mDoubleBuffer;
 
@@ -14,9 +14,9 @@ namespace ShipDock.Ticks
             mDoubleBuffer.OnDequeue += OnTicksLater;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
-            mDoubleBuffer?.Dispose();
+            mDoubleBuffer?.Reclaim();
         }
 
         private void OnTicksLater(int time, Action<int> current)

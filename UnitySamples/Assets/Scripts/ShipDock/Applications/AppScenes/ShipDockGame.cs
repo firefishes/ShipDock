@@ -436,7 +436,7 @@ namespace ShipDock.Applications
         /// <param name="target"></param>
         private void OnPreloadComplete(bool successed, AssetsLoader target)
         {
-            target.Dispose();
+            target.Reclaim();
 
             EnterGame();
         }
@@ -475,7 +475,7 @@ namespace ShipDock.Applications
             }
             else
             {
-                notice.Dispose();
+                notice.Reclaim();
             }
             return result;
         }

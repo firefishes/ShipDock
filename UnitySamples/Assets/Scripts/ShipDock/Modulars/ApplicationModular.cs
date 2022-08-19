@@ -19,7 +19,7 @@ namespace ShipDock.Modulars
             Priority = priority;
         }
 
-        public void Dispose() { }
+        public void Reclaim() { }
     }
 
     [AttributeUsage(AttributeTargets.Method)]
@@ -35,7 +35,7 @@ namespace ShipDock.Modulars
             Priority = priority;
         }
 
-        public void Dispose() { }
+        public void Reclaim() { }
     }
 
     [AttributeUsage(AttributeTargets.Method)]
@@ -51,7 +51,7 @@ namespace ShipDock.Modulars
             Priority = priority;
         }
 
-        public void Dispose() { }
+        public void Reclaim() { }
     }
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
@@ -94,7 +94,7 @@ namespace ShipDock.Modulars
             Priority = priority;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Handler = default;
         }
@@ -120,7 +120,7 @@ namespace ShipDock.Modulars
             Priority = priority;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Handler = default;
         }
@@ -146,13 +146,13 @@ namespace ShipDock.Modulars
             Priority = priority;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Handler = default;
         }
     }
 
-    public interface IModularMethodPriority : IDispose
+    public interface IModularMethodPriority : IReclaim
     {
         int ID { get; set; }
         int NoticeName { get; set; }
@@ -223,7 +223,7 @@ namespace ShipDock.Modulars
 
             Purge();
 
-            mModularNotifierMapper?.Dispose();
+            mModularNotifierMapper?.Reclaim();
             mModularNotifierMapper = default;
             Modulars = default;
         }

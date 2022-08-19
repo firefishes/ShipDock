@@ -56,7 +56,7 @@ namespace ShipDock.Applications
         }
 
         #region 执行队列单元的实现代码
-        private bool mIsDispose;
+        private bool mIsReclaimed;
 
         public int QueueSize
         {
@@ -72,15 +72,15 @@ namespace ShipDock.Applications
         public Action ActionUnit { get; set; }
         public bool IgnoreInQueue { get; set; }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
-            if (mIsDispose)
+            if (mIsReclaimed)
             {
                 return;
             }
             else { }
 
-            mIsDispose = true;
+            mIsReclaimed = true;
 
             OnNextUnit = null;
             OnUnitExecuted = null;

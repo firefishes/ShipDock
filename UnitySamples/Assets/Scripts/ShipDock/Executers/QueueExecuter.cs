@@ -77,7 +77,7 @@ namespace ShipDock.Tools
         }
         
         /// <summary>销毁</summary>
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             if (IsDisposed)
             {
@@ -198,7 +198,7 @@ namespace ShipDock.Tools
         /// <summary>销毁后重置队列</summary>
         public void ResetAfterDispose(bool autoDispose = true)
         {
-            Dispose();
+            Reclaim();
 
             mQueue = new List<IQueueExecuter>();
             mQueueExecuted = new List<IQueueExecuter>();
@@ -262,7 +262,7 @@ namespace ShipDock.Tools
 
                     if (mAutoDispose)
                     {
-                        Dispose();
+                        Reclaim();
                     }
                     else { }
                 }

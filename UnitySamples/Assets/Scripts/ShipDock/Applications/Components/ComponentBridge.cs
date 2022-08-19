@@ -3,11 +3,11 @@ using System;
 
 namespace ShipDock.Applications
 {
-    public class ComponentBridge : IDispose
+    public class ComponentBridge : IReclaim
     {
         private Action mOnStarted;
 
-        public void Dispose()
+        public void Reclaim()
         {
             mOnStarted = default;
         }

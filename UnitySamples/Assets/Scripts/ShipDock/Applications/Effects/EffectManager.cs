@@ -92,7 +92,7 @@ namespace ShipDock.Applications
             mPrefabRaw = new KeyValueList<int, Effect>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             int max = mPrefabRaw != default ? mPrefabRaw.Size : 0;
             if (max > 0)

@@ -349,7 +349,7 @@ namespace ShipDock.Versioning
             if (success)
             {
                 string json = target.TextData;
-                target.Dispose();
+                target.Reclaim();
 
                 ResDataVersion remoteVersions = JsonUtility.FromJson<ResDataVersion>(json);
                 remoteVersions.resVersionType = ResDataVersionType.Remote;
@@ -401,7 +401,7 @@ namespace ShipDock.Versioning
         {
             if (mRemoteResLoader != default)
             {
-                mRemoteResLoader.Dispose();
+                mRemoteResLoader.Reclaim();
             }
             else { }
 

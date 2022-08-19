@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using ShipDock.Config;
 using ShipDock.Interfaces;
 using ShipDock.Pooling;
 using ShipDock.Tools;
+using System.Collections.Generic;
 
 namespace Peace
 {
@@ -21,13 +20,13 @@ namespace Peace
 
         public override List<int> IntFieldNames { get; protected set; } = GetNewIntFields(ref newIntFields, FieldsConsts.IntFieldsLegion);
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
-            mVolumeGroupControl?.Dispose();
+            mVolumeGroupControl?.Reclaim();
 
-            mResources?.Dispose();
+            mResources?.Reclaim();
             mResources = default;
         }
 
@@ -153,7 +152,7 @@ namespace Peace
         #endregion
     }
 
-    public class VolumeGroupControl : IDispose
+    public class VolumeGroupControl : IReclaim
     {
         /// <summary>军团数据容量组</summary>
         public ValueVolumeGroup VolumeGroup { get; private set; }
@@ -168,9 +167,9 @@ namespace Peace
             VolumeGroup?.Reset();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
-            VolumeGroup?.Dispose();
+            VolumeGroup?.Reclaim();
         }
 
         #region 容量控制

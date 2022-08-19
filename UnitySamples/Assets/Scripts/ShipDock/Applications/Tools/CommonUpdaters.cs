@@ -26,14 +26,14 @@ namespace ShipDock.Applications
             {
                 updater = mUpdaterMapper.GetValueByIndex(i);
                 UpdaterNotice.RemoveSceneUpdater(updater);
-                updater.Dispose();
+                updater.Reclaim();
             }
             max = mUpdaterMapper.Size;
             for (int i = 0; i < max; i++)
             {
                 updater = mLateUpdaterMapper.GetValueByIndex(i);
                 UpdaterNotice.RemoveSceneUpdater(updater);
-                updater.Dispose();
+                updater.Reclaim();
             }
             mUpdaterMapper?.Clear();
             mLateUpdaterMapper?.Clear();
@@ -91,7 +91,7 @@ namespace ShipDock.Applications
             {
                 MethodUpdater updater = mUpdaterMapper.GetValue(method, true);
                 UpdaterNotice.RemoveSceneUpdater(updater);
-                updater.Dispose();
+                updater.Reclaim();
             }
             else { }
         }
@@ -102,7 +102,7 @@ namespace ShipDock.Applications
             {
                 MethodUpdater updater = mLateUpdaterMapper.GetValue(method, true);
                 UpdaterNotice.RemoveSceneUpdater(updater);
-                updater.Dispose();
+                updater.Reclaim();
             }
             else { }
         }

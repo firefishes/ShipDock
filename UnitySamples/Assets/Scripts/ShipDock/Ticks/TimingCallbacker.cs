@@ -3,12 +3,12 @@ using System;
 
 namespace ShipDock.Ticks
 {
-    public class TimingCallbacker : IDispose
+    public class TimingCallbacker : IReclaim
     {
         public float timing;
         public Action callback;
 
-        public void Dispose()
+        public void Reclaim()
         {
             callback = default;
         }

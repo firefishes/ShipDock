@@ -34,7 +34,7 @@ namespace Elimlnate
         }
 
         #region 执行队列单元的实现代码
-        private bool mIsDispose;
+        private bool mIsReclaimed;
 
         public int QueueSize
         {
@@ -50,13 +50,15 @@ namespace Elimlnate
         public Action ActionUnit { get; set; }
         public bool IgnoreInQueue { get; set; }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
-            if (mIsDispose)
+            if (mIsReclaimed)
             {
                 return;
             }
-            mIsDispose = true;
+            else { }
+
+            mIsReclaimed = true;
 
             OnNextUnit = default;
             OnUnitExecuted = default;

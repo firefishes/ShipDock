@@ -2,7 +2,7 @@
 
 namespace ShipDock.Tools
 {
-    public class IntegerMapper<MapperValueT> : IDispose
+    public class IntegerMapper<MapperValueT> : IReclaim
     {
         private IntegerID<MapperValueT> mIndexer;
         private KeyValueList<int, MapperValueT> mMapper;
@@ -13,10 +13,10 @@ namespace ShipDock.Tools
             mMapper = new KeyValueList<int, MapperValueT>();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
-            mIndexer?.Dispose();
-            mMapper?.Dispose();
+            mIndexer?.Reclaim();
+            mMapper?.Reclaim();
         }
 
         public bool ContainsKey(ref MapperValueT key, out int id)

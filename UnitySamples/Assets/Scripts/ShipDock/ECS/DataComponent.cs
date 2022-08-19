@@ -24,9 +24,9 @@ namespace ShipDock.ECS
             mDatas = new KeyValueList<IShipDockEntitas, T>();
         }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             Utils.Reclaim(ref mInvalidDatasIndex);
             Utils.Reclaim(ref mDatas);

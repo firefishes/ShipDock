@@ -158,8 +158,8 @@ namespace Elimlnate
 
         public void Clean()
         {
-            mGridProcesser?.Dispose();
-            EliminateResult?.Dispose();
+            mGridProcesser?.Reclaim();
+            EliminateResult?.Reclaim();
             mLinedRulesMapper?.Clear();
             mRearranger?.Clear();
             mOperatingGrids?.Clear();

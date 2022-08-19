@@ -2,7 +2,7 @@
 
 namespace ShipDock.Server
 {
-    public interface IResolverHandler : IDispose
+    public interface IResolverHandler : IReclaim
     {
         void SetID(int id);
         void InvokeResolver();

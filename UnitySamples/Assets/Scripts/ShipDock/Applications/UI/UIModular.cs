@@ -17,9 +17,9 @@ namespace ShipDock.Applications
     {
         protected InterfaceT UIImpl { get; private set; }
 
-        public override void Dispose()
+        public override void Reclaim()
         {
-            base.Dispose();
+            base.Reclaim();
 
             UIImpl = default;
         }
@@ -73,7 +73,7 @@ namespace ShipDock.Applications
             FillUIInstance(ref ui);
         }
 
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             this.DataProxyDelink(DataProxyLinks);
             mUI.Remove(UIModularHandler);
@@ -226,7 +226,7 @@ namespace ShipDock.Applications
             {
                 if (isDestroy)
                 {
-                    Dispose();
+                    Reclaim();
                 }
                 else
                 {

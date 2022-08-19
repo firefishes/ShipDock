@@ -14,7 +14,7 @@ namespace Peace
         MethodUpdater RoleUpdater { get; }
     }
 
-    public interface IWorldElement : IWorldUpdate, IPoolable, IDispose
+    public interface IWorldElement : IWorldUpdate, IPoolable, IReclaim
     {
     }
 
@@ -22,11 +22,11 @@ namespace Peace
     {
         public MethodUpdater RoleUpdater { get; private set; }
 
-        public void Dispose()
+        public void Reclaim()
         {
             Purge();
 
-            RoleUpdater?.Dispose();
+            RoleUpdater?.Reclaim();
             RoleUpdater = default;
         }
 
@@ -96,8 +96,6 @@ namespace Peace
         public override void OnUpdate(int time)
         {
             base.OnUpdate(time);
-
-
         }
     }
 

@@ -35,7 +35,7 @@ namespace ShipDock.Notices
             Pooling<Notice>.To(this);
         }
         
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             Purge();
         }

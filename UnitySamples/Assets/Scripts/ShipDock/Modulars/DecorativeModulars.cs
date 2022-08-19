@@ -42,9 +42,9 @@ namespace ShipDock.Modulars
             };
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
-            mModulars?.Dispose();
+            mModulars?.Reclaim();
             mCreators?.Reset();
             mDecorators?.Reset();
             mLIsteners?.Reset();

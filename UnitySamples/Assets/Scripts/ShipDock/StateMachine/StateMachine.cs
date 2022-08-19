@@ -124,7 +124,7 @@ namespace ShipDock.FSM
 
         #region 销毁
         /// <summary>销毁</summary>
-        public virtual void Dispose()
+        public virtual void Reclaim()
         {
             StopStateMachine();
 
@@ -193,7 +193,7 @@ namespace ShipDock.FSM
                 }
                 else
                 {
-                    state.Dispose();
+                    state.Reclaim();
                 }
             }
             Array.Clear(StateInfos, 0, StateInfos.Length);

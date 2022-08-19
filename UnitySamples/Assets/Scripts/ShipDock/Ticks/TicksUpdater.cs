@@ -86,7 +86,7 @@ namespace ShipDock.Ticks
             Enabled();
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             mIsDisposed = true;
             ShipDockConsts.NOTICE_REMOVE_UPDATE.Remove(RemoveUpdate);

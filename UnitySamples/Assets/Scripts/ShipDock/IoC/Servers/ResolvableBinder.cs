@@ -4,7 +4,7 @@ using System;
 
 namespace ShipDock.Server
 {
-    public class ResolvableBinder : IDispose
+    public class ResolvableBinder : IReclaim
     {
         public static ResolvableBinder CreateResolvableRef(ref ResolvableInfo info, ref IntegerMapper<Type> typeIDMapper)
         {
@@ -28,7 +28,7 @@ namespace ShipDock.Server
             mTypeID = types;
         }
 
-        public void Dispose()
+        public void Reclaim()
         {
             alias = -1;
             interfaceType = -1;

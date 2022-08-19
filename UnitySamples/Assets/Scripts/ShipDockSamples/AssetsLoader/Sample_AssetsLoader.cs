@@ -1,8 +1,5 @@
 ﻿using ShipDock.Applications;
 using ShipDock.Loader;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Sample_AssetsLoader : ShipDockAppComponent
@@ -27,7 +24,7 @@ public class Sample_AssetsLoader : ShipDockAppComponent
         if (success)
         {
             //销毁加载器
-            loader.Dispose();
+            loader.Reclaim();
 
             string abName = "sample_res";
             string assetName = "Cube";
