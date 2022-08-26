@@ -6,7 +6,12 @@ using UnityEngine;
 
 namespace Peace
 {
-    public class LegionData : DataProxy
+    public interface ILegionData : IDataProxy
+    {
+        void InitPlayerLegion();
+    }
+
+    public class LegionData : DataProxy, ILegionData
     {
         private Legion mPlayerLegion;
         private KeyValueList<int, Legion> mNeutralLegions;
@@ -27,6 +32,7 @@ namespace Peace
             else { }
 
             mPlayerLegion.Init();
+            mPlayerLegion.SetRelationType(LegionRelationType.LEGION_SELF);
         }
     }
 }

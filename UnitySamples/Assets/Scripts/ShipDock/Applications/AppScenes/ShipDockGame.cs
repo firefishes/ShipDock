@@ -370,7 +370,10 @@ namespace ShipDock.Applications
             }
             else { }
 
-            if (m_DevelopSubgroup.ApplyRemoteAssets)
+            bool applyRemoteAssets = m_DevelopSubgroup.ApplyRemoteAssets;
+            AssetsLoader.IgnoreRemote = !applyRemoteAssets;
+
+            if (applyRemoteAssets)
             {
                 m_GameAppEvents.updateRemoteAssetEvent.Invoke();//触发远程资源对比事件，完成后调用 PreLoadAsset 以继续流程
             }
@@ -389,14 +392,15 @@ namespace ShipDock.Applications
             int max = m_DevelopSubgroup.assetNamePreload.Length;
             if (max > 0)
             {
+                bool applyManifestAutoPath = m_DevelopSubgroup.applyManifestAutoPath;
                 assetsLoader.CompleteEvent.AddListener(OnPreloadComplete);
-                assetsLoader.AddManifest(m_DevelopSubgroup.assetNameResData, m_DevelopSubgroup.applyManifestAutoPath);
+                assetsLoader.AddManifest(m_DevelopSubgroup.assetNameResData, applyManifestAutoPath);
 
                 string item;
                 for (int i = 0; i < max; i++)
                 {
                     item = m_DevelopSubgroup.assetNamePreload[i];
-                    assetsLoader.Add(item, true, m_DevelopSubgroup.applyManifestAutoPath);
+                    assetsLoader.Add(item, true, applyManifestAutoPath);
                 }
                 assetsLoader.Load(out _);
             }

@@ -70,3 +70,37 @@ MonoBehaviour:
       audioClip: {fileID: 0}
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
+  - name: peace/ui_main
+    id: 0
+    m_EditEnabled: 0
+    valid: 1
+    assets:
+    - assetName: UILoading
+      assetPath: Assets/res_data/peace/ui/main/UILoading.prefab
+      m_EditEnabled: 0
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 5482853933931206643, guid: 994a8269e6e7768419ba107fb6a0981a,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}
+  - name: peace/ui_headquarters
+    id: 0
+    m_EditEnabled: 0
+    valid: 1
+    assets:
+    - assetName: UIHeadquarters
+      assetPath: Assets/res_data/peace/ui/UIHeadquarters.prefab
+      m_EditEnabled: 0
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 1346606283288399202, guid: 70a8fc5489dfa8b4e8ab76fcb22974c4,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}

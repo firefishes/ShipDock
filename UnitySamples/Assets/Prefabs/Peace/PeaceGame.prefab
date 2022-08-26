@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5400370627092215573
+--- !u!1 &626832781003354833
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,136 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2911846910595881384}
-  - component: {fileID: 3428882734044507157}
+  - component: {fileID: 600644066410193060}
+  - component: {fileID: 708794829649747509}
+  m_Layer: 0
+  m_Name: 'peace/configs: equipments, others 3'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &600644066410193060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626832781003354833}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6360270082117253366}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &708794829649747509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626832781003354833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Valid: 1
+  m_BundleName: peace/configs
+  m_Assets:
+  - assetName: equipments
+    customAssetType: 4
+    asset: {fileID: 0}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 4900000, guid: 4c1c339cb787c39458a58e3896c23636, type: 3}
+    assetBundle: {fileID: 0}
+    refresh: 0
+  - assetName: 
+    customAssetType: 0
+    asset: {fileID: 0}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 4900000, guid: 2c9e24aa9b5a0c343846f214e3524db8, type: 3}
+    assetBundle: {fileID: 0}
+    refresh: 1
+  - assetName: 
+    customAssetType: 0
+    asset: {fileID: 0}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 4900000, guid: 5d63e8e1d4227a543af1cbff2580087d, type: 3}
+    assetBundle: {fileID: 0}
+    refresh: 1
+--- !u!1 &901274121161632349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 821938706936433409}
+  - component: {fileID: 3266798004901133583}
+  m_Layer: 0
+  m_Name: 'peace/ui_headquarters: UIHeadquarters'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &821938706936433409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901274121161632349}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6360270082117253366}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3266798004901133583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901274121161632349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Valid: 1
+  m_BundleName: peace/ui_headquarters
+  m_Assets:
+  - assetName: UIHeadquarters
+    customAssetType: 0
+    asset: {fileID: 1346606283288399202, guid: 70a8fc5489dfa8b4e8ab76fcb22974c4, type: 3}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 0}
+    assetBundle: {fileID: 0}
+    refresh: 0
+--- !u!1 &4669733061071841159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8489940625094669629}
+  - component: {fileID: 7194522341321320848}
   m_Layer: 0
   m_Name: 'peace/ui_login: UILogin'
   m_TagString: Untagged
@@ -17,27 +145,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2911846910595881384
+--- !u!4 &8489940625094669629
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5400370627092215573}
+  m_GameObject: {fileID: 4669733061071841159}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6360270082117253366}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3428882734044507157
+--- !u!114 &7194522341321320848
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5400370627092215573}
+  m_GameObject: {fileID: 4669733061071841159}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
@@ -83,9 +211,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6360270083837972624}
-  - {fileID: 3233724500802946772}
-  - {fileID: 2911846910595881384}
+  - {fileID: 600644066410193060}
+  - {fileID: 8489940625094669629}
+  - {fileID: 8219119300422879119}
+  - {fileID: 821938706936433409}
   m_Father: {fileID: 6360270083162481566}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -102,10 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Info: {fileID: 11400000, guid: b61842a7319b64b41b311a5a71cd384a, type: 2}
-  m_Assets:
-  - {fileID: 6360270083837972625}
-  - {fileID: 3423460507125084562}
-  - {fileID: 3428882734044507157}
+  m_Assets: []
   m_SyncCusntomList: 0
   m_RemoveEmptyAssets: 0
 --- !u!1 &6360270082980720758
@@ -236,6 +362,7 @@ MonoBehaviour:
     assetNamePreload:
     - peace/configs
     - peace/ui_login
+    - peace/ui_main
     changeDebugSettings: 0
     logColorDefault: {r: 0, g: 0, b: 0, a: 0}
     logColorDebug: {r: 0, g: 0, b: 0, a: 0}
@@ -294,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0cd2d11ea897946aff0f448a74d16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &6360270083837972631
+--- !u!1 &7243124667160259378
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,133 +429,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6360270083837972624}
-  - component: {fileID: 6360270083837972625}
+  - component: {fileID: 8219119300422879119}
+  - component: {fileID: 4430010595284176588}
   m_Layer: 0
-  m_Name: 'peace/configs: peaceequipment, others 2'
+  m_Name: 'peace/ui_main: UILoading'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6360270083837972624
+--- !u!4 &8219119300422879119
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6360270083837972631}
+  m_GameObject: {fileID: 7243124667160259378}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6360270082117253366}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6360270083837972625
+--- !u!114 &4430010595284176588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6360270083837972631}
+  m_GameObject: {fileID: 7243124667160259378}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Valid: 1
-  m_BundleName: peace/configs
+  m_BundleName: peace/ui_main
   m_Assets:
-  - assetName: peaceequipment
-    customAssetType: 4
-    asset: {fileID: 0}
+  - assetName: UILoading
+    customAssetType: 0
+    asset: {fileID: 5482853933931206643, guid: 994a8269e6e7768419ba107fb6a0981a, type: 3}
     tex2D: {fileID: 0}
     sprite: {fileID: 0}
     audioClip: {fileID: 0}
-    textData: {fileID: 4900000, guid: c3ca01306b67191409f7d73248db0ceb, type: 3}
-    assetBundle: {fileID: 0}
-    refresh: 0
-  - assetName: peaceorganizations
-    customAssetType: 4
-    asset: {fileID: 0}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 4900000, guid: 260d5cb0aea9b3044acf4caeb6b11052, type: 3}
-    assetBundle: {fileID: 0}
-    refresh: 0
---- !u!1 &8617181348715932472
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3233724500802946772}
-  - component: {fileID: 3423460507125084562}
-  m_Layer: 0
-  m_Name: 'peace/configs: equipments, others 3'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3233724500802946772
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8617181348715932472}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6360270082117253366}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3423460507125084562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8617181348715932472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Valid: 1
-  m_BundleName: peace/configs
-  m_Assets:
-  - assetName: equipments
-    customAssetType: 4
-    asset: {fileID: 0}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 4900000, guid: 4c1c339cb787c39458a58e3896c23636, type: 3}
-    assetBundle: {fileID: 0}
-    refresh: 0
-  - assetName: organizations
-    customAssetType: 4
-    asset: {fileID: 0}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 4900000, guid: 2c9e24aa9b5a0c343846f214e3524db8, type: 3}
-    assetBundle: {fileID: 0}
-    refresh: 0
-  - assetName: officers
-    customAssetType: 4
-    asset: {fileID: 0}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 4900000, guid: 5d63e8e1d4227a543af1cbff2580087d, type: 3}
+    textData: {fileID: 0}
     assetBundle: {fileID: 0}
     refresh: 0
 --- !u!1001 &1681869943338616186

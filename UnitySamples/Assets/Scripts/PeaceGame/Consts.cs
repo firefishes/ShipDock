@@ -56,16 +56,19 @@ namespace Peace
         public const string AB_CONFIGS = "peace/configs";
         public const string AB_LOGOIN = "peace/ui_login";
         public const string AB_UI_MAIN = "peace/ui_main";
+        public const string AB_UI_HEADQUARTERS = "peace/ui_headquarters";
         #endregion
 
         #region UI资源名
         public const string U_LOGIN = "UILogin";
+        public const string U_LOADING = "UILoading";
         public const string U_HEADQUARTERS = "UIHeadquarters";
         #endregion
 
         #region UI模块名
         public const string UM_LOGIN = "UMLogin";
         public const string UM_HEADQUARTERS = "UMHeadquarters";
+        public const string UM_LOADING = "UMLoading";
         #endregion
 
         #region 军衔

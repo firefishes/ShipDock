@@ -5,8 +5,6 @@ using UnityEngine;
 
 namespace Peace
 {
-    public interface IHeadquartersUI { }
-
     public class UIHeadquarters : UIContainer, IHeadquartersUI
     {
         protected override void Awake()

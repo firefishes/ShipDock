@@ -8,12 +8,7 @@ using UnityEngine.UI;
 
 namespace Peace
 {
-    public interface ILoginUI
-    {
-        void CheckLoadGameEnabled(bool enabled);
-    }
-
-    public class UILogin : UIContainer, ILoginUI
+    public class UILogin : UIContainer, ILoginView
     {
         private UIButton mNewGameBtn;
         private UIButton mLoadGameBtn;

@@ -12,6 +12,8 @@ namespace ShipDock.Loader
     /// </summary>
     public class AssetsLoader : IReclaim
     {
+        /// <summary>本次资源加载是否包括主依赖的加载项</summary>
+        private bool mWillLoadManifest;
         /// <summary>通用加载器</summary>
         private Loader mLoader;
         /// <summary>正在处理的加载操作器</summary>
@@ -106,6 +108,7 @@ namespace ShipDock.Loader
             RemoteAssetUpdated = default;
             mLoader = default;
             mDepsSigned = default;
+            mWillLoadManifest = false;
         }
 
         private void InitAssetLoader()
@@ -201,6 +204,7 @@ namespace ShipDock.Loader
         {
             if (mLoader != default)
             {
+                mWillLoadManifest = true;
                 LoaderOpertion opertion = new LoaderOpertion()
                 {
                     manifestName = manifestName,
@@ -431,7 +435,11 @@ namespace ShipDock.Loader
             bool hasMainManifest = AessetManifest != default;
             mainOperation.hasWalkDependences = hasMainManifest;
 
-            "error".Log(!hasMainManifest, "遍历依赖资源时资源主依赖不可为空.");
+            if (mWillLoadManifest) { }
+            else
+            {
+                "error".Log(!hasMainManifest, "遍历依赖资源时资源主依赖不可为空.");
+            }
 
             if (mainOperation.hasWalkDependences)
             {

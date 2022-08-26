@@ -14,6 +14,8 @@ namespace Peace
 
     public static class LegionRelationType
     {
+        /// <summary>我军</summary>
+        public const int LEGION_SELF = 0;
         /// <summary>中立</summary>
         public const int LEGION_NEUTRAL = 1;
         /// <summary>敌军</summary>

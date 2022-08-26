@@ -8,7 +8,12 @@ using UnityEngine;
 
 namespace Peace
 {
-    public class UILoginModular : UIModularImpl<UILogin, ILoginUI>
+    public interface ILoginView
+    {
+        void CheckLoadGameEnabled(bool enabled);
+    }
+
+    public class UILoginModular : UIModularImpl<UILogin, ILoginView>
     {
         public const int UIM_LGOIN_NEW_GAME = 1;
 
@@ -52,6 +57,9 @@ namespace Peace
                         UIImpl.CheckLoadGameEnabled(enabled);
 
                         Consts.UM_LOGIN.Close();
+                        //Consts.UM_HEADQUARTERS.OpenUI<UILoginModular>();
+                        Consts.UM_LOADING.OpenUI<UILoadingModular>();
+
                         break;
                 }
             }

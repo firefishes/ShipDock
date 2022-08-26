@@ -527,7 +527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ApplyInitSelf: 0
-  m_ActiveSelfControlHide: 1
+  m_ActiveSelfControlHide: 0
   m_UINodes:
     m_Overviews: "\u70ED\u66F4\u7ED1\u5B9A\u503C\u6982\u89C8"
     m_EditHotFixBinding: 0

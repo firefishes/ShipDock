@@ -2,6 +2,10 @@
 using ShipDock.Applications;
 using ShipDock.Tools;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.SceneManagement;
+#endif
 using UnityEngine;
 
 namespace ShipDock.Loader
@@ -48,6 +52,7 @@ namespace ShipDock.Loader
                 m_SyncCusntomList = false;
 
                 m_Assets.Clear();
+
                 CheckAndUpdateInfos();
 
                 CustomAssetComponent[] list = GetComponentsInChildren<CustomAssetComponent>();
@@ -83,10 +88,24 @@ namespace ShipDock.Loader
             if (m_Info != null)
             {
                 CustomAssetComponent[] list = GetComponentsInChildren<CustomAssetComponent>();
-                //foreach (var item in list)
-                //{
-                //    DestroyImmediate(item.gameObject);
-                //}
+
+                string prefabPath = default;
+                GameObject rootInstance = transform.parent.gameObject;
+                if (PrefabUtility.IsPartOfPrefabInstance(rootInstance))
+                {
+                    prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(rootInstance);
+
+                    PrefabUtility.UnpackPrefabInstance(rootInstance, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
+                }
+                else { }
+
+                GameObject gameObj;
+                foreach (var item in list)
+                {
+                    gameObj = item.gameObject;
+                    DestroyImmediate(gameObj);
+                }
+
                 list = new CustomAssetComponent[list.Length];
 
                 List<CustomAssetsInfoItem> infos = m_Info.GetAssetInfos();
@@ -120,6 +139,15 @@ namespace ShipDock.Loader
                     customAssetComp.SetAssets(assets);
                     customAssetComp.Valid();
                 }
+
+                if (!string.IsNullOrEmpty(prefabPath))
+                {
+                    //GameObject currentPrefab = PrefabUtility.LoadPrefabContents(prefabPath);
+                    PrefabUtility.SaveAsPrefabAssetAndConnect(rootInstance, prefabPath, InteractionMode.AutomatedAction);
+                    //PrefabUtility.UnloadPrefabContents(currentPrefab);
+                    AssetDatabase.Refresh();
+                }
+                else { }
             }
             else { }
         }

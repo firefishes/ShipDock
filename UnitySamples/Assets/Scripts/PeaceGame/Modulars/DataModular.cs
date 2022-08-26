@@ -35,7 +35,8 @@ namespace Peace
                 switch (DCName)
                 {
                     case Consts.DN_NEW_GAME_CREATED:
-                        Consts.D_LEGION.GetData<IDataProxy>();
+                        ILegionData legionData = Consts.D_LEGION.GetData<ILegionData>();
+                        legionData.InitPlayerLegion();
                         break;
                 }
             }

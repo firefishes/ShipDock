@@ -44,6 +44,7 @@ namespace Peace
             IModular[] modulars = new IModular[]
             {
                 new MessageModular(Consts.M_MESSAGE),
+                new DataModular(),
                 new BattleModular(),
                 new PeaceWorldModular(),
             };
