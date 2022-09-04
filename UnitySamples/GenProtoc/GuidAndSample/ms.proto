@@ -1,0 +1,5 @@
+message Msg_Test32323{
+}
+message Msg_Test3567{
+   required int32 Id = 1; 
+}

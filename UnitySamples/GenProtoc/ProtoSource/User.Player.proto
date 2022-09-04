@@ -1,0 +1,5 @@
+package User;
+
+message InitPlayer{
+   required bool IsNewPlayer = 1; 
+}

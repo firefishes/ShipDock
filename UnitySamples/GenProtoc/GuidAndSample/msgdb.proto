@@ -1,0 +1,4 @@
+//定义数据结构
+message DBS_Test2{
+   required string Name = 1;
+}
