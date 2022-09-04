@@ -173,7 +173,6 @@ namespace ShipDock.Ticks
         /// <summary>添加一个需要刷帧的对象</summary>
         protected virtual void AddUpdate(INoticeBase<int> param)
         {
-            UnityEngine.Debug.Log("AddUpdate " + param);
             mNoticeAdded = param as UpdaterNotice;
             if ((mNoticeAdded == null) || 
                 (mNoticeAdded.ParamValue == null) || 

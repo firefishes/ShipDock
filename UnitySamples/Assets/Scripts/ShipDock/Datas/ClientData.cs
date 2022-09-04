@@ -122,7 +122,11 @@ namespace ShipDock.Datas
         /// </summary>
         public void UpdateLocalData(string keyName, string data, bool checkUnique = false)
         {
-            if (!string.IsNullOrEmpty(keyName))
+            if (string.IsNullOrEmpty(keyName))
+            {
+                Debug.Log(string.Format("Player prefs {0} do not exist", keyName));
+            }
+            else
             {
                 if (checkUnique && HasKey(keyName) && (data == PlayerPrefs.GetString(keyName)))
                 {
@@ -134,10 +138,6 @@ namespace ShipDock.Datas
                 PlayerPrefs.SetString(keyName, data);
                 Debug.Log(string.Format("Player prefs set string value.. {0} >> {1}", keyName, data));
             }
-            else
-            {
-                Debug.Log(string.Format("Player prefs {0} do not exist", keyName));
-            }
         }
 
         /// <summary>
@@ -145,7 +145,11 @@ namespace ShipDock.Datas
         /// </summary>
         public void UpdateLocalDataInt(string keyName, int data, bool checkUnique = false)
         {
-            if (!string.IsNullOrEmpty(keyName))
+            if (string.IsNullOrEmpty(keyName))
+            {
+                Debug.Log(string.Format("Player prefs {0} do not exist", keyName));
+            }
+            else
             {
                 if (checkUnique && HasKey(keyName) && (data == PlayerPrefs.GetInt(keyName)))
                 {
@@ -156,10 +160,6 @@ namespace ShipDock.Datas
 
                 PlayerPrefs.SetInt(keyName, data);
                 Debug.Log(string.Format("Player prefs set int value.. {0} >> {1}", keyName, data));
-            }
-            else
-            {
-                Debug.Log(string.Format("Player prefs {0} do not exist", keyName));
             }
         }
 

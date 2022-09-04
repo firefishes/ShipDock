@@ -6,6 +6,9 @@ namespace ShipDock.Modulars
     public interface IMessageNotice : INotice
     {
         int Message { get; }
+        INoticeBase<int> MsgNotice { get; }
+
+        void SetMsgNotice(INoticeBase<int> notice);
     }
 
     public sealed class MessageNotice : Notice, IMessageNotice

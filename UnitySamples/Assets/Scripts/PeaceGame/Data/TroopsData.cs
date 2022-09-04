@@ -10,7 +10,7 @@ namespace Peace
     {
         private KeyValueList<int, TroopFields> mPlayerTroops;
 
-        public TroopsData(int dataName) : base(dataName)
+        public TroopsData() : base(Consts.D_TROOPS)
         {
             mPlayerTroops = new KeyValueList<int, TroopFields>();
         }

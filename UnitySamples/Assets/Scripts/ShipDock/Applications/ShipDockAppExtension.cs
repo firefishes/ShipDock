@@ -122,7 +122,7 @@ public static class ShipDockAppExtension
     /// <param name="UIABNames">需要加载的资源列表</param>
     public static void LoadAndOpenUI<T>(this string stackName, System.Action<T> onUIOpen, params string[] UIABNames) where T : IUIStack, new()
     {
-        int max = UIABNames.Length;
+        int max = UIABNames != default ? UIABNames.Length : 0;
         if (max > 0)
         {
             Framework framework = Framework.Instance;

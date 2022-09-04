@@ -28,6 +28,8 @@ namespace Peace
 
         private void OnLoadGame(UIButton arg0)
         {
+            Debug.Log("LoadGame");
+            this.Dispatch(UILoginModular.UIM_LGOIN_LOAD_GAME);
         }
 
         private void OnNewGame(UIButton btn)

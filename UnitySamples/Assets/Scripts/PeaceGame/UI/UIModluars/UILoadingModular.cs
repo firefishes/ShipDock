@@ -1,6 +1,7 @@
 using ShipDock.Applications;
 using ShipDock.Datas;
 using ShipDock.Notices;
+using ShipDock.Tools;
 using ShipDock.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Peace
 
     public class UILoadingModular : UIModularImpl<UILoading, ILoadingView>
     {
+
         public override string ABName { get; } = Consts.AB_UI_MAIN;
         public override string UIAssetName { get; protected set; } = Consts.U_LOADING;
         public override string Name { get; protected set; } = Consts.UM_LOADING;
@@ -36,10 +38,12 @@ namespace Peace
         {
             base.Init();
 
-            Consts.UM_HEADQUARTERS.LoadAndOpenUI<UIHeadquartersModular>((a) => {
-                Consts.UM_LOADING.Close();
+        }
 
-            }, Consts.AB_UI_HEADQUARTERS);
+        public override void Enter()
+        {
+            base.Enter();
+
         }
     }
 }

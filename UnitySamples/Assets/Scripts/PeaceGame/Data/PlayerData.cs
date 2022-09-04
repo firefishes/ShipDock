@@ -27,14 +27,24 @@ namespace Peace
         {
             LocalClient.CreateNewClient();
             LocalClient.ClientInfo.accountID = DateTime.UtcNow.ToLongTimeString();
+            LocalClient.ClientInfo.IDAdvanced = 0;
             Save();
 
             DataNotify(Consts.DN_NEW_GAME_CREATED);
         }
 
+        public void ContinueGame()
+        {
+            DataNotify(Consts.DN_GAME_LOADED);
+        }
+
         private void OnApplicationClose(INoticeBase<int> obj)
         {
             PeaceClientInfo clientInfo = LocalClient.ClientInfo;
+
+            ILegionData legionData = Consts.D_LEGION.GetData<ILegionData>();
+
+            legionData.Save(this);
 
             Save();
         }

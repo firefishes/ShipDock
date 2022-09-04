@@ -1,6 +1,8 @@
 using ShipDock.Commons;
 using ShipDock.Notices;
+using ShipDock.Pooling;
 using ShipDock.Tools;
+using System.Collections.Generic;
 
 namespace ShipDock.Modulars
 {
@@ -22,13 +24,17 @@ namespace ShipDock.Modulars
             }
             else { }
 
-            modulars?.NotifyModular(ShipDockConsts.NOTICE_MSG_ADD, MessageNotice.Create(message, paramNotice));
+            MessageNotice msgNotice = MessageNotice.Create(message, paramNotice);
+            modulars?.NotifyModular(ShipDockConsts.NOTICE_MSG_ADD, msgNotice);
         }
 
-        private bool mHasMessageQueue;
-        private DoubleBuffers<IMessageNotice> mDoubleBuffers;
-        private IMessageNotice mNoticeWillAdd;
+        private bool mHasMessageNotice;
+        private IPoolable mReclaimParam;
+        private IPoolable mMessageParam;
         private IUpdate mMessageUpdater;
+        private IMessageNotice mNoticeWillAdd;
+        private Queue<IPoolable> mMessageParamReclaims;
+        private DoubleBuffers<IMessageNotice> mDoubleBuffers;
 
         public MessageModular(int modularName) : base()
         {
@@ -40,11 +46,14 @@ namespace ShipDock.Modulars
             UpdaterNotice.RemoveSceneUpdater(mMessageUpdater);
 
             mDoubleBuffers?.Reclaim();
+            mMessageParamReclaims?.Clear();
         }
 
         public override void InitModular()
         {
             base.InitModular();
+
+            mMessageParamReclaims = new Queue<IPoolable>();
 
             mDoubleBuffers = new DoubleBuffers<IMessageNotice>()
             {
@@ -85,22 +94,43 @@ namespace ShipDock.Modulars
 
         private void OnModularUpdate(int deltaTime)
         {
+            int count = mMessageParamReclaims.Count;
+            if (count > 0)
+            {
+                while(mMessageParamReclaims.Count > 0)
+                {
+                    mReclaimParam = mMessageParamReclaims.Dequeue();
+                    mReclaimParam.ToPool();
+                }
+                mReclaimParam = default;
+            }
+            else { }
+
             mDoubleBuffers.Update(deltaTime);
         }
 
         private void OnMessageDequeue(int dTime, IMessageNotice param)
         {
-            mHasMessageQueue = param != default;
+            mHasMessageNotice = param != default;
 
-            if (mHasMessageQueue)
+            if (mHasMessageNotice)
             {
                 //派发处理消息的模块消息
                 NotifyModular(ShipDockConsts.NOTICE_MSG_QUEUE, param);
+
+                mMessageParam = param.MsgNotice as IPoolable;
+                if ((mMessageParam != default) && !mMessageParamReclaims.Contains(mMessageParam))
+                {
+                    mMessageParamReclaims.Enqueue(mMessageParam);
+                }
+                else { }
+
                 param.ToPool();
             }
             else { }
 
-            mHasMessageQueue = false;
+            mHasMessageNotice = false;
+            mMessageParam = default;
         }
     }
 }

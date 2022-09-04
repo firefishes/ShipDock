@@ -12,6 +12,7 @@ namespace ShipDock.Modulars
     /// </summary>
     public abstract class QueueableNoticesModular : ApplicationModular
     {
+        private MessageNotice mMsgNotice;
         private KeyValueList<int, Action<INoticeBase<int>>> mMessageSettles;
 
         public QueueableNoticesModular(int modularName) : base()
@@ -41,11 +42,13 @@ namespace ShipDock.Modulars
         [ModularNoticeListener(ShipDockConsts.NOTICE_MSG_QUEUE)]
         private void OnMessage(INoticeBase<int> param)
         {
-            if (param is MessageNotice notice)
+            mMsgNotice = param as MessageNotice;
+            if (mMsgNotice != default)
             {
-                SettleMessageQueue(notice.Message, notice.MsgNotice);
+                SettleMessageQueue(mMsgNotice.Message, mMsgNotice.MsgNotice);
             }
             else { }
+            mMsgNotice = default;
         }
 
         /// <summary>

@@ -3,7 +3,7 @@ using ShipDock.Notices;
 
 namespace Peace
 {
-    public interface IPeaceNotice : IMessageNotice
+    public interface IPeaceNotice
     {
     }
 }

@@ -27,10 +27,12 @@ namespace Peace
 
             param.ParamValue = new IDataProxy[]
             {
+                new UIData(),
                 new PlayerData(),
+                new ServiceData(),
                 new ConfigData(Consts.D_CONFIGS),
-                new LegionData(Consts.D_LEGION),
-                new TroopsData(Consts.D_TROOPS),
+                new LegionData(),
+                new TroopsData(),
             };
         }
 
@@ -44,6 +46,8 @@ namespace Peace
             IModular[] modulars = new IModular[]
             {
                 new MessageModular(Consts.M_MESSAGE),
+                new ServiceModular(),
+                new ViewModular(),
                 new DataModular(),
                 new BattleModular(),
                 new PeaceWorldModular(),

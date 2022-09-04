@@ -61,6 +61,11 @@ namespace Peace
             RelationType = type;
         }
 
+        public void SyncServiceID(int sid)
+        {
+            mPlayerLegion.SetSID(sid);
+        }
+
         public void SyncPlayerLegion(int id)
         {
             mPlayerLegion.SetIntData(FieldsConsts.F_ID, id);

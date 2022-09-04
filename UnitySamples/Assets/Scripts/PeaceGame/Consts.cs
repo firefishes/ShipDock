@@ -20,6 +20,10 @@ namespace Peace
         public const int D_LEGION = 3;
         /// <summary>军团数据</summary>
         public const int D_TROOPS = 4;
+        /// <summary>服务数据</summary>
+        public const int D_SERVICE = 5;
+        /// <summary>UI 数据</summary>
+        public const int D_UI = 6;
         #endregion
 
         #region 模块名
@@ -27,6 +31,8 @@ namespace Peace
         public const int M_BATTLE = 2001;
         public const int M_WORLD = 2002;
         public const int M_DATA = 2003;
+        public const int M_SERVICE = 2004;
+        public const int M_VIEW = 2005;
         #endregion
 
         #region 消息名
@@ -39,10 +45,14 @@ namespace Peace
         public const int MSG_ENTER_BATTLE = 20001;
         public const int MSG_ADD_UPDATER = 20002;
         public const int MSG_RM_UPDATER = 20003;
+        public const int MSG_S_INIT_PLAYER = 20004;
         #endregion
 
         #region 数据消息名
         public const int DN_NEW_GAME_CREATED = 30000;
+        public const int DN_GAME_LOADED = 30001;
+        public const int DN_NEW_GAME_SAVE = 30002;
+        public const int DN_NEXT_UI_MODULAR = 30003;
         #endregion
 
         #region 配置

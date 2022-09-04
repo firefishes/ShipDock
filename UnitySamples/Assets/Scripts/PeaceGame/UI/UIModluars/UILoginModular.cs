@@ -16,6 +16,7 @@ namespace Peace
     public class UILoginModular : UIModularImpl<UILogin, ILoginView>
     {
         public const int UIM_LGOIN_NEW_GAME = 1;
+        public const int UIM_LGOIN_LOAD_GAME = 2;
 
         public override string ABName { get; } = Consts.AB_LOGOIN;
         public override string UIAssetName { get; protected set; } = Consts.U_LOGIN;
@@ -51,14 +52,16 @@ namespace Peace
                 switch (keyName)
                 {
                     case Consts.DN_NEW_GAME_CREATED:
+                    case Consts.DN_GAME_LOADED:
                         PeaceClientInfo clientInfo = playerData.LocalClient.ClientInfo;
 
                         bool enabled = clientInfo.accountID != "0";
                         UIImpl.CheckLoadGameEnabled(enabled);
 
                         Consts.UM_LOGIN.Close();
-                        //Consts.UM_HEADQUARTERS.OpenUI<UILoginModular>();
-                        Consts.UM_LOADING.OpenUI<UILoadingModular>();
+
+                        UIData UIData = Consts.D_UI.GetData<UIData>();
+                        UIData.ActiveNextUIModular(Consts.UM_HEADQUARTERS);
 
                         break;
                 }
@@ -68,11 +71,16 @@ namespace Peace
 
         protected override void UIModularHandler(INoticeBase<int> param)
         {
+            PlayerData playerData = Consts.D_PLAYER.GetData<PlayerData>();
+
             switch (param.Name)
             {
                 case UIM_LGOIN_NEW_GAME:
-                    PlayerData playerData = Consts.D_PLAYER.GetData<PlayerData>();
                     playerData.LoadNewPlayer();
+                    break;
+
+                case UIM_LGOIN_LOAD_GAME:
+                    playerData.ContinueGame();
                     break;
             }
 

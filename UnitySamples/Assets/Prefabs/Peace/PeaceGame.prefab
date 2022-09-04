@@ -55,24 +55,24 @@ MonoBehaviour:
     textData: {fileID: 4900000, guid: 4c1c339cb787c39458a58e3896c23636, type: 3}
     assetBundle: {fileID: 0}
     refresh: 0
-  - assetName: 
-    customAssetType: 0
+  - assetName: organizations
+    customAssetType: 4
     asset: {fileID: 0}
     tex2D: {fileID: 0}
     sprite: {fileID: 0}
     audioClip: {fileID: 0}
     textData: {fileID: 4900000, guid: 2c9e24aa9b5a0c343846f214e3524db8, type: 3}
     assetBundle: {fileID: 0}
-    refresh: 1
-  - assetName: 
-    customAssetType: 0
+    refresh: 0
+  - assetName: officers
+    customAssetType: 4
     asset: {fileID: 0}
     tex2D: {fileID: 0}
     sprite: {fileID: 0}
     audioClip: {fileID: 0}
     textData: {fileID: 4900000, guid: 5d63e8e1d4227a543af1cbff2580087d, type: 3}
     assetBundle: {fileID: 0}
-    refresh: 1
+    refresh: 0
 --- !u!1 &901274121161632349
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +231,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Info: {fileID: 11400000, guid: b61842a7319b64b41b311a5a71cd384a, type: 2}
-  m_Assets: []
+  m_Assets:
+  - {fileID: 708794829649747509}
+  - {fileID: 7194522341321320848}
+  - {fileID: 4430010595284176588}
+  - {fileID: 3266798004901133583}
   m_SyncCusntomList: 0
   m_RemoveEmptyAssets: 0
 --- !u!1 &6360270082980720758
@@ -342,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd3bb2700dd205646b7ddeba8616cd18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FrameRate: 40
+  m_FrameRate: 60
   m_Locals: CN
   m_DevelopSubgroup:
     playerPrefsVersion: 0.0.0

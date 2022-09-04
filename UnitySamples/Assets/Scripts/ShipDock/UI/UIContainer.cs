@@ -27,7 +27,7 @@ namespace ShipDock.UI
 
         [SerializeField]
 #if ODIN_INSPECTOR
-        [LabelText("修改 activeSelf 属性方式控制隐藏"), Indent(1)]
+        [LabelText("修改 activeSelf 属性方式控制隐藏"), ShowIf("@this.m_ApplyInitSelf"), Indent(1)]
 #endif
         private bool m_ActiveSelfControlHide = true;
 

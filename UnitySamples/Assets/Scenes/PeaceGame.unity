@@ -679,53 +679,13 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &1254967933998014329
+--- !u!1001 &2994364329444760284
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6360270082117253367, guid: 9af1981d32ed35b42b9df18214908169,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6360270082117253367, guid: 9af1981d32ed35b42b9df18214908169,
-        type: 3}
-      propertyPath: m_Assets.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6360270082117253367, guid: 9af1981d32ed35b42b9df18214908169,
-        type: 3}
-      propertyPath: m_Assets.Array.data[0]
-      value: 
-      objectReference: {fileID: 1254967933998014333}
-    - target: {fileID: 6360270082117253367, guid: 9af1981d32ed35b42b9df18214908169,
-        type: 3}
-      propertyPath: m_Assets.Array.data[1]
-      value: 
-      objectReference: {fileID: 1254967933998014332}
-    - target: {fileID: 6360270082117253367, guid: 9af1981d32ed35b42b9df18214908169,
-        type: 3}
-      propertyPath: m_Assets.Array.data[2]
-      value: 
-      objectReference: {fileID: 1254967933998014331}
-    - target: {fileID: 6360270082117253367, guid: 9af1981d32ed35b42b9df18214908169,
-        type: 3}
-      propertyPath: m_Assets.Array.data[3]
-      value: 
-      objectReference: {fileID: 1254967933998014330}
-    - target: {fileID: 6360270083162481564, guid: 9af1981d32ed35b42b9df18214908169,
-        type: 3}
-      propertyPath: m_DevelopSubgroup.assetNamePreload.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6360270083162481564, guid: 9af1981d32ed35b42b9df18214908169,
-        type: 3}
-      propertyPath: m_DevelopSubgroup.assetNamePreload.Array.data[2]
-      value: peace/ui_main
-      objectReference: {fileID: 0}
     - target: {fileID: 6360270083162481566, guid: 9af1981d32ed35b42b9df18214908169,
         type: 3}
       propertyPath: m_RootOrder
@@ -788,51 +748,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9af1981d32ed35b42b9df18214908169, type: 3}
---- !u!114 &1254967933998014330 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3266798004901133583, guid: 9af1981d32ed35b42b9df18214908169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1254967933998014329}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1254967933998014331 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4430010595284176588, guid: 9af1981d32ed35b42b9df18214908169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1254967933998014329}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1254967933998014332 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7194522341321320848, guid: 9af1981d32ed35b42b9df18214908169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1254967933998014329}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1254967933998014333 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 708794829649747509, guid: 9af1981d32ed35b42b9df18214908169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1254967933998014329}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
