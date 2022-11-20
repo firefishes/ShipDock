@@ -16,7 +16,7 @@ MonoBehaviour:
   m_RawData: {fileID: 4900000, guid: b765abec787ec7f429de4385151ad020, type: 3}
   m_Collections:
   - name: is_king_ui/battle
-    id: -970926592
+    id: 826913280
     m_EditEnabled: 0
     valid: 1
     assets:
@@ -33,7 +33,7 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_map/mission_1
-    id: -544054272
+    id: 681706496
     m_EditEnabled: 0
     valid: 1
     assets:
@@ -50,13 +50,13 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_main/configables
-    id: -2123832832
+    id: 1253785600
     m_EditEnabled: 0
     valid: 1
     assets:
     - assetName: ConfigableItems
       assetPath: Assets/res_data/is_king_main/configables/ConfigableItems.prefab
-      m_EditEnabled: 1
+      m_EditEnabled: 0
       m_Valid: 1
       assetType: 0
       asset: {fileID: 4701879650227364510, guid: 93ec1b73f9ba3794c951dc5c479df484,
@@ -65,4 +65,15 @@ MonoBehaviour:
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       textData: {fileID: 0}
+      assetBundle: {fileID: 0}
+    - assetName: generals
+      assetPath: Assets/res_data/configs/generals.bytes
+      m_EditEnabled: 0
+      m_Valid: 1
+      assetType: 4
+      asset: {fileID: 0}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 4900000, guid: faeacdc0912f7a141b51b4ba7a4c0953, type: 3}
       assetBundle: {fileID: 0}

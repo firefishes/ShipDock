@@ -7,10 +7,6 @@ namespace ShipDock.Applications
         private Vector3 mMoveDirection;
         private Vector3 mTrackingPosition;
 
-        public WorldMovement()
-        {
-        }
-
         public Vector3 TrackingPosition
         {
             get
@@ -51,6 +47,10 @@ namespace ShipDock.Applications
         public Vector3 InitPosition { get; set; }
         public Vector3 Forward { get; set; }
         public Quaternion Rotation { get; protected set; }
+
+        public WorldMovement()
+        {
+        }
 
         /// <summary>
         /// 设置旋转

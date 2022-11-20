@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace IsKing
 {
-    public class BattleModular : ApplicationModular, IDataExtracter
+    public class BattleModular : BaseModular, IDataExtracter
     {
         private QueueExecuter mBattleQueue;
 
@@ -19,10 +19,8 @@ namespace IsKing
         {
         }
 
-        public BattleModular()
+        public BattleModular() : base(Consts.M_BATTLE)
         {
-            ModularName = Consts.M_BATTLE;
-
             this.DataProxyLink(Consts.D_BATTLE);
 
             mBattleQueue = new QueueExecuter(false);
@@ -85,6 +83,10 @@ namespace IsKing
             IParamNotice<IQueueExecuter> notice = param as IParamNotice<IQueueExecuter>;
             IQueueExecuter unit = notice.ParamValue;
             mBattleQueue.Add(unit);
+        }
+
+        protected override void SettleMessageQueue(int message, INoticeBase<int> notice)
+        {
         }
     }
 

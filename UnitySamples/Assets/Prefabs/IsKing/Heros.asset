@@ -43,7 +43,7 @@ MonoBehaviour:
     skillGeneral: 
   - name: "\u5F20\u98DE"
     id: 2
-    m_EditEnabled: 0
+    m_EditEnabled: 1
     level: 1
     hp: 97.1688495278358
     atk: 97.132471203804

@@ -7,8 +7,8 @@ namespace ShipDock.Applications
 {
     public abstract class WorldModular : QueueableNoticesModular
     {
-        private int mAddToNotice;
-        private int mRemoveFromMessage;
+        private int mAddToWorldMessage;
+        private int mRemoveFromWorldMessage;
         private MethodUpdater mWorldUpdater;
         private IParamNotice<IUpdate> mUpdaterParamNotice;
         private IUpdate mElement;
@@ -17,8 +17,8 @@ namespace ShipDock.Applications
 
         public WorldModular(int modularName, int addToMessage, int removeFromMessage) : base(modularName)
         {
-            mAddToNotice = addToMessage;
-            mRemoveFromMessage = removeFromMessage;
+            mAddToWorldMessage = addToMessage;
+            mRemoveFromWorldMessage = removeFromMessage;
 
             mElementDeleteds = new List<IUpdate>();
             mElementUpdaters = new List<IUpdate>();
@@ -43,8 +43,8 @@ namespace ShipDock.Applications
 
         protected virtual void InitMessageSettles()
         {
-            SetMessageSettle(mAddToNotice, OnAddUpdater);
-            SetMessageSettle(mRemoveFromMessage, OnRemoveUpdater);
+            SetMessageSettle(mAddToWorldMessage, OnAddUpdater);
+            SetMessageSettle(mRemoveFromWorldMessage, OnRemoveUpdater);
         }
 
         private void OnWorldUpdate(int dTime)

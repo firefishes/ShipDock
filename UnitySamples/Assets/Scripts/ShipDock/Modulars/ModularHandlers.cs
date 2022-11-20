@@ -190,7 +190,9 @@ namespace ShipDock.Modulars
                 }
                 else { }
 
-                "log:Set notice {0} decorator, priority is {1}, ".Log(noticeName.ToString(), item.Priority.ToString());
+                const string normalPriority = "normal";
+                const string log = "log:Set notice {0} decorator, priority is {1}, ";
+                log.Log(noticeName.ToString(), item.Priority == int.MaxValue ? normalPriority : item.Priority.ToString());
             }
             else { }
         }

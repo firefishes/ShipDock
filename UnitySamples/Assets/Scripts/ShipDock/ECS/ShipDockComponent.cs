@@ -210,11 +210,11 @@ namespace ShipDock.ECS
                 {
                     if (mEntitasItem.WillDestroy || mEntitasIDsRemoved.Contains(id))
                     {
-                        if (!mEntitasIDsRelease.Contains(id))
+                        if (mEntitasIDsRelease.Contains(id)) { }
+                        else
                         {
                             mEntitasIDsRelease.Add(id);
                         }
-                        else { }
                     }
                     else
                     {
@@ -223,11 +223,11 @@ namespace ShipDock.ECS
                 }
                 else
                 {
-                    if (!mEntitasIDsRemoved.Contains(id))
+                    if (mEntitasIDsRemoved.Contains(id)) { }
+                    else
                     {
                         mEntitasIDsRelease.Add(id);
                     }
-                    else { }
                 }
             }
             mEntitasItem = default;

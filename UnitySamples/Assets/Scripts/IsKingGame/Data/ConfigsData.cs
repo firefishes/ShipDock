@@ -1,10 +1,11 @@
-﻿using ShipDock.Datas;
+﻿using ShipDock.Applications;
+using ShipDock.Datas;
 using ShipDock.Scriptables;
 using ShipDock.Tools;
 
 namespace IsKing
 {
-    public class ConfigsData : DataProxy, IDataExtracter
+    public class ConfigsData : ConfigData, IDataExtracter
     {
         private KeyValueList<int, IScriptableItems> mGameItemCollections;
 

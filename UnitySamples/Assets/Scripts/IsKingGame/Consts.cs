@@ -7,7 +7,7 @@ namespace IsKing
 {
     public static class Consts
     {
-        #region 业务层消息名
+        #region 业务层消息
         /// <summary>开始战斗</summary>
         public const int N_START_BATTLE = 10000;
         /// <summary>开始情报收集</summary>
@@ -43,6 +43,11 @@ namespace IsKing
         public const int DN_PLAYER_HERO_CARD_ADDED = 20005;
         #endregion
 
+        #region 管道消息
+        public const int MSG_ADD_UPDATER = 30001;
+        public const int MSG_RM_UPDATER = 30002;
+        #endregion
+
         #region 数据层代理名
         /// <summary>战斗数据</summary>
         public const int D_BATTLE = 0;
@@ -63,6 +68,22 @@ namespace IsKing
         public const int M_BATTLE_AI = 3;
         /// <summary>数据模块</summary>
         public const int M_GAME_DATA = 4;
+        /// <summary>消息模块</summary>
+        public const int M_MESSAGE = 5;
+        /// <summary>世界模块</summary>
+        public const int M_WORLD = 6;
+        #endregion
+        
+        #region ECS世界上下文
+        public const int ECS_CONTEXT_PEACE = 1;
+        #endregion
+
+        #region ECS系统
+        public const int SYSTEM_WORLD = 100;
+        #endregion
+
+        #region ECS组件
+        public const int COMP_MOVEMENT = 200;
         #endregion
 
         #region 数据层字段名
@@ -206,6 +227,7 @@ namespace IsKing
 
         #region 显示层字段名（资源包、UI预制体名、UI模块名）
         public const string KEY_AB_UI = "is_king_ui/";
+        public const string AB_CONFIGS = "is_king_main/configables";
 
         public readonly static string AB_UI_BATTLE = KEY_AB_UI.Append("battle");
         public const string UI_BATTLE = "UIBattle";
@@ -266,5 +288,12 @@ namespace IsKing
         public const int CARD_TYPE_TROOPS = 3;
         /// <summary>辎重牌</summary>
         public const int CARD_TYPE_ITEMS = 4;
+
+        #region 配置
+        public const int CONF_GROUP_CONFIGS = 1;
+
+        public const string CONF_GENERALS = "generals";
+        public const string CONF_ORGANIZATIONS = "organizations";
+        #endregion
     }
 }

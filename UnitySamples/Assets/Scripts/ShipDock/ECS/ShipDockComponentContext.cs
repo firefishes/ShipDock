@@ -17,6 +17,7 @@ namespace ShipDock.ECS
 
     public class ECSContext : IReclaim
     {
+        public IShipDockEntitas ShipDockEntitas { get; private set; }
         public IShipDockComponentContext CurrentContext { get; private set; }
 
         private int mFrameTimeInScene;
@@ -26,6 +27,8 @@ namespace ShipDock.ECS
         {
             mFrameTimeInScene = frameTimeInScene;
             mMapper = new KeyValueList<int, IShipDockComponentContext>();
+
+            ShipDockEntitas = new ShipDockEntitas();
         }
 
         public void Reclaim()
@@ -166,7 +169,16 @@ namespace ShipDock.ECS
                 target.Init(this);
                 RelateComponentsReFiller?.Invoke(name, target, this);
 
-                "log: Add ECS component {0}".Log(name.ToString());
+                if (target.IsSystem)
+                {
+                    const string logECSComp = "log: Add ECS system {0}";
+                    logECSComp.Log(name.ToString());
+                }
+                else
+                {
+                    const string logECSSys = "log: Add ECS component {0}";
+                    logECSSys.Log(name.ToString());
+                }
             }
             else
             {
