@@ -78,12 +78,15 @@ namespace ShipDock.Pooling
         }
         #endregion
 
-        private string mPoolTypeName;
+        private readonly string mPoolTypeName = typeof(T).FullName;
 
         private object mLock;
         private bool mIsAddResetCallback = true;
         private Stack<T> mPool;
         private Func<T> mCreater;
+
+        /// <summary>获取当前对象池中对象的数量</summary>
+        public int UsedCount { get; private set; }
 
         /// <summary>对象池构造函数</summary>
         public Pooling(Func<T> customCreater = default, Stack<T> pool = default)
@@ -103,7 +106,6 @@ namespace ShipDock.Pooling
                 mPool = new Stack<T>();
             }
 
-            mPoolTypeName = typeof(T).FullName;
             mCreater = customCreater;
 
             if (mIsAddResetCallback)
@@ -250,8 +252,5 @@ namespace ShipDock.Pooling
         {
             ToPool((T)item);
         }
-
-        /// <summary>获取当前对象池中对象的数量</summary>
-        public int UsedCount { get; private set; }
     }
 }

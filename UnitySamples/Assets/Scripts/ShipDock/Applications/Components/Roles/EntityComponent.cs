@@ -3,20 +3,24 @@ using UnityEngine;
 
 namespace ShipDock.Applications
 {
-
+    [DisallowMultipleComponent]
     public class EntityComponent : MonoBehaviour
     {
+        public static int COMP_NAME_OVERLAY_MAPPER = int.MaxValue;
+
         [Header("ShipDock ECS")]
+        [SerializeField]
+        private int m_EntitasType;
         [SerializeField]
         private int m_EntitasID;
         [SerializeField]
-        private int[] m_ComponentIDs;
+        private int[] m_ComponentNames;
         [SerializeField]
-        private int m_OverlayMapperComponentName = int.MaxValue;
+        private int m_OverlayMapperComponentName = default;
 
         private ComponentBridge mCompBridge;
 
-        public IShipDockEntitas Entity { get; private set; }
+        public int Entitas { get; private set; }
 
         public int OverlayMapperComponentName
         {
@@ -26,19 +30,10 @@ namespace ShipDock.Applications
             }
         }
 
-        public int GetEntitasID
-        {
-            get
-            {
-                return m_EntitasID;
-            }
-        }
-
         private void OnDestroy()
         {
             Purge();
 
-            Entity?.Reclaim();
             mCompBridge?.Reclaim();
         }
 
@@ -56,28 +51,29 @@ namespace ShipDock.Applications
         {
             mCompBridge?.Reclaim();
 
-            IShipDockEntitas entity = ShipDockEntitas.CreateEntitas();
-
-            int id = GetInstanceID();
-            entity.SetEntitasID(id);
-            entity.InitComponents();
-
-            FillEntity(entity);
+            FillEntity();
         }
 
-        public void FillEntity(IShipDockEntitas entitas)
+        public void FillEntity()
         {
-            Entity?.Reclaim();
-            Entity = entitas;
-            m_EntitasID = Entity.ID;
+            ILogicContext context = ShipDockECS.Instance.Context;
+            ILogicEntitas allEntitas = context.AllEntitas;
+            allEntitas.AddEntitas(out int entitas, m_EntitasType);
 
-            IShipDockComponentContext context = ShipDockECS.Instance.Context;
+            Entitas = entitas;
+            m_EntitasID = Entitas;
 
-            IShipDockComponent component;
+            if (m_OverlayMapperComponentName == default)
+            {
+                m_OverlayMapperComponentName = COMP_NAME_OVERLAY_MAPPER;
+            }
+            else { }
+
             bool hasOverlayMapperComponent = m_OverlayMapperComponentName != int.MaxValue;
 
             int name;
-            int[] names = m_ComponentIDs;
+            ILogicComponent component;
+            int[] names = m_ComponentNames;
             int max = names.Length;
             for (int i = 0; i < max; i++)
             {
@@ -85,7 +81,8 @@ namespace ShipDock.Applications
                 if (hasOverlayMapperComponent && (name != m_OverlayMapperComponentName))
                 {
                     component = context.RefComponentByName(name);
-                    Entity.AddComponent(component);
+
+                    allEntitas.AddComponent(Entitas, component);
                 }
                 else { }
             }
@@ -93,7 +90,7 @@ namespace ShipDock.Applications
             if (hasOverlayMapperComponent)
             {
                 component = context.RefComponentByName(m_OverlayMapperComponentName);
-                Entity.AddComponent(component);
+                allEntitas.AddComponent(Entitas, component);
             }
             else { }
         }

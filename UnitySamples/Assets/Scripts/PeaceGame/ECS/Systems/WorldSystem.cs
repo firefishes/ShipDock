@@ -1,16 +1,11 @@
 using ShipDock.ECS;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Peace
 {
-    public class WorldSystem : SystemComponent
+    public class WorldSystem : LogicSystem
     {
-        public override void Execute(int time, ref IShipDockEntitas target)
+        public override void Execute(int entitas, int componentName, ILogicData data)
         {
-            base.Execute(time, ref target);
-
         }
     }
 }

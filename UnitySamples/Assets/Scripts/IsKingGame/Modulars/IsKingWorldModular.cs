@@ -1,9 +1,6 @@
 using ShipDock.Applications;
 using ShipDock.ECS;
 using ShipDock.Notices;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace IsKing
 {
@@ -27,17 +24,30 @@ namespace IsKing
 
         private void InitECS()
         {
-            ECSContext contexts = ShipDockApp.Instance.ECSContext;
+            //定义通用覆盖检测组件名
+            EntityComponent.COMP_NAME_OVERLAY_MAPPER = Consts.COMP_BEHAVIOUR_IDS;
+
+            //创建并激活一个ECS世界上下文
+            ShipDockApp app = ShipDockApp.Instance;
+            ECSContext contexts = app.ECSContext;
             contexts.CreateContext(Consts.ECS_CONTEXT_PEACE);
             contexts.ActiveECSContext();
 
-            IShipDockComponentContext worldContext = contexts.CurrentContext;
+            ILogicContext worldContext = contexts.CurrentContext;
 
+            ILogicEntitas logicEntitas = worldContext.AllEntitas;
+            logicEntitas.BuildEntitasTemplate(1, new int[] { Consts.COMP_HERO_MOVEMENT });
+
+            //创建组件
             worldContext.Create<IsKingMovementComp>(Consts.COMP_MOVEMENT);
+            worldContext.Create<IsKingHeroMovementComp>(Consts.COMP_HERO_MOVEMENT);
+            worldContext.Create<BehaviourIDsComponent>(Consts.COMP_BEHAVIOUR_IDS);
 
-            worldContext.Create<IsKingWorldSystem>(Consts.SYSTEM_WORLD, true, Consts.COMP_MOVEMENT);
+            //创建系统
+            worldContext.Create<IsKingWorldSystem>(Consts.SYSTEM_WORLD, true, Consts.COMP_MOVEMENT, Consts.COMP_HERO_MOVEMENT);
 
-            ShipDockApp.Instance.StartECS();
+            //启动ECS
+            app.StartECS();
         }
 
         protected override void SettleMessageQueue(int message, INoticeBase<int> notice)

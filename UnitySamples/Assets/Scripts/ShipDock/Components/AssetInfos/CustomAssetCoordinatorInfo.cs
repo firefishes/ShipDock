@@ -32,7 +32,7 @@ namespace ShipDock.Loader
             {
                 CustomAssetCoordinatorInfo.buildTarget = buildTarget;
                 mABBtnIdentBits.Mark(2);
-                mABBtnIdentBits.ResetMark(1);
+                mABBtnIdentBits.DeMark(1);
             }
             else { }
         }

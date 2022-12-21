@@ -79,11 +79,13 @@ namespace IsKing
         #endregion
 
         #region ECS系统
-        public const int SYSTEM_WORLD = 100;
+        public const int SYSTEM_WORLD = 1;
         #endregion
 
         #region ECS组件
-        public const int COMP_MOVEMENT = 200;
+        public const int COMP_MOVEMENT = 1;
+        public const int COMP_BEHAVIOUR_IDS = 2;
+        public const int COMP_HERO_MOVEMENT = 3;
         #endregion
 
         #region 数据层字段名

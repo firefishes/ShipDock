@@ -1,6 +1,7 @@
 ﻿using System;
 using ShipDock.Applications;
 using ShipDock.Datas;
+using ShipDock.ECS;
 using ShipDock.Interfaces;
 using ShipDock.Loader;
 using ShipDock.Modulars;
@@ -69,12 +70,18 @@ namespace IsKing
         [ModularNoticeListener(Consts.N_START_BATTLE)]
         private void OnStartBattle(INoticeBase<int> param)
         {
-            Consts.D_BATTLE.GetData<BattleData>().InitBattleData();
-
             AssetBundles abs = ShipDockApp.Instance.ABs;
-            GameObject map = abs.GetAndQuote<GameObject>("is_king_map/mission_1", "Map", out AssetQuoteder quoteder);
+            GameObject map = abs.GetAndQuote<GameObject>("is_king_map/mission_1", "Map_1", out AssetQuoteder quoteder);
+            map.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 
-            Consts.UIM_BATTLE.LoadAndOpenUI<UIBattleModular>(default, Consts.AB_UI_BATTLE);
+            //Consts.D_BATTLE.GetData<BattleData>().InitBattleData();
+            //Consts.UIM_BATTLE.LoadAndOpenUI<UIBattleModular>(default, Consts.AB_UI_BATTLE);
+
+            GameObject hero = abs.GetAndQuote<GameObject>("is_king_main/heros", "Hero", out AssetQuoteder heroQuoteder);
+            hero.transform.parent = map.transform;
+            hero.transform.localScale = Vector3.one * 0.35f;
+            hero.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            hero.transform.localPosition = new Vector3(0f, 0f, 3f);
         }
 
         [ModularNoticeListener(Consts.N_ADD_BATTLE_EXECUTER_UNIT)]

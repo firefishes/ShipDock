@@ -53,8 +53,6 @@ namespace ShipDock.Applications
             Framework.Instance.Clean();
         }
 
-        private int mFrameSign;
-        private int mFrameSignInScene;
         private Action mAppStarted;
         private KeyValueList<IStateMachine, IUpdate> mFSMUpdaters;
         private KeyValueList<IState, IUpdate> mStateUpdaters;
@@ -410,6 +408,7 @@ namespace ShipDock.Applications
             Utils.Reclaim(ref mServersWillAdd);
         }
 
+        #region ECS 启动和初始化相关
         /// <summary>
         /// 启动 ECS 功能
         /// </summary>
@@ -430,87 +429,54 @@ namespace ShipDock.Applications
         /// </summary>
         private void InitECSUpdateModes()
         {
-            MethodUpdater updater = new MethodUpdater();
-            if (ShipDockECSSetting.isMergeUpdateMode)
+            //子线程更新器
+            MethodUpdater updater = new MethodUpdater
             {
-                updater.Update = MergeUpdateMode;
-            }
-            else
-            {
-                updater.Update = AlternateFrameUpdateMode;//框架默认为此模式
-            }
+                //框架默认为此模式
+                Update = OnFrameUpdate
+            };
             UpdaterNotice.AddUpdater(updater);
 
-            updater = new MethodUpdater();
-            if (ShipDockECSSetting.isMergeUpdateMode)
+            //主线程更新器
+            updater = new MethodUpdater
             {
-                updater.Update = MergeUpdateModeInScene;
-            }
-            else
-            {
-                updater.Update = AlternateFramUpdateModeInScene;//框架默认为此模式
-            }
+                //框架默认为此模式
+                Update = OnFramUpdateInScene
+            };
             UpdaterNotice.AddSceneUpdater(updater);
         }
 
         /// <summary>
-        /// 交替更新帧模式
+        /// 交替更新帧模式。运行于子线程下，框架默认为交替帧更新模式
+        /// 根据框架ECS模组的设置决定是异步执行还是同步执行，默认为同步执行
+        /// 
+        /// 每个循环帧必执行的流程：
+        /// 更新组件
+        /// 
+        /// 每个奇数帧额外执行的流程：
+        /// 检查组件需要释放的数据、检测可移除的组件并销毁
+        /// 
         /// </summary>
-        private void AlternateFrameUpdateMode(int time)
+        private void OnFrameUpdate(int time)
         {
-            IShipDockComponentContext context = ECSContext.CurrentContext;
-            if (context == default)
+            ILogicContext context = ECSContext.CurrentContext;
+            if (context != default)
             {
-                return;
+                if (ShipDockECSSetting.isUpdateByCallLate)
+                {
+                    context.UpdateECSUnits(time, ComponentUnitUpdate);
+                }
+                else
+                {
+                    //框架默认为此模式
+                    context.UpdateECSUnits(time);
+                }
             }
             else { }
-
-            if (ShipDockECSSetting.isUpdateByCallLate)
-            {
-                context.UpdateComponentUnit(time, ComponentUnitUpdate);
-                if (mFrameSign > 0)
-                {
-                    context.FreeComponentUnit(time, ComponentUnitUpdate);//奇数帧检测是否有需要释放的实体
-                    context.RemoveSingedComponents();
-                }
-                else { }
-            }
-            else
-            {
-                context.UpdateComponentUnit(time);//框架默认为此模式
-                if (mFrameSign > 0)
-                {
-                    context.FreeComponentUnit(time);//奇数帧检测是否有需要释放的实体，框架默认为此模式
-                    context.RemoveSingedComponents();
-                }
-                else { }
-            }
-            mFrameSign++;
-            mFrameSign = mFrameSign > 1 ? 0 : mFrameSign;
         }
 
         /// <summary>
-        /// 合并更新帧模式
-        /// </summary>
-        private void MergeUpdateMode(int time)
-        {
-            IShipDockComponentContext context = ECSContext.CurrentContext;
-            if (ShipDockECSSetting.isUpdateByCallLate)
-            {
-                context.UpdateComponentUnit(time, ComponentUnitUpdate);
-                context.FreeComponentUnit(time, ComponentUnitUpdate);
-                context.RemoveSingedComponents();
-            }
-            else
-            {
-                context.UpdateComponentUnit(time);
-                context.FreeComponentUnit(time);
-                context.RemoveSingedComponents();
-            }
-        }
-
-        /// <summary>
-        /// 更新单个组件
+        /// 异步方式更新单个组件时的回调方法
         /// </summary>
         private void ComponentUnitUpdate(Action<int> method)
         {
@@ -518,82 +484,40 @@ namespace ShipDock.Applications
         }
 
         /// <summary>
-        /// 主线程的场景更新已就绪，用于需要在主线程中更新的组件
+        /// 交替更新帧模式。运行于主线程下的场景帧，框架默认为交替帧更新模式
+        /// 根据框架ECS模组的设置决定是异步执行还是同步执行，默认为同步执行
+        /// 
+        /// 每个循环帧必执行的流程：
+        /// 更新组件
+        /// 
+        /// 每个奇数帧额外执行的流程：
+        /// 检查组件需要释放的数据、检测可移除的组件并销毁
         /// </summary>
-        //private void OnSceneUpdateReady2(INoticeBase<int> obj)
-        //{
-        //    ShipDockConsts.NOTICE_SCENE_UPDATE_READY.Remove(OnSceneUpdateReady2);
-
-        //    MethodUpdater updater = ShipDockECSSetting.isMergeUpdateMode ?
-        //        new MethodUpdater
-        //        {
-        //            Update = MergeUpdateModeInScene
-        //        } :
-        //        new MethodUpdater
-        //        {
-        //            Update = AlternateFramUpdateModeInScene
-        //        };
-
-        //    UpdaterNotice notice = Pooling<UpdaterNotice>.From();
-        //    notice.ParamValue = updater;
-        //    ShipDockConsts.NOTICE_ADD_SCENE_UPDATE.Broadcast(notice);
-        //    notice.ToPool();
-        //}
-
-        /// <summary>
-        /// 交替更新帧模式（用于主线程的场景更新）
-        /// </summary>
-        private void AlternateFramUpdateModeInScene(int time)
+        private void OnFramUpdateInScene(int time)
         {
-            IShipDockComponentContext context = ECSContext.CurrentContext;
-            if (ShipDockECSSetting.isUpdateByCallLate)
+            ILogicContext context = ECSContext.CurrentContext;
+            if (context != default)
             {
-                context.UpdateComponentUnitInScene(time, ComponentUnitUpdateInScene);
-                if (mFrameSignInScene > 0)
+                if (ShipDockECSSetting.isUpdateByCallLate)
                 {
-                    context.FreeComponentUnitInScene(time, ComponentUnitUpdateInScene);//奇数帧检测是否有需要释放的实体
-                    context.RemoveSingedComponents();
+                    context.UpdateECSUnitsInScene(time, ComponentUnitUpdateInScene);
                 }
-                else { }
-            }
-            else
-            {
-                context.UpdateComponentUnitInScene(time);
-                if (mFrameSignInScene > 0)
+                else
                 {
-                    context.FreeComponentUnitInScene(time);//奇数帧检测是否有需要释放的实体
-                    context.RemoveSingedComponents();
+                    context.UpdateECSUnitsInScene(time);
                 }
-                else { }
             }
-            mFrameSignInScene++;
-            mFrameSignInScene = mFrameSignInScene > 1 ? 0 : mFrameSignInScene;
+            else { }
         }
 
         /// <summary>
-        /// 合并更新帧模式（用于主线程的场景更新）
+        /// 异步方式更新单个组件时的回调方法
         /// </summary>
-        private void MergeUpdateModeInScene(int time)
-        {
-            IShipDockComponentContext context = ECSContext.CurrentContext;
-            if (ShipDockECSSetting.isUpdateByCallLate)
-            {
-                context.UpdateComponentUnitInScene(time, ComponentUnitUpdateInScene);
-                context.FreeComponentUnitInScene(time, ComponentUnitUpdateInScene);
-                context.RemoveSingedComponents();
-            }
-            else
-            {
-                context.UpdateComponentUnitInScene(time);
-                context.FreeComponentUnitInScene(time);
-                context.RemoveSingedComponents();
-            }
-        }
-
         private void ComponentUnitUpdateInScene(Action<int> target)
         {
             UpdaterNotice.SceneCallLater(target);
         }
+        #endregion
 
         public void AddStart(Action method)
         {

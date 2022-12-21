@@ -12,239 +12,369 @@ namespace ShipDock.Applications
     /// 行为脚本id数据
     /// </summary>
     [Serializable]
-    public struct BehaviourIDs
+    public class BehaviourIDs : LogicData
     {
-        public int gameItemID;
-        public int animatorID;
-        public bool willClear;
+        public int gameItemID = default;
+        public int animatorID = -1;
     }
 
-    /// <summary>
-    /// 行为脚本id映射组件
-    /// </summary>
-    public class BehaviourIDsComponent : DataComponent<BehaviourIDs>, ICommonOverlayMapper
+    public class BehaviourIDsComponent : DataComponent<BehaviourIDs>, ICommonOverlapComponent
     {
+        public Action<int> AfterAnimatorIDSet { get; set; }
+        public Action<int> AfterGameObjectIDSet { get; set; }
 
-        private const string LOG_OVERLAY_CHECKED = "log: BehaviourIDs overlay checked, {0} added, gameObject id = {1}";
+        private int[] mGameItemIDs;
+        private Dictionary<int, int> mGameItemMapper;
+        private Dictionary<int, Dictionary<int, int>> mArounds;
+        private Dictionary<int, Dictionary<int, int>> mAroundColliders;
+        private Dictionary<int, Dictionary<int, int>> mAroundCollisions;
+        private Dictionary<int, Dictionary<int, Animator>> mCachedAnimator;
 
-        /// <summary>周围映射</summary>
-        private KeyValueList<int, List<int>> mArounds;
-        private KeyValueList<int, List<int>> mAroundColliders;
-        private KeyValueList<int, List<int>> mAroundCollisions;
-        private KeyValueList<int, bool> mPhysicsCheckable;
-
-        public Action<IShipDockEntitas> AfterAnimatorIDSet { get; set; }
-        public Action<IShipDockEntitas> AfterGameObjectIDSet { get; set; }
-
-        public override void Init(IShipDockComponentContext context)
+        public override void Init(ILogicContext context)
         {
             base.Init(context);
 
-            mArounds = new KeyValueList<int, List<int>>();
-            mAroundColliders = new KeyValueList<int, List<int>>();
-            mAroundCollisions = new KeyValueList<int, List<int>>();
-            mPhysicsCheckable = new KeyValueList<int, bool>();
+            mGameItemMapper = new Dictionary<int, int>();
+            mArounds = new Dictionary<int, Dictionary<int, int>>();
+            mAroundColliders = new Dictionary<int, Dictionary<int, int>>();
+            mAroundCollisions = new Dictionary<int, Dictionary<int, int>>();
+
+            mCachedAnimator = new Dictionary<int, Dictionary<int, Animator>>();
         }
 
-        protected override BehaviourIDs CreateData()
+        public override void Reset(bool clearOnly = false)
         {
-            return new BehaviourIDs();
+            base.Reset(clearOnly);
+
+            Utils.Reclaim(ref mArounds, clearOnly);
+            Utils.Reclaim(ref mAroundColliders, clearOnly);
+            Utils.Reclaim(ref mAroundCollisions, clearOnly);
+
+            Utils.Reclaim(ref mGameItemMapper, clearOnly);
+            Utils.Reclaim(ref mCachedAnimator, clearOnly);
         }
 
-        protected override void DropData(ref BehaviourIDs target)
+        protected override void DropData(ref ILogicData data)
         {
-            base.DropData(ref target);
+            base.DropData(ref data);
 
-            int id = target.gameItemID;
-            mPhysicsCheckable.Remove(id);
+            int key = data.DataIndex;
 
-            List<int> list = mArounds.Remove(id);
-            Utils.Reclaim(ref list);
+            mArounds.TryGetValue(key, out Dictionary<int, int> mapper);
+            Utils.Reclaim(ref mapper);
 
-            list = mAroundColliders.Remove(id);
-            Utils.Reclaim(ref list);
+            mAroundColliders.TryGetValue(key, out mapper);
+            Utils.Reclaim(ref mapper);
 
-            list = mAroundCollisions.Remove(id);
-            Utils.Reclaim(ref list);
+            mAroundCollisions.TryGetValue(key, out mapper);
+            Utils.Reclaim(ref mapper);
 
+            mCachedAnimator.TryGetValue(key, out Dictionary<int, Animator> animators);
+            Utils.Reclaim(ref animators);
+
+            mGameItemIDs[key] = default;
+
+            BehaviourIDs ids = data as BehaviourIDs;
+            mGameItemMapper[ids.gameItemID] = default;
         }
 
-        public void SetAnimatorID<E>(ref E target, ref Animator animator) where E : IShipDockEntitas
+        protected override void OnResetSuccessive(bool clearOnly = false)
         {
-            BehaviourIDs ids = GetEntitasData(ref target);
-            ids.animatorID = animator.GetInstanceID();
-            FillEntitasData(ref target, ids);
+            base.OnResetSuccessive(clearOnly);
 
-            AfterAnimatorIDSet?.Invoke(target);
+            Utils.Reclaim(ref mGameItemIDs, clearOnly);
         }
 
-        public void SetGameObjectID<E>(ref E target, int id) where E : IShipDockEntitas
+        protected override void UpdateDataStretch(int dataSize)
         {
-            BehaviourIDs ids = GetEntitasData(ref target);
-            ids.gameItemID = id;
-            FillEntitasData(ref target, ids);
+            base.UpdateDataStretch(dataSize);
 
-            AfterGameObjectIDSet?.Invoke(target);
-        }
-
-        public int GetAnimatorID<E>(ref E target) where E : IShipDockEntitas
-        {
-            BehaviourIDs ids = GetEntitasData(ref target);
-            return ids.animatorID;
-        }
-
-        /// <summary>
-        /// 检测碰撞的可用性
-        /// </summary>
-        /// <param name="gameItemID"></param>
-        /// <param name="id"></param>
-        /// <param name="overlayed"></param>
-        /// <param name="isCollision"></param>
-        private void CheckAroundsEnabled(int gameItemID, int id, bool overlayed, bool isCollision)
-        {
-            KeyValueList<int, List<int>> list = isCollision ? mAroundCollisions : mAroundColliders;
-            List<int> ids = list[gameItemID];
-            if (ids != default)
-            {
-                if (overlayed)
-                {
-                    if (ids.IndexOf(id) >= 0) { }
-                    else
-                    {
-                        ids.Add(id);
-                    }
-                }
-                else
-                {
-                    if (ids.IndexOf(id) < 0) { }
-                    else
-                    {
-                        ids.Remove(id);
-                    }
-                }
-            }
-            else { }
+            Utils.Stretch(ref mGameItemIDs, dataSize);
         }
 
         /// <summary>
         /// 处理物理检测
         /// </summary>
-        /// <param name="gameItemID">中心id</param>
-        /// <param name="id">已检测到的id</param>
-        /// <param name="overlayed">是否为触发器</param>
+        /// <param name="key">中心id</param>
+        /// <param name="targetID">已检测到的id</param>
+        /// <param name="overlayed">是否在检测触发</param>
         /// <param name="isCollision">是否为碰撞器</param>
-        public void OverlayChecked(int gameItemID, int id, bool overlayed, bool isCollision)
+        public void OverlapChecked(int entitas, int targetID, bool overlayed, bool isCollision)
         {
-            if ((gameItemID != int.MaxValue) && mPhysicsCheckable[gameItemID])
+            ILogicData data = UpdateValid(entitas);
+
+            if (data != default)
             {
-                List<int> list;
-                if (mArounds.ContainsKey(gameItemID))
-                {
-                    list = mArounds[gameItemID];
-                }
+                int dataIndex = data.DataIndex;
+                mArounds.TryGetValue(dataIndex, out Dictionary<int, int> mapper);
+
+                if (mapper != default) { }
                 else
                 {
-                    list = new List<int>();
-                    mArounds[gameItemID] = list;
-
-                    mPhysicsCheckable[gameItemID] = true;
+                    mapper = new Dictionary<int, int>();
+                    mArounds[dataIndex] = mapper;
                 }
 
-                if (list.Contains(id)) { }
+                mapper.TryGetValue(targetID, out int statu);
+                if (statu != default) { }
                 else
                 {
-                    list.Add(id);
+                    mapper[targetID] = 1;
 
-                    LOG_OVERLAY_CHECKED.Log(id.ToString(), gameItemID.ToString());
+                    //LOG_OVERLAY_CHECKED.Log(id.ToString(), gameItemID.ToString());
                 }
 
-                CheckAroundsEnabled(gameItemID, id, overlayed, isCollision);
+                CheckAroundsEnabled(dataIndex, targetID, overlayed, isCollision);
             }
             else { }
+        }
+
+        private void CheckAroundsEnabled(int dataIndex, int targetID, bool overlayed, bool isCollision)
+        {
+            Dictionary<int, Dictionary<int, int>> source = isCollision ? mAroundCollisions : mAroundColliders;
+
+            source.TryGetValue(dataIndex, out Dictionary<int, int> ids);
+
+            if (ids != default)
+            {
+                if (overlayed)
+                {
+                    if (ids.ContainsKey(targetID)) { }
+                    else
+                    {
+                        ids[targetID] = 1;
+                    }
+                }
+                else
+                {
+                    if (ids.ContainsKey(targetID))
+                    {
+                        ids.Remove(targetID);
+                    }
+                    else { }
+                }
+            }
+            else { }
+        }
+
+        private void RemoveTargetIDFromMapper(ref Dictionary<int, int> mapper, int targetID = default)
+        {
+            if (targetID != default)
+            {
+                mapper?.Clear();
+            }
+            else
+            {
+                mapper?.Remove(targetID);
+            }
+        }
+
+        public void RemovePhysicsChecker(int entitas, int targetID = default)
+        {
+            ILogicData data = GetEntitasData(entitas);
+
+            if (data != default)
+            {
+                int key = data.DataIndex;
+
+                mArounds.TryGetValue(key, out Dictionary<int, int> mapper);
+                RemoveTargetIDFromMapper(ref mapper, targetID);
+
+                mAroundCollisions.TryGetValue(key, out mapper);
+                RemoveTargetIDFromMapper(ref mapper, targetID);
+
+                mAroundColliders.TryGetValue(key, out mapper);
+                RemoveTargetIDFromMapper(ref mapper, targetID);
+            }
+            else { }
+        }
+
+        public bool SetGameObjectID(int entitas, int gbjInstanceID)
+        {
+            bool isInit = default;
+
+            ILogicData data = UpdateValid(entitas);
+
+            if (data is BehaviourIDs ids)
+            {
+                if (ids.gameItemID == default)
+                {
+                    isInit = true;
+
+                    ids.gameItemID = gbjInstanceID;
+                    mGameItemIDs[data.DataIndex] = gbjInstanceID;
+                    mGameItemMapper[gbjInstanceID] = entitas;
+
+                    AfterGameObjectIDSet?.Invoke(entitas);
+                }
+                else { }
+            }
+            else { }
+
+            return isInit;
+        }
+
+        public int GetGameObjectID(int entitas)
+        {
+            int result = default;
+
+            if (IsStateRegular(entitas, out _))
+            {
+                ILogicData data = GetEntitasData(entitas);
+                result = mGameItemIDs[data.DataIndex];
+            }
+            else { }
+
+            return result;
+        }
+
+        public int GetEntitasByGameObjectID(int gbjInstanceID)
+        {
+            int result = default;
+            bool flag = mGameItemMapper != default ? mGameItemMapper.TryGetValue(gbjInstanceID, out result) : false;
+            return flag ? result : default;
+        }
+
+        private BehaviourIDs CacheBehaviour<T>(int entitas, ref T value, ref Dictionary<int, Dictionary<int, T>> collections, out int instanceID, out Dictionary<int, T> mapper) where T : UnityEngine.Object
+        {
+            BehaviourIDs result = default;
+
+            instanceID = 0;
+            mapper = default;
+
+            ILogicData data = UpdateValid(entitas);
+
+            if (data is BehaviourIDs ids)
+            {
+                int gameItemID = ids.gameItemID;
+                if (gameItemID != -1)
+                {
+                    collections.TryGetValue(entitas, out mapper);
+
+                    if (mapper == default)
+                    {
+                        mapper = new Dictionary<int, T>();
+                        collections[gameItemID] = mapper;
+                    }
+                    else { }
+
+                    instanceID = value.GetInstanceID();
+                    result = ids;
+                }
+                else { }
+            }
+            else { }
+
+            return result;
+        }
+
+        private BehaviourIDs GetCachedBehaviour<T>(int entitas, ref Dictionary<int, Dictionary<int, T>> collections, out Dictionary<int, T> mapper)
+        {
+            BehaviourIDs result = default;
+
+            mapper = default;
+
+            if (IsStateRegular(entitas, out _))
+            {
+                ILogicData data = GetEntitasData(entitas);
+                if (data is BehaviourIDs ids)
+                {
+                    collections.TryGetValue(entitas, out mapper);
+                    if (mapper != default)
+                    {
+                        result = ids;
+                    }
+                    else { }
+                }
+                else { }
+            }
+            else { }
+
+            return result;
+        }
+
+        public void SetAnimator(int entitas, ref Animator animator, int animatorName = -1)
+        {
+            BehaviourIDs ids = CacheBehaviour(entitas, ref animator, ref mCachedAnimator, out int instanceID, out Dictionary<int, Animator> mapper);
+            if (ids != default)
+            {
+                bool flag = animatorName != -1 && ids.animatorID == -1;
+                if (flag)
+                {
+                    ids.animatorID = instanceID;
+                }
+                else { }
+
+                int key = flag ? instanceID : animatorName;
+                mapper[key] = animator;
+
+                AfterAnimatorIDSet?.Invoke(entitas);
+            }
+            else { }
+        }
+
+        public Animator GetAnimator(int entitas, int animatorName = -1)
+        {
+            Animator result = default;
+
+            BehaviourIDs ids = GetCachedBehaviour(entitas, ref mCachedAnimator, out Dictionary<int, Animator> mapper);
+
+            if (ids != default)
+            {
+                int animatorID = ids.animatorID;
+                bool flag = animatorName != -1 && animatorID != -1;
+                int key = flag ? animatorID : animatorName;
+                result = mapper[key];
+            }
+            else { }
+
+            return result;
+        }
+
+        private Dictionary<int, int> GetOverlayIDsByMapper(int entitas, ref Dictionary<int, Dictionary<int, int>> mapper)
+        {
+            ILogicData data = GetEntitasData(entitas);
+
+            int key = data.DataIndex;
+            mapper.TryGetValue(key, out Dictionary<int, int> result);
+
+            return result;
         }
 
         /// <summary>
         /// 获取物理检测到的周围物体的id列表
         /// </summary>
-        public List<int> GetAroundIDs<E>(ref E target) where E : IShipDockEntitas
+        public Dictionary<int, int> GetAroundIDs(int entitasID)
         {
-            if (!IsDataValid(ref target))
+            if (!IsStateRegular(entitasID, out _))
             {
                 return default;
             }
             else { }
 
-            return GetAroundIDsByMapper(ref target, ref mArounds);
+            return GetOverlayIDsByMapper(entitasID, ref mArounds);
         }
 
-        public List<int> GetAroundColliderIDs<E>(ref E target) where E : IShipDockEntitas
+        public Dictionary<int, int> GetAroundColliderIDs(int entitasID)
         {
-            if (!IsDataValid(ref target))
+            if (!IsStateRegular(entitasID, out _))
             {
                 return default;
             }
             else { }
 
-            return GetAroundIDsByMapper(ref target, ref mAroundColliders);
+            return GetOverlayIDsByMapper(entitasID, ref mAroundColliders);
         }
 
-        public List<int> GetAroundCollisionIDs<E>(ref E target) where E : IShipDockEntitas
+        public Dictionary<int, int> GetAroundCollisionIDs(ref int entitasID)
         {
-            if (!IsDataValid(ref target))
+            if (!IsStateRegular(entitasID, out _))
             {
                 return default;
             }
             else { }
 
-            return GetAroundIDsByMapper(ref target, ref mAroundCollisions);
-        }
-
-        private List<int> GetAroundIDsByMapper<E>(ref E target, ref KeyValueList<int, List<int>> mapper) where E : IShipDockEntitas
-        {
-            BehaviourIDs ids = GetEntitasData(ref target);
-            int id = ids.gameItemID;
-            List<int> result = mapper[id];
-            return result;
-        }
-
-        /// <summary>
-        /// 设置物理检测功能为开启
-        /// </summary>
-        public void PhysicsChecked(int gameItemID, bool isInit = false)
-        {
-            if (mPhysicsCheckable.ContainsKey(gameItemID) || isInit)
-            {
-                mPhysicsCheckable[gameItemID] = true;
-            }
-            else { }
-        }
-
-        /// <summary>
-        /// 重置物理检测列表，调用 PhysicsChecked 重新开启
-        /// </summary>
-        public void PhysicsCheckReset(int gameItemID)
-        {
-            if (mPhysicsCheckable.ContainsKey(gameItemID))
-            {
-                mPhysicsCheckable[gameItemID] = false;
-
-                List<int> list = mArounds[gameItemID];
-                int count = list.Count;
-                list.Clear();
-            }
-            else { }
-        }
-
-        /// <summary>
-        /// 获取以gameItemID 为中心标记的物理检测是否开启
-        /// </summary>
-        public bool GetPhysicsChecked(int gameItemID)
-        {
-            return mPhysicsCheckable[gameItemID];
-        }
-
-        public void RemovePhysicsChecker(int subgroupID)
-        {
+            return GetOverlayIDsByMapper(entitasID, ref mAroundCollisions);
         }
     }
 }

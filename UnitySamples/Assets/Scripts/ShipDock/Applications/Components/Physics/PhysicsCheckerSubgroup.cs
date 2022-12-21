@@ -1,6 +1,5 @@
 ﻿#define _G_LOG
 
-using ShipDock.ECS;
 using ShipDock.Interfaces;
 using ShipDock.Tools;
 using System;
@@ -9,7 +8,7 @@ using UnityEngine;
 namespace ShipDock.Applications
 {
     /// <summary>
-    /// 物理检测器子组件
+    /// 物理检测器子组
     /// </summary>
     [Serializable]
     public class PhysicsCheckerSubgroup : IReclaim
@@ -26,8 +25,8 @@ namespace ShipDock.Applications
             if (m_CheckRange != default)
             {
                 m_Radius = m_CheckRange.radius;
-                RayAndHit.radius = m_Radius;
-                RayAndHit.layerMask = m_ColliderLayer.value;
+                OverlapRayAndHit.radius = m_Radius;
+                OverlapRayAndHit.layerMask = m_OverlapLayer.value;
             }
             else { }
 
@@ -42,17 +41,17 @@ namespace ShipDock.Applications
         [SerializeField]
         private bool m_CheckerEnabled;
         [SerializeField]
-        private LayerMask m_ColliderLayer;
+        private LayerMask m_OverlapLayer;
 
         [Header("检测频率")]
         [SerializeField]
         private TimeGapper m_CheckGapper = new TimeGapper();
 
-        private int mColliderLayer;
-        private Collider mColliderItem;
-        private Collider[] mCollidersOverlay;
+        private int mOverlapLayer;
+        private Collider mOverlapItem;
+        private Collider[] mOverlaps;
         private ComponentBridge mBridge;
-        private ICommonOverlayMapper mCommonColliderMapper;
+        private ICommonOverlapComponent mCommonOverlapCacher;
 
         public bool CheckerEnabled
         {
@@ -74,16 +73,19 @@ namespace ShipDock.Applications
             }
         }
 
-        public RayAndHitInfo RayAndHit { get; private set; }
+        public RayAndHitInfo OverlapRayAndHit { get; private set; }
         public Transform CheckerOwner { get; set; }
-        public int SubgroupID { get; private set; } = int.MaxValue;
+        public int SubgroupID { get; private set; } = -1;
 
-        public void SetCommonOverlayMapper(ICommonOverlayMapper overlayMapper)
+        private int Entitas { get; set; }
+
+        public void SetCommonOverlayMapper(int entitas, ICommonOverlapComponent overlapComp)
         {
-            if (SubgroupID != int.MaxValue)
+            Entitas = entitas;
+
+            if (SubgroupID != -1)
             {
-                mCommonColliderMapper = overlayMapper;
-                mCommonColliderMapper.PhysicsChecked(SubgroupID, true);
+                mCommonOverlapCacher = overlapComp;
             }
             else { }
         }
@@ -101,18 +103,19 @@ namespace ShipDock.Applications
         {
             mBridge.Reclaim();
 
-            mColliderLayer = m_ColliderLayer.value;
-            RayAndHit = new RayAndHitInfo
+            mOverlapLayer = m_OverlapLayer.value;
+            OverlapRayAndHit = new RayAndHitInfo
             {
                 ray = new Ray(),
-                layerMask = mColliderLayer,
+                layerMask = mOverlapLayer,
                 radius = m_Radius
             };
 
 #if UNITY_EDITOR
             if (CheckerOwner != default)
             {
-                m_CheckRange = CheckerOwner.gameObject.AddComponent<SphereCollider>();
+                GameObject gbj = CheckerOwner.gameObject;
+                m_CheckRange = gbj.AddComponent<SphereCollider>();
                 m_CheckRange.isTrigger = true;
                 m_CheckRange.radius = m_Radius;
             }
@@ -122,27 +125,27 @@ namespace ShipDock.Applications
 
         public void Reclaim()
         {
-            Utils.Reclaim(ref mCollidersOverlay);
+            Utils.Reclaim(ref mOverlaps);
             mBridge?.Reclaim();
 
-            mCommonColliderMapper?.RemovePhysicsChecker(SubgroupID);
+            mCommonOverlapCacher?.RemovePhysicsChecker(Entitas, SubgroupID);
 
-            mCommonColliderMapper = default;
+            mCommonOverlapCacher = default;
             CheckerOwner = default;
             mBridge = default;
-            mColliderItem = default;
+            mOverlapItem = default;
 
-            SubgroupID = int.MaxValue;
+            SubgroupID = -1;
         }
 
         private void AddColliding(int id, bool isCollision, out int statu)
         {
             statu = 0;
-            if (mCommonColliderMapper != default)
+            if (mCommonOverlapCacher != default)
             {
                 if (m_CheckerEnabled)
                 {
-                    mCommonColliderMapper.OverlayChecked(SubgroupID, id, true, isCollision);
+                    mCommonOverlapCacher.OverlapChecked(Entitas, id, true, isCollision);
                 }
                 else { }
             }
@@ -155,11 +158,11 @@ namespace ShipDock.Applications
         private void RemoveColliding(int id, bool isCollision, out int statu)
         {
             statu = 0;
-            if (mCommonColliderMapper != default)
+            if (mCommonOverlapCacher != default)
             {
                 if (m_CheckerEnabled)
                 {
-                    mCommonColliderMapper.OverlayChecked(SubgroupID, id, false, isCollision);
+                    mCommonOverlapCacher.OverlapChecked(Entitas, id, false, isCollision);
                 }
                 else { }
             }
@@ -171,7 +174,7 @@ namespace ShipDock.Applications
 
         public void TriggerEnter(ref Collider other)
         {
-            if (SubgroupID == int.MaxValue)
+            if (SubgroupID == -1)
             {
                 return;
             }
@@ -183,7 +186,7 @@ namespace ShipDock.Applications
 
         public void TriggerExit(ref Collider other)
         {
-            if (SubgroupID == int.MaxValue)
+            if (SubgroupID == -1)
             {
                 return;
             }
@@ -195,7 +198,7 @@ namespace ShipDock.Applications
 
         public void CollisionEnter(ref Collision collision)
         {
-            if (SubgroupID == int.MaxValue)
+            if (SubgroupID == -1)
             {
                 return;
             }
@@ -207,7 +210,7 @@ namespace ShipDock.Applications
 
         public void CollisionExit(ref Collision collision)
         {
-            if (SubgroupID == int.MaxValue)
+            if (SubgroupID == -1)
             {
                 return;
             }
@@ -219,7 +222,7 @@ namespace ShipDock.Applications
 
         public void UpdatePhysicsCheck(ref Transform transform, bool isCollision)
         {
-            if (SubgroupID == int.MaxValue)
+            if (SubgroupID == -1)
             {
                 return;
             }
@@ -235,16 +238,18 @@ namespace ShipDock.Applications
                 m_CheckGapper.Start();
             }
 
-            mCollidersOverlay = Physics.OverlapSphere(transform.position, RayAndHit.radius, RayAndHit.layerMask);
-            int max = mCollidersOverlay != default ? mCollidersOverlay.Length : 0;
+            mOverlaps = Physics.OverlapSphere(transform.position, OverlapRayAndHit.radius, OverlapRayAndHit.layerMask);
+            int max = mOverlaps != default ? mOverlaps.Length : 0;
             if (max > 0)
             {
-                "log: Update physics start check, SubgroupID = {0}".Log(SubgroupID.ToString());
+                const string physicsStartCheckLog = "log: Update physics start check, SubgroupID = {0}";
+                physicsStartCheckLog.Log(SubgroupID.ToString());
+
                 int id;
                 for (int i = 0; i < max; i++)
                 {
-                    mColliderItem = mCollidersOverlay[i];
-                    id = mColliderItem.GetInstanceID();
+                    mOverlapItem = mOverlaps[i];
+                    id = mOverlapItem.GetInstanceID();
                     if (id != SubgroupID)
                     {
                         AddColliding(id, isCollision, out _);
@@ -254,7 +259,6 @@ namespace ShipDock.Applications
             }
             else { }
 
-            mCommonColliderMapper.PhysicsChecked(SubgroupID);
 #if UNITY_EDITOR
             UpdateInfoForEditor();
 #endif

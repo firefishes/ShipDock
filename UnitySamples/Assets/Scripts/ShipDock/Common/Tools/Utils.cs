@@ -659,6 +659,39 @@ namespace ShipDock.Tools
             long result = (long)time.TotalSeconds;
             return result;
         }
+        
+        /// <summary>
+        /// 对数据列表做规模伸缩处理
+        /// </summary>
+        public static void Stretch<T>(ref T[] datas, int dataSize)
+        {
+            bool flag = datas != default;
+            int count = flag ? datas.Length : 0;
+            if (count <= dataSize)
+            {
+                T[] newDatas = new T[dataSize];
+                for (int i = 0; i < dataSize; i++)
+                {
+                    if (i < count)
+                    {
+                        newDatas[i] = flag ? datas[i] : default;
+                    }
+                    else
+                    {
+                        newDatas[i] = default;
+                    }
+                }
+
+                if (count > 0)
+                {
+                    Array.Clear(datas, 0, count);
+                }
+                else { }
+
+                datas = newDatas;
+            }
+            else { }
+        }
     }
 
     [Serializable]

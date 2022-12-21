@@ -16,7 +16,7 @@ MonoBehaviour:
   m_RawData: {fileID: 4900000, guid: b765abec787ec7f429de4385151ad020, type: 3}
   m_Collections:
   - name: is_king_ui/battle
-    id: 826913280
+    id: -953025536
     m_EditEnabled: 0
     valid: 1
     assets:
@@ -33,16 +33,16 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_map/mission_1
-    id: 681706496
-    m_EditEnabled: 0
+    id: -380946432
+    m_EditEnabled: 1
     valid: 1
     assets:
-    - assetName: Map
-      assetPath: Assets/res_data/is_king_map/mission_1/Map.prefab
+    - assetName: Map_1
+      assetPath: Assets/res_data/is_king_map/mission_1/Map_1.prefab
       m_EditEnabled: 1
       m_Valid: 1
       assetType: 0
-      asset: {fileID: 8927210924196817783, guid: 5b0fe0044499f0344a85a22d678c0815,
+      asset: {fileID: 8098159372187298758, guid: 20d78c55a2f202b41a012cf7607b30ee,
         type: 3}
       tex2D: {fileID: 0}
       sprite: {fileID: 0}
@@ -50,13 +50,13 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_main/configables
-    id: 1253785600
+    id: 191132672
     m_EditEnabled: 0
     valid: 1
     assets:
     - assetName: ConfigableItems
       assetPath: Assets/res_data/is_king_main/configables/ConfigableItems.prefab
-      m_EditEnabled: 0
+      m_EditEnabled: 1
       m_Valid: 1
       assetType: 0
       asset: {fileID: 4701879650227364510, guid: 93ec1b73f9ba3794c951dc5c479df484,
@@ -68,7 +68,7 @@ MonoBehaviour:
       assetBundle: {fileID: 0}
     - assetName: generals
       assetPath: Assets/res_data/configs/generals.bytes
-      m_EditEnabled: 0
+      m_EditEnabled: 1
       m_Valid: 1
       assetType: 4
       asset: {fileID: 0}
@@ -76,4 +76,21 @@ MonoBehaviour:
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       textData: {fileID: 4900000, guid: faeacdc0912f7a141b51b4ba7a4c0953, type: 3}
+      assetBundle: {fileID: 0}
+  - name: is_king_main/heros
+    id: -549550592
+    m_EditEnabled: 1
+    valid: 1
+    assets:
+    - assetName: Hero
+      assetPath: Assets/res_data/is_king_troops/hero_9015_Front/Hero.prefab
+      m_EditEnabled: 0
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 4376555286907270728, guid: 05750274650251d4b90522a0619a302a,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
       assetBundle: {fileID: 0}

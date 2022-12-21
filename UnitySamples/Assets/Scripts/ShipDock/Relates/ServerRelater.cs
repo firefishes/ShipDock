@@ -9,7 +9,7 @@ namespace ShipDock.Applications
     public class ServerRelater : IReclaim
     {
         private KeyValueList<int, IDataProxy> mDataCached;
-        private KeyValueList<int, IShipDockComponent> mCompCached;
+        private KeyValueList<int, IECSLogic> mCompCached;
         private KeyValueList<string, IServer> mServerCached;
         
         public void Reclaim()
@@ -27,7 +27,7 @@ namespace ShipDock.Applications
             {
                 if (mCompCached == default)
                 {
-                    mCompCached = new KeyValueList<int, IShipDockComponent>();
+                    mCompCached = new KeyValueList<int, IECSLogic>();
                 }
                 var components = ShipDockECS.Instance.Context;
                 for (int i = 0; i < max; i++)
@@ -67,7 +67,7 @@ namespace ShipDock.Applications
             }
         }
 
-        public T ComponentRef<T>(int componentName) where T : IShipDockComponent
+        public T ComponentRef<T>(int componentName) where T : IECSLogic
         {
             return mCompCached != default ? (T)mCompCached[componentName] : default;
         }

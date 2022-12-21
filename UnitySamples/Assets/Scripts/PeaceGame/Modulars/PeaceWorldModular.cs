@@ -34,7 +34,7 @@ namespace Peace
             contexts.CreateContext(Consts.ECS_CONTEXT_PEACE);
             contexts.ActiveECSContext();
 
-            IShipDockComponentContext worldContext = contexts.CurrentContext;
+            ILogicContext worldContext = contexts.CurrentContext;
             worldContext.Create<PeaceMovementComp>(Consts.COMP_MOVEMENT);
             worldContext.Create<WorldSystem>(Consts.SYSTEM_WORLD, true, Consts.COMP_MOVEMENT);
 

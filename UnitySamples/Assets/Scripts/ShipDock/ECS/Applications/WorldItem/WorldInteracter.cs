@@ -5,27 +5,32 @@ using UnityEngine;
 
 namespace ShipDock.Applications
 {
-    public class WorldInteracter : INotificationSender
-    {
-        public static void Init<T>(int componentName, WorldInteracter item, IShipDockEntitas entitas, GameObject gameObject, IWorldIntercatable target = default) where T : WorldComponent
-        {
-            T comp = entitas.GetComponentByName<T>(componentName);
-            item = comp.GetEntitasData(ref entitas);
-            item.worldItemID = gameObject.GetInstanceID();
+    //public class WorldInteracter : LogicData, INotificationSender
+    //{
+    //    public static void Init<T>(int componentName, WorldInteracter item, int entitas, GameObject gameObject, IWorldIntercatable target = default) where T : StaticWorldComponent
+    //    {
+    //        ILogicContext context = ShipDockECS.Instance.Context;
+    //        ILogicEntitas allEntitas = context.AllEntitas;
 
-            if (target != default)
-            {
-                item.Add(target.WorldItemHandler);
-                item.WorldItemDispose = target.WorldItemDispose;
-            }
-            else { }
-        }
+    //        T comp = allEntitas.GetComponentFromEntitas<T>(entitas, componentName);
+    //        item = (WorldInteracter)comp.GetEntitasData(entitas);
+    //        item.worldItemID = gameObject.GetInstanceID();
 
-        public int worldItemID;
-        public int groupID;
-        public int aroundID;
-        public bool isDroped;
+    //        if (target != default)
+    //        {
+    //            item.Add(target.WorldItemHandler);
+    //            item.WorldItemDispose += target.WorldItemDispose;
+    //        }
+    //        else { }
 
-        public Action WorldItemDispose { get; set; }
-    }
+    //        item.DataValid();
+    //    }
+
+    //    public Action WorldItemDispose { get; set; }
+
+    //    public int worldItemID;
+    //    public int groupID;
+    //    public int aroundID;
+    //    public bool isDroped;
+    //}
 }

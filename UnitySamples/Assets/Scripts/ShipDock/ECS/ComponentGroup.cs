@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ShipDock.ECS
 {
-    public class ComponentGroup<C, K> where C : IShipDockComponent
+    public class ComponentGroup<C, K> where C : IECSLogic
     {
         public ComponentGroup()
         {
@@ -14,7 +14,7 @@ namespace ShipDock.ECS
         {
         }
 
-        public ComponentGroup(IShipDockComponentContext context, ref K[] keys, ref int[] componentNames)
+        public ComponentGroup(ILogicContext context, ref K[] keys, ref int[] componentNames)
         {
             int max = componentNames.Length;
             Group = new KeyValueList<K, C>(max);
@@ -45,13 +45,13 @@ namespace ShipDock.ECS
         private KeyValueList<K, C> Group { get; set; }
     }
 
-    public class DataComponentGroup<C, K> where C : IShipDockComponent, IDataValidable
+    public class DataComponentGroup<C, K> where C : IECSLogic, IDataValidable
     {
         public DataComponentGroup(K[] keys, int[] componentNames) : this(ShipDockECS.Instance.Context, ref keys, ref componentNames)
         {
         }
 
-        public DataComponentGroup(IShipDockComponentContext context, ref K[] keys, ref int[] componentNames)
+        public DataComponentGroup(ILogicContext context, ref K[] keys, ref int[] componentNames)
         {
             int max = componentNames.Length;
             Group = new KeyValueList<K, C>(max);
@@ -74,7 +74,7 @@ namespace ShipDock.ECS
             return Group[key];
         }
 
-        public void SetDataVailid<E>(ref E target, bool value) where E : IShipDockEntitas
+        public void SetDataVailid(int entitasID, bool value)// where E : IShipDockEntitas
         {
             C groupItem;
             List<C> list = Group.Values;
@@ -82,7 +82,8 @@ namespace ShipDock.ECS
             for (int i = 0; i < max; i++)
             {
                 groupItem = list[i];
-                groupItem.SetDataValidable(value, ref target);
+                groupItem.UpdateValid(entitasID);
+                //groupItem.SetDataValidable(value, ref target);
             }
         }
 

@@ -4,7 +4,7 @@ namespace ShipDock.ECS
 {
     public class ShipDockECS : Singletons<ShipDockECS>
     {
-        public IShipDockComponentContext Context
+        public ILogicContext Context
         {
             get
             {

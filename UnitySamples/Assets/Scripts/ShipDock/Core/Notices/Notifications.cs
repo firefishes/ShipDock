@@ -6,20 +6,10 @@ namespace ShipDock.Notices
 
     public class HandlerMapper<NameT> : KeyValueList<NameT, NoticeHandler<NameT>>
     {
-        public void Reclaim()
-        {
-            KeyValueList<NameT, NoticeHandler<NameT>> mapper = this;
-            Utils.Reclaim(ref mapper, true, true);
-        }
     }
 
     public class HandlerWithSenderMapper<NameT> : KeyValueList<INotificationSender, NoticeHandler<NameT>>
     {
-        public void Reclaim()
-        {
-            KeyValueList<INotificationSender, NoticeHandler<NameT>> mapper = this;
-            Utils.Reclaim(ref mapper, true, true);
-        }
     }
 
     /// <summary>

@@ -161,6 +161,7 @@ PlayerSettings:
   m_ColorGamuts: 00000000
   targetPixelDensity: 30
   resolutionScalingMode: 0
+  resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
@@ -584,7 +585,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: ODIN_INSPECTOR;G_LOG;COLOR_LOG
+    1: ODIN_INSPECTOR;G_LOG;COLOR_LOG;UNITY_EDITOR_TEXT
     7: _RELEASE;G_LOG;COLOR_LOG;ODIN_INSPECTOR;_ILRUNTIME
   additionalCompilerArguments: {}
   platformArchitecture: {}
