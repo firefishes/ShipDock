@@ -1,13 +1,14 @@
 using System;
 using ShipDock.Commons;
 using ShipDock.ECS;
+using ShipDock.Notices;
 using ShipDock.Tools;
 using UnityEngine;
 
 namespace ShipDock.Applications
 {
     [DisallowMultipleComponent]
-    public class RoleComponent : MonoBehaviour
+    public class RoleComponent : MonoBehaviour, INotificationSender
     {
 
         [Header("½ÇÉ«")]
@@ -33,7 +34,7 @@ namespace ShipDock.Applications
 
         [Header("ÎïÀí¼ì²â")]
         [SerializeField]
-        private PhysicsCheckerSubgroup m_PhysicsChecker = new PhysicsCheckerSubgroup();
+        protected PhysicsCheckerSubgroup m_PhysicsChecker = new PhysicsCheckerSubgroup();
 
         [Header("ECS")]
         [SerializeField]
@@ -50,9 +51,16 @@ namespace ShipDock.Applications
         {
             Purge();
 
+            gameObject.GetInstanceID().Remove(OnNoticeHandler);
+
             mTrans = default;
+            m_EntityComponent = default;
+            m_Animator = default;
+            m_RoleCollider = default;
+            m_OverlapSigner = default;
 
             RoleUpdater?.Reclaim();
+            m_PhysicsChecker?.Reclaim();
             mCompBridge?.Reclaim();
         }
 
@@ -70,24 +78,32 @@ namespace ShipDock.Applications
             };
 
             mTrans = transform;
-            mCompBridge = new ComponentBridge(OnInit);
+            //mCompBridge = new ComponentBridge(OnInit);
+
+            gameObject.GetInstanceID().Add(OnNoticeHandler);
         }
 
         private void Start()
         {
-            mCompBridge?.Start();
+            //mCompBridge?.Start();
         }
 
         protected virtual void OnInit()
         {
+        }
+
+        private void FillRole()
+        {
             if (m_EntityComponent == default)
             {
-                m_EntityComponent = GetComponent<EntityComponent>();
+                //m_EntityComponent = GetComponent<EntityComponent>();
             }
             else { }
 
             if (m_EntityComponent != default)
             {
+                m_EntityComponent.FillEntity();
+
                 ILogicContext context = ShipDockECS.Instance.Context;
                 int componentName = m_EntityComponent.OverlayMapperComponentName;
                 ICommonOverlapComponent comp = context.RefComponentByName(componentName) as ICommonOverlapComponent;
@@ -97,44 +113,63 @@ namespace ShipDock.Applications
             else { }
         }
 
+        private void OnNoticeHandler(INoticeBase<int> param)
+        {
+            if (param is IParamNotice<int> notice)
+            {
+                int noticeName = gameObject.GetInstanceID();
+                if (param.Name == noticeName)
+                {
+                    ILogicContext context = ShipDockECS.Instance.Context;
+                    ILogicEntities allEntitas = context.AllEntitas;
+
+                    int msg = notice.ParamValue;
+                    switch (msg)
+                    {
+                        case EntityComponent.ENTITY_SETUP:
+                            FillRole();
+                            break;
+                    }
+                }
+                else { }
+            }
+            else { }
+        }
+
         private void InitRole(ref ICommonOverlapComponent comp)
         {
             if (comp != default)
             {
                 int entitas = m_EntityComponent.Entitas;
-                int instanceID = gameObject.GetInstanceID();
+                int instanceID = m_OverlapSigner.GetInstanceID();
 
-                bool isInit = comp.SetGameObjectID(entitas, instanceID);
+                comp.SetGameObjectID(entitas, instanceID);
 
-                if (isInit)
+                BehaviourIDs ids = comp.GetEntitasData(entitas) as BehaviourIDs;
+                m_BehaviourIDs = ids;
+
+                if (m_OverlapSigner != default)
                 {
-                    if (m_OverlapSigner != default)
-                    {
-                        m_OverlapSigner.isTrigger = true;
+                    m_OverlapSigner.isTrigger = true;
 
-                        BehaviourIDs ids = comp.GetEntitasData(entitas) as BehaviourIDs;
-
-                        m_BehaviourIDs = ids;
-                        m_PhysicsChecker.Init(transform, m_BehaviourIDs);
-                        m_PhysicsChecker.SetCommonOverlayMapper(entitas, comp);
-                    }
-                    else { }
-
-                    if (m_Animator == default)
-                    {
-                        m_Animator = GetComponent<Animator>();
-                    }
-                    else { }
-
-                    if (m_Animator != default)
-                    {
-                        comp.SetAnimator(entitas, ref m_Animator, 0);
-                    }
-                    else { }
-
-                    InitRoleComponents();
+                    m_PhysicsChecker.Init(transform, m_BehaviourIDs);
+                    m_PhysicsChecker.SetCommonOverlayMapper(entitas, comp);
                 }
                 else { }
+
+                if (m_Animator == default)
+                {
+                    //m_Animator = GetComponent<Animator>();
+                }
+                else { }
+
+                if (m_Animator != default)
+                {
+                    comp.SetAnimator(entitas, ref m_Animator, 0);
+                }
+                else { }
+
+                InitRoleComponents();
             }
             else { }
         }
@@ -151,12 +186,12 @@ namespace ShipDock.Applications
         public virtual void OnUpdate(int time)
         {
             mShouldCheckCollsion = HasCollisionOrTriggerTask();
-            
-            if (mShouldCheckCollsion) { }
-            else
+
+            if (mShouldCheckCollsion)
             {
                 m_PhysicsChecker?.UpdatePhysicsCheck(ref mTrans, false);
             }
+            else { }
         }
 
         public virtual void OnLateUpdate()

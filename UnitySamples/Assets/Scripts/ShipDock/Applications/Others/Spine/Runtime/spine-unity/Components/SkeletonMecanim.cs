@@ -72,7 +72,10 @@ namespace Spine.Unity {
 		public override void Initialize (bool overwrite, bool quiet = false) {
 			if (valid && !overwrite)
 				return;
-
+#if UNITY_EDITOR
+			if (BuildUtilities.IsInSkeletonAssetBuildPreProcessing)
+				return;
+#endif
 			base.Initialize(overwrite, quiet);
 
 			if (!valid)
@@ -97,15 +100,14 @@ namespace Spine.Unity {
 			if (_BeforeApply != null)
 				_BeforeApply(this);
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			var translatorAnimator = translator.Animator;
 			if (translatorAnimator != null && !translatorAnimator.isInitialized)
 				translatorAnimator.Rebind();
 
 			if (Application.isPlaying) {
 				translator.Apply(skeleton);
-			}
-			else {
+			} else {
 				if (translatorAnimator != null && translatorAnimator.isInitialized &&
 					translatorAnimator.isActiveAndEnabled && translatorAnimator.runtimeAnimatorController != null) {
 					// Note: Rebind is required to prevent warning "Animator is not playing an AnimatorController" with prefabs
@@ -291,7 +293,7 @@ namespace Spine.Unity {
 			}
 
 			public void Apply (Skeleton skeleton) {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 				if (!Application.isPlaying) {
 					GetLayerBlendModes();
 				}
@@ -534,8 +536,8 @@ namespace Spine.Unity {
 				}
 			}
 
-#if UNITY_EDITOR_TEXT
-			void GetLayerBlendModes() {
+#if UNITY_EDITOR
+			void GetLayerBlendModes () {
 				if (layerBlendModes.Length < animator.layerCount) {
 					System.Array.Resize<MixBlend>(ref layerBlendModes, animator.layerCount);
 				}

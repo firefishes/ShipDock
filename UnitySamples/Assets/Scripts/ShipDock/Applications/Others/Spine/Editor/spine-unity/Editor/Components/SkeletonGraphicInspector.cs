@@ -55,7 +55,7 @@ namespace Spine.Unity.Editor {
 		SerializedProperty initialFlipX, initialFlipY;
 		SerializedProperty meshGeneratorSettings;
 		SerializedProperty allowMultipleCanvasRenderers, separatorSlotNames, enableSeparatorSlots, updateSeparatorPartLocation;
-		SerializedProperty raycastTarget;
+		SerializedProperty raycastTarget, maskable;
 
 		SkeletonGraphic thisSkeletonGraphic;
 		protected bool isInspectingPrefab;
@@ -96,6 +96,7 @@ namespace Spine.Unity.Editor {
 			material = so.FindProperty("m_Material");
 			color = so.FindProperty("m_Color");
 			raycastTarget = so.FindProperty("m_RaycastTarget");
+			maskable = so.FindProperty("m_Maskable");
 
 			// SkeletonRenderer
 			additiveMaterial = so.FindProperty("additiveMaterial");
@@ -156,13 +157,13 @@ namespace Spine.Unity.Editor {
 			}
 
 			if (thisSkeletonGraphic.skeletonDataAsset == null) {
-				EditorGUILayout.HelpBox("You need to assign a SkeletonDataAsset first.", MessageType.Info);
+				EditorGUILayout.HelpBox("You need to assign a SkeletonData asset first.", MessageType.Info);
 				serializedObject.ApplyModifiedProperties();
 				serializedObject.Update();
 				return;
 			}
 			if (!SpineEditorUtilities.SkeletonDataAssetIsValid(thisSkeletonGraphic.skeletonDataAsset)) {
-				EditorGUILayout.HelpBox("Skeleton Data Asset error. Please check Skeleton Data Asset.", MessageType.Error);
+				EditorGUILayout.HelpBox("SkeletonData asset error. Please check SkeletonData asset.", MessageType.Error);
 				return;
 			}
 
@@ -282,6 +283,7 @@ namespace Spine.Unity.Editor {
 			EditorGUILayout.Space();
 			EditorGUILayout.LabelField("UI", EditorStyles.boldLabel);
 			EditorGUILayout.PropertyField(raycastTarget);
+			if (maskable != null) EditorGUILayout.PropertyField(maskable);
 
 			EditorGUILayout.BeginHorizontal(GUILayout.Height(EditorGUIUtility.singleLineHeight + 5));
 			EditorGUILayout.PrefixLabel("Match RectTransform with Mesh");

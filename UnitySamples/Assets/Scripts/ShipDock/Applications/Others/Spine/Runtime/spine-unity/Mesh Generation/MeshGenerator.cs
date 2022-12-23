@@ -27,8 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2019_3_OR_NEWER
 #define MESH_SET_TRIANGLES_PROVIDES_LENGTH_PARAM
+#endif
 
 // Not for optimization. Do not disable.
 #define SPINE_TRIANGLECHECK // Avoid calling SetTriangles at the cost of checking for mesh differences (vertex counts, memberwise attachment list compare) every frame.
@@ -180,7 +181,10 @@ namespace Spine.Unity {
 			var drawOrderItems = drawOrder.Items;
 			for (int i = 0; i < drawOrderCount; i++) {
 				Slot slot = drawOrderItems[i];
-				if (!slot.Bone.Active) continue;
+				if (!slot.Bone.Active) {
+					workingAttachmentsItems[i] = null;
+					continue;
+				}
 				if (slot.Data.BlendMode == BlendMode.Additive) current.hasPMAAdditiveSlot = true;
 				Attachment attachment = slot.Attachment;
 
@@ -299,7 +303,10 @@ namespace Spine.Unity {
 			var drawOrderItems = drawOrder.Items;
 			for (int i = 0; i < drawOrderCount; i++) {
 				Slot slot = drawOrderItems[i];
-				if (!slot.Bone.Active) continue;
+				if (!slot.Bone.Active) {
+					workingAttachmentsItems[i] = null;
+					continue;
+				}
 				if (slot.Data.BlendMode == BlendMode.Additive) current.hasPMAAdditiveSlot = true;
 				Attachment attachment = slot.Attachment;
 #if SPINE_TRIANGLECHECK

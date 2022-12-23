@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -71,7 +71,7 @@ namespace Spine.Unity {
 
 		public static PolygonCollider2D AddBoundingBoxGameObject (string name, BoundingBoxAttachment box, Slot slot, Transform parent, bool isTrigger = true) {
 			var go = new GameObject("[BoundingBox]" + (string.IsNullOrEmpty(name) ? box.Name : name));
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying)
 				UnityEditor.Undo.RegisterCreatedObjectUndo(go, "Spawn BoundingBox");
 #endif
@@ -384,7 +384,7 @@ namespace Spine.Unity {
 				return boneRoot;
 
 			var boneRootObject = new GameObject("SkeletonUtility-SkeletonRoot");
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying)
 				UnityEditor.Undo.RegisterCreatedObjectUndo(boneRootObject, "Spawn Bone");
 #endif
@@ -431,7 +431,7 @@ namespace Spine.Unity {
 
 		public GameObject SpawnBone (Bone bone, Transform parent, SkeletonUtilityBone.Mode mode, bool pos, bool rot, bool sca) {
 			GameObject go = new GameObject(bone.Data.Name);
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying)
 				UnityEditor.Undo.RegisterCreatedObjectUndo(go, "Spawn Bone");
 #endif

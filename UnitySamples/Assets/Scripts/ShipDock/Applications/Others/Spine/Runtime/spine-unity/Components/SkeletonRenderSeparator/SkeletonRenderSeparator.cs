@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 #define SPINE_OPTIONAL_RENDEROVERRIDE
 
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace Spine.Unity {
 		public bool copyMeshRendererFlags = true;
 		public List<Spine.Unity.SkeletonPartsRenderer> partsRenderers = new List<SkeletonPartsRenderer>();
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		void Reset () {
 			if (skeletonRenderer == null)
 				skeletonRenderer = GetComponent<SkeletonRenderer>();
@@ -119,7 +119,7 @@ namespace Spine.Unity {
 
 			srs.OnEnable();
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			// Make sure editor updates properly in edit mode.
 			if (!Application.isPlaying) {
 				skeletonRenderer.enabled = false;

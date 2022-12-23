@@ -163,7 +163,7 @@ namespace Spine.Unity {
 			}
 #endif
 
-			bool hasBinaryExtension = skeletonJSON.name.ToLowerInvariant().Contains(".skel");
+			bool hasBinaryExtension = skeletonJSON.name.ToLower().Contains(".skel");
 			SkeletonData loadedSkeletonData = null;
 
 			try {
@@ -176,7 +176,7 @@ namespace Spine.Unity {
 					Debug.LogError("Error reading skeleton JSON file for SkeletonData asset: " + name + "\n" + ex.Message + "\n" + ex.StackTrace, skeletonJSON);
 			}
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (loadedSkeletonData == null && !quiet && skeletonJSON != null) {
 				string problemDescription = null;
 				bool isSpineSkeletonData;

@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 using System.Globalization;
 using System.Text.RegularExpressions;
 #endif
@@ -40,7 +40,7 @@ namespace Spine.Unity {
 
 	public static class SkeletonDataCompatibility {
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		static readonly int[][] compatibleBinaryVersions = { new[] { 4, 0, 0 } };
 		static readonly int[][] compatibleJsonVersions = { new[] { 4, 0, 0 } };
 
@@ -81,7 +81,7 @@ namespace Spine.Unity {
 			}
 		}
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		public static VersionInfo GetVersionInfo (TextAsset asset, out bool isSpineSkeletonData, ref string problemDescription) {
 			isSpineSkeletonData = false;
 			if (asset == null)
@@ -96,8 +96,7 @@ namespace Spine.Unity {
 				if (hasBinaryExtension) {
 					problemDescription = string.Format("Failed to read '{0}'. Extension is '.skel.bytes' but content looks like a '.json' file.\n"
 						+ "Did you choose the wrong extension upon export?\n", asset.name);
-				}
-				else {
+				} else {
 					problemDescription = string.Format("Failed to read '{0}'. Extension is '.json' but content looks like binary 'skel.bytes' file.\n"
 						+ "Did you choose the wrong extension upon export?\n", asset.name);
 				}
@@ -110,19 +109,16 @@ namespace Spine.Unity {
 					using (var memStream = new MemoryStream(asset.bytes)) {
 						fileVersion.rawVersion = SkeletonBinary.GetVersionString(memStream);
 					}
-				}
-				catch (System.Exception e) {
+				} catch (System.Exception e) {
 					problemDescription = string.Format("Failed to read '{0}'. It is likely not a binary Spine SkeletonData file.\n{1}", asset.name, e);
 					isSpineSkeletonData = false;
 					return null;
 				}
-			}
-			else {
+			} else {
 				Match match = jsonVersionRegex.Match(asset.text);
 				if (match != null) {
 					fileVersion.rawVersion = match.Groups[1].Value;
-				}
-				else {
+				} else {
 					object obj = Json.Deserialize(new StringReader(asset.text));
 					if (obj == null) {
 						problemDescription = string.Format("'{0}' is not valid JSON.", asset.name);
@@ -156,8 +152,7 @@ namespace Spine.Unity {
 			try {
 				fileVersion.version = new[]{ int.Parse(versionSplit[0], CultureInfo.InvariantCulture),
 									int.Parse(versionSplit[1], CultureInfo.InvariantCulture) };
-			}
-			catch (System.Exception e) {
+			} catch (System.Exception e) {
 				problemDescription = string.Format("Failed to read version info at skeleton '{0}'. It is likely not a valid Spine SkeletonData file.\n{1}", asset.name, e);
 				isSpineSkeletonData = false;
 				return null;
@@ -179,9 +174,11 @@ namespace Spine.Unity {
 				if (char.IsWhiteSpace(c))
 					continue;
 				if (!openingBraceFound) {
-					if (c == '{') openingBraceFound = true;
+					if (c == '{' || c == '[') openingBraceFound = true;
 					else return false;
-				} else
+				} else if (c == '{' || c == '[' || c == ']' || c == '}' || c == ',')
+					continue;
+				else
 					return c == '"';
 			}
 			return true;
@@ -215,6 +212,6 @@ namespace Spine.Unity {
 			Debug.LogError(string.Format("Error importing skeleton '{0}': {1}",
 				spineJson.name, descriptionString), spineJson);
 		}
-#endif // UNITY_EDITOR_TEXT
+#endif // UNITY_EDITOR
 	}
 }

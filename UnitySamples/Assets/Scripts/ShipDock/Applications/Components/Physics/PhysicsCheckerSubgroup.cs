@@ -95,7 +95,12 @@ namespace ShipDock.Applications
             CheckerOwner = trans;
             SubgroupID = ids.gameItemID;
 
-            mBridge = new ComponentBridge(OnInit);
+            if (mBridge == default)
+            {
+                mBridge = new ComponentBridge(OnInit);
+            }
+            else { }
+
             mBridge.Start();
         }
 
@@ -242,8 +247,10 @@ namespace ShipDock.Applications
             int max = mOverlaps != default ? mOverlaps.Length : 0;
             if (max > 0)
             {
+#if LOG
                 const string physicsStartCheckLog = "log: Update physics start check, SubgroupID = {0}";
                 physicsStartCheckLog.Log(SubgroupID.ToString());
+#endif
 
                 int id;
                 for (int i = 0; i < max; i++)

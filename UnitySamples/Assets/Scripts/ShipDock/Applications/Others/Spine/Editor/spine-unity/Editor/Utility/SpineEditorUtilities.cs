@@ -108,8 +108,8 @@ namespace Spine.Unity.Editor {
 			SetupSpinePrefabMesh(g, context);
 		}
 
-		public static bool SetupSpinePrefabMesh(GameObject g, UnityEditor.AssetImporters.AssetImportContext context)
-		{
+		public static bool SetupSpinePrefabMesh (GameObject g, UnityEditor.AssetImporters.AssetImportContext context) {
+			Dictionary<string, int> nameUsageCount = new Dictionary<string, int>();
 			bool wasModified = false;
 			var skeletonRenderers = g.GetComponentsInChildren<SkeletonRenderer>(true);
 			foreach (SkeletonRenderer renderer in skeletonRenderers) {
@@ -123,8 +123,14 @@ namespace Spine.Unity.Editor {
 				renderer.LateUpdateMesh();
 				var mesh = meshFilter.sharedMesh;
 				if (mesh == null) continue;
-				
+
 				string meshName = string.Format("Skeleton Prefab Mesh \"{0}\"", renderer.name);
+				if (nameUsageCount.ContainsKey(meshName)) {
+					nameUsageCount[meshName]++;
+					meshName = string.Format("Skeleton Prefab Mesh \"{0} ({1})\"", renderer.name, nameUsageCount[meshName]);
+				} else {
+					nameUsageCount.Add(meshName, 0);
+				}
 				mesh.name = meshName;
 				mesh.hideFlags = HideFlags.None;
 				if (context != null)
@@ -133,8 +139,7 @@ namespace Spine.Unity.Editor {
 			return wasModified;
 		}
 
-		public static bool CleanupSpinePrefabMesh(GameObject g)
-		{
+		public static bool CleanupSpinePrefabMesh (GameObject g) {
 			bool wasModified = false;
 			var skeletonRenderers = g.GetComponentsInChildren<SkeletonRenderer>(true);
 			foreach (SkeletonRenderer renderer in skeletonRenderers) {
@@ -167,11 +172,12 @@ namespace Spine.Unity.Editor {
 
 			if (EditorApplication.isPlayingOrWillChangePlaymode) return;
 
-			string[] assets = AssetDatabase.FindAssets("t:script SpineEditorUtilities");
+			string[] folders = { "Assets", "Packages" };
+			string[] assets = AssetDatabase.FindAssets("t:script SpineEditorUtilities", folders);
 			string assetPath = AssetDatabase.GUIDToAssetPath(assets[0]);
 			editorPath = Path.GetDirectoryName(assetPath).Replace('\\', '/');
 
-			assets = AssetDatabase.FindAssets("t:texture icon-subMeshRenderer");
+			assets = AssetDatabase.FindAssets("t:texture icon-subMeshRenderer", folders);
 			if (assets.Length > 0) {
 				assetPath = AssetDatabase.GUIDToAssetPath(assets[0]);
 				editorGUIPath = Path.GetDirectoryName(assetPath).Replace('\\', '/');
@@ -189,9 +195,13 @@ namespace Spine.Unity.Editor {
 			SceneView.onSceneGUIDelegate += DragAndDropInstantiation.SceneViewDragAndDrop;
 #endif
 
+#if UNITY_2021_2_OR_NEWER
+			DragAndDrop.RemoveDropHandler(HierarchyHandler.HandleDragAndDrop);
+			DragAndDrop.AddDropHandler(HierarchyHandler.HandleDragAndDrop);
+#else
 			EditorApplication.hierarchyWindowItemOnGUI -= HierarchyHandler.HandleDragAndDrop;
 			EditorApplication.hierarchyWindowItemOnGUI += HierarchyHandler.HandleDragAndDrop;
-
+#endif
 			// Hierarchy Icons
 #if NEWPLAYMODECALLBACKS
 			EditorApplication.playModeStateChanged -= HierarchyHandler.IconsOnPlaymodeStateChanged;
@@ -261,14 +271,23 @@ namespace Spine.Unity.Editor {
 			ReinitializeComponent(component);
 		}
 
-		public static void ReloadSkeletonDataAsset (SkeletonDataAsset skeletonDataAsset) {
-			if (skeletonDataAsset != null) {
+		public static void ClearSkeletonDataAsset (SkeletonDataAsset skeletonDataAsset) {
+			skeletonDataAsset.Clear();
+			DataReloadHandler.ClearAnimationReferenceAssets(skeletonDataAsset);
+		}
+
+		public static void ReloadSkeletonDataAsset (SkeletonDataAsset skeletonDataAsset, bool clearAtlasAssets = true) {
+			if (skeletonDataAsset == null)
+				return;
+
+			if (clearAtlasAssets) {
 				foreach (AtlasAssetBase aa in skeletonDataAsset.atlasAssets) {
 					if (aa != null) aa.Clear();
 				}
-				skeletonDataAsset.Clear();
 			}
+			ClearSkeletonDataAsset(skeletonDataAsset);
 			skeletonDataAsset.GetSkeletonData(true);
+			DataReloadHandler.ReloadAnimationReferenceAssets(skeletonDataAsset);
 		}
 
 		public static void ReinitializeComponent (SkeletonRenderer component) {
@@ -426,6 +445,32 @@ namespace Spine.Unity.Editor {
 				}
 			}
 
+#if UNITY_2021_2_OR_NEWER
+			internal static DragAndDropVisualMode HandleDragAndDrop (int dropTargetInstanceID, HierarchyDropFlags dropMode, Transform parentForDraggedObjects, bool perform) {
+				SkeletonDataAsset skeletonDataAsset = DragAndDrop.objectReferences.Length == 0 ? null :
+					DragAndDrop.objectReferences[0] as SkeletonDataAsset;
+				if (skeletonDataAsset == null)
+					return DragAndDropVisualMode.None;
+				if (!perform)
+					return DragAndDropVisualMode.Copy;
+
+				GameObject dropTargetObject = UnityEditor.EditorUtility.InstanceIDToObject(dropTargetInstanceID) as GameObject;
+				Transform dropTarget = dropTargetObject != null ? dropTargetObject.transform : null;
+				Transform parent = dropTarget;
+				int siblingIndex = 0;
+				if (parent != null) {
+					if (dropMode == HierarchyDropFlags.DropBetween) {
+						parent = dropTarget.parent;
+						siblingIndex = dropTarget ? dropTarget.GetSiblingIndex() + 1 : 0;
+					} else if (dropMode == HierarchyDropFlags.DropAbove) {
+						parent = dropTarget.parent;
+						siblingIndex = dropTarget ? dropTarget.GetSiblingIndex() : 0;
+					}
+				}
+				DragAndDropInstantiation.ShowInstantiateContextMenu(skeletonDataAsset, Vector3.zero, parent, siblingIndex);
+				return DragAndDropVisualMode.Copy;
+			}
+#else
 			internal static void HandleDragAndDrop (int instanceId, Rect selectionRect) {
 				// HACK: Uses EditorApplication.hierarchyWindowItemOnGUI.
 				// Only works when there is at least one item in the scene.
@@ -461,7 +506,7 @@ namespace Spine.Unity.Editor {
 										// when dragging into empty space in hierarchy below last node, last node would be parent.
 										if (IsLastNodeInHierarchy(parent))
 											parent = null;
-										DragAndDropInstantiation.ShowInstantiateContextMenu(skeletonDataAsset, Vector3.zero, parent);
+										DragAndDropInstantiation.ShowInstantiateContextMenu(skeletonDataAsset, Vector3.zero, parent, 0);
 										UnityEditor.DragAndDrop.AcceptDrag();
 										current.Use();
 										return;
@@ -487,6 +532,7 @@ namespace Spine.Unity.Editor {
 				bool isLastNode = (rootNodes.Length > 0 && rootNodes[rootNodes.Length - 1].transform == node);
 				return isLastNode;
 			}
+#endif
 		}
 	}
 

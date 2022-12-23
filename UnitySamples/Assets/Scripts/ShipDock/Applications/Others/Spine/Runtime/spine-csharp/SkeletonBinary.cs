@@ -27,8 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if (UNITY_5 || UNITY_5_3_OR_NEWER || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1)
 #define IS_UNITY
+#endif
 
 using System;
 using System.Collections.Generic;
@@ -1199,7 +1200,7 @@ namespace Spine {
 					input.Position = initialPosition;
 					return GetVersionStringOld3X();
 				} catch (Exception e) {
-					throw new ArgumentException("Stream does not contain a valid binary Skeleton Data.\n" + e, "input");
+					throw new ArgumentException("Stream does not contain valid binary Skeleton Data.\n" + e, "input");
 				}
 			}
 
@@ -1211,13 +1212,13 @@ namespace Spine {
 
 				// Version.
 				byteCount = ReadInt(true);
-				if (byteCount > 1) {
+				if (byteCount > 1 && byteCount <= 13) {
 					byteCount--;
 					var buffer = new byte[byteCount];
 					ReadFully(buffer, 0, byteCount);
 					return System.Text.Encoding.UTF8.GetString(buffer, 0, byteCount);
 				}
-				return null;
+				throw new ArgumentException("Stream does not contain valid binary Skeleton Data.");
 			}
 		}
 	}

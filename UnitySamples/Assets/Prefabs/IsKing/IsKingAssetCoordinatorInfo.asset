@@ -16,13 +16,13 @@ MonoBehaviour:
   m_RawData: {fileID: 4900000, guid: b765abec787ec7f429de4385151ad020, type: 3}
   m_Collections:
   - name: is_king_ui/battle
-    id: -953025536
+    id: 183917584
     m_EditEnabled: 0
     valid: 1
     assets:
     - assetName: UIBattle
       assetPath: Assets/res_data/is_king_ui/battle/UIBattle.prefab
-      m_EditEnabled: 1
+      m_EditEnabled: 0
       m_Valid: 1
       assetType: 0
       asset: {fileID: 3063034836683628999, guid: 430e77f4593e4a440b96e55260e31460,
@@ -33,8 +33,8 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_map/mission_1
-    id: -380946432
-    m_EditEnabled: 1
+    id: 662618368
+    m_EditEnabled: 0
     valid: 1
     assets:
     - assetName: Map_1
@@ -50,13 +50,13 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_main/configables
-    id: 191132672
+    id: 1141319152
     m_EditEnabled: 0
     valid: 1
     assets:
     - assetName: ConfigableItems
       assetPath: Assets/res_data/is_king_main/configables/ConfigableItems.prefab
-      m_EditEnabled: 1
+      m_EditEnabled: 0
       m_Valid: 1
       assetType: 0
       asset: {fileID: 4701879650227364510, guid: 93ec1b73f9ba3794c951dc5c479df484,
@@ -68,7 +68,7 @@ MonoBehaviour:
       assetBundle: {fileID: 0}
     - assetName: generals
       assetPath: Assets/res_data/configs/generals.bytes
-      m_EditEnabled: 1
+      m_EditEnabled: 0
       m_Valid: 1
       assetType: 4
       asset: {fileID: 0}
@@ -78,8 +78,8 @@ MonoBehaviour:
       textData: {fileID: 4900000, guid: faeacdc0912f7a141b51b4ba7a4c0953, type: 3}
       assetBundle: {fileID: 0}
   - name: is_king_main/heros
-    id: -549550592
-    m_EditEnabled: 1
+    id: 1859370328
+    m_EditEnabled: 0
     valid: 1
     assets:
     - assetName: Hero
@@ -88,6 +88,40 @@ MonoBehaviour:
       m_Valid: 1
       assetType: 0
       asset: {fileID: 4376555286907270728, guid: 05750274650251d4b90522a0619a302a,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}
+  - name: is_king_monsters/spawners
+    id: -1956896184
+    m_EditEnabled: 0
+    valid: 1
+    assets:
+    - assetName: MonsterSpawner
+      assetPath: Assets/res_data/is_king_troops/MonsterSpawner.prefab
+      m_EditEnabled: 0
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 8973530130164540872, guid: 8589c0c9412753145b6f44c9236be7a8,
+        type: 3}
+      tex2D: {fileID: 0}
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      textData: {fileID: 0}
+      assetBundle: {fileID: 0}
+  - name: is_king_monsters/roles
+    id: -1478195400
+    m_EditEnabled: 0
+    valid: 1
+    assets:
+    - assetName: Monster
+      assetPath: Assets/res_data/is_king_troops/monster_small/Monster.prefab
+      m_EditEnabled: 0
+      m_Valid: 1
+      assetType: 0
+      asset: {fileID: 5934299269636950262, guid: 3d5f567ff8f281a4381575672005efee,
         type: 3}
       tex2D: {fileID: 0}
       sprite: {fileID: 0}

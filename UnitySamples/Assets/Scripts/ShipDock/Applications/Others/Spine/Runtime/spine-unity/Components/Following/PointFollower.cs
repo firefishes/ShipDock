@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 
 using UnityEngine;
 
@@ -72,7 +72,7 @@ namespace Spine.Unity {
 
 			UpdateReferences();
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (Application.isEditor) LateUpdate();
 #endif
 		}
@@ -107,7 +107,7 @@ namespace Spine.Unity {
 		}
 
 		public void LateUpdate () {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying) skeletonTransformIsParent = Transform.ReferenceEquals(skeletonTransform, transform.parent);
 #endif
 

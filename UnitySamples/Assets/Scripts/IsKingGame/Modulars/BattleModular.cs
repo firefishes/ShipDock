@@ -70,6 +70,13 @@ namespace IsKing
         [ModularNoticeListener(Consts.N_START_BATTLE)]
         private void OnStartBattle(INoticeBase<int> param)
         {
+            ECSContext ecs = ShipDockApp.Instance.ECSContext;
+            ILogicEntities allEntitas = ecs.CurrentContext.AllEntitas;
+            allEntitas.AddEntitas(out int entitasMain);
+
+            Consts.entitasMain = entitasMain;
+            allEntitas.AddComponent(Consts.entitasMain, Consts.COMP_WORLD_RES);
+
             AssetBundles abs = ShipDockApp.Instance.ABs;
             GameObject map = abs.GetAndQuote<GameObject>("is_king_map/mission_1", "Map_1", out AssetQuoteder quoteder);
             map.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -82,6 +89,16 @@ namespace IsKing
             hero.transform.localScale = Vector3.one * 0.35f;
             hero.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
             hero.transform.localPosition = new Vector3(0f, 0f, 3f);
+
+            hero.gameObject.GetInstanceID().BroadcastWithParam(EntityComponent.ENTITY_SETUP, true);
+
+            GameObject monsterSpwan = abs.Get<GameObject>("is_king_monsters/spawners", "MonsterSpawner");
+
+            for (int i = 0; i < 5; i++)
+            {
+                GameObject a = UnityEngine.Object.Instantiate(monsterSpwan);
+                a.transform.SetParent(map.transform);
+            }
         }
 
         [ModularNoticeListener(Consts.N_ADD_BATTLE_EXECUTER_UNIT)]

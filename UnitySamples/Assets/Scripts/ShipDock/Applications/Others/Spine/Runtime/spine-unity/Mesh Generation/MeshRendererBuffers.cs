@@ -119,7 +119,7 @@ namespace Spine.Unity {
 
 			public void Dispose () {
 				if (mesh != null) {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 					if (Application.isEditor && !Application.isPlaying)
 						UnityEngine.Object.DestroyImmediate(mesh);
 					else

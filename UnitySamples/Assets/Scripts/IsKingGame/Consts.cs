@@ -26,6 +26,8 @@ namespace IsKing
         public const int N_SET_GENERAL_INTO_BATTLE_RATIO = 10007;
         /// <summary>提交玩家AI结果</summary>
         public const int N_COMMIT_PLAYER_AI = 10008;
+
+        public const int N_GET_HERO_POS = 10009;
         #endregion
 
         #region 数据层消息
@@ -46,6 +48,7 @@ namespace IsKing
         #region 管道消息
         public const int MSG_ADD_UPDATER = 30001;
         public const int MSG_RM_UPDATER = 30002;
+        public const int MSG_CREATE_MONSTER = 30003;
         #endregion
 
         #region 数据层代理名
@@ -80,13 +83,20 @@ namespace IsKing
 
         #region ECS系统
         public const int SYSTEM_WORLD = 1;
+        public const int SYSTEM_SKILL_MELEE = 2;
         #endregion
 
         #region ECS组件
         public const int COMP_MOVEMENT = 1;
         public const int COMP_BEHAVIOUR_IDS = 2;
         public const int COMP_HERO_MOVEMENT = 3;
+        public const int COMP_MONSTER_MOVEMENT = 4;
+        public const int COMP_ROLE_PROPERTIES = 5;
+        public const int COMP_ATTACKABLE = 6;
+        public const int COMP_WORLD_RES = 7;
         #endregion
+
+        public static int entitasMain;
 
         #region 数据层字段名
         /// <summary>情报值</summary>

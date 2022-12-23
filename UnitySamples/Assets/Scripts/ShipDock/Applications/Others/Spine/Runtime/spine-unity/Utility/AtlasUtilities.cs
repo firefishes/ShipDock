@@ -27,8 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2019_3_OR_NEWER
 #define CONFIGURABLE_ENTER_PLAY_MODE
+#endif
 
 
 using System;
@@ -594,7 +595,7 @@ namespace Spine.Unity.AttachmentTools {
 				r.xMax = Math.Max(s.uv[0].x, s.uv[1].x) * spriteTexture.width;
 				r.yMin = Math.Min(s.uv[0].y, s.uv[2].y) * spriteTexture.height;
 				r.yMax = Math.Max(s.uv[0].y, s.uv[2].y) * spriteTexture.height;
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 				if (s.uv.Length > 4) {
 					Debug.LogError("When using a tightly packed SpriteAtlas with Spine, you may only access Sprites that are packed as 'FullRect' from it! " +
 						"You can either disable 'Tight Packing' at the whole SpriteAtlas, or change the single Sprite's TextureImporter Setting 'MeshType' to 'Full Rect'." +
@@ -781,7 +782,7 @@ namespace Spine.Unity.AttachmentTools {
 		static void CopyTextureAttributesFrom (this Texture2D destination, Texture2D source) {
 			destination.filterMode = source.filterMode;
 			destination.anisoLevel = source.anisoLevel;
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			destination.alphaIsTransparency = source.alphaIsTransparency;
 #endif
 			destination.wrapModeU = source.wrapModeU;

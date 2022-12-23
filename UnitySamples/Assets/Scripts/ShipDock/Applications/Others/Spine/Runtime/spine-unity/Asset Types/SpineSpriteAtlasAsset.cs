@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_2_OR_NEWER
 #define EXPOSES_SPRITE_ATLAS_UTILITIES
-
+#endif
 
 using Spine;
 using System;
@@ -38,7 +38,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.U2D;
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 using UnityEditor;
 using System.Reflection;
 #endif
@@ -65,7 +65,7 @@ namespace Spine.Unity {
 		public override int MaterialCount { get { return materials == null ? 0 : materials.Length; } }
 		public override Material PrimaryMaterial { get { return materials[0]; } }
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		static MethodInfo GetPackedSpritesMethod, GetPreviewTexturesMethod;
 #if !EXPOSES_SPRITE_ATLAS_UTILITIES
 		static MethodInfo PackAtlasesMethod;
@@ -180,7 +180,7 @@ namespace Spine.Unity {
 				return new Atlas(pages, regions);
 
 			Texture2D texture = null;
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying)
 				texture = AccessPackedTextureEditor(spriteAtlas);
 			else
@@ -188,7 +188,7 @@ namespace Spine.Unity {
 			texture = AccessPackedTexture(sprites);
 
 			Material material = materials[0];
-#if !UNITY_EDITOR_TEXT
+#if !UNITY_EDITOR
 			material.mainTexture = texture;
 #endif
 
@@ -232,7 +232,7 @@ namespace Spine.Unity {
 			return atlas;
 		}
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		public static void UpdateByStartingEditorPlayMode () {
 			EditorApplication.isPlaying = true;
 		}
@@ -366,7 +366,7 @@ namespace Spine.Unity {
 
 		public static Sprite[] AccessPackedSprites (UnityEngine.U2D.SpriteAtlas spriteAtlas) {
 			Sprite[] sprites = null;
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying) {
 
 				if (GetPackedSpritesMethod == null) {

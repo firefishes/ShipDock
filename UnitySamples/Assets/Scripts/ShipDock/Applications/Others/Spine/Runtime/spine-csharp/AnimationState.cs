@@ -30,18 +30,17 @@
 using System;
 using System.Collections.Generic;
 
-namespace Spine
-{
+namespace Spine {
 
-    /// <summary>
-    /// <para>
-    /// Applies animations over time, queues animations for later playback, mixes (crossfading) between animations, and applies
-    /// multiple animations on top of each other (layering).</para>
-    /// <para>
-    /// See <a href='http://esotericsoftware.com/spine-applying-animations/'>Applying Animations</a> in the Spine Runtimes Guide.</para>
-    /// </summary>
-    public class AnimationState {
-		static readonly Animation EmptyAnimation = new Animation("<empty>", new ExposedList<Timeline>(), 0);
+	/// <summary>
+	/// <para>
+	/// Applies animations over time, queues animations for later playback, mixes (crossfading) between animations, and applies
+	/// multiple animations on top of each other (layering).</para>
+	/// <para>
+	/// See <a href='http://esotericsoftware.com/spine-applying-animations/'>Applying Animations</a> in the Spine Runtimes Guide.</para>
+	/// </summary>
+	public class AnimationState {
+		internal static readonly Animation EmptyAnimation = new Animation("<empty>", new ExposedList<Timeline>(), 0);
 
 		/// 1) A previously applied timeline has set this property.<para />
 		/// Result: Mix from the current pose to the timeline pose.
@@ -133,17 +132,6 @@ namespace Spine
 				trackEntryPool
 			);
 		}
-
-		public Spine.Animation GetAnimation(string animationName)
-		{
-			Animation animation = data.skeletonData.FindAnimation(animationName);
-			if (animation != default)
-			{
-				return animation;
-			}
-			return null;
-		}
-
 
 		/// <summary>
 		/// Increments the track entry <see cref="TrackEntry.TrackTime"/>, setting queued animations as current if needed.</summary>
@@ -724,16 +712,6 @@ namespace Spine
 			return AddAnimation(trackIndex, animation, loop, delay);
 		}
 
-		public bool IsEqualsAnim(string animationName)
-		{
-			Animation animation = data.skeletonData.FindAnimation(animationName);
-			if (animation != null)
-			{
-				return true;
-			}
-			return false;
-		}
-
 		/// <summary>Adds an animation to be played after the current or last queued animation for a track. If the track is empty, it is
 		/// equivalent to calling <see cref="SetAnimation(int, Animation, bool)"/>.</summary>
 		/// <param name="delay">
@@ -1274,6 +1252,10 @@ namespace Spine
 		/// <summary>
 		/// If true, the animation will be applied in reverse. Events are not fired when an animation is applied in reverse.</summary>
 		public bool Reverse { get { return reverse; } set { reverse = value; } }
+
+		/// <summary>Returns true if this entry is for the empty animation. See <see cref="AnimationState.SetEmptyAnimation(int, float)"/>,
+		/// <see cref="AnimationState.AddEmptyAnimation(int, float, float)"/>, and <see cref="AnimationState.SetEmptyAnimations(float)"/>.
+		public bool IsEmptyAnimation { get { return animation == AnimationState.EmptyAnimation; } }
 
 		/// <summary>
 		/// <para>

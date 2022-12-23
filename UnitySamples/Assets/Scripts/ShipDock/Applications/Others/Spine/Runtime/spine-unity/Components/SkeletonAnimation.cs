@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 
 using UnityEngine;
 
@@ -166,6 +166,10 @@ namespace Spine.Unity {
 		public override void Initialize (bool overwrite, bool quiet = false) {
 			if (valid && !overwrite)
 				return;
+#if UNITY_EDITOR
+			if (BuildUtilities.IsInSkeletonAssetBuildPreProcessing)
+				return;
+#endif
 			base.Initialize(overwrite, quiet);
 
 			if (!valid)
@@ -177,7 +181,7 @@ namespace Spine.Unity {
 				var animationObject = skeletonDataAsset.GetSkeletonData(false).FindAnimation(_animationName);
 				if (animationObject != null) {
 					state.SetAnimation(0, animationObject, loop);
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 					if (!Application.isPlaying)
 						Update(0f);
 #endif
@@ -186,7 +190,7 @@ namespace Spine.Unity {
 		}
 
 		void Update () {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying) {
 				Update(0f);
 				return;

@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 
 using UnityEngine;
 
@@ -228,7 +228,7 @@ namespace Spine.Unity {
 			SkeletonUtility.AddBoundingBoxGameObject(bone.Skeleton, skinName, slotName, attachmentName, transform);
 		}
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		void OnDrawGizmos () {
 			if (IncompatibleTransformMode)
 				Gizmos.DrawIcon(transform.position + new Vector3(0, 0.128f, 0), "icon-warning");

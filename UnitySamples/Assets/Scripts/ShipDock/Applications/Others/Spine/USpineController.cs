@@ -234,7 +234,7 @@ namespace Joypie
             float d = 0;
             if (this.skeletonAnimation)
             {
-                Spine.Animation ani = this.skeletonAnimation.AnimationState.GetAnimation(animationName);
+                Spine.Animation ani = this.skeletonAnimation.AnimationState.GetCurrent(0).Animation;//.GetAnimation(animationName);
                 if (ani != null)
                 {
                     d = ani.Duration;
@@ -264,7 +264,7 @@ namespace Joypie
         {
             if (skeletonAnimation)
             {
-                return skeletonAnimation.AnimationState.IsEqualsAnim(animationName);
+                return skeletonAnimation.AnimationState.GetCurrent(0).Animation.Name == animationName;// (animationName);
             }
             return false;
         }

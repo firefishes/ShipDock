@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -199,7 +199,7 @@ namespace Spine.Unity {
 			for (int i = requiredCount; i < colliders.Length; ++i) {
 				var collider = colliders[i];
 				if (collider != null) {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 					if (Application.isEditor && !Application.isPlaying)
 						DestroyImmediate(collider);
 					else

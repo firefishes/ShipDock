@@ -62,7 +62,7 @@ namespace Spine.Unity {
 			return BlendMode.Normal;
 		}
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		public void TransferSettingsFrom (BlendModeMaterialsAsset modifierAsset) {
 			applyAdditiveMaterial = modifierAsset.applyAdditiveMaterial;
 		}

@@ -1,5 +1,6 @@
 ﻿using ShipDock.Loader;
 using ShipDock.Tools;
+using System;
 using UnityEngine;
 
 namespace ShipDock.Applications
@@ -14,6 +15,8 @@ namespace ShipDock.Applications
         protected int m_PoolID = int.MaxValue;
 
         private ComponentBridge mComponentBridge;
+
+        public Action OnInited { get; set; }
 
         protected IAssetBundles Assets { get; set; }
 

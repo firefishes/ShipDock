@@ -63,7 +63,7 @@
 * Generated normals are now correctly flipped for back faces.
 * Modifying parent materials updates material instances accordingly.
 * Only `.json` files that are actually encoding Spine skeletons will be loaded. Other `.json` files will be left to other importers.
-* Updated example project to UE 4.25.
+* Updated example project to UE 4.27.
 
 
 ## C# ##
@@ -78,7 +78,7 @@
 
 ### Unity
 
-* **Officially supported Unity versions are 2017.1-2021.1**.
+* **Officially supported Unity versions are 2017.1-2022.1**.
 * **Breaking changes**
   * Removed all `Spine.Unity.AttachmentTools.SkinUtilities` Skin extension methods. These have become obsoleted and error-prone since the introduction of the new Skin API in 3.8. To fix any compile errors, replace any usage of `Skin` extension methods with their counterparts, e.g. replace occurrances of `skin.AddAttachments()` with `skin.AddSkin()`. Please see the example scene `Mix and Match Skins` on how to use the new Skin API to combine skins, or the updated old example scenes `Mix and Match` and `Mix and Match Equip` on how you can update an existing project using the old workflow. If you are using `skeletonAnimation.Skeleton.UnshareSkin()` in your code, you can replace it with `Skin customSkin = new Skin("custom skin"); customSkin.AddSkin(skeletonAnimation.Skeleton.Skin);`.
   * `Skin.GetAttachments()` has been replaced by `Skin.Attachments`, returning an `ICollection<SkinEntry>`. This makes access more consistent and intuitive. To fix any compile errors, replace any occurrances of `Skin.GetAttachments()` by `Skin.Attachments`.
@@ -110,7 +110,7 @@
   * Fixed Timeline not pausing (and resuming) clip playback on Director pause, this is now the default behaviour. If you require the old behaviour (e.g. to continue playing an idle animation during Director pause), there is now an additional parameter `Don't Pause with Director` provided that can be enabled for each Timeline clip.
   * Fixed Timeline `Spine AnimationState Clips` ignoring empty space on the Timeline after a clip's end. Timeline clips now also offer `Don't End with Clip` and `Clip End Mix Out Duration` parameters if you prefer the old behaviour of previous versions. By default when empty space follows the clip on the timeline, the empty animation is set on the track with a MixDuration of `Clip End Mix Out Duration`. Set `Don't End with Clip` to `true` to continue playing the clip's animation instead and mimic the old 3.8 behaviour. If you prefer pausing the animation instead of mixing out to the empty animation, set `Clip End Mix Out Duration` to a value less than 0, then the animation is paused instead.
 
-* **Additions**
+* **Additions and Improvements**
   * Additional **Fix Draw Order** parameter at SkeletonRenderer, defaults to `disabled` (previous behaviour).
     Applies only when 3+ submeshes are used (2+ materials with alternating order, e.g. "A B A").
 		If `true`, MaterialPropertyBlocks are assigned at each material to prevent aggressive batching of submeshes
@@ -159,6 +159,13 @@
   * Prefabs containing `SkeletonRenderer`, `SkeletonAnimation` and `SkeletonMecanim` now provide a proper Editor preview, including the preview thumbnail.
   * `SkeletonRenderer` (and subclasses`SkeletonAnimation` and `SkeletonMecanim`) now provide a property `Advanced - Fix Prefab Override MeshFilter`, which when enabled fixes the prefab always being marked as changed. It sets the MeshFilter's hide flags to `DontSaveInEditor`. Unfortunately this comes at the cost of references to the `MeshFilter` by other components being lost, therefore this parameter defaults to `false` to keep the safe existing behaviour.
   * `BoundingBoxFollower` and `BoundingBoxFollowerGraphic` now provide previously missing `usedByEffector` and `usedByComposite` parameters to be set at all generated colliders.
+  * `BoneFollower` and `BoneFollowerGraphic` now provide an additional `Follow Parent World Scale` parameter to allow following simple scale of parent bones (rotated/skewed scale can't be supported).
+  * Improved `Advanced - Fix Prefab Override MeshFilter` property for `SkeletonRenderer` (and subclasses`SkeletonAnimation` and `SkeletonMecanim`), now providing an additional option to use a global value which can be set in `Edit - Preferences - Spine`.
+  * Timeline naming improvements: `Spine AnimationState Clip` Inspector parameter `Custom Duration` changed and inverted to `Default Mix Duration` for more clarity. Shortened all Timeline add track menu entries from: `Spine.Unity.Playables - <track type>` to `Spine - <track type>`, `Spine Animation State Track` to `SkeletonAnimation Track`, `Spine AnimationState Graphic Track` to `SkeletonGraphic Track`, and `Spine Skeleton Flip Track` to `Skeleton Flip Track`.
+  * Timeline track appearance and Inspector: Tracks now show icons and track colors to make them easier to distinguish. When a Track is selected, the Inspector now shows an editable track name which was previously only editable at the Timeline asset.
+  * Added example component `SkeletonRenderTexture` to render a `SkeletonRenderer` to a `RenderTexture`, mainly for proper transparency. Added an example scene named `RenderTexture FadeOut Transparency` that demonstrates usage for a fadeout transparency effect.
+  * Added another fadeout example component named `SkeletonRenderTextureFadeout` which takes over transparency fadeout when enabled. You can use this component as-is, attach it in disabled state and enable it to start a fadeout effect.
+  * Timeline clips now offer an additional `Alpha` parameter for setting a custom constant mix alpha value other than 1.0, just as `TrackEntry.Alpha`. Defaults to 1.0.
 
 * **Changes of default values**
 
@@ -232,6 +239,8 @@
 ### Three.js backend
 * `SkeletonMesh` now takes an optional `SkeletonMeshMaterialParametersCustomizer` function that allows you to modify the `ShaderMaterialParameters` before the material is finalized. Use it to modify things like THREEJS' `Material.depthTest` etc. See #1590.
 * **Breaking change:** the global object `spine.canvas` no longer exists. All classes and functions are now exposed on the global `spine` object directly. Simply replace any reference to `spine.threejs.` in your source code with `spine.`.
+* **Breaking change:** the default fragment shader of `SkeletonMeshMaterial` now explicitely discards fragments with alpha < 0.5. See https://github.com/EsotericSoftware/spine-runtimes/issues/1985
+* **Breaking change:** reversal of the previous breaking change: the default fragment shader of `SkeletonMeshMaterial` does no longer discard fragments with alpha < 0.5. Pass a `SkeletonMeshMaterialParametersCustomizer` to the `SkeletonMesh` constructor, and modify `parameters.alphaTest` to be > 0.
 
 ### Player
 * Added `SpinePlayerConfig.rawDataURIs`. Allows to embed data URIs for skeletons, atlases and atlas page images directly in the HTML/JS without needing to load it from a separate file. See the example for a demonstration.
@@ -240,6 +249,7 @@
 * Added `SpinePlayerConfig.draw`. If set, the callback is called each frame, just after the skeleton is drawn.
 * Added `SpinePlayerConfig.downloader`. The `spine.Downloader` instance can be shared between players so assets are only downloaded once.
 * If `SpinePlayerConfig.jsonURL` ends with an anchor, the anchor text is used to find the skeleton in the specified JSON file.
+* Added `SpinePlayer.dispose()`, disposes all CPU and GPU side resources, removes all listeners, and removes the player DOM from the parent.
 
 # 3.8
 
@@ -625,6 +635,8 @@
   * Added `MeshAttachment#newLinkedMesh()`, creates a linked mesh linkted to either the original mesh, or the parent of the original mesh.
   * Added IK softness.
   * Added `AssetManager.setRawDataURI(path, data)`. Allows to embed data URIs for skeletons, atlases and atlas page images directly in the HTML/JS without needing to load it from a separate file.
+  * Added `AssetManager.loadAll()` to allow Promise/async/await based waiting for completion of asset load. See the `spine-canvas` examples.
+  * Added `Skeleton.getBoundRect()` helper method to calculate the bouding rectangle of the current pose, returning the result as `{ x, y, width, height }`. Note that this method will create temporary objects which can add to garbage collection pressure.
 
 ### WebGL backend
 * `Input` can now take a partially defined implementation of `InputListener`.

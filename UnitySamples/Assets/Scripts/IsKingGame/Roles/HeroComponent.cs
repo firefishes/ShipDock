@@ -1,80 +1,72 @@
+using System;
+using ShipDock.ECS;
+using ShipDock.Notices;
+using ShipDock.Tools;
 using UnityEngine;
 
 namespace IsKing
 {
     public class HeroComponent : IsKingRoleComponent
     {
+        private int mMeleeWeapont;
+
         protected override void InitRoleComponents()
         {
             base.InitRoleComponents();
 
-            int entitas = m_EntityComponent.Entitas;
-            mMovementComponent.Aacceleration(entitas, 100f);
-            mMovementComponent.ShouldMove(entitas, false);
+            mMovementComp.Aacceleration(RoleEntitas, 100f);
+            mMovementComp.ShouldMove(RoleEntitas, false);
+
+            Consts.N_GET_HERO_POS.Add(OnGetHeroPosition);
+
+            mSpineAnimation.PlayAnim(0, "INTO", false);
+
+            mRolePropertiesComp.Camp(RoleEntitas, 1);
+            mRolePropertiesComp.Hp(RoleEntitas, 100);
+            mRolePropertiesComp.Atk(RoleEntitas, 40);
+
+            ILogicContext context = ShipDockECS.Instance.Context;
+            ILogicEntities allEntitas = context.AllEntitas;
+            allEntitas.AddEntitas(out mMeleeWeapont, 3);
+
+            AttackableComp attackableComp = allEntitas.GetComponentFromEntitas<AttackableComp>(mMeleeWeapont, Consts.COMP_ATTACKABLE);
+            attackableComp.RoleOwner(mMeleeWeapont, RoleEntitas);
+            attackableComp.Attack(mMeleeWeapont, 30);
+            attackableComp.AttackRange(mMeleeWeapont, m_PhysicsChecker.OverlapRayAndHit.radius);
         }
 
-        private void Update()
+        private void OnGetHeroPosition(INoticeBase<int> param)
         {
-            if (IsUpdateValid())
-            {
-                int entitas = m_EntityComponent.Entitas;
-
-                Vector2 direction = Vector2.zero;
-
-                const string HAxisName = "Horizontal";
-                const string VAxisName = "Vertical";
-
-                float h = Input.GetAxis(HAxisName);
-                float v = Input.GetAxis(VAxisName);
-
-                if (h != 0f)
-                {
-                    direction.x = -h;
-                }
-                else { }
-
-
-                if (v != 0f)
-                {
-                    direction.y = v;
-                }
-                else { }
-
-                bool flag = direction != Vector2.zero;
-                if (flag)
-                {
-                    Vector3 pos = mMovementComponent.GetLocalPosition(entitas);
-                    transform.localPosition = pos;
-
-                    float speedMax = mMovementComponent.GetMoveSpeedMax(entitas);
-
-                    h = Mathf.Abs(h);
-                    v = Mathf.Abs(v);
-
-                    mMovementComponent.MoveSpeed(entitas, Mathf.Max(h, v) * speedMax);
-                }
-                else
-                {
-                    mMovementComponent.MoveSpeed(entitas, 0f);
-                }
-
-                mMovementComponent.ShouldMove(entitas, flag);
-                mMovementComponent.MoveDirection(entitas, direction);
-            }
-            else { }
+            IParamNotice<Vector3> notice = param as IParamNotice<Vector3>;
+            notice.ParamValue = transform.localPosition;
         }
 
-        private void LateUpdate()
+        protected override float GetHorizontalAxis()
         {
-            if (IsUpdateValid())
-            {
-            }
-            else { }
+            const string HAxisName = "Horizontal";
+            return Input.GetAxis(HAxisName);
         }
 
-        private bool IsUpdateValid()
+        protected override float GetVerticalAxis()
         {
-            return m_EntityComponent != default;
+            const string VAxisName = "Vertical";
+            return Input.GetAxis(VAxisName);
+        }
+
+        protected override void DuringMove()
+        {
+            base.DuringMove();
+
+            mSpineAnimation.PlayAnim(0, "RUN", true);
+        }
+
+        protected override void DuringStopMove()
+        {
+            base.DuringStopMove();
+
+            int rand = Utils.UnityRangeRandom(0, 2);
+            string animName = rand == 0 ? "STAND_1" : "STAND_2";
+            mSpineAnimation.PlayAnim(0, animName, true);
         }
     }
 

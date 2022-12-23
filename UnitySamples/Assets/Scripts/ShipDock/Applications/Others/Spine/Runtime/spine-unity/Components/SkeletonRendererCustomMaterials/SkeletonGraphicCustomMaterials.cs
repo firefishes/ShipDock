@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 
 using System;
 using System.Collections.Generic;
@@ -49,7 +49,7 @@ namespace Spine.Unity {
 		[SerializeField] protected List<AtlasMaterialOverride> customMaterialOverrides = new List<AtlasMaterialOverride>();
 		[SerializeField] protected List<AtlasTextureOverride> customTextureOverrides = new List<AtlasTextureOverride>();
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		void Reset () {
 			skeletonGraphic = GetComponent<SkeletonGraphic>();
 

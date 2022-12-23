@@ -122,7 +122,7 @@ namespace Spine.Unity {
 
 		public static bool GeometryNotEqual (SkeletonRendererInstruction a, SkeletonRendererInstruction b) {
 #if SPINE_TRIANGLECHECK
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying)
 			return true;
 #endif

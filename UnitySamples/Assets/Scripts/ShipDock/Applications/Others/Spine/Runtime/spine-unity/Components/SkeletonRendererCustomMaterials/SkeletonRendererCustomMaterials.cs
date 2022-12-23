@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 #define SPINE_OPTIONAL_MATERIALOVERRIDE
 
 // Contributed by: Lost Polygon
@@ -52,7 +52,7 @@ namespace Spine.Unity {
 		[SerializeField] protected List<SlotMaterialOverride> customSlotMaterials = new List<SlotMaterialOverride>();
 		[SerializeField] protected List<AtlasMaterialOverride> customMaterialOverrides = new List<AtlasMaterialOverride>();
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		void Reset () {
 			skeletonRenderer = GetComponent<SkeletonRenderer>();
 
@@ -90,7 +90,8 @@ namespace Spine.Unity {
 					continue;
 
 				Slot slotObject = skeletonRenderer.skeleton.FindSlot(slotMaterialOverride.slotName);
-				skeletonRenderer.CustomSlotMaterials[slotObject] = slotMaterialOverride.material;
+				if (slotObject != null)
+					skeletonRenderer.CustomSlotMaterials[slotObject] = slotMaterialOverride.material;
 			}
 		}
 
@@ -106,7 +107,8 @@ namespace Spine.Unity {
 					continue;
 
 				Slot slotObject = skeletonRenderer.skeleton.FindSlot(slotMaterialOverride.slotName);
-
+				if (slotObject == null)
+					continue;
 				Material currentMaterial;
 				if (!skeletonRenderer.CustomSlotMaterials.TryGetValue(slotObject, out currentMaterial))
 					continue;

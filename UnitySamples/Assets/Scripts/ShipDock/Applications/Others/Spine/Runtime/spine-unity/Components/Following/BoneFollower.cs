@@ -27,9 +27,9 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
-
+#endif
 
 using System;
 using UnityEngine;
@@ -67,9 +67,11 @@ namespace Spine.Unity {
 		[Tooltip("Follows the skeleton's flip state by controlling this Transform's local scale.")]
 		public bool followSkeletonFlip = true;
 
-		[Tooltip("Follows the target bone's local scale. BoneFollower cannot inherit world/skewed scale because of UnityEngine.Transform property limitations.")]
+		[Tooltip("Follows the target bone's local scale.")]
 		[UnityEngine.Serialization.FormerlySerializedAs("followScale")]
 		public bool followLocalScale = false;
+		[Tooltip("Includes the parent bone's lossy world scale. BoneFollower cannot inherit rotated/skewed scale because of UnityEngine.Transform property limitations.")]
+		public bool followParentWorldScale = false;
 
 		public enum AxisOrientation {
 			XAxis = 1,
@@ -124,7 +126,7 @@ namespace Spine.Unity {
 			if (!string.IsNullOrEmpty(boneName))
 				bone = skeletonRenderer.skeleton.FindBone(boneName);
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (Application.isEditor)
 				LateUpdate();
 #endif
@@ -141,7 +143,7 @@ namespace Spine.Unity {
 				return;
 			}
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying)
 				skeletonTransformIsParent = Transform.ReferenceEquals(skeletonTransform, transform.parent);
 #endif
@@ -206,10 +208,14 @@ namespace Spine.Unity {
 												* skeletonLossyScale.y * parentLossyScale.y);
 			}
 
-			Vector3 localScale = followLocalScale ? new Vector3(bone.ScaleX, bone.ScaleY, 1f) : new Vector3(1f, 1f, 1f);
+			Bone parentBone = bone.Parent;
+			Vector3 localScale = new Vector3(1f, 1f, 1f);
+			if (followParentWorldScale && parentBone != null)
+				localScale = new Vector3(parentBone.WorldScaleX, parentBone.WorldScaleY, 1f);
+			if (followLocalScale)
+				localScale.Scale(new Vector3(bone.ScaleX, bone.ScaleY, 1f));
 			if (followSkeletonFlip)
 				localScale.y *= Mathf.Sign(bone.Skeleton.ScaleX * bone.Skeleton.ScaleY) * additionalFlipScale;
-
 			thisTransform.localScale = localScale;
 		}
 	}

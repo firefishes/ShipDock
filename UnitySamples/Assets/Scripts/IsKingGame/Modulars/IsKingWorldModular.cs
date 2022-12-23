@@ -35,16 +35,38 @@ namespace IsKing
 
             ILogicContext worldContext = contexts.CurrentContext;
 
-            ILogicEntitas logicEntitas = worldContext.AllEntitas;
-            logicEntitas.BuildEntitasTemplate(1, new int[] { Consts.COMP_HERO_MOVEMENT });
-
             //创建组件
-            worldContext.Create<IsKingMovementComp>(Consts.COMP_MOVEMENT);
-            worldContext.Create<IsKingHeroMovementComp>(Consts.COMP_HERO_MOVEMENT);
+            worldContext.Create<HeroMovementComp>(Consts.COMP_HERO_MOVEMENT);
+            worldContext.Create<MonsterMovementComp>(Consts.COMP_MONSTER_MOVEMENT);
             worldContext.Create<BehaviourIDsComponent>(Consts.COMP_BEHAVIOUR_IDS);
+            worldContext.Create<RolePropertiesComp>(Consts.COMP_ROLE_PROPERTIES);
+            worldContext.Create<AttackableComp>(Consts.COMP_ATTACKABLE);
+            worldContext.Create<WorldResourceComp>(Consts.COMP_WORLD_RES);
 
             //创建系统
-            worldContext.Create<IsKingWorldSystem>(Consts.SYSTEM_WORLD, true, Consts.COMP_MOVEMENT, Consts.COMP_HERO_MOVEMENT);
+            worldContext.Create<IsKingWorldSystem>(Consts.SYSTEM_WORLD, true,
+                Consts.COMP_HERO_MOVEMENT,
+                Consts.COMP_MONSTER_MOVEMENT);
+
+            worldContext.Create<MeleeSystem>(Consts.SYSTEM_SKILL_MELEE, false, Consts.COMP_ATTACKABLE);
+
+            ILogicEntities logicEntitas = worldContext.AllEntitas;
+            #region 角色实体
+            logicEntitas.BuildEntitasTemplate(1, new int[] {
+                Consts.COMP_ROLE_PROPERTIES,
+                Consts.COMP_HERO_MOVEMENT
+            });
+            logicEntitas.BuildEntitasTemplate(2, new int[] {
+                Consts.COMP_ROLE_PROPERTIES,
+                Consts.COMP_MONSTER_MOVEMENT
+            });
+            #endregion
+
+            #region 技能实体
+            logicEntitas.BuildEntitasTemplate(3, new int[] { Consts.COMP_ATTACKABLE });
+            #endregion
+
+            logicEntitas.MakeChunks();
 
             //启动ECS
             app.StartECS();

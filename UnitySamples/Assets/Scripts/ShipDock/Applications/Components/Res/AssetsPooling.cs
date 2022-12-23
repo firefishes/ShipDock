@@ -29,17 +29,17 @@ namespace ShipDock.Pooling
         /// <summary>以游戏脚本为模板的对象池最大数量的集合</summary>
         private KeyValueList<int, int> mCompPoolElmMax;
         /// <summary>以游戏物体预设为模板的对象池集合</summary>
-        private KeyValueList<int, Stack<GameObject>> mPool;
+        private KeyValueList<int, Queue<GameObject>> mPool;
         /// <summary>以游戏脚本为模板的对象池集合</summary>
-        private KeyValueList<int, Stack<Component>> mCompPool;
+        private KeyValueList<int, Queue<Component>> mCompPool;
         /// <summary>是否已被销毁</summary>
         private bool mIsReclaimed;
         #endregion
 
         public AssetsPooling()
         {
-            mPool = new KeyValueList<int, Stack<GameObject>>();
-            mCompPool = new KeyValueList<int, Stack<Component>>();
+            mPool = new KeyValueList<int, Queue<GameObject>>();
+            mCompPool = new KeyValueList<int, Queue<Component>>();
             mPoolElmMax = new KeyValueList<int, int>();
             mCompPoolElmMax = new KeyValueList<int, int>();
         }
@@ -66,9 +66,9 @@ namespace ShipDock.Pooling
         /// <summary>
         /// 销毁对象池
         /// </summary>
-        private void DestroyPool<T>(ref KeyValueList<int, Stack<T>> pool)
+        private void DestroyPool<T>(ref KeyValueList<int, Queue<T>> pool)
         {
-            Stack<T> list;
+            Queue<T> list;
             int max = pool.Keys.Count;
             for (int i = 0; i < max; i++)
             {
@@ -88,10 +88,10 @@ namespace ShipDock.Pooling
             if (mPool.IsContainsKey(poolName))
             {
                 GameObject item;
-                Stack<GameObject> list = mPool.GetValue(poolName, true);
+                Queue<GameObject> list = mPool.GetValue(poolName, true);
                 while (list.Count > 0)
                 {
-                    item = list.Pop();
+                    item = list.Dequeue();
                     if (item != default)
                     {
                         Object.Destroy(item);
@@ -105,10 +105,10 @@ namespace ShipDock.Pooling
             if (mCompPool.IsContainsKey(poolName))
             {
                 Component item;
-                Stack<Component> list = mCompPool.GetValue(poolName, true);
+                Queue<Component> list = mCompPool.GetValue(poolName, true);
                 while (list.Count > 0)
                 {
-                    item = list.Pop();
+                    item = list.Dequeue();
                     if (item != default)
                     {
                         Object.Destroy(item.gameObject);
@@ -124,21 +124,21 @@ namespace ShipDock.Pooling
         /// <summary>
         /// 检测指定对象的池子是否为空
         /// </summary>
-        private bool CheckPoolResult<T>(int poolName, ref KeyValueList<int, Stack<T>> pool, ref T result)
+        private bool CheckPoolResult<T>(int poolName, ref KeyValueList<int, Queue<T>> pool, ref T result)
         {
             bool isContentable = false;
             if (pool.IsContainsKey(poolName))
             {
                 if (pool[poolName].Count > 0)
                 {
-                    result = pool[poolName].Pop();
+                    result = pool[poolName].Dequeue();
                     isContentable = true;
                 }
                 else { }
             }
             else
             {
-                Stack<T> stack = new Stack<T>();
+                Queue<T> stack = new Queue<T>();
                 pool[poolName] = stack;
             }
             return isContentable;
@@ -216,10 +216,10 @@ namespace ShipDock.Pooling
             if (mCompPool.IsContainsKey(poolName))
             {
                 int elmMax = mCompPoolElmMax.IsContainsKey(poolName) ? mCompPoolElmMax[poolName] : int.MaxValue;
-                Stack<Component> pool = mCompPool[poolName];
+                Queue<Component> pool = mCompPool[poolName];
                 if (pool.Count < elmMax)
                 {
-                    pool.Push(target);
+                    pool.Enqueue(target);
 
                     if (PoolContainer != null)
                     {
@@ -237,7 +237,7 @@ namespace ShipDock.Pooling
             }
             else
             {
-                Stack<Component> pool = new Stack<Component>();
+                Queue<Component> pool = new Queue<Component>();
                 mCompPool[poolName] = pool;
 
                 ToPool(poolName, target, onRevert);
@@ -257,10 +257,10 @@ namespace ShipDock.Pooling
             if (mPool.IsContainsKey(poolName))
             {
                 int elmMax = (mPoolElmMax.IsContainsKey(poolName)) ? mPoolElmMax[poolName] : int.MaxValue;
-                Stack<GameObject> pool = mPool[poolName];
+                Queue<GameObject> pool = mPool[poolName];
                 if (pool.Count < elmMax)
                 {
-                    pool.Push(target);
+                    pool.Enqueue(target);
 
                     if (PoolContainer != default)
                     {
@@ -279,7 +279,7 @@ namespace ShipDock.Pooling
             }
             else
             {
-                Stack<GameObject> pool = new Stack<GameObject>();
+                Queue<GameObject> pool = new Queue<GameObject>();
                 mPool[poolName] = pool;
 
                 ToPool(poolName, target, onRevert);

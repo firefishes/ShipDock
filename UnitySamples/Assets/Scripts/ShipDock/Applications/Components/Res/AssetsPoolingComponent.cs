@@ -64,22 +64,24 @@ namespace ShipDock.Applications
 
         public void Get(GameObject target)
         {
-            if (target.transform.parent == transform)
-            {
-                target.transform.SetParent(null);
-            }
-            else { }
+            //if (target.transform.parent == transform)
+            //{
+            //    target.transform.SetParent(null);
+            //}
+            //else { }
+            target.SetActive(true);
         }
 
         public void Collect(GameObject target, bool visible = false)
         {
-            target.transform.position = GameObjectReadyPos;
+            //target.transform.position = GameObjectReadyPos;
+            target.SetActive(false);
 #if UNITY_EDITOR
-            if (m_ApplyPoolItemParent && target.transform.parent != transform)
-            {
-                target.transform.SetParent(transform);
-            }
-            else { }
+            //if (m_ApplyPoolItemParent && target.transform.parent != transform)
+            //{
+            //    target.transform.SetParent(transform);
+            //}
+            //else { }
 #endif
         }
     }

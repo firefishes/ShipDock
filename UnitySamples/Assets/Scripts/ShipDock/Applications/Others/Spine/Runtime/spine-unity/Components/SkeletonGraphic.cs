@@ -27,13 +27,13 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-
+#if UNITY_2018_3 || UNITY_2019 || UNITY_2018_3_OR_NEWER
 #define NEW_PREFAB_SYSTEM
+#endif
 
-
-
+#if UNITY_2018_2_OR_NEWER
 #define HAS_CULL_TRANSPARENT_MESH
-
+#endif
 
 using System;
 using System.Collections.Generic;
@@ -99,10 +99,10 @@ namespace Spine.Unity {
 		private bool wasUpdatedAfterInit = true;
 		private Texture baseTexture = null;
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		protected override void OnValidate () {
 			// This handles Scene View preview.
-			base.OnValidate ();
+			base.OnValidate();
 			if (this.IsValid) {
 				if (skeletonDataAsset == null) {
 					Clear();
@@ -215,7 +215,7 @@ namespace Spine.Unity {
 
 			SyncSubmeshGraphicsWithCanvasRenderers();
 			if (!this.IsValid) {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 				// workaround for special import case of open scene where OnValidate and Awake are
 				// called in wrong order, before setup of Spine assets.
 				if (!Application.isPlaying) {
@@ -248,7 +248,7 @@ namespace Spine.Unity {
 		}
 
 		public virtual void Update () {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying) {
 				Update(0f);
 				return;
@@ -278,7 +278,7 @@ namespace Spine.Unity {
 		protected void SyncSubmeshGraphicsWithCanvasRenderers () {
 			submeshGraphics.Clear();
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (!Application.isPlaying)
 				DestroyOldRawImages();
 #endif
@@ -359,9 +359,8 @@ namespace Spine.Unity {
 				if (slot != null) {
 					separatorSlots.Add(slot);
 				}
-#if UNITY_EDITOR_TEXT
-				else
-				{
+#if UNITY_EDITOR
+				else {
 					Debug.LogWarning(slotName + " is not a slot in " + skeletonDataAsset.skeletonJSON.name);
 				}
 #endif
@@ -412,6 +411,7 @@ namespace Spine.Unity {
 		}
 
 		public bool MatchRectTransformWithBounds () {
+			if (!wasUpdatedAfterInit) Update(0);
 			UpdateMesh();
 
 			if (!this.allowMultipleCanvasRenderers)
@@ -477,6 +477,11 @@ namespace Spine.Unity {
 
 			this.rectTransform.sizeDelta = size;
 			this.rectTransform.pivot = p;
+
+			foreach (var submeshGraphic in submeshGraphics) {
+				submeshGraphic.rectTransform.sizeDelta = size;
+				submeshGraphic.rectTransform.pivot = p;
+			}
 		}
 
 		public event UpdateBonesDelegate BeforeApply;
@@ -515,7 +520,10 @@ namespace Spine.Unity {
 
 		public void Initialize (bool overwrite) {
 			if (this.IsValid && !overwrite) return;
-
+#if UNITY_EDITOR
+			if (BuildUtilities.IsInSkeletonAssetBuildPreProcessing)
+				return;
+#endif
 			if (this.skeletonDataAsset == null) return;
 			var skeletonData = this.skeletonDataAsset.GetSkeletonData(false);
 			if (skeletonData == null) return;
@@ -550,7 +558,7 @@ namespace Spine.Unity {
 				var animationObject = skeletonDataAsset.GetSkeletonData(false).FindAnimation(startingAnimation);
 				if (animationObject != null) {
 					state.SetAnimation(0, animationObject, startingLoop);
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 					if (!Application.isPlaying)
 						Update(0f);
 #endif
@@ -754,7 +762,7 @@ namespace Spine.Unity {
 		}
 
 		protected void EnsureCanvasRendererCount (int targetCount) {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			RemoveNullCanvasRenderers();
 #endif
 			int currentCount = canvasRenderers.Count;
@@ -772,7 +780,7 @@ namespace Spine.Unity {
 		}
 
 		protected void DisableUnusedCanvasRenderers (int usedCount) {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			RemoveNullCanvasRenderers();
 #endif
 			for (int i = usedCount; i < canvasRenderers.Count; i++) {
@@ -781,7 +789,7 @@ namespace Spine.Unity {
 			}
 		}
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		private void RemoveNullCanvasRenderers () {
 			if (Application.isEditor && !Application.isPlaying) {
 				for (int i = canvasRenderers.Count - 1; i >= 0; --i) {
@@ -811,7 +819,7 @@ namespace Spine.Unity {
 
 		protected void DestroyMeshes () {
 			foreach (var mesh in meshes) {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 				if (Application.isEditor && !Application.isPlaying)
 					UnityEngine.Object.DestroyImmediate(mesh);
 				else
@@ -824,16 +832,16 @@ namespace Spine.Unity {
 		}
 
 		protected void EnsureSeparatorPartCount () {
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			RemoveNullSeparatorParts();
 #endif
 			int targetCount = separatorSlots.Count + 1;
 			if (targetCount == 1)
 				return;
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 			if (Application.isEditor && !Application.isPlaying) {
-				for (int i = separatorParts.Count-1; i >= 0; --i) {
+				for (int i = separatorParts.Count - 1; i >= 0; --i) {
 					if (separatorParts[i] == null) {
 						separatorParts.RemoveAt(i);
 					}
@@ -867,7 +875,7 @@ namespace Spine.Unity {
 			}
 		}
 
-#if UNITY_EDITOR_TEXT
+#if UNITY_EDITOR
 		private void RemoveNullSeparatorParts () {
 			if (Application.isEditor && !Application.isPlaying) {
 				for (int i = separatorParts.Count - 1; i >= 0; --i) {
