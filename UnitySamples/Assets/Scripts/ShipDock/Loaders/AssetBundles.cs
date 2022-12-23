@@ -224,7 +224,7 @@ namespace ShipDock.Loader
             return HasBundel(name) ? mABManifests[name] : default;
         }
 
-        public T GetAndQuote<T>(string abName, string assetName, out AssetQuoteder quoteder) where T : Object
+        public T GetAndQuote<T>(string abName, string assetName, out AssetQuoteder quoteder, bool createNow = true) where T : Object
         {
             int abID = mABNameIDs.GetID(ref abName);
             int assetID = mAssetNameIDs.GetID(ref assetName);
@@ -254,7 +254,7 @@ namespace ShipDock.Loader
                 "log:New quote {0}, id is {1}, ab name is {2}, asset name is {3}".Log(typeof(T).Name, id.ToString(), abName, assetName);
 #endif
             }
-            T result = quoteder.Instantiate<T>();
+            T result = createNow ? quoteder.Instantiate<T>() : default;
             return result;
         }
 

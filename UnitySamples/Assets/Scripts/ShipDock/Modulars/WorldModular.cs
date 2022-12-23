@@ -72,9 +72,12 @@ namespace ShipDock.Applications
             int max = mElementDeleteds.Count;
             if (max > 0)
             {
-                for (int i = max; i >= 0; i--)
+                while (mElementDeleteds.Count > 0)
                 {
+                    int i = mElementDeleteds.Count - 1;
                     mElement = mElementDeleteds[i];
+                    mElementDeleteds.RemoveAt(i);
+
                     mElementUpdaters.Remove(mElement);
                 }
                 mElementDeleteds.Clear();
@@ -87,7 +90,7 @@ namespace ShipDock.Applications
                 for (int i = 0; i < max; i++)
                 {
                     mElement = mElementUpdaters[i];
-                    if (mElement.IsUpdate)
+                    if (mElement != default && mElement.IsUpdate)
                     {
                         mElement.OnUpdate(dTime);
                     }
@@ -110,7 +113,7 @@ namespace ShipDock.Applications
                 for (int i = 0; i < max; i++)
                 {
                     mElement = mElementUpdaters[i];
-                    if (mElement.IsUpdate)
+                    if (mElement != default && mElement.IsUpdate)
                     {
                         mElement.OnLateUpdate();
                     }
@@ -134,7 +137,7 @@ namespace ShipDock.Applications
                 for (int i = 0; i < max; i++)
                 {
                     mElement = mElementUpdaters[i];
-                    if (mElement.IsUpdate)
+                    if (mElement != default && mElement.IsUpdate)
                     {
                         mElement.OnFixedUpdate(dTime);
                     }
@@ -184,7 +187,7 @@ namespace ShipDock.Applications
             mUpdaterParamNotice = param as IParamNotice<IUpdate>;
             IUpdate updater = mUpdaterParamNotice.ParamValue;
             int index = mElementUpdaters.IndexOf(updater);
-            if (index >= 0)
+            if (index <= 0)
             {
                 mElementUpdaters.Add(updater);
 

@@ -126,9 +126,12 @@ namespace ShipDock.ECS
                             if (hasDataChanged)
                             {
                                 entitasID = mComponent.GetEntitasIDByIndex(j);
-                                mData = mComponent.GetDataByIndex(j);
-
-                                Execute(entitasID, componentName, mData);
+                                if (mComponent.IsStateRegular(entitasID, out _))
+                                {
+                                    mData = mComponent.GetDataByIndex(j);
+                                    Execute(entitasID, componentName, mData);
+                                }
+                                else { }
                             }
                             else { }
                         }

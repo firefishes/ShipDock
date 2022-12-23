@@ -1,6 +1,18 @@
-﻿using ShipDock.Tools;
+﻿
+#if G_LOG
+#define _DROP_ENTITAS_LOG
+#define _DROP_ENTITAS_DATA_INDEX_ERROR
+#define _ENTITAS_VALID_LENGTH_ERROR
+#define _NEW_INDEX_SET_LOG
+#define _PREWARM_DATA_ERROR
+#endif
+
+using ECS;
+using ShipDock.Tools;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ShipDock.ECS
 {
@@ -30,8 +42,6 @@ namespace ShipDock.ECS
 
         /// <summary>已关联的系统标识位</summary>
         private IdentBitsGroup mRelatedSystems;
-        /// <summary>已关联的系统标识位列表</summary>
-        private int[] mRelatedSystemsMarks;
         /// <summary>已缓存的数据索引</summary>
         private Dictionary<int, int> mDataIndexCached;
         /// <summary>组件实体集合</summary>
@@ -45,8 +55,13 @@ namespace ShipDock.ECS
         /// <summary>数据状态列表</summary>
         private int[] mDatasValid;
 
+        private Queue<int> mPoolingWaiting;
+        private Queue<ILogicData> mPoolingWaitingDatas;
+
         /// <summary>当前数据的数量</summary>
         protected int DataSize { private get; set; }
+
+        protected ILogicContext Context { get; private set; }
 
         public override bool IsSystem
         {
@@ -65,11 +80,26 @@ namespace ShipDock.ECS
 
         public LogicComponent()
         {
+            //ArrayPool<int>
+            //MemoryPool<int>
+            //byte[] vs = new byte[1024];
+            //ByteBuffer b = ByteBuffer.Allocate(1024);
+            //b.read
+
             mRelatedSystems = new IdentBitsGroup();
             mDataIndexCached = new Dictionary<int, int>();
             mComponentEntitas = new Dictionary<int, int>();
             mComponentDatas = new Dictionary<int, ILogicData>();
             mCollectedIndexs = new Queue<int>();
+            mPoolingWaiting = new Queue<int>();
+            mPoolingWaitingDatas = new Queue<ILogicData>();
+
+            Debug.Log(sizeof(bool));
+        }
+
+        public virtual Type[] GetEntityDataSizeOf()
+        {
+            return new Type[] { typeof(int), typeof(int) };
         }
 
         #region 销毁和重置
@@ -92,6 +122,8 @@ namespace ShipDock.ECS
             Utils.Reclaim(ref mEntitasValid, clearOnly);
             Utils.Reclaim(ref mDatasValid, clearOnly);
             Utils.Reclaim(ref mLogicDatas, clearOnly);
+            Utils.Reclaim(ref mPoolingWaiting, clearOnly);
+            Utils.Reclaim(ref mPoolingWaitingDatas, clearOnly);
 
             mRelatedSystems.Reset();
             mDataIndexCached.Clear();
@@ -114,7 +146,7 @@ namespace ShipDock.ECS
         }
 
         protected abstract void OnResetSuccessive(bool clearOnly = false);
-        #endregion
+#endregion
 
         /// <summary>
         /// 更新所有需要做规模伸缩的数据列表
@@ -132,6 +164,8 @@ namespace ShipDock.ECS
         /// <param name="context"></param>
         public override void Init(ILogicContext context)
         {
+            Context = context;
+
             Reset();
         }
 
@@ -160,7 +194,7 @@ namespace ShipDock.ECS
             {
                 SetEntitasStateEmpty(entitasID);
 
-                ILogicData data = CreateData();
+                ILogicData data = CreateData(entitasID);
                 FillEntitasData(entitasID, data);
             }
             else { }
@@ -233,7 +267,7 @@ namespace ShipDock.ECS
         /// <summary>
         /// 实现此方法，创建组件数据对象
         /// </summary>
-        protected abstract ILogicData CreateData();
+        protected abstract ILogicData CreateData(int entitas);
 
         /// <summary>
         /// 废弃已添加此组件对应的数据
@@ -328,7 +362,7 @@ namespace ShipDock.ECS
             {
                 PrewarmData(entitasID, ref result);
 
-                if (DataPosition > DataSize)
+                if (DataPosition >= DataSize)
                 {
                     DataSize = (int)(DataSize * mDataStretchRatio);
                     UpdateDataStretch(DataSize);
@@ -365,26 +399,41 @@ namespace ShipDock.ECS
                 mDataIndexCached[entitas] = index;
             }
 
-            int validedEntitas = GetEntitasIDByIndex(index);
-            if (validedEntitas == -1)
+            if (mEntitasValid.Length <= index)
+            {
+#if ENTITAS_VALID_LENGTH_ERROR
+                const string entitasValidLengthError = "error: entitas valid length error, need length {0}, now is {1}";
+                entitasValidLengthError.Log((index + 1).ToString(), mEntitasValid.Length.ToString());
+#endif
+            }
+            else { }
+
+            if (mEntitasValid[index] != entitas)
             {
                 mEntitasValid[index] = entitas;
-                target.SetDataIndex(index);
-            }
-            else
-            {
-                int dataIndex = target.DataIndex;
-                if (dataIndex != index)
+
+                if (target != default)
                 {
-                    const string indexError = "error:Lgoic data index error. cached is {0}, now is {1}";
-                    indexError.Log(dataIndex.ToString(), index.ToString());
+                    target.SetDataIndex(index);
+
+#if NEW_INDEX_SET_LOG
+                    const string newIndexSetLog = "log:[{0}] Logic data index set: [{1}] = entitas {2}";
+                    newIndexSetLog.Log(Name, index.ToString(), entitas.ToString());
+#endif
+
+                    if (mLogicDatas[index] == default)
+                    {
+                        mLogicDatas[index] = target;
+                    }
+                    else
+                    {
+#if PREWARM_DATA_ERROR
+                        const string dataError = "error:[{0}] Logic data [{1}] exsited, entitas is {2}";
+                        dataError.Log(Name, index.ToString(), entitas.ToString());
+#endif
+                    }
                 }
                 else { }
-            }
-
-            if (target != default && mLogicDatas[index] == default)
-            {
-                mLogicDatas[index] = target;
             }
             else { }
 
@@ -404,8 +453,24 @@ namespace ShipDock.ECS
             HasDataChanged = false;
         }
 
+        protected abstract void DuringRecycleEntitasData(int index, ILogicData data);
+
         public void CheckAllDropedEntitas()
         {
+            if (mPoolingWaiting.Count > 0)
+            {
+                int index;
+                ILogicData target;
+                while (mPoolingWaiting.Count > 0)
+                {
+                    index = mPoolingWaiting.Dequeue();
+                    target = mPoolingWaitingDatas.Dequeue();
+
+                    DuringRecycleEntitasData(index, target);
+                }
+            }
+            else { }
+
             int entitasID;
             bool hasEntitas, flag;
             int max = DataPosition;
@@ -440,9 +505,26 @@ namespace ShipDock.ECS
                     SetDataEmpty(dataIndex);
 
                     DuringDropEntitas(entitasID);
+
+#if DROP_ENTITAS_LOG
+                    const string dropEntitasLog = "log: entitas {0} drop commit, remove from {1}, data index comfirmed {2}";
+                    dropEntitasLog.Log(entitasID.ToString(), Name, data.DataIndex.ToString());
+#endif
+                    data.IsRecycling = true;
+
+                    mPoolingWaiting.Enqueue(index);
+                    mPoolingWaitingDatas.Enqueue(data);
+
                     DropData(ref data);
                 }
-                else { }
+                else
+                {
+#if DROP_ENTITAS_DATA_INDEX_ERROR
+                    const string dropEntitasDataIndexError = "error: entitas {0} drop error during {1}, data index missing (In data: {2}; In cached {3}; Cached now entitas is {4})";
+                    int ce = GetEntitasIDByIndex(index);
+                    dropEntitasDataIndexError .Log(entitasID.ToString(), Name, data.DataIndex.ToString(), index.ToString(), ce.ToString());
+#endif
+                }
             }
             else { }
         }
@@ -460,6 +542,12 @@ namespace ShipDock.ECS
         public ILogicData GetDataByIndex(int index)
         {
             return mLogicDatas[index];
+        }
+
+        protected string CheckOtherComponentDataInfo(int componentName, int entitas)
+        {
+            string result = Context.RefComponentByName(componentName).GetEntitasData(entitas).ToString();
+            return result;
         }
     }
 }

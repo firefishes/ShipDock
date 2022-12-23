@@ -19,7 +19,7 @@ namespace ShipDock.Applications
         Action<int> AfterGameObjectIDSet { get; set; }
 
         int GetGameObjectID(int entitas);
-        bool SetGameObjectID(int entitas, int gbjInstanceID);
+        void SetGameObjectID(int entitas, int gbjInstanceID);
         int GetEntitasByGameObjectID(int gbjInstanceID);
         void SetAnimator(int entitas, ref Animator animator, int animatorName = -1);
         Animator GetAnimator(int entitas, int animatorName = -1);

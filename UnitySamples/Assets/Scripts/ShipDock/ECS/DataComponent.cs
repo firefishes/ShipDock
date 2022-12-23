@@ -1,5 +1,12 @@
-﻿using ShipDock.Tools;
+﻿
+#if G_LOG
+#define _COMP_DATA_REUSE_LOG
+#define _DATA_SIZE_STRETCH_LOG
+#endif
+
+using ShipDock.Tools;
 using System.Collections.Generic;
+
 
 namespace ShipDock.ECS
 {
@@ -59,16 +66,25 @@ namespace ShipDock.ECS
             else
             {
                 Utils.Stretch(ref mPooling, mPoolingSize);
-
-                int max = mPooling.Length;
-                for (int i = 0; i < max; i++)
-                {
-                    mPooling[i] = new T();
-                }
+                FillAllDataInstance();
             }
         }
 
-        protected override ILogicData CreateData()
+        private void FillAllDataInstance(int start = 0)
+        {
+            int max = mPooling.Length;
+            for (int i = start; i < max; i++)
+            {
+                mPooling[i] = new T();
+            }
+
+#if DATA_SIZE_STRETCH_LOG
+            const string dataSizeStretchLog = "log:[{0}] Data size stretched, max {1} change to {2}";
+            dataSizeStretchLog.Log(Name, (mPooling.Length - start).ToString(), mPooling.Length.ToString());
+#endif
+        }
+
+        protected override ILogicData CreateData(int entitas)
         {
             int index;
             if (mPoolingEmptyIndexs.Count > 0)
@@ -84,12 +100,19 @@ namespace ShipDock.ECS
                 {
                     mPoolingSize = (int)(mPoolingSize * mDataStretchRatio);
                     Utils.Stretch(ref mPooling, mPoolingSize);
+                    FillAllDataInstance(index);
                 }
                 else { }
             }
 
-
             ILogicData result = mPooling[index];
+
+#if COMP_DATA_REUSE_LOG
+            const string compDataReuseLog = "log: component data {0} reused, bind to entitas {1}";
+            compDataReuseLog.Log(result.ID.ToString(), entitas.ToString());
+#endif
+
+            result.IsRecycling = false;
 
             mUseds[result] = index;
             mPooling[index] = default;
@@ -100,15 +123,13 @@ namespace ShipDock.ECS
         protected override void DropData(ref ILogicData target)
         {
             bool flag = mUseds.TryGetValue(target, out int index);
+            target?.Revert();
+        }
 
-            target.Revert();
-
-            if (flag)
-            {
-                mPoolingEmptyIndexs.Enqueue(index);
-                mPooling[index] = (T)target;
-            }
-            else { }
+        protected override void DuringRecycleEntitasData(int index, ILogicData data)
+        {
+            mPooling[index] = (T)data;
+            mPoolingEmptyIndexs.Enqueue(index);
         }
 
         public void UpdateValidWithType<V>(int entitasID, ref V[] successive, out int dataIndex, V value = default, bool ignoreState = false)
@@ -144,5 +165,6 @@ namespace ShipDock.ECS
 
             return result;
         }
+
     }
 }

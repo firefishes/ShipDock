@@ -1,5 +1,4 @@
-﻿#define _G_LOG
-
+﻿
 using ShipDock.Interfaces;
 using ShipDock.Tools;
 using System;
@@ -90,7 +89,7 @@ namespace ShipDock.ECS
         private DoubleBuffers<Action<int, int, ILogicData>> mQueueUpdateExecute;
         #endregion
 
-        public ILogicEntitas AllEntitas { get; private set; }
+        public ILogicEntities AllEntitas { get; private set; }
 
         /// <summary>预更新</summary>
         public Action<List<int>, bool> PreUpdate { get; set; }
@@ -112,7 +111,7 @@ namespace ShipDock.ECS
             mQueueUpdateExecute = new DoubleBuffers<Action<int, int, ILogicData>>();
             mQueueUpdateExecute.OnDequeue += OnQueueUpdateExecute;
 
-            AllEntitas = new LogicEntitas();
+            AllEntitas = new LogicEntities();
         }
 
         #region 销毁和重置
@@ -135,7 +134,6 @@ namespace ShipDock.ECS
         public int Create<T>(T target, int name, bool isUpdateByScene = false, params int[] willRelateComponents) where T : IECSLogic
         {
             int statu = 0;
-            bool isSystem = target.IsSystem;
             if (target is ILogicSystem system)
             {
                 //若为系统则设置关联的组件
@@ -162,13 +160,13 @@ namespace ShipDock.ECS
             {
                 if (target.IsSystem)
                 {
-                    const string logECSComp = "log: Add ECS system {0}";
-                    logECSComp.Log(name.ToString());
+                    const string logECSComp = "log: Add ECS system - {0}";
+                    logECSComp.Log(target.Name);
                 }
                 else
                 {
-                    const string logECSSys = "log: Add ECS component {0}";
-                    logECSSys.Log(name.ToString());
+                    const string logECSSys = "log: Add ECS component - {0}";
+                    logECSSys.Log(target.Name);
                 }
             }
             else { }
@@ -176,25 +174,25 @@ namespace ShipDock.ECS
             return statu;
         }
 
-        public int Create<T>(int name, bool isUpdateByScene = false, params int[] willRelateComponents) where T : IECSLogic, new()
+        public int Create<T>(int logicName, bool isUpdateByScene = false, params int[] willRelateComponents) where T : IECSLogic, new()
         {
             T target = new T();
 
-            int result = Create(target, name, isUpdateByScene, willRelateComponents);
+            int result = Create(target, logicName, isUpdateByScene, willRelateComponents);
             
             return result;
         }
 
-        private bool SetupComponent<T>(int name, ref T target) where T : ILogicComponent
+        private bool SetupComponent<T>(int logicName, ref T target) where T : ILogicComponent
         {
             bool result = default;
-            ILogicComponent component = mComponents[name];
-            if (mComponents.ContainsKey(name)) { }
+            ILogicComponent component = mComponents[logicName];
+            if (mComponents.ContainsKey(logicName)) { }
             else
             {
-                mComponents[name] = target;
+                mComponents[logicName] = target;
 
-                target.SetUnitID(name);
+                target.SetUnitID(logicName);
                 target.Init(this);
                 target.SetAllEntitas(AllEntitas);
 
@@ -319,7 +317,8 @@ namespace ShipDock.ECS
             ILogicSystem item = default;
             if (CountTime > FrameTimeInScene)
             {
-                CheckAllDropedEntitas();
+                CountTime -= FrameTimeInScene;
+                //CheckAllDropedEntitas();
 
                 PreUpdate?.Invoke(mUpdateByTicks, false);
 
@@ -353,8 +352,6 @@ namespace ShipDock.ECS
                 }
 
                 FinalUpdate(time);
-
-                CountTime -= FrameTimeInScene;
             }
         }
 

@@ -53,10 +53,10 @@ namespace ShipDock.Tools
             Pooling<ScopeChecker>.To(this);
         }
 
-        public bool CheckScope(Vector3 targetPos)
+        public bool CheckScope(Vector3 targetPos, Vector3 forward)
         {
             mTargetVec = targetPos;
-            mNorVec = startRotation * Vector3.forward;
+            mNorVec = startRotation * forward;
             mTemVec = mTargetVec - startPos;
             
             mDistance = Vector3.Distance(startPos, mTargetVec);//距离

@@ -1,4 +1,9 @@
-﻿#define _G_LOG
+﻿
+#if G_LOG
+#define _DROP_GAME_OBJECT_INSTANCE_ID_LOG
+#define _SET_GAME_OBJECT_INSTANCE_ID_LOG
+#endif
+
 
 using ShipDock.ECS;
 using ShipDock.Tools;
@@ -16,6 +21,7 @@ namespace ShipDock.Applications
     {
         public int gameItemID = default;
         public int animatorID = -1;
+        public bool isChecking = default;
     }
 
     public class BehaviourIDsComponent : DataComponent<BehaviourIDs>, ICommonOverlapComponent
@@ -26,9 +32,13 @@ namespace ShipDock.Applications
         private int[] mGameItemIDs;
         private Dictionary<int, int> mGameItemMapper;
         private Dictionary<int, Dictionary<int, int>> mArounds;
-        private Dictionary<int, Dictionary<int, int>> mAroundColliders;
-        private Dictionary<int, Dictionary<int, int>> mAroundCollisions;
         private Dictionary<int, Dictionary<int, Animator>> mCachedAnimator;
+        private Dictionary<int, Queue<int>> mAroundsWaitings;
+
+        public BehaviourIDsComponent()
+        {
+            Name = "行为实例缓存组件";
+        }
 
         public override void Init(ILogicContext context)
         {
@@ -36,10 +46,10 @@ namespace ShipDock.Applications
 
             mGameItemMapper = new Dictionary<int, int>();
             mArounds = new Dictionary<int, Dictionary<int, int>>();
-            mAroundColliders = new Dictionary<int, Dictionary<int, int>>();
-            mAroundCollisions = new Dictionary<int, Dictionary<int, int>>();
 
             mCachedAnimator = new Dictionary<int, Dictionary<int, Animator>>();
+
+            mAroundsWaitings = new Dictionary<int, Queue<int>>();
         }
 
         public override void Reset(bool clearOnly = false)
@@ -47,8 +57,7 @@ namespace ShipDock.Applications
             base.Reset(clearOnly);
 
             Utils.Reclaim(ref mArounds, clearOnly);
-            Utils.Reclaim(ref mAroundColliders, clearOnly);
-            Utils.Reclaim(ref mAroundCollisions, clearOnly);
+            Utils.Reclaim(ref mAroundsWaitings, clearOnly);
 
             Utils.Reclaim(ref mGameItemMapper, clearOnly);
             Utils.Reclaim(ref mCachedAnimator, clearOnly);
@@ -56,6 +65,8 @@ namespace ShipDock.Applications
 
         protected override void DropData(ref ILogicData data)
         {
+            bool isValidData = IsStateRegular(data.EntitasID, out _);
+
             base.DropData(ref data);
 
             int key = data.DataIndex;
@@ -63,11 +74,8 @@ namespace ShipDock.Applications
             mArounds.TryGetValue(key, out Dictionary<int, int> mapper);
             Utils.Reclaim(ref mapper);
 
-            mAroundColliders.TryGetValue(key, out mapper);
-            Utils.Reclaim(ref mapper);
-
-            mAroundCollisions.TryGetValue(key, out mapper);
-            Utils.Reclaim(ref mapper);
+            mAroundsWaitings.TryGetValue(key, out Queue<int> queue);
+            Utils.Reclaim(ref queue);
 
             mCachedAnimator.TryGetValue(key, out Dictionary<int, Animator> animators);
             Utils.Reclaim(ref animators);
@@ -75,7 +83,36 @@ namespace ShipDock.Applications
             mGameItemIDs[key] = default;
 
             BehaviourIDs ids = data as BehaviourIDs;
-            mGameItemMapper[ids.gameItemID] = default;
+
+#if DROP_GAME_OBJECT_INSTANCE_ID_LOG
+            const string dropGameObjectInstanceIDLog = "log: drop gameObject instanceID: {0}, entitas is {1}, entitas valid: {2}";
+            dropGameObjectInstanceIDLog.Log(ids.gameItemID.ToString(), mGameItemMapper[ids.gameItemID].ToString(), isValidData.ToString());
+#endif
+            if (mGameItemMapper[ids.gameItemID] == data.EntitasID)
+            {
+                mGameItemMapper[ids.gameItemID] = default;
+            }
+            else
+            {
+                int entitas = mGameItemMapper[ids.gameItemID];
+                data = GetEntitasData(entitas);
+                if (data != default)
+                {
+                    ids = data as BehaviourIDs;
+
+                    isValidData = IsStateRegular(data.EntitasID, out _);
+
+    #if DROP_GAME_OBJECT_INSTANCE_ID_LOG
+                    const string dropGameObjectInstanceIDLog2 = "log: Recheck drop gameObject instanceID: {0}, entitas is {1}, entitas valid: {2}";
+                    dropGameObjectInstanceIDLog2.Log(ids.gameItemID.ToString(), entitas.ToString(), isValidData.ToString());
+    #endif
+                }
+                else
+                {
+                }
+            }
+
+            ids.isChecking = false;
         }
 
         protected override void OnResetSuccessive(bool clearOnly = false)
@@ -107,6 +144,7 @@ namespace ShipDock.Applications
             {
                 int dataIndex = data.DataIndex;
                 mArounds.TryGetValue(dataIndex, out Dictionary<int, int> mapper);
+                mAroundsWaitings.TryGetValue(dataIndex, out Queue<int> queue);
 
                 if (mapper != default) { }
                 else
@@ -115,44 +153,40 @@ namespace ShipDock.Applications
                     mArounds[dataIndex] = mapper;
                 }
 
+                if (queue != default) { }
+                else
+                {
+                    queue = new Queue<int>();
+                    mAroundsWaitings[dataIndex] = queue;
+                }
+
                 mapper.TryGetValue(targetID, out int statu);
                 if (statu != default) { }
                 else
                 {
-                    mapper[targetID] = 1;
+                    BehaviourIDs ids = data as BehaviourIDs;
+                    if (ids.isChecking)
+                    {
+                        queue.Enqueue(targetID);
+                    }
+                    else
+                    {
+                        if (queue.Count > 0)
+                        {
+                            while (queue.Count > 0)
+                            {
+                                mapper[targetID] = queue.Dequeue();
+                            }
+                        }
+                        else { }
+
+                        mapper[targetID] = 1;
+                    }
 
                     //LOG_OVERLAY_CHECKED.Log(id.ToString(), gameItemID.ToString());
                 }
 
-                CheckAroundsEnabled(dataIndex, targetID, overlayed, isCollision);
-            }
-            else { }
-        }
-
-        private void CheckAroundsEnabled(int dataIndex, int targetID, bool overlayed, bool isCollision)
-        {
-            Dictionary<int, Dictionary<int, int>> source = isCollision ? mAroundCollisions : mAroundColliders;
-
-            source.TryGetValue(dataIndex, out Dictionary<int, int> ids);
-
-            if (ids != default)
-            {
-                if (overlayed)
-                {
-                    if (ids.ContainsKey(targetID)) { }
-                    else
-                    {
-                        ids[targetID] = 1;
-                    }
-                }
-                else
-                {
-                    if (ids.ContainsKey(targetID))
-                    {
-                        ids.Remove(targetID);
-                    }
-                    else { }
-                }
+                //CheckAroundsEnabled(dataIndex, targetID, overlayed, isCollision);
             }
             else { }
         }
@@ -179,39 +213,27 @@ namespace ShipDock.Applications
 
                 mArounds.TryGetValue(key, out Dictionary<int, int> mapper);
                 RemoveTargetIDFromMapper(ref mapper, targetID);
-
-                mAroundCollisions.TryGetValue(key, out mapper);
-                RemoveTargetIDFromMapper(ref mapper, targetID);
-
-                mAroundColliders.TryGetValue(key, out mapper);
-                RemoveTargetIDFromMapper(ref mapper, targetID);
             }
             else { }
         }
 
-        public bool SetGameObjectID(int entitas, int gbjInstanceID)
+        public void SetGameObjectID(int entitas, int gbjInstanceID)
         {
-            bool isInit = default;
-
             ILogicData data = UpdateValid(entitas);
 
             if (data is BehaviourIDs ids)
             {
-                if (ids.gameItemID == default)
-                {
-                    isInit = true;
+                ids.gameItemID = gbjInstanceID;
+                mGameItemIDs[data.DataIndex] = gbjInstanceID;
+                mGameItemMapper[gbjInstanceID] = entitas;
 
-                    ids.gameItemID = gbjInstanceID;
-                    mGameItemIDs[data.DataIndex] = gbjInstanceID;
-                    mGameItemMapper[gbjInstanceID] = entitas;
+                AfterGameObjectIDSet?.Invoke(entitas);
 
-                    AfterGameObjectIDSet?.Invoke(entitas);
-                }
-                else { }
+#if SET_GAME_OBJECT_INSTANCE_ID_LOG
+                Debug.Log("SetGameObjectID " + entitas + " gbjInstanceID = " + gbjInstanceID);
+#endif
             }
             else { }
-
-            return isInit;
         }
 
         public int GetGameObjectID(int entitas)
@@ -355,26 +377,5 @@ namespace ShipDock.Applications
             return GetOverlayIDsByMapper(entitasID, ref mArounds);
         }
 
-        public Dictionary<int, int> GetAroundColliderIDs(int entitasID)
-        {
-            if (!IsStateRegular(entitasID, out _))
-            {
-                return default;
-            }
-            else { }
-
-            return GetOverlayIDsByMapper(entitasID, ref mAroundColliders);
-        }
-
-        public Dictionary<int, int> GetAroundCollisionIDs(ref int entitasID)
-        {
-            if (!IsStateRegular(entitasID, out _))
-            {
-                return default;
-            }
-            else { }
-
-            return GetOverlayIDsByMapper(entitasID, ref mAroundCollisions);
-        }
     }
 }

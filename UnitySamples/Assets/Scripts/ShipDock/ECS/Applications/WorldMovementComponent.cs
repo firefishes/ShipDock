@@ -18,6 +18,25 @@ namespace ShipDock.ECS
         private Vector3[] mMoveDirections;
         private Quaternion[] mRotations;
 
+        protected override void DropData(ref ILogicData target)
+        {
+            base.DropData(ref target);
+
+            int index = target.DataIndex;
+            mMoveSpeeds[index] = default;
+            mMoveSpeedMaxs[index] = default;
+            mMoveSpeedRatios[index] = default;
+            mAaccelerationTimes[index] = default;
+            mAaccelerations[index] = default;
+            mAllowMoves[index] = default;
+            mPositions[index] = default;
+            mLocalPositions[index] = default;
+            mForwards[index] = default;
+            mTrackingPositions[index] = default;
+            mMoveDirections[index] = default;
+            mRotations[index] = default;
+        }
+
         protected override void OnResetSuccessive(bool clearOnly = false)
         {
             base.OnResetSuccessive(clearOnly);

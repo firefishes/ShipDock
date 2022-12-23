@@ -1,4 +1,5 @@
 ﻿using ShipDock.Interfaces;
+using System;
 
 namespace ShipDock.ECS
 {
@@ -8,7 +9,7 @@ namespace ShipDock.ECS
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public interface ILogicEntitas : IReclaim
+    public interface ILogicEntities : IReclaim
     {
         void BuildEntitasTemplate(int entitasType, params int[] componentNames);
         void AddEntitas(out int newEntitasID, int entitasType = 0);
@@ -20,5 +21,9 @@ namespace ShipDock.ECS
         int[] GetComponentList(int entitasID);
         T GetComponentFromEntitas<T>(int entitasID, int componentID) where T : ILogicComponent;
         void RemoveComponent(int entitasID, ILogicComponent component);
+
+        void AddTypeSizeOf(Type type, int byteSize);
+
+        void MakeChunks();
     }
 }

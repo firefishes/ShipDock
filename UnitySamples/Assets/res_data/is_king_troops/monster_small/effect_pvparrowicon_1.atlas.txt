@@ -1,0 +1,13 @@
+effect_pvparrowicon_1.png
+size:256,256
+filter:Linear,Linear
+pma:true
+Special_battle_effects_bg01
+bounds:2,2,215,73
+offsets:8,4,230,80
+Special_pvp_df
+bounds:2,77,154,112
+offsets:4,4,162,118
+glow
+bounds:158,141,48,48
+offsets:8,8,64,64

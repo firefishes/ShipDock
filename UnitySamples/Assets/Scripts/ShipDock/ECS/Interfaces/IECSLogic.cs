@@ -10,12 +10,13 @@ namespace ShipDock.ECS
     /// </summary>
     public interface IECSLogic : IReclaim
     {
+        string Name { get; set; }
         int ID { get; }
         bool IsSystem { get; }
-        ILogicEntitas AllEntitas { get; }
+        ILogicEntities AllEntitas { get; }
 
         void Init(ILogicContext context);
-        void SetAllEntitas(ILogicEntitas allEntitas);
+        void SetAllEntitas(ILogicEntities allEntitas);
         void SetUnitID(int id);
     }
 }

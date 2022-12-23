@@ -2,9 +2,13 @@ namespace ShipDock.ECS
 {
     public abstract class ECSLogic : IECSLogic
     {
+        private const string LOGIC_NAME_DEFAULT = "ECS Logic instance";
+
+        public string Name { get; set; } = LOGIC_NAME_DEFAULT;
+
         public virtual bool IsSystem { get; protected set; }
 
-        public ILogicEntitas AllEntitas { get; private set; }
+        public ILogicEntities AllEntitas { get; private set; }
 
         public int ID { get; private set; } = int.MaxValue;
 
@@ -22,7 +26,7 @@ namespace ShipDock.ECS
 
         protected abstract void Purge();
 
-        public void SetAllEntitas(ILogicEntitas entitas)
+        public void SetAllEntitas(ILogicEntities entitas)
         {
             AllEntitas = entitas;
         }

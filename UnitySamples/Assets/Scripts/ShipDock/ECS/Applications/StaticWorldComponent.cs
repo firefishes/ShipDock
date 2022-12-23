@@ -13,6 +13,11 @@ namespace ShipDock.Applications
         private int[] mWorldItemIDs;
         private int[] mItemGroupIDs;
 
+        public StaticWorldComponent()
+        {
+            Name = "世界交互组件";
+        }
+
         protected override void OnResetSuccessive(bool clearOnly = false)
         {
             base.OnResetSuccessive(clearOnly);

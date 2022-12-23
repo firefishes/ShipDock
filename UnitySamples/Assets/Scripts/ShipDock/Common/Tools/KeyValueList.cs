@@ -207,6 +207,13 @@ namespace ShipDock.Tools
             return ValueIndex(value) != -1;
         }
 
+        public bool TryGetValue(K key, out V value)
+        {
+            bool result = IsContainsKey(key);
+            value = result ? this[key] : default;
+            return result;
+        }
+
         private int KeyIndex(K target)
         {
             return (Keys != null) ? Keys.IndexOf(target) : -1;

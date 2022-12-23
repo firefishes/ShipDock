@@ -46,6 +46,20 @@ namespace ShipDock.Commons
         public void RemoveUpdate()
         {
         }
+
+        public void Enabled()
+        {
+            IsUpdate = true;
+            IsLateUpdate = true;
+            IsFixedUpdate = true;
+        }
+
+        public void DisEnabled()
+        {
+            IsUpdate = false;
+            IsLateUpdate = false;
+            IsFixedUpdate = false;
+        }
     }
 
 }

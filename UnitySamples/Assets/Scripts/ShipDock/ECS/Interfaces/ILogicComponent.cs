@@ -1,4 +1,5 @@
 ﻿using ShipDock.Pooling;
+using System;
 
 namespace ShipDock.ECS
 {
@@ -17,6 +18,8 @@ namespace ShipDock.ECS
         ILogicData GetDataByIndex(int index);
         int GetEntitasIDByIndex(int index);
         bool IsDatasChanged(int index);
+
+        Type[] GetEntityDataSizeOf();
     }
 
     public interface IDataComponent<T> : ILogicComponent
@@ -33,8 +36,11 @@ namespace ShipDock.ECS
 
     public interface ILogicData : IPoolable
     {
+        int ID { get; }
         int DataIndex { get; }
         bool IsValided { get; }
+        int EntitasID { get; }
+        bool IsRecycling { get; set; }
 
         void BindComponent(int entitasID, IDataValidable component);
         void SetDataIndex(int index);
@@ -43,12 +49,22 @@ namespace ShipDock.ECS
 
     public class LogicData : ILogicData
     {
+        private static int instanceCount = 10000;
+
+        public int ID { get; private set; }
         public int DataIndex { get; private set; }
         public bool IsValided { get; private set; }
+        public bool IsRecycling { get; set; }
 
-        protected int EntitasID { get; private set; }
+        public int EntitasID { get; private set; }
 
         protected IDataValidable DataValidbler { get; private set; }
+
+        public LogicData()
+        {
+            ID = instanceCount;
+            instanceCount++;
+        }
 
         public void Revert()
         {

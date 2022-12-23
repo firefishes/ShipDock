@@ -5,7 +5,7 @@ namespace ShipDock.ECS
 {
     public interface ILogicContext
     {
-        ILogicEntitas AllEntitas { get; }
+        ILogicEntities AllEntitas { get; }
         Action<List<int>, bool> PreUpdate { get; set; }
         int CountTime { get; }
         int FrameTimeInScene { get; set; }
