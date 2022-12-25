@@ -18,6 +18,7 @@ namespace ShipDock.ECS
         ILogicData GetDataByIndex(int index);
         int GetEntitasIDByIndex(int index);
         bool IsDatasChanged(int index);
+        int[] GetEntitasValid();
 
         Type[] GetEntityDataSizeOf();
     }

@@ -28,7 +28,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -46,9 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Res: {fileID: 6012912084885658890}
+  m_AllMonsters: 0
   m_Time: 5
-  m_SpwanGapTime: 0.25
+  m_SpwanGapTime: 0.3
   m_Count: 100
+  m_Preload: 3
 --- !u!114 &6012912084885658890
 MonoBehaviour:
   m_ObjectHideFlags: 0

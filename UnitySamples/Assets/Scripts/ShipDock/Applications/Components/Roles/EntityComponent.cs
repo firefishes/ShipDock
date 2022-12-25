@@ -93,8 +93,8 @@ namespace ShipDock.Applications
             m_EntitasID = Entitas;
 
 #if UNITY_EDITOR
-            const string nameKey = "Entitas {0} (Type {1})";
-            gameObject.name = string.Format(nameKey, m_EntitasID.ToString(), m_EntitasType);
+            //const string nameKey = "Entitas {0} (Type {1})";
+            //gameObject.name = string.Format(nameKey, m_EntitasID.ToString(), m_EntitasType);
 #endif
 
             if (m_OverlayMapperComponentName == default)

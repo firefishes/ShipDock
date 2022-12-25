@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ShipDock.Pooling;
+using System.Collections.Generic;
 
 namespace ShipDock.Tools
 {
@@ -40,19 +41,21 @@ namespace ShipDock.Tools
     /// <summary>
     /// 多标记位组
     /// </summary>
-    public class IdentBitsGroup
+    public class IdentBitsGroup : IPoolable
     {
         private const int IDENT_BIT_MAX = 32;
 
         private IdentBits mCurrent;
         private List<int> mAllMarks;
-        private List<IdentBits> mIdentBits;
+        private int[] mAllMarksResult;
+        //private List<IdentBits> mIdentBits;
+        private IdentBits[] mIdentBits;
 
         public IdentBitsGroup()
         {
             Reset();
 
-            AddIdentBits();
+            //AddIdentBits();
         }
 
         public void Reclaim()
@@ -61,6 +64,17 @@ namespace ShipDock.Tools
 
             Utils.Reclaim(ref mAllMarks);
             Utils.Reclaim(ref mIdentBits);
+            Utils.Reclaim(ref mAllMarksResult);
+        }
+
+        public void Revert()
+        {
+            Reset();
+        }
+
+        public void ToPool()
+        {
+            Pooling<IdentBitsGroup>.To(this);
         }
 
         public void Reset()
@@ -76,24 +90,31 @@ namespace ShipDock.Tools
 
             if (mIdentBits == default)
             {
-                mIdentBits = new List<IdentBits>();
+                mIdentBits = new IdentBits[1] { new IdentBits() };
             }
             else
             {
-                int max = mIdentBits.Count;
-                for (int i = 0; i < max; i++)
+                if (mCurrent != default)
                 {
-                    mCurrent = mIdentBits[i];
-                    mCurrent.Reclaim();
+                    int max = mIdentBits.Length;
+                    for (int i = 0; i < max; i++)
+                    {
+                        mCurrent = mIdentBits[i];
+                        mCurrent.Reclaim();
+                    }
                 }
+                else { }
             }
+
+            Utils.Reclaim(ref mAllMarksResult, false);
 
             mCurrent = default;
         }
 
         private void AddIdentBits()
         {
-            mIdentBits.Add(new IdentBits());
+            int max = mIdentBits.Length;
+            mIdentBits[max] = new IdentBits();
         }
 
         private void CheckOrAddNewIdentBits(ref int value, int index = 0)
@@ -103,10 +124,11 @@ namespace ShipDock.Tools
             {
                 index = value / IDENT_BIT_MAX;
 
-                int count = mIdentBits.Count;
+                int count = mIdentBits.Length;
                 if (index >= count)
                 {
                     count = index - count + 1;
+                    Utils.Stretch(ref mIdentBits, count);
                     if (count == 1)
                     {
                         AddIdentBits();
@@ -155,7 +177,7 @@ namespace ShipDock.Tools
             int[] result;
             mAllMarks.Clear();
 
-            int count = mIdentBits.Count;
+            int count = mIdentBits.Length;
             int max = count * IDENT_BIT_MAX;
 
             for (int i = 0; i < max; i++)
@@ -168,7 +190,15 @@ namespace ShipDock.Tools
             }
 
             result = mAllMarks.ToArray();
+            //Utils.Stretch(ref mAllMarksResult, mAllMarks.Count);
 
+            //max = mAllMarks.Count;
+            //for (int i = 0; i < max; i++)
+            //{
+            //    mAllMarksResult[i] = mAllMarks[i];
+            //}
+
+            //return mAllMarksResult;
             return result;
         }
     }

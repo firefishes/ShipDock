@@ -20,11 +20,14 @@ namespace IsKing
         private int m_MovementComponentName = 0;
         [SerializeField]
         protected float m_SpeedMax = 1f;
+        [SerializeField]
+        protected USpineController m_SpineController;
+        [SerializeField]
+        protected SkeletonAnimation m_Animation;
 
         protected Vector2 mDirection;
         protected WorldMovementComponent mMovementComp;
         protected RolePropertiesComp mRolePropertiesComp;
-        protected USpineController mSpineAnimation;
 
         protected int mRoleState;
 
@@ -41,12 +44,8 @@ namespace IsKing
             base.InitRoleComponents();
 
             mIsDead = false;
-
-            if (mSpineAnimation == default)
-            {
-                mSpineAnimation = GetComponent<USpineController>();
-            }
-            else { }
+            gameObject.SetActive(true);
+            m_Animation.enabled = true;
 
             ShipDockApp app = ShipDockApp.Instance;
             ILogicContext context = app.ECSContext.CurrentContext;
@@ -152,8 +151,10 @@ namespace IsKing
             else { }
         }
 
-        private void LateUpdate()
+        public override void OnLateUpdate()
         {
+            base.OnLateUpdate();
+
             if (mRoleState == 1)
             {
                 Vector3 pos = mMovementComp.GetLocalPosition(RoleEntitas);
@@ -179,11 +180,10 @@ namespace IsKing
         {
         }
 
-        private bool mIsDead;
-        private TimeUpdater mTimer;
-
-        protected virtual void Update()
+        public override void OnUpdate(int time)
         {
+            base.OnUpdate(time);
+
             if (mIsDead || mRolePropertiesComp == default)
             {
                 return;
@@ -194,10 +194,22 @@ namespace IsKing
             if (hp <= 0)
             {
                 mIsDead = true;
-                //mSpineAnimation.AddOnEnd(OnAnimDeadCallback);
-                mSpineAnimation.PlayAnim(0, "END", false);
-                mTimer = TimeUpdater.New(2f, OnAnimDeadCallback);
-                mTimer.IsAutoDispose = true;
+
+                RemoveFromWorld();
+
+                const string animNameEnd = "END";
+                //m_SpineController.PlayAnim(0, animNameEnd, false);
+                m_Animation.AnimationState.SetAnimation(0, animNameEnd, false);
+
+                if (mTimer == default)
+                {
+                    mTimer = TimeUpdater.GetTimeUpdater(2f, OnAnimDeadCallback, default, 1);
+                    mTimer.Start();
+                }
+                else
+                {
+                    mTimer.Restart();
+                }
                 return;
             }
             else { }
@@ -206,11 +218,18 @@ namespace IsKing
             UpdatePositionByInput();
         }
 
+        private bool mIsDead;
+        private TimeUpdater mTimer;
+
         private void OnAnimDeadCallback()
         {
-            RemoveFromWorld();
+            m_Animation.enabled = false;
+            gameObject.SetActive(false);
             gameObject.GetInstanceID().BroadcastWithParam(EntityComponent.ENTITY_DROPED, true);
             ShipDockApp.Instance.AssetsPooling.ToPool(m_PoolName, gameObject);
+
+            Consts.N_MONSTER_COLLECTED.BroadcastWithParam(UnityEngine.Random.Range(0, 4), true);
+            MonsterSpawner.allMonster--;
         }
     }
 

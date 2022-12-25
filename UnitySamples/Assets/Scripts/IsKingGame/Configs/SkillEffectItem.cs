@@ -50,8 +50,10 @@ namespace IsKing
 
         public void AfterInitFromJSON()
         {
+#if ODIN_INSPECTOR
             OnEffectFieldChanged();
             OnEffectTypeChanged();
+#endif
         }
     }
 }

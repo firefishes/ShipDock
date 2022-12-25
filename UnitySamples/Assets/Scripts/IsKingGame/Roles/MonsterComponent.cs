@@ -25,7 +25,14 @@ namespace IsKing
             mRolePropertiesComp.Hp(RoleEntitas, 50);
             mRolePropertiesComp.Atk(RoleEntitas, 25);
 
-            mSpineAnimation.PlayAnim(0, "STAND", true);
+            const string animNameStand = "STAND";
+            //m_SpineController.PlayEmptyAnim(0);
+            //m_SpineController.PlayAnim(0, animNameStand, true);
+            m_Animation.AnimationState.SetAnimation(0, animNameStand, true);
+
+            //Debug.Log(RoleEntitas.ToString() + " Stand");
+
+            UpdateLockDown();
         }
 
         protected override void BeforeUpdate()
@@ -55,6 +62,17 @@ namespace IsKing
             mMovement.RelockDownTarget(RoleEntitas, false);
 
             mDirectionToHero = (pos - transform.localPosition).normalized;
+
+            //float distance = Vector3.Distance(pos, transform.localPosition);
+            //bool flag = Mathf.Abs(distance) <= 5f;
+            //mMovement.WillMelee(RoleEntitas, flag);
+
+            //if (flag)
+            //{
+            //    int hp = mRolePropertiesComp.Hp(RoleEntitas);
+            //    hp -= 10;
+            //}
+            //else { }
         }
 
         protected override float GetHorizontalAxis()

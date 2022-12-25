@@ -185,13 +185,6 @@ namespace ShipDock.Applications
 
         public virtual void OnUpdate(int time)
         {
-            mShouldCheckCollsion = HasCollisionOrTriggerTask();
-
-            if (mShouldCheckCollsion)
-            {
-                m_PhysicsChecker?.UpdatePhysicsCheck(ref mTrans, false);
-            }
-            else { }
         }
 
         public virtual void OnLateUpdate()
@@ -200,6 +193,13 @@ namespace ShipDock.Applications
 
         public virtual void OnFixedUpdate(int time)
         {
+            mShouldCheckCollsion = HasCollisionOrTriggerTask();
+
+            if (mShouldCheckCollsion)
+            {
+                m_PhysicsChecker?.UpdatePhysicsCheck(ref mTrans, false);
+            }
+            else { }
         }
 
         protected virtual void OnCollisionEnter(Collision collision)

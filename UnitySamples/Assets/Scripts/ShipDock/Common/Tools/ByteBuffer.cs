@@ -413,13 +413,26 @@ namespace ShipDock.Tools
         /// </summary>
         /// <param name="disbytes">目标字节数组的写入索引</param>
         /// <returns></returns>
-        public void ReadBytes(ref byte[] disbytes, int disstart, int len)
+        public void ReadBytes(ref byte[] disbytes, int position, int len)
         {
-            int size = disstart + len - 1;
+            bool flag = readIndex != position;
+            if (flag)
+            {
+                MarkReaderIndex();
+                SetReaderIndex(position);
+            }
+            else { }
+
             for (int i = 0; i < len; i++)
             {
                 disbytes[i] = ReadByte();
             }
+
+            if (flag)
+            {
+                ResetReaderIndex();
+            }
+            else { }
         }
 
         /// <summary>
@@ -520,6 +533,16 @@ namespace ShipDock.Tools
         public int ReadableBytes()
         {
             return writeIndex - readIndex;
+        }
+
+        public int ReadPosition()
+        {
+            return readIndex;
+        }
+
+        public void SetWritePostition(int position)
+        {
+            writeIndex = position;
         }
 
         /// <summary>

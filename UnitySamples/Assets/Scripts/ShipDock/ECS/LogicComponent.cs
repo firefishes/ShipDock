@@ -7,10 +7,8 @@
 #define _PREWARM_DATA_ERROR
 #endif
 
-using ECS;
 using ShipDock.Tools;
 using System;
-using System.Buffers;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -83,6 +81,7 @@ namespace ShipDock.ECS
             //ArrayPool<int>
             //MemoryPool<int>
             //byte[] vs = new byte[1024];
+            //ByteBuffer b = ByteBuffer.Allocate(1024);
             //ByteBuffer b = ByteBuffer.Allocate(1024);
             //b.read
 
@@ -548,6 +547,11 @@ namespace ShipDock.ECS
         {
             string result = Context.RefComponentByName(componentName).GetEntitasData(entitas).ToString();
             return result;
+        }
+
+        public int[] GetEntitasValid()
+        {
+            return mEntitasValid;
         }
     }
 }

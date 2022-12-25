@@ -19,7 +19,7 @@ namespace IsKing
 
             Consts.N_GET_HERO_POS.Add(OnGetHeroPosition);
 
-            mSpineAnimation.PlayAnim(0, "INTO", false);
+            //m_Animation.AnimationState.SetAnimation(0, "INTO", false);
 
             mRolePropertiesComp.Camp(RoleEntitas, 1);
             mRolePropertiesComp.Hp(RoleEntitas, 100);
@@ -57,16 +57,17 @@ namespace IsKing
         {
             base.DuringMove();
 
-            mSpineAnimation.PlayAnim(0, "RUN", true);
+            //m_Animation.AnimationState.SetAnimation(0, "RUN", true);
+            m_Animation.AnimationState.SetAnimation(0, "STAND", true);
         }
 
         protected override void DuringStopMove()
         {
             base.DuringStopMove();
 
-            int rand = Utils.UnityRangeRandom(0, 2);
-            string animName = rand == 0 ? "STAND_1" : "STAND_2";
-            mSpineAnimation.PlayAnim(0, animName, true);
+            //int rand = Utils.UnityRangeRandom(0, 2);
+            //string animName = rand == 0 ? "STAND_1" : "STAND_2";
+            //m_Animation.AnimationState.SetAnimation(0, animName, true);
         }
     }
 

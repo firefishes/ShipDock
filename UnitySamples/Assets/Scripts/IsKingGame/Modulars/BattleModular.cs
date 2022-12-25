@@ -86,15 +86,14 @@ namespace IsKing
 
             GameObject hero = abs.GetAndQuote<GameObject>("is_king_main/heros", "Hero", out AssetQuoteder heroQuoteder);
             hero.transform.parent = map.transform;
-            hero.transform.localScale = Vector3.one * 0.35f;
+            //hero.transform.localScale = Vector3.one * 0.35f;
             hero.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
             hero.transform.localPosition = new Vector3(0f, 0f, 3f);
 
             hero.gameObject.GetInstanceID().BroadcastWithParam(EntityComponent.ENTITY_SETUP, true);
 
             GameObject monsterSpwan = abs.Get<GameObject>("is_king_monsters/spawners", "MonsterSpawner");
-
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1; i++)
             {
                 GameObject a = UnityEngine.Object.Instantiate(monsterSpwan);
                 a.transform.SetParent(map.transform);

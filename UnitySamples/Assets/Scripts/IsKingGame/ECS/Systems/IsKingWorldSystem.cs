@@ -2,6 +2,9 @@ using ShipDock.Applications;
 using ShipDock.ECS;
 using ShipDock.Ticks;
 using ShipDock.Tools;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 namespace IsKing
@@ -98,8 +101,105 @@ namespace IsKing
             else
             {
                 //ÒÆ¶¯ÖÐ
-                UpdateMove(entitas, mMonsterMovementComp, deltaTime);
+                //UpdateMove(entitas, mMonsterMovementComp, deltaTime);
             }
+        }
+
+        //[Unity.Burst.BurstDiscard()]
+        struct t : IJobParallelFor
+        {
+            public NativeArray<Vector3> result;
+
+            [ReadOnly]
+            public NativeArray<Vector3> direction;
+            [ReadOnly]
+            public NativeArray<float> speed;
+
+            [ReadOnly]
+            public float deltaTime;
+
+            [ReadOnly]
+            public NativeArray<int> entity;
+
+            public void Execute(int index)
+            {
+                //Debug.Log(entity[index] + " Jobing");
+                result[index] += direction[index] * (speed[index] * deltaTime);
+            }
+        }
+
+        private NativeArray<Vector3> mDirectionJobs;
+        private NativeArray<Vector3> mPosResultJobs;
+        private NativeArray<float> mSpeedJobs;
+        private NativeArray<int> mEIDs;
+
+        private int mJobsComplete;
+
+        protected override JobHandle MakeJobs(int compName, int max)
+        {
+            //return default;
+            JobHandle handler = base.MakeJobs(compName, max);
+
+            if (Consts.COMP_MONSTER_MOVEMENT == compName && mJobsComplete == 0)
+            {
+                int[] entities = mMonsterMovementComp.GetEntitasValid();
+
+                mPosResultJobs = new NativeArray<Vector3>(max, Allocator.TempJob);
+                mDirectionJobs = new NativeArray<Vector3>(max, Allocator.TempJob);
+                mSpeedJobs = new NativeArray<float>(max, Allocator.TempJob);
+                mEIDs = new NativeArray<int>(max, Allocator.TempJob);
+
+                for (int i = 0; i < max; i++)
+                {
+                    mPosResultJobs[i] = mMonsterMovementComp.GetLocalPosition(entities[i]);
+                    mSpeedJobs[i] = mMonsterMovementComp.GetMoveSpeed(entities[i]);
+                    mDirectionJobs[i] = mMonsterMovementComp.GetMoveDirection(entities[i]);
+                    mEIDs[i] = entities[i];
+                }
+
+                mJobsComplete = max;
+
+                t jobs = new t
+                {
+                    deltaTime = Time.deltaTime,
+                    result = mPosResultJobs,
+                    direction = mDirectionJobs,
+                    entity = mEIDs,
+                    speed = mSpeedJobs
+                };
+
+                handler = jobs.Schedule(max, max / 2, handler);
+
+            }
+            else { }
+
+            return handler;
+        }
+
+        protected override void AfterComponentExecuted()
+        {
+            base.AfterComponentExecuted();
+
+            //return;
+            if (mJobsComplete > 0)
+            {
+                Vector3 pos;
+                for (int i = 0; i < mJobsComplete; i++)
+                {
+                    pos = mPosResultJobs[i];
+
+                    mMonsterMovementComp.MoveSpeed(mEIDs[i], mSpeedJobs[i]);
+                    mMonsterMovementComp.LocalPosition(mEIDs[i], pos);
+                }
+
+                mJobsComplete = 0;
+
+                mPosResultJobs.Dispose();
+                mSpeedJobs.Dispose();
+                mDirectionJobs.Dispose();
+                mEIDs.Dispose();
+            }
+            else { }
         }
 
         private void UpdateMove(int entitas, WorldMovementComponent comp, float deltaTime)

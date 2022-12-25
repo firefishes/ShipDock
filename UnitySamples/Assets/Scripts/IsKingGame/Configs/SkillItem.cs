@@ -45,7 +45,9 @@ namespace IsKing
 
         public void AfterInitFromJSON()
         {
+#if ODIN_INSPECTOR
             OnSkillTypeChanged();
+#endif
         }
 
     }

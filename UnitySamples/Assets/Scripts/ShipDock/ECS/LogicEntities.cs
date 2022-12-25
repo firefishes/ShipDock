@@ -1,4 +1,5 @@
 ﻿using ECS;
+using ShipDock.Pooling;
 using ShipDock.Tools;
 using System;
 using System.Collections.Generic;
@@ -26,11 +27,9 @@ namespace ShipDock.ECS
         public static int sizeOfLong = 8;
         public static int sizeOfDouble = 8;
 
-        public static long sizeOfBytesPerChunk = 16 * 1000;
-
         private readonly static int[] emptyComponents = new int[0];
         private static int IDEntityas = 1000;
-        private Chunks mAllChunks { get; set; }
+        private Chunks mAllChunks;
 
         public static int CreateEntitas(int entitasType = 0)
         {
@@ -50,22 +49,24 @@ namespace ShipDock.ECS
             }
         }
 
-        private KeyValueList<int, int[]> mEntityCompsRelation;
-        private KeyValueList<int, IdentBitsGroup> mComponentsInfos;
+        private Dictionary<int, int[]> mEntityCompsTemplate;
+        private KeyValueList<int, Dictionary<int, int>> mEntitiesCompBindeds;
         private KeyValueList<int, EntityType> mEntitesTypes;
-        private Dictionary<Type, int> mCompTypeSizes;
+        private Dictionary<Type, int> mCompDataTypeSizes;
         private Dictionary<int, EntityInfo> mEntityInfos;
+        private Dictionary<int, Entity> mEntities;
 
         public LogicEntities()
         {
-            mEntityCompsRelation = new KeyValueList<int, int[]>()
+            mEntityCompsTemplate = new Dictionary<int, int[]>()
             {
                 [0] = new int[] { },
             };
-            mComponentsInfos = new KeyValueList<int, IdentBitsGroup>();
+            mEntitiesCompBindeds = new KeyValueList<int, Dictionary<int, int>>();
 
             mEntitesTypes = new KeyValueList<int, EntityType>();
-            mCompTypeSizes = new Dictionary<Type, int>();
+            mCompDataTypeSizes = new Dictionary<Type, int>();
+            mEntities = new Dictionary<int, Entity>();
 
             AddTypeSizeOf(typeof(int), sizeOfInt32);
             AddTypeSizeOf(typeof(bool), sizeOfBoolean);
@@ -80,15 +81,15 @@ namespace ShipDock.ECS
 
         public void AddTypeSizeOf(Type type, int byteSize)
         {
-            mCompTypeSizes[type] = byteSize;
+            mCompDataTypeSizes[type] = byteSize;
         }
 
         public void Reclaim()
         {
             IDEntityas = 0;
 
-            Utils.Reclaim(ref mEntityCompsRelation);
-            Utils.Reclaim(ref mComponentsInfos);
+            Utils.Reclaim(ref mEntityCompsTemplate);
+            Utils.Reclaim(ref mEntitiesCompBindeds);
         }
 
         public void BuildEntitasTemplate(int entityType, params int[] componentNames)
@@ -96,11 +97,11 @@ namespace ShipDock.ECS
             if (entityType != 0)
             {
                 int max = componentNames.Length;
-                int[] info = mEntityCompsRelation[entityType];
-                if (info == default)
+                int[] comps = mEntityCompsTemplate[entityType];
+                if (comps == default)
                 {
-                    info = new int[max];
-                    mEntityCompsRelation[entityType] = info;
+                    comps = new int[max];
+                    mEntityCompsTemplate[entityType] = comps;
                 }
                 else { }
 
@@ -117,18 +118,16 @@ namespace ShipDock.ECS
                 ILogicComponent comp;
                 for (int i = 0; i < max; i++)
                 {
-                    info[i] = componentNames[i];
-                    comp = Context.RefComponentByName(info[i]);
+                    comps[i] = componentNames[i];
+                    comp = Context.RefComponentByName(comps[i]);
                     types = comp.GetEntityDataSizeOf();
 
                     for (int j = 0; j < types.Length; j++)
                     {
-                        sizeOf = mCompTypeSizes[types[i]];
+                        sizeOf = mCompDataTypeSizes[types[i]];
                         typeResult.AddComponentSizePerData(sizeOf);
                     }
                 }
-
-                //typeResult.SetEntityMax();
             }
             else { }
         }
@@ -141,34 +140,42 @@ namespace ShipDock.ECS
             for (int i = 0; i < max; i++)
             {
                 item = values[i];
-                item.CapacityPerChunk = sizeOfBytesPerChunk / item.SizePerData;
+                item.CapacityPerChunk = ChunkUnit.sizeOfBytesPerChunk / item.SizePerEntity;
             }
         }
 
-        public void AddEntitas(out int entitasID, int entityType = 0)
+        public void AddEntitas(out int entity, int entityType = 0)
         {
-            entitasID = int.MaxValue;
+            entity = int.MaxValue;
 
-            int[] info = mEntityCompsRelation[entityType];
+            int[] info = mEntityCompsTemplate[entityType];
             if (info != default)
             {
                 
-                entitasID = IDEntityas;
+                entity = IDEntityas;
                 IDEntityas++;
 
                 EntityType entityTypeResult = mEntitesTypes[entityType];
                 //entityTypeResult.
 
-                bool isValid = HasEntitas(entitasID);
+                bool isValid = HasEntitas(entity);
                 if (isValid) { }
                 else
                 {
+                    bool flag = mEntitesTypes.TryGetValue(entityType, out EntityType typeResult);
+                    if (flag)
+                    {
+                        Entity item = typeResult.BindEntity(entity, entityType, ref mAllChunks);
+                        mEntities[entity] = item;
+                    }
+                    else { }
+
                     int compName;
                     int max = info.Length;
                     for (int i = 0; i < max; i++)
                     {
                         compName = info[i];
-                        AddComponent(entitasID, compName);
+                        AddComponent(entity, compName);
                     }
                 }
             }
@@ -185,32 +192,37 @@ namespace ShipDock.ECS
                 string entitasContent = entitas.ToString();
 #endif
 
-                ILogicComponent component;
                 ILogicData data;
+                ILogicComponent component;
                 int[] comps = GetComponentList(entitas);
-                for (int i = 0; i < comps.Length; i++)
+                if (comps != default)
                 {
-                    component = Context != default ? Context.RefComponentByName(comps[i]) : default;
-                    data = component.GetEntitasData(entitas);
-                    RemoveComponent(entitas, component);
+                    for (int i = 0; i < comps.Length; i++)
+                    {
+                        component = Context != default ? Context.RefComponentByName(comps[i]) : default;
+                        data = component.GetEntitasData(entitas);
+                        RemoveComponent(entitas, component);
 
-#if LOG
-                    removeEntitasLog.Log(entitasContent, component.Name, data.DataIndex.ToString());
-#endif
+    #if LOG
+                        removeEntitasLog.Log(entitasContent, component.Name, data.DataIndex.ToString());
+    #endif
+                    }
                 }
+                else { }
 
-                IdentBitsGroup identBitsGroup = mComponentsInfos.Remove(entitas);
-                identBitsGroup.Reclaim();
+                Dictionary<int, int> identBitsGroup = mEntitiesCompBindeds.Remove(entitas);
+                Utils.Reclaim(ref identBitsGroup);
+                //identBitsGroup.Reclaim();
             }
             else { }
         }
 
-        public void AddComponent(int entitasID, int componentName)
+        public void AddComponent(int entity, int componentName)
         {
             ILogicComponent component = Context != default ? Context.RefComponentByName(componentName) : default;
             if (component != default)
             {
-                AddComponent(entitasID, component);
+                AddComponent(entity, component);
             }
             else { }
         }
@@ -218,27 +230,28 @@ namespace ShipDock.ECS
         /// <summary>
         /// 添加组件
         /// </summary>
-        public void AddComponent(int entitasID, ILogicComponent component)
+        public void AddComponent(int entity, ILogicComponent component)
         {
             if (component != default)
             {
                 int compID = component.ID;
-                if (HasComponent(entitasID, compID)) { }
+                if (HasComponent(entity, compID)) { }
                 else
                 {
-                    IdentBitsGroup compIDs = mComponentsInfos[entitasID];
-                    if (compIDs == default)
+                    bool flag = mEntitiesCompBindeds.TryGetValue(entity, out Dictionary<int, int> compNames);
+                    if (compNames == default)
                     {
-                        compIDs = new IdentBitsGroup();
-                        mComponentsInfos[entitasID] = compIDs;
+                        compNames = new Dictionary<int, int>();
+                        mEntitiesCompBindeds[entity] = compNames;
                     }
                     else { }
 
-                    if (compIDs.Check(compID)) { }
+                    flag = compNames.TryGetValue(compID, out int compStatu);
+                    if (flag) { }
                     else
                     {
-                        compIDs.Mark(compID);
-                        component.SetEntitas(entitasID);
+                        compNames[compID] = 1;
+                        component.SetEntitas(entity);
                     }
                 }
             }
@@ -255,13 +268,13 @@ namespace ShipDock.ECS
                 int compID = component.ID;
                 if (HasComponent(entitasID, compID))
                 {
-                    IdentBitsGroup compIDs = mComponentsInfos[entitasID];
-                    if (compIDs != default)
+                    bool flag = mEntitiesCompBindeds.TryGetValue(entitasID, out Dictionary<int, int> compIDs);
+                    if (flag)
                     {
-                        bool flag = compIDs.Check(compID);
+                        flag = compIDs.TryGetValue(compID, out _);
                         if (flag)
                         {
-                            compIDs.DeMark(compID);
+                            compIDs.Remove(compID);
                             component.WillDrop(entitasID);
                         }
                         else { }
@@ -275,7 +288,7 @@ namespace ShipDock.ECS
 
         public bool HasEntitas(int entitasID)
         {
-            bool result = (mComponentsInfos != default) ? mComponentsInfos.ContainsKey(entitasID) : false;
+            bool result = (mEntitiesCompBindeds != default) ? mEntitiesCompBindeds.ContainsKey(entitasID) : false;
             return result;
         }
 
@@ -284,8 +297,8 @@ namespace ShipDock.ECS
             bool result = default;
             if (HasEntitas(entitasID))
             {
-                IdentBitsGroup compIDs = mComponentsInfos[entitasID];
-                result = compIDs != default ? compIDs.Check(componentID) : false;
+                bool flag = mEntitiesCompBindeds.TryGetValue(entitasID, out Dictionary<int, int> compIDs);
+                result = compIDs.TryGetValue(componentID, out _);
             }
             else { }
             return result;
@@ -306,10 +319,26 @@ namespace ShipDock.ECS
             return result;
         }
 
-        public int[] GetComponentList(int entitasID)
+        public int[] GetComponentList(int entity)
         {
-            IdentBitsGroup identBitsGroup = (mComponentsInfos != default) ? mComponentsInfos[entitasID] : default;
-            return identBitsGroup != default ? identBitsGroup.GetAllMarks() : emptyComponents;
+            int[] result = default;
+            bool flag = mEntitiesCompBindeds.TryGetValue(entity, out Dictionary<int, int> compIDs);
+            if (flag)
+            {
+                int max = compIDs.Count;
+                result = new int[max];
+
+                KeyValuePair<int, int> item;
+                Dictionary<int, int>.Enumerator enumer = compIDs.GetEnumerator();
+                for (int i = 0; i < max; i++)
+                {
+                    enumer.MoveNext();
+                    item = enumer.Current;
+                    result[i] = item.Key;
+                }
+            }
+            else { }
+            return result;
         }
     }
 }

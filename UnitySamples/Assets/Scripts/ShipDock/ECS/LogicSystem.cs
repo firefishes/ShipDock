@@ -1,5 +1,6 @@
 ﻿using ShipDock.Tools;
 using System;
+using Unity.Jobs;
 
 namespace ShipDock.ECS
 {
@@ -95,6 +96,13 @@ namespace ShipDock.ECS
         {
         }
 
+        protected virtual JobHandle MakeJobs(int compName, int max)
+        {
+            return mJobHandlers;
+        }
+
+        private JobHandle mJobHandlers;
+
         /// <summary>
         /// 组件的帧更新方法
         /// </summary>
@@ -120,6 +128,9 @@ namespace ShipDock.ECS
                     if (hasDataChanged)
                     {
                         m = mComponent.DataPosition;
+
+                        mJobHandlers = MakeJobs(componentName, m);
+
                         for (j = 0; j < m; j++)
                         {
                             hasDataChanged = mComponent.IsDatasChanged(j);
@@ -141,6 +152,7 @@ namespace ShipDock.ECS
                 else { }
             }
 
+            mJobHandlers.Complete();
             AfterComponentExecuted();
 
             mData = default;

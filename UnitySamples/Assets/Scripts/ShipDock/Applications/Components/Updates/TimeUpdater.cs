@@ -7,11 +7,27 @@ namespace ShipDock.Applications
 {
     public class TimeUpdater : MethodUpdater
     {
+        /// <summary>
+        /// 获取一个新的定时器，但在其功能完成后不自动销毁
+        /// </summary>
+        /// <param name="totalTime"></param>
+        /// <param name="method"></param>
+        /// <param name="cancelCondition"></param>
+        /// <param name="repeats"></param>
+        /// <returns></returns>
         public static TimeUpdater GetTimeUpdater(float totalTime, Action method, Func<bool> cancelCondition = default, int repeats = 0)
         {
             return new TimeUpdater(totalTime, method, cancelCondition, repeats);
         }
 
+        /// <summary>
+        /// 创建一个新的定时器，并在完成其功能后自动销毁
+        /// </summary>
+        /// <param name="totalTime"></param>
+        /// <param name="method"></param>
+        /// <param name="cancelCondition"></param>
+        /// <param name="repeat"></param>
+        /// <returns></returns>
         public static TimeUpdater New(float totalTime, Action method, Func<bool> cancelCondition = default, int repeat = 1)
         {
             TimeUpdater timer = GetTimeUpdater(totalTime, method, cancelCondition, repeat);
@@ -59,6 +75,7 @@ namespace ShipDock.Applications
 
         public void Recreate(float totalTime, Action method, Func<bool> cancelCondition = default, int repeats = 0)
         {
+            Time = 0f;
             TotalRepeats = repeats;
             TotalTime = totalTime;
             Completion = method;

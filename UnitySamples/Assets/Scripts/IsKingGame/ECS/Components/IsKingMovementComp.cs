@@ -21,6 +21,7 @@ namespace IsKing
         private float[] mLockTargetDownTime;
         private float[] mLockTargetDownTotalTime;
         private bool[] mWillMoveToTarget;
+        private bool[] mWillMelle;
         private Vector3[] mTargetPosition;
 
         public MonsterMovementComp()
@@ -47,6 +48,7 @@ namespace IsKing
             Utils.Reclaim(ref mLockTargetDownTotalTime, clearOnly);
             Utils.Reclaim(ref mWillMoveToTarget, clearOnly);
             Utils.Reclaim(ref mTargetPosition, clearOnly);
+            Utils.Reclaim(ref mWillMelle, clearOnly);
         }
 
         protected override void UpdateDataStretch(int dataSize)
@@ -57,6 +59,18 @@ namespace IsKing
             Utils.Stretch(ref mLockTargetDownTotalTime, dataSize);
             Utils.Stretch(ref mWillMoveToTarget, dataSize);
             Utils.Stretch(ref mTargetPosition, dataSize);
+            Utils.Stretch(ref mWillMelle, dataSize);
+        }
+
+        public void WillMelee(int entitas, bool flag)
+        {
+            UpdateValidWithType(entitas, ref mWillMelle, out _, flag);
+        }
+
+        public bool GetWillMelee(int entitas)
+        {
+            bool result = GetDataValueWithType(entitas, ref mWillMelle, out _);
+            return result;
         }
 
         #region 锁定目标的总时长

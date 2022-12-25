@@ -16,6 +16,8 @@ namespace ShipDock.Applications
 #if UNITY_EDITOR
         [Header("测试")]
         [SerializeField]
+        private bool m_IsCreateColliderTester;
+        [SerializeField]
         private bool m_IsLogTrigger;
         [SerializeField]
         private SphereCollider m_CheckRange;
@@ -95,18 +97,19 @@ namespace ShipDock.Applications
             CheckerOwner = trans;
             SubgroupID = ids.gameItemID;
 
-            if (mBridge == default)
-            {
-                mBridge = new ComponentBridge(OnInit);
-            }
-            else { }
+            //if (mBridge == default)
+            //{
+            //    mBridge = new ComponentBridge(OnInit);
+            //}
+            //else { }
 
-            mBridge.Start();
+            //mBridge.Start();
+            OnInit();
         }
 
         private void OnInit()
         {
-            mBridge.Reclaim();
+            //mBridge.Reclaim();
 
             mOverlapLayer = m_OverlapLayer.value;
             OverlapRayAndHit = new RayAndHitInfo
@@ -117,7 +120,7 @@ namespace ShipDock.Applications
             };
 
 #if UNITY_EDITOR
-            if (CheckerOwner != default)
+            if (m_IsCreateColliderTester && CheckerOwner != default)
             {
                 GameObject gbj = CheckerOwner.gameObject;
                 m_CheckRange = gbj.AddComponent<SphereCollider>();
@@ -150,9 +153,9 @@ namespace ShipDock.Applications
             {
                 if (m_CheckerEnabled)
                 {
-                    mCommonOverlapCacher.OverlapChecked(Entitas, id, true, isCollision);
                 }
                 else { }
+                mCommonOverlapCacher.OverlapChecked(Entitas, id, true, isCollision);
             }
             else
             {
@@ -167,9 +170,9 @@ namespace ShipDock.Applications
             {
                 if (m_CheckerEnabled)
                 {
-                    mCommonOverlapCacher.OverlapChecked(Entitas, id, false, isCollision);
                 }
                 else { }
+                mCommonOverlapCacher.OverlapChecked(Entitas, id, false, isCollision);
             }
             else
             {
@@ -232,6 +235,12 @@ namespace ShipDock.Applications
                 return;
             }
             else { }
+
+            if (m_CheckerEnabled) { }
+            else
+            {
+                return;
+            }
 
             if (m_CheckGapper.isStart)
             {

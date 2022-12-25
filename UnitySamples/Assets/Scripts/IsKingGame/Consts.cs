@@ -28,6 +28,7 @@ namespace IsKing
         public const int N_COMMIT_PLAYER_AI = 10008;
 
         public const int N_GET_HERO_POS = 10009;
+        public const int N_MONSTER_COLLECTED = 10010;
         #endregion
 
         #region 数据层消息

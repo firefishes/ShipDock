@@ -16,8 +16,6 @@ namespace ShipDock.Applications
 
         private ComponentBridge mComponentBridge;
 
-        public Action OnInited { get; set; }
-
         protected IAssetBundles Assets { get; set; }
 
         public int PoolID

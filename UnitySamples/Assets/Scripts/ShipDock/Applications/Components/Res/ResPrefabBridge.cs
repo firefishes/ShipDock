@@ -48,29 +48,9 @@ namespace ShipDock.Applications
             const string errorLog = "error: Res prefab bridge raw is null, ABName = {0}, AssetName = {1}";
             errorLog.Log(Prefab == default, m_Asset.GetABName(), m_Asset.GetAssetName());
 #endif
-            OnInited?.Invoke();
-            OnInited = default;
-
             GameObject result = Prefab.Create(isCreateFromPool ? m_PoolID : int.MaxValue);
-
-            if (mIsPreload)
-            {
-            }
-            else
-            {
-                mIsPreload = true;
-                int max = 20;
-                for (int i = 0; i < max; i++)
-                {
-                    var g = Prefab.Create(isCreateFromPool ? m_PoolID : int.MaxValue);
-                    ShipDockApp.Instance.AssetsPooling.ToPool(m_PoolID, g);
-                }
-            }
-
             return result;
         }
-
-        private bool mIsPreload;
 
         public void CollectAsset(GameObject target)
         {
