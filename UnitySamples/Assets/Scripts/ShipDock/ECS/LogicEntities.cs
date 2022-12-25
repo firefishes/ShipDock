@@ -97,15 +97,15 @@ namespace ShipDock.ECS
             if (entityType != 0)
             {
                 int max = componentNames.Length;
-                int[] comps = mEntityCompsTemplate[entityType];
-                if (comps == default)
+                bool flag = mEntityCompsTemplate.TryGetValue(entityType, out int[] comps);
+                if (flag) { }
+                else
                 {
                     comps = new int[max];
                     mEntityCompsTemplate[entityType] = comps;
                 }
-                else { }
 
-                bool flag = mEntitesTypes.TryGetValue(entityType, out EntityType typeResult);
+                flag = mEntitesTypes.TryGetValue(entityType, out EntityType typeResult);
                 if (flag) { }
                 else 
                 {
