@@ -1,19 +1,24 @@
 ﻿#define _G_LOG
 
+using System;
 using UnityEngine;
 
 namespace ShipDock.Applications
 {
     public class ResPrefabBridge : ResBridge, IResPrefabBridge
     {
-        protected override void Awake()
-        {
-            base.Awake();
+        protected Action afterRawCreated { get; set; }
 
-            if(m_IsCreateInAwake)
+        protected override void Init()
+        {
+            base.Init();
+
+            if (m_IsCreateInAwake)
             {
                 CreateRaw();
                 Instantiate(Prefab);
+                afterRawCreated?.Invoke();
+                afterRawCreated = default;
             }
             else { }
         }

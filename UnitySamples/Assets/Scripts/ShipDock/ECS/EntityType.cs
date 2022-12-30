@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using ShipDock.ECS;
 using ShipDock.Pooling;
 using ShipDock.Tools;
@@ -11,7 +12,7 @@ namespace ECS
     {
 
         public int Type { get; private set; }
-
+        public Dictionary<int, int[]> CompPropertyDataSize { get; private set; }
         public int SizePerEntity { get; private set; }
         public int EntityCount { get; private set; }
         public int CapacityPerChunk { get; set; }
@@ -27,11 +28,24 @@ namespace ECS
             mEntityChunk = new List<ChunkUnit>();
 
             SizePerEntity = LogicEntities.sizeOfInt32;
+
+            CompPropertyDataSize = new Dictionary<int, int[]>();
         }
 
-        public void AddComponentSizePerData(int size)
+        public void SetCompPropertyDataInfo(int compName, int index, int max)
         {
-            SizePerData = size;
+            bool flag = CompPropertyDataSize.TryGetValue(compName, out int[] info);
+            if (flag) { }
+            else 
+            {
+                info = new int[max];
+            }
+            //info[index] = 
+        }
+
+        public void AddCompSizePerData(int size)
+        {
+            SizePerData += size;
             SizePerEntity += size;
         }
 
@@ -72,7 +86,7 @@ namespace ECS
                 index = EntityCount,
             };
 
-            mCurret.SetEntityID(EntityCount, entity);
+            mCurret.AddEntityID(EntityCount, entity);
 
             return resut;
         }
@@ -111,7 +125,7 @@ namespace ECS
             ChunkIndex = chunkIndex;
             SizePerData = entityType.SizePerData;
 
-            var max = EntityTypeValue.CapacityPerChunk;
+            int max = EntityTypeValue.CapacityPerChunk;
             for (int i = 0; i < max; i++)
             {
                 mBuffer.WriteInt(0);
@@ -120,7 +134,7 @@ namespace ECS
             mCompDataStartPostiion = mBuffer.ReadPosition();
         }
 
-        public void SetEntityID(int index, int entity)
+        public void AddEntityID(int index, int entity)
         {
             mBuffer.MarkWriterIndex();
             mBuffer.SetWritePostition(LogicEntities.sizeOfInt32 * index);

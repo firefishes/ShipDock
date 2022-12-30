@@ -32,7 +32,7 @@ namespace ShipDock.Applications
             mComponentBridge.Start();
         }
         
-        private void Init()
+        protected virtual void Init()
         {
             Assets = ShipDockApp.Instance.ABs;
         }

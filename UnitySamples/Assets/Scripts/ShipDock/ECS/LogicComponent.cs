@@ -38,6 +38,8 @@ namespace ShipDock.ECS
         /// <summary>数据列表</summary>
         protected ILogicData[] mLogicDatas;
 
+        /// <summary>单个组件数据的尺寸</summary>
+        private int mSizePerData;
         /// <summary>已关联的系统标识位</summary>
         private IdentBitsGroup mRelatedSystems;
         /// <summary>已缓存的数据索引</summary>
@@ -58,6 +60,8 @@ namespace ShipDock.ECS
 
         /// <summary>当前数据的数量</summary>
         protected int DataSize { private get; set; }
+
+        public byte[] DataBuffs { get; private set; }
 
         protected ILogicContext Context { get; private set; }
 
@@ -552,6 +556,21 @@ namespace ShipDock.ECS
         public int[] GetEntitasValid()
         {
             return mEntitasValid;
+        }
+
+        public void SetSizePerData(int size)
+        {
+            if (DataBuffs == default)
+            {
+                mSizePerData = size;
+                DataBuffs = new byte[size];
+            }
+            else { }
+        }
+
+        public int GetSizePerData()
+        {
+            return mSizePerData;
         }
     }
 }

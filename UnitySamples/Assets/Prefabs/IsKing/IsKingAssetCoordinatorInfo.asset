@@ -16,7 +16,7 @@ MonoBehaviour:
   m_RawData: {fileID: 4900000, guid: b765abec787ec7f429de4385151ad020, type: 3}
   m_Collections:
   - name: is_king_ui/battle
-    id: 183917584
+    id: -239643000
     m_EditEnabled: 0
     valid: 1
     assets:
@@ -33,7 +33,7 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_map/mission_1
-    id: 662618368
+    id: 970448720
     m_EditEnabled: 0
     valid: 1
     assets:
@@ -50,7 +50,7 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_main/configables
-    id: 1141319152
+    id: -1888416224
     m_EditEnabled: 0
     valid: 1
     assets:
@@ -78,7 +78,7 @@ MonoBehaviour:
       textData: {fileID: 4900000, guid: faeacdc0912f7a141b51b4ba7a4c0953, type: 3}
       assetBundle: {fileID: 0}
   - name: is_king_main/heros
-    id: 1859370328
+    id: 78215376
     m_EditEnabled: 0
     valid: 1
     assets:
@@ -87,7 +87,7 @@ MonoBehaviour:
       m_EditEnabled: 0
       m_Valid: 1
       assetType: 0
-      asset: {fileID: 4376555286907270728, guid: 05750274650251d4b90522a0619a302a,
+      asset: {fileID: 5934299269636950262, guid: fdd0e23c1f28a5f408c36a49eebfd658,
         type: 3}
       tex2D: {fileID: 0}
       sprite: {fileID: 0}
@@ -95,7 +95,7 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_monsters/spawners
-    id: -1956896184
+    id: 1993018512
     m_EditEnabled: 0
     valid: 1
     assets:
@@ -112,7 +112,7 @@ MonoBehaviour:
       textData: {fileID: 0}
       assetBundle: {fileID: 0}
   - name: is_king_monsters/roles
-    id: -1478195400
+    id: -1823248000
     m_EditEnabled: 0
     valid: 1
     assets:

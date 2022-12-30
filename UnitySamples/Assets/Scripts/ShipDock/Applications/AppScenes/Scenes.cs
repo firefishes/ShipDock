@@ -28,7 +28,7 @@ namespace ShipDock.Applications
         /// 清除指定场景，并根据场景名称加载新场景
         /// </summary>
         /// <param name="sceneName"></param>
-        public void ClearAndLoadScene(string sceneName, string cleanSceneName = "", LoadSceneMode sceneMode = LoadSceneMode.Additive)
+        public void LoadAndClearAnotherScene(string sceneName, string cleanSceneName = "", LoadSceneMode sceneMode = LoadSceneMode.Additive)
         {
             if (mSceneLoading)
             {
@@ -49,7 +49,7 @@ namespace ShipDock.Applications
         /// 清除指定场景，并根据场景构建索引加载新场景
         /// </summary>
         /// <param name="sceneName"></param>
-        public void ClearAndLoadScene(int sceneIndex, int cleanSceneIndex = -1, LoadSceneMode sceneMode = LoadSceneMode.Additive)
+        public void LoadAndClearAnotherScene(int sceneIndex, int cleanSceneIndex = -1, LoadSceneMode sceneMode = LoadSceneMode.Additive)
         {
             if (mSceneLoading)
             {

@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 2520570864
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: af34e78aceb7b7a99f128d30e8ad77fa
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: dc341dc0f7c6c0a9638ce6530d135453
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/res_data/is_king_troops/hero_9015_Front/hero_9015_1.png
+- Assets/res_data/is_king_troops/hero_9015_Front/hero_9015_1.atlas.txt
+- Assets/res_data/is_king_troops/hero_9015_Front/hero_9015_1.skel.bytes
+Dependencies: []

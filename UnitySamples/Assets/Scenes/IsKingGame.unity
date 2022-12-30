@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.44209194, g: 0.49108636, b: 0.57100284, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,12 +117,121 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &207237508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 207237510}
+  - component: {fileID: 207237509}
+  m_Layer: 0
+  m_Name: UnityECSWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &207237509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207237508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a335734b1572644a6a5d09d87adc65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SceneAsset: {fileID: 102900000, guid: e4353cc4e49aa5d4d914b892cb4d06c8, type: 3}
+  _HierarchyColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+  AutoLoadScene: 1
+  _SceneGUID:
+    Value:
+      x: 1287869262
+      y: 1297787214
+      z: 696992157
+      w: 2355156156
+--- !u!4 &207237510
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207237508}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &381158621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 381158622}
+  - component: {fileID: 381158623}
+  m_Layer: 0
+  m_Name: 'is_king_main/heros: Hero'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &381158622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381158621}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1377984755}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &381158623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381158621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Valid: 1
+  m_BundleName: is_king_main/heros
+  m_Assets:
+  - assetName: Hero
+    customAssetType: 0
+    asset: {fileID: 5934299269636950262, guid: 5dccad1c4ba02a743a7c2225806dd07f, type: 3}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 0}
+    assetBundle: {fileID: 0}
+    refresh: 0
 --- !u!1 &557234108
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +258,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1182375243}
   m_RootOrder: 2
@@ -185,6 +295,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1420353191}
   m_RootOrder: 2
@@ -204,7 +315,7 @@ MonoBehaviour:
   m_TesterBrokers: []
   m_LogsSetting:
     m_ApplyUnityAssert: 0
-    m_Sync: 0
+    m_Sync: 1
     m_EnabledAll: 0
     m_RefreshTime: 1
     m_Enableds: []
@@ -261,9 +372,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -300,12 +419,69 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.546875, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1182375243}
   - {fileID: 1781860236}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &650771761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 650771762}
+  - component: {fileID: 650771763}
+  m_Layer: 0
+  m_Name: 'is_king_monsters/spawners: MonsterSpawner'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &650771762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650771761}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1377984755}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &650771763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650771761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Valid: 1
+  m_BundleName: is_king_monsters/spawners
+  m_Assets:
+  - assetName: MonsterSpawner
+    customAssetType: 0
+    asset: {fileID: 8973530130164540872, guid: 8589c0c9412753145b6f44c9236be7a8, type: 3}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 0}
+    assetBundle: {fileID: 0}
+    refresh: 0
 --- !u!1 &715182494
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +508,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1182375243}
   m_RootOrder: 0
@@ -367,6 +544,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1182375243}
   m_RootOrder: 1
@@ -376,101 +554,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &933503841
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 933503842}
-  m_Layer: 0
-  m_Name: Target
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &933503842
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933503841}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 32.9, y: 5.6614056, z: 50.14}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1148461616}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1020470491
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1020470492}
-  - component: {fileID: 1020470493}
-  m_Layer: 0
-  m_Name: 'is_king_main/configables: ConfigableItems, others 2'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1020470492
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020470491}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1377984755}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1020470493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020470491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Valid: 1
-  m_BundleName: is_king_main/configables
-  m_Assets:
-  - assetName: ConfigableItems
-    customAssetType: 0
-    asset: {fileID: 4701879650227364510, guid: 93ec1b73f9ba3794c951dc5c479df484, type: 3}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 0}
-    assetBundle: {fileID: 0}
-    refresh: 0
-  - assetName: generals
-    customAssetType: 4
-    asset: {fileID: 0}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 4900000, guid: faeacdc0912f7a141b51b4ba7a4c0953, type: 3}
-    assetBundle: {fileID: 0}
-    refresh: 0
 --- !u!1 &1054785178
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,13 +564,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1054785180}
   - component: {fileID: 1054785179}
+  - component: {fileID: 1054785181}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1054785179
 Light:
   m_ObjectHideFlags: 0
@@ -560,11 +644,35 @@ Transform:
   m_LocalRotation: {x: 0.50896275, y: -0.17252488, z: 0.104938015, w: 0.8367677}
   m_LocalPosition: {x: 0, y: 11.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 62.62, y: -23.3, z: 0}
---- !u!1 &1148461615
+--- !u!114 &1054785181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054785178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 2
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 1
+--- !u!1 &1059004170
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -572,28 +680,54 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1148461616}
+  - component: {fileID: 1059004171}
+  - component: {fileID: 1059004172}
   m_Layer: 0
-  m_Name: Entity
+  m_Name: 'is_king_ui/battle: UIBattle'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1148461616
+--- !u!4 &1059004171
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148461615}
+  m_GameObject: {fileID: 1059004170}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 933503842}
+  m_Father: {fileID: 1377984755}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1059004172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059004170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Valid: 1
+  m_BundleName: is_king_ui/battle
+  m_Assets:
+  - assetName: UIBattle
+    customAssetType: 0
+    asset: {fileID: 3063034836683628999, guid: 430e77f4593e4a440b96e55260e31460, type: 3}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 0}
+    assetBundle: {fileID: 0}
+    refresh: 0
 --- !u!1 &1182375242
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,6 +758,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 715182495}
   - {fileID: 847038532}
@@ -702,6 +837,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -732,6 +868,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1420353191}
   m_RootOrder: 0
@@ -749,116 +886,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ApplyPoolItemParent: 1
---- !u!1 &1295483792
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1295483793}
-  - component: {fileID: 1295483794}
-  m_Layer: 0
-  m_Name: 'is_king_monsters/roles: Monster'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1295483793
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295483792}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1377984755}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1295483794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295483792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Valid: 1
-  m_BundleName: is_king_monsters/roles
-  m_Assets:
-  - assetName: Monster
-    customAssetType: 0
-    asset: {fileID: 5934299269636950262, guid: 3d5f567ff8f281a4381575672005efee, type: 3}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 0}
-    assetBundle: {fileID: 0}
-    refresh: 0
---- !u!1 &1300827090
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1300827091}
-  - component: {fileID: 1300827092}
-  m_Layer: 0
-  m_Name: 'is_king_map/mission_1: Map_1'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1300827091
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300827090}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1377984755}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1300827092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300827090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Valid: 1
-  m_BundleName: is_king_map/mission_1
-  m_Assets:
-  - assetName: Map_1
-    customAssetType: 0
-    asset: {fileID: 8098159372187298758, guid: 20d78c55a2f202b41a012cf7607b30ee, type: 3}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 0}
-    assetBundle: {fileID: 0}
-    refresh: 0
 --- !u!1 &1377984754
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,13 +913,14 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1469594056}
-  - {fileID: 1300827091}
-  - {fileID: 1020470492}
-  - {fileID: 1617674061}
-  - {fileID: 1720684693}
-  - {fileID: 1295483793}
+  - {fileID: 1059004171}
+  - {fileID: 1456885909}
+  - {fileID: 1682307126}
+  - {fileID: 381158622}
+  - {fileID: 650771762}
+  - {fileID: 1963521341}
   m_Father: {fileID: 1420353191}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -910,12 +938,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Info: {fileID: 11400000, guid: 8122811dc6a847d4bb48b1800b4d9af3, type: 2}
   m_Assets:
-  - {fileID: 1469594057}
-  - {fileID: 1300827092}
-  - {fileID: 1020470493}
-  - {fileID: 1617674062}
-  - {fileID: 1720684694}
-  - {fileID: 1295483794}
+  - {fileID: 1059004172}
+  - {fileID: 1456885910}
+  - {fileID: 1682307127}
+  - {fileID: 381158623}
+  - {fileID: 650771763}
+  - {fileID: 1963521342}
   m_SyncCusntomList: 0
   m_RemoveEmptyAssets: 0
 --- !u!1 &1420353187
@@ -990,6 +1018,7 @@ MonoBehaviour:
     logColorWarning: {r: 0, g: 0, b: 0, a: 0}
     logColorError: {r: 0, g: 0, b: 0, a: 0}
     logColorTodo: {r: 0, g: 0, b: 0, a: 0}
+  m_UnityECSEntranceScene: {fileID: 207237509}
   m_HotFixSubgroup:
     applyILRuntime: 0
     initerNameInResource: Initer
@@ -1056,6 +1085,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1259945277}
   - {fileID: 1377984755}
@@ -1063,7 +1093,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1469594055
+--- !u!1 &1456885908
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1071,47 +1101,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1469594056}
-  - component: {fileID: 1469594057}
+  - component: {fileID: 1456885909}
+  - component: {fileID: 1456885910}
   m_Layer: 0
-  m_Name: 'is_king_ui/battle: UIBattle'
+  m_Name: 'is_king_map/mission_1: Map_1'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1469594056
+--- !u!4 &1456885909
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469594055}
+  m_GameObject: {fileID: 1456885908}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1377984755}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1469594057
+--- !u!114 &1456885910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469594055}
+  m_GameObject: {fileID: 1456885908}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Valid: 1
-  m_BundleName: is_king_ui/battle
+  m_BundleName: is_king_map/mission_1
   m_Assets:
-  - assetName: UIBattle
+  - assetName: Map_1
     customAssetType: 0
-    asset: {fileID: 3063034836683628999, guid: 430e77f4593e4a440b96e55260e31460, type: 3}
+    asset: {fileID: 8098159372187298758, guid: 20d78c55a2f202b41a012cf7607b30ee, type: 3}
     tex2D: {fileID: 0}
     sprite: {fileID: 0}
     audioClip: {fileID: 0}
@@ -1129,6 +1160,7 @@ GameObject:
   - component: {fileID: 1597891079}
   - component: {fileID: 1597891078}
   - component: {fileID: 1597891077}
+  - component: {fileID: 1597891080}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1158,9 +1190,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1195,67 +1235,49 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597891076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27, y: 10.5, z: -0.3}
+  m_LocalPosition: {x: 0, y: 0, z: -26.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1617674060
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1617674061}
-  - component: {fileID: 1617674062}
-  m_Layer: 0
-  m_Name: 'is_king_main/heros: Hero'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1617674061
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617674060}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1377984755}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1617674062
+--- !u!114 &1597891080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617674060}
+  m_GameObject: {fileID: 1597891076}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Valid: 1
-  m_BundleName: is_king_main/heros
-  m_Assets:
-  - assetName: Hero
-    customAssetType: 0
-    asset: {fileID: 4376555286907270728, guid: 05750274650251d4b90522a0619a302a, type: 3}
-    tex2D: {fileID: 0}
-    sprite: {fileID: 0}
-    audioClip: {fileID: 0}
-    textData: {fileID: 0}
-    assetBundle: {fileID: 0}
-    refresh: 0
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!850595691 &1618300597
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1263,7 +1285,7 @@ LightingSettings:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Settings.lighting
-  serializedVersion: 3
+  serializedVersion: 6
   m_GIWorkflowMode: 1
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 1
@@ -1276,7 +1298,7 @@ LightingSettings:
   m_LightmapMaxSize: 1024
   m_BakeResolution: 40
   m_Padding: 2
-  m_TextureCompression: 1
+  m_LightmapCompression: 3
   m_AO: 0
   m_AOMaxDistance: 1
   m_CompAOExponent: 1
@@ -1297,13 +1319,13 @@ LightingSettings:
   m_PVRCulling: 1
   m_PVRSampling: 1
   m_PVRDirectSampleCount: 32
-  m_PVRSampleCount: 500
-  m_PVREnvironmentSampleCount: 500
+  m_PVRSampleCount: 512
+  m_PVREnvironmentSampleCount: 512
   m_PVREnvironmentReferencePointCount: 2048
   m_LightProbeSampleCountMultiplier: 4
   m_PVRBounces: 2
   m_PVRMinBounces: 2
-  m_PVREnvironmentMIS: 0
+  m_PVREnvironmentImportanceSampling: 0
   m_PVRFilteringMode: 2
   m_PVRDenoiserTypeDirect: 0
   m_PVRDenoiserTypeIndirect: 0
@@ -1317,7 +1339,10 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaDirect: 0.5
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
---- !u!1 &1720684692
+  m_PVRTiledBaking: 0
+  m_NumRaysToShootPerTexel: -1
+  m_RespectSceneVisibilityWhenBakingGI: 0
+--- !u!1 &1682307125
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1325,51 +1350,61 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1720684693}
-  - component: {fileID: 1720684694}
+  - component: {fileID: 1682307126}
+  - component: {fileID: 1682307127}
   m_Layer: 0
-  m_Name: 'is_king_monsters/spawners: MonsterSpawner'
+  m_Name: 'is_king_main/configables: ConfigableItems, others 2'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1720684693
+--- !u!4 &1682307126
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1720684692}
+  m_GameObject: {fileID: 1682307125}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1377984755}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1720684694
+--- !u!114 &1682307127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1720684692}
+  m_GameObject: {fileID: 1682307125}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Valid: 1
-  m_BundleName: is_king_monsters/spawners
+  m_BundleName: is_king_main/configables
   m_Assets:
-  - assetName: MonsterSpawner
+  - assetName: ConfigableItems
     customAssetType: 0
-    asset: {fileID: 8973530130164540872, guid: 8589c0c9412753145b6f44c9236be7a8, type: 3}
+    asset: {fileID: 4701879650227364510, guid: 93ec1b73f9ba3794c951dc5c479df484, type: 3}
     tex2D: {fileID: 0}
     sprite: {fileID: 0}
     audioClip: {fileID: 0}
     textData: {fileID: 0}
+    assetBundle: {fileID: 0}
+    refresh: 0
+  - assetName: generals
+    customAssetType: 4
+    asset: {fileID: 0}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 4900000, guid: faeacdc0912f7a141b51b4ba7a4c0953, type: 3}
     assetBundle: {fileID: 0}
     refresh: 0
 --- !u!1 &1781860235
@@ -1400,6 +1435,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -8.546875, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 631455615}
   m_RootOrder: 1
@@ -1416,6 +1452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -1438,3 +1475,59 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!1 &1963521340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1963521341}
+  - component: {fileID: 1963521342}
+  m_Layer: 0
+  m_Name: 'is_king_monsters/roles: Monster'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1963521341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963521340}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1377984755}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1963521342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963521340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Valid: 1
+  m_BundleName: is_king_monsters/roles
+  m_Assets:
+  - assetName: Monster
+    customAssetType: 0
+    asset: {fileID: 5934299269636950262, guid: 416110154ab30564b8f37c8a259d73c7, type: 3}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 0}
+    assetBundle: {fileID: 0}
+    refresh: 0

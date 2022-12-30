@@ -1,0 +1,70 @@
+ManifestFileVersion: 0
+CRC: 2373833546
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f11bcd04d71e0a488416dbab01e51e62
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 28e8455e154cca3fda5d111dd05f95d6
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a33ae7c263486334c94f000c7af07a1d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 34c14844a93782846b6bbb10afc27005, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 979dcd63158ef604eafa05b1f4909f81, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: ShipDock.Applications.PhysicsCheckerSubgroup
+- AssemblyName: AstarPathfindingProject
+  ClassName: Pathfinding.AstarColor
+- AssemblyName: AstarPathfindingProject
+  ClassName: Pathfinding.AstarData
+- AssemblyName: AstarPathfindingProject
+  ClassName: Pathfinding.EuclideanEmbedding
+- AssemblyName: AstarPathfindingProject
+  ClassName: Pathfinding.GraphMask
+- AssemblyName: AstarPathfindingProject
+  ClassName: Pathfinding.StartEndModifier
+- AssemblyName: ShipDockCommon
+  ClassName: ShipDock.Tools.TimeGapper
+- AssemblyName: ShipDockECS
+  ClassName: ShipDock.Applications.BehaviourIDs
+Assets:
+- Assets/res_data/is_king_map/mission_1/Map_1.prefab
+- Assets/res_data/is_king_map/mission_1/Map.prefab
+Dependencies: []

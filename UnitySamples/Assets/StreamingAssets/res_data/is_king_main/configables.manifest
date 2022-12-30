@@ -1,0 +1,40 @@
+ManifestFileVersion: 0
+CRC: 1223573781
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 27bd6063b22732844131905eeaeba66b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d9ec68d63d1d402a103dbf79d5e0dbbb
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: ccba90b55ec5afe44b9cffe8b356d8a8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 62df17c1f7471ed489a8a69a16696d17, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 43d96ef8ea2a0f643b3aa4cab2cd2c59, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 135b4b9673baa1b428389475b915a1bb, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: IsKing.HeroItem
+- AssemblyName: Assembly-CSharp
+  ClassName: IsKing.SkillEffectItem
+- AssemblyName: Assembly-CSharp
+  ClassName: IsKing.SkillItem
+- AssemblyName: Assembly-CSharp
+  ClassName: ShipDock.Scriptables.ConfigableItems
+Assets:
+- Assets/res_data/configs/generals.bytes
+- Assets/res_data/is_king_main/configables/ConfigableItems.prefab
+Dependencies: []

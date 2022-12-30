@@ -13,6 +13,7 @@ using UnityEngine.Events;
 using ShipDock.Testers;
 using ShipDock.Tools;
 using UnityEngine.SceneManagement;
+using Unity.Scenes;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -49,6 +50,13 @@ namespace ShipDock.Applications
 #endif
         private DevelopSubgroup m_DevelopSubgroup;
 
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [TitleGroup("ECS子组")]
+        [LabelText("Unity ECS 世界入口场景"), Indent(1)]
+#endif 
+        private SubScene m_UnityECSEntranceScene;
+
         [SerializeField, Tooltip("ILRuntime热更子组")]
 #if ODIN_INSPECTOR
         [TitleGroup("ILRuntime热更子组")]
@@ -84,6 +92,14 @@ namespace ShipDock.Applications
             get
             {
                 return m_HotFixSubgroup;
+            }
+        }
+
+        public SubScene UnityECSEntranceScene
+        {
+            get
+            {
+                return m_UnityECSEntranceScene;
             }
         }
 

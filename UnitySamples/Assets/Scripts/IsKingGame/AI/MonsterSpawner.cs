@@ -106,7 +106,7 @@ namespace IsKing
                     {
                         if (allMonster > 1)
                         {
-                            return;
+                            //return;
                         }
                         else { }
 

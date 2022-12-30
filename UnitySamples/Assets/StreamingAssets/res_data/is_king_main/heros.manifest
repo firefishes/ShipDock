@@ -1,0 +1,60 @@
+ManifestFileVersion: 0
+CRC: 2987118394
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1fbdf0b13583ab3ffbde24c15fd058ca
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 27b8f53ff3540480faa5298949f233a3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: a33ae7c263486334c94f000c7af07a1d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f1b3b4b945939a54ea0b23d3396115fb, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6f45fae04c5eee94b8eaf5b1dfc54459, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: ShipDock.Applications.PhysicsCheckerSubgroup
+- AssemblyName: ShipDockCommon
+  ClassName: ShipDock.Tools.TimeGapper
+- AssemblyName: ShipDockECS
+  ClassName: ShipDock.Applications.BehaviourIDs
+- AssemblyName: spine-unity
+  ClassName: Spine.Unity.BlendModeMaterials
+- AssemblyName: spine-unity
+  ClassName: Spine.Unity.BlendModeMaterials/ReplacementMaterial
+- AssemblyName: spine-unity
+  ClassName: Spine.Unity.SkeletonRenderer/SpriteMaskInteractionMaterials
+Assets:
+- Assets/res_data/is_king_troops/hero_9015_Front/Hero.prefab
+Dependencies:
+- D:/Works/BS/ShipDock/UnitySamples/Assets/res_data_output~/res_data/is_king_troops/hero_9015_front

@@ -7,6 +7,7 @@ namespace ShipDock.ECS
     {
         bool HasDataChanged { get; }
         int DataPosition { get; }
+        byte[] DataBuffs { get; }
 
         void SetEntitas(int entitasID);
         int GetEntitasState(int entitasID, out bool flag);
@@ -19,6 +20,8 @@ namespace ShipDock.ECS
         int GetEntitasIDByIndex(int index);
         bool IsDatasChanged(int index);
         int[] GetEntitasValid();
+        void SetSizePerData(int size);
+        int GetSizePerData();
 
         Type[] GetEntityDataSizeOf();
     }

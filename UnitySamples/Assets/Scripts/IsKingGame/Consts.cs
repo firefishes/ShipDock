@@ -29,6 +29,7 @@ namespace IsKing
 
         public const int N_GET_HERO_POS = 10009;
         public const int N_MONSTER_COLLECTED = 10010;
+        public const int N_SYNC_ROLE_MOVEMENT = 10011;
         #endregion
 
         #region 数据层消息

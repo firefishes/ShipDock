@@ -105,12 +105,12 @@ namespace ShipDock.ECS
                     mEntityCompsTemplate[entityType] = comps;
                 }
 
-                flag = mEntitesTypes.TryGetValue(entityType, out EntityType typeResult);
+                flag = mEntitesTypes.TryGetValue(entityType, out EntityType entityTypeValue);
                 if (flag) { }
                 else 
                 {
-                    typeResult = new EntityType(entityType);
-                    mEntitesTypes[entityType] = typeResult;
+                    entityTypeValue = new EntityType(entityType);
+                    mEntitesTypes[entityType] = entityTypeValue;
                 }
 
                 int sizeOf;
@@ -122,11 +122,14 @@ namespace ShipDock.ECS
                     comp = Context.RefComponentByName(comps[i]);
                     types = comp.GetEntityDataSizeOf();
 
-                    for (int j = 0; j < types.Length; j++)
+                    int count = types.Length;
+                    for (int j = 0; j < count; j++)
                     {
                         sizeOf = mCompDataTypeSizes[types[i]];
-                        typeResult.AddComponentSizePerData(sizeOf);
+                        entityTypeValue.AddCompSizePerData(sizeOf);
                     }
+
+                    comp.SetSizePerData(entityTypeValue.SizePerData);
                 }
             }
             else { }

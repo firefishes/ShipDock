@@ -1,4 +1,7 @@
 ﻿#define _LOG_DISABLED
+#define _IS_KING_CONFIGABLES
+#define _IS_KING_ECS
+#define IS_KING_MONSTERS
 
 using ShipDock.Applications;
 using ShipDock.Datas;
@@ -7,6 +10,7 @@ using ShipDock.Notices;
 using ShipDock.Scriptables;
 using StaticConfig;
 using System.Collections.Generic;
+using Unity.Scenes;
 using UnityEngine;
 
 namespace IsKing
@@ -49,24 +53,31 @@ namespace IsKing
                 new BattleCardModular(),
                 new BattleHeroModular(),
                 new BattleAIModular(),
+#if IS_KING_ECS
                 new IsKingWorldModular(),
+#endif
             };
 
             ShipDockApp shipDockApp = ShipDockApp.Instance;
+#if IS_KING_CONFIGABLES
             GameObject configableItems = shipDockApp.ABs.GetAndQuote<GameObject>("is_king_main/configables", "ConfigableItems", out _);
             ConfigableItemsComponent component = configableItems.GetComponent<ConfigableItemsComponent>();
-
-            //InitConfigables(ref component);
+            InitConfigables(ref component);
+#endif
 
             Consts.D_PLAYER.GetData<PlayerData>().InitPlayer();
 
             DecorativeModulars appModular = shipDockApp.AppModulars;
             appModular.AddModular(modulars);
-            //appModular.NotifyModular(Consts.N_START_BATTLE);
 
+#if IS_KING_CONFIGABLES
+            appModular.NotifyModular(Consts.N_START_BATTLE);
+#else
             LoadConfigs();
+#endif
         }
 
+#if !IS_KING_CONFIGABLES
         private void LoadConfigs()
         {
             //新建配置辅助器
@@ -101,7 +112,18 @@ namespace IsKing
 
             ShipDockApp shipDockApp = ShipDockApp.Instance;
             DecorativeModulars appModular = shipDockApp.AppModulars;
+
+#if IS_KING_MONSTERS
+            ParamNotice<SubScene> notice = new()
+            {
+                ParamValue = GameComponent.UnityECSEntranceScene,
+            };
+            appModular.NotifyModular(Consts.N_START_BATTLE, notice);
+            notice.Reclaim();
+#else
             appModular.NotifyModular(Consts.N_START_BATTLE);
+#endif
+
         }
 
         private void Test()
@@ -116,7 +138,9 @@ namespace IsKing
                 Debug.Log(item.Value.propertyValues);
             }
         }
+#endif
 
+#if IS_KING_CONFIGABLES
         private void InitConfigables(ref ConfigableItemsComponent component)
         {
             ConfigsData configsData = Consts.D_CONFIGS.GetData<ConfigsData>();
@@ -135,5 +159,6 @@ namespace IsKing
                 configsData.LoadItems(itemType, infos);
             }
         }
+#endif
     }
 }

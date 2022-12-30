@@ -1,4 +1,7 @@
-﻿using System;
+﻿#define IS_KING_MONSTERS
+
+using System;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using ShipDock.Applications;
 using ShipDock.Datas;
 using ShipDock.ECS;
@@ -8,6 +11,7 @@ using ShipDock.Modulars;
 using ShipDock.Notices;
 using ShipDock.Pooling;
 using ShipDock.Tools;
+using Unity.Scenes;
 using UnityEngine;
 
 namespace IsKing
@@ -70,6 +74,13 @@ namespace IsKing
         [ModularNoticeListener(Consts.N_START_BATTLE)]
         private void OnStartBattle(INoticeBase<int> param)
         {
+#if IS_KING_MONSTERS
+            if (param is IParamNotice<SubScene> notice)
+            {
+                notice.ParamValue.enabled = true;
+            }
+            else { }
+#else
             ECSContext ecs = ShipDockApp.Instance.ECSContext;
             ILogicEntities allEntitas = ecs.CurrentContext.AllEntitas;
             allEntitas.AddEntitas(out int entitasMain);
@@ -79,6 +90,7 @@ namespace IsKing
 
             AssetBundles abs = ShipDockApp.Instance.ABs;
             GameObject map = abs.GetAndQuote<GameObject>("is_king_map/mission_1", "Map_1", out AssetQuoteder quoteder);
+            map.transform.position = Vector3.zero;
             map.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 
             //Consts.D_BATTLE.GetData<BattleData>().InitBattleData();
@@ -98,6 +110,7 @@ namespace IsKing
                 GameObject a = UnityEngine.Object.Instantiate(monsterSpwan);
                 a.transform.SetParent(map.transform);
             }
+#endif
         }
 
         [ModularNoticeListener(Consts.N_ADD_BATTLE_EXECUTER_UNIT)]
