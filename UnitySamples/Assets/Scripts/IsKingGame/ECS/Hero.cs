@@ -1,9 +1,12 @@
 using ShipDock.Applications;
+#if UNITY_ECS
 using Unity.Entities;
+#endif
 using UnityEngine;
 
 namespace IsKing
 {
+#if UNITY_ECS
     public class Hero : ECSRes
     {
         class Baker : Baker<Hero>
@@ -38,4 +41,5 @@ namespace IsKing
             return resID;
         }
     }
+#endif
 }

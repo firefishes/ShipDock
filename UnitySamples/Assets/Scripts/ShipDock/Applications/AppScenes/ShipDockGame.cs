@@ -13,7 +13,9 @@ using UnityEngine.Events;
 using ShipDock.Testers;
 using ShipDock.Tools;
 using UnityEngine.SceneManagement;
+#if UNITY_ECS
 using Unity.Scenes;
+#endif
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -34,13 +36,13 @@ namespace ShipDock.Applications
 #if ODIN_INSPECTOR
         [TitleGroup("模板信息")]
         [LabelText("目标帧率"), Indent(1)]
-#endif 
+#endif
         private int m_FrameRate = 40;
 
         [SerializeField, Tooltip("多语言本地化标识")]
 #if ODIN_INSPECTOR
         [LabelText("语言本地化参数"), Indent(1)]
-#endif 
+#endif
         private string m_Locals = "CN";
 
         [SerializeField, Tooltip("开发设置子组")]
@@ -50,31 +52,33 @@ namespace ShipDock.Applications
 #endif
         private DevelopSubgroup m_DevelopSubgroup;
 
+#if UNITY_ECS
         [SerializeField]
 #if ODIN_INSPECTOR
         [TitleGroup("ECS子组")]
         [LabelText("Unity ECS 世界入口场景"), Indent(1)]
-#endif 
+#endif
         private SubScene m_UnityECSEntranceScene;
+#endif
 
         [SerializeField, Tooltip("ILRuntime热更子组")]
 #if ODIN_INSPECTOR
         [TitleGroup("ILRuntime热更子组")]
         [LabelText("详情"), Indent(1)]
-#endif 
+#endif
         private HotFixSubgroup m_HotFixSubgroup;
 
         [SerializeField]
 #if ODIN_INSPECTOR
         [TitleGroup("事件")]
         [LabelText("显示事件"), Indent(1)]
-#endif 
+#endif
         private bool m_ShowGameAppEvents;
 
         [SerializeField, Tooltip("游戏应用启动系列事件")]
 #if ODIN_INSPECTOR
         [LabelText("详情"), ShowIf("@this.m_ShowGameAppEvents"), Indent(1)]
-#endif 
+#endif
         private GameApplicationEvents m_GameAppEvents;
 
         private string mFrameworkSceneName;
@@ -95,6 +99,7 @@ namespace ShipDock.Applications
             }
         }
 
+#if UNITY_ECS
         public SubScene UnityECSEntranceScene
         {
             get
@@ -102,6 +107,7 @@ namespace ShipDock.Applications
                 return m_UnityECSEntranceScene;
             }
         }
+#endif
 
         /// <summary>
         /// UI 根节点就绪事件处理函数
@@ -655,7 +661,7 @@ namespace ShipDock.Applications
         [System.Diagnostics.Conditional("G_LOG")]
         private void AssertShipDockGameInit(int step)
         {
-            #region 断言内容
+#region 断言内容
             const string LOG = "log";
             const string ASSERT_GAME = "game";
             const string GAME_START = "Assert Game start.";
@@ -664,7 +670,7 @@ namespace ShipDock.Applications
             const string SERVER_INIT = "ServerInit";
             const string PROFILE_DATA_INITED = "ProfileDataInited";
             const string SERVER_FINISHED = "ServerFinished";
-            #endregion
+#endregion
 
             switch (step)
             {

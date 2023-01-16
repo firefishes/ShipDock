@@ -1,7 +1,7 @@
 ﻿#define _LOG_DISABLED
 #define _IS_KING_CONFIGABLES
-#define _IS_KING_ECS
-#define IS_KING_MONSTERS
+#define IS_KING_ECS
+#define _IS_KING_MONSTERS
 
 using ShipDock.Applications;
 using ShipDock.Datas;
@@ -10,7 +10,9 @@ using ShipDock.Notices;
 using ShipDock.Scriptables;
 using StaticConfig;
 using System.Collections.Generic;
+#if UNITY_ECS
 using Unity.Scenes;
+#endif
 using UnityEngine;
 
 namespace IsKing
@@ -114,12 +116,14 @@ namespace IsKing
             DecorativeModulars appModular = shipDockApp.AppModulars;
 
 #if IS_KING_MONSTERS
+#if UNITY_ECS
             ParamNotice<SubScene> notice = new()
             {
                 ParamValue = GameComponent.UnityECSEntranceScene,
             };
             appModular.NotifyModular(Consts.N_START_BATTLE, notice);
             notice.Reclaim();
+#endif
 #else
             appModular.NotifyModular(Consts.N_START_BATTLE);
 #endif

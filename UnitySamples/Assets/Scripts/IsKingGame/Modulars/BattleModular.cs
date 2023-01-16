@@ -1,4 +1,4 @@
-﻿#define IS_KING_MONSTERS
+﻿#define _IS_KING_MONSTERS
 
 using System;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
@@ -11,7 +11,9 @@ using ShipDock.Modulars;
 using ShipDock.Notices;
 using ShipDock.Pooling;
 using ShipDock.Tools;
+#if UNITY_ECS
 using Unity.Scenes;
+#endif
 using UnityEngine;
 
 namespace IsKing
@@ -75,11 +77,13 @@ namespace IsKing
         private void OnStartBattle(INoticeBase<int> param)
         {
 #if IS_KING_MONSTERS
+#if UNITY_ECS
             if (param is IParamNotice<SubScene> notice)
             {
                 notice.ParamValue.enabled = true;
             }
             else { }
+#endif
 #else
             ECSContext ecs = ShipDockApp.Instance.ECSContext;
             ILogicEntities allEntitas = ecs.CurrentContext.AllEntitas;

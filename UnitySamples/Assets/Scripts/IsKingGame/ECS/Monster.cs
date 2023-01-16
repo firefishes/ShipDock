@@ -1,9 +1,12 @@
 using ShipDock.Applications;
+#if UNITY_ECS
 using Unity.Entities;
+#endif
 using UnityEngine;
 
 namespace IsKing
 {
+#if UNITY_ECS
     public class Monster : ECSRes
     {
         class Baker : Baker<Monster>
@@ -57,4 +60,5 @@ namespace IsKing
         public Entity binded;
         public Transform transRef;
     }
+#endif
 }
