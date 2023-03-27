@@ -1,8 +1,6 @@
-﻿using ShipDock.Datas;
-using ShipDock.Notices;
-using System;
+﻿using System;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 

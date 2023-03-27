@@ -1,7 +1,4 @@
-﻿using ShipDock.Datas;
-using ShipDock.Notices;
-using ShipDock.Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,7 +6,7 @@ using UnityEngine.Events;
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
 
     [Serializable]

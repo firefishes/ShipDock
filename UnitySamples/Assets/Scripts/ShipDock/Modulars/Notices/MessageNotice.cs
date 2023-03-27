@@ -1,7 +1,4 @@
-using ShipDock.Notices;
-using ShipDock.Pooling;
-
-namespace ShipDock.Modulars
+namespace ShipDock
 {
     public interface IMessageNotice : INotice
     {

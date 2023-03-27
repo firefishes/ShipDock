@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
     public interface IAnimatorState : IState
     {

@@ -3,7 +3,7 @@ using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {   
     public class ValueItemAdapter : CrossBindingAdaptor
     {
@@ -21,7 +21,7 @@ namespace ShipDock.Applications
         {
             get
             {
-                return typeof(ShipDock.Tools.ValueItem);
+                return typeof(ShipDock.ValueItem);
             }
         }
 
@@ -38,7 +38,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Tools.ValueItem, CrossBindingAdaptorType
+        public class Adapter : ShipDock.ValueItem, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;

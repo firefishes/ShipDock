@@ -1,8 +1,6 @@
-﻿using ShipDock.Notices;
-using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 

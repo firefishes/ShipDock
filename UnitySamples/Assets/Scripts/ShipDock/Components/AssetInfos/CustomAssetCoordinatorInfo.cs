@@ -1,14 +1,12 @@
 ﻿using LitJson;
-using ShipDock.Scriptables;
 using UnityEditor;
 using UnityEngine;
-using ShipDock.Tools;
 using System.Collections.Generic;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     [CreateAssetMenu(fileName = "ShipDockAssetCoordinatorInfo", menuName = "ShipDock : 资源协调器信息", order = 100)]
     public class CustomAssetCoordinatorInfo : ScriptableItems<CustomAssetsInfoItem>

@@ -1,7 +1,6 @@
-﻿using ShipDock.Notices;
-using System;
+﻿using System;
 
-namespace ShipDock.Modulars
+namespace ShipDock
 {
     public interface IAppModulars
     {

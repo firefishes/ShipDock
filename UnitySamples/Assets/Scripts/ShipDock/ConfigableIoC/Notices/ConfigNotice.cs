@@ -1,6 +1,4 @@
-﻿using ShipDock.Notices;
-
-namespace ShipDock.Applications
+﻿namespace ShipDock
 {
     public class ConfigNotice : ParamNotice<string[]>
     {

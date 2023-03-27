@@ -2,12 +2,11 @@
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
-using ShipDock.Applications;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     [Serializable]
     public class UINodes

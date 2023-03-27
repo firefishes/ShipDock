@@ -1,10 +1,8 @@
-﻿using ShipDock.Notices;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     [Serializable]
     public class TaskerChangeEvent : UnityEvent<UI, TimeGapper> { }

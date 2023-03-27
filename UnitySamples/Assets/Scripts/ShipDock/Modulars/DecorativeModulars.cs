@@ -1,13 +1,11 @@
 ﻿#define _LOG_MODULARS
 
-using ShipDock.Notices;
-using ShipDock.Tools;
 using System;
-using CreatorHandler = System.Func<int, ShipDock.Notices.INoticeBase<int>>;
-using DecoratorHandler = System.Action<int, ShipDock.Notices.INoticeBase<int>>;
-using NoticeListener = System.Action<ShipDock.Notices.INoticeBase<int>>;
+using CreatorHandler = System.Func<int, ShipDock.INoticeBase<int>>;
+using DecoratorHandler = System.Action<int, ShipDock.INoticeBase<int>>;
+using NoticeListener = System.Action<ShipDock.INoticeBase<int>>;
 
-namespace ShipDock.Modulars
+namespace ShipDock
 {
     /// <summary>
     /// 

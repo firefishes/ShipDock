@@ -1,10 +1,9 @@
 ﻿using LitJson;
-using ShipDock.Notices;
 using System;
 using System.Collections.Generic;
 using OnErrorResponse = UnityEngine.Events.UnityAction<int, string, string, System.Collections.Generic.Dictionary<string, string>>;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public class NotificationRequester<T> : JsonRequester<T> where T : NotificationResponseIniter, new()
     {

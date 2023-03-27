@@ -1,5 +1,5 @@
 ﻿
-namespace ShipDock.Notices
+namespace ShipDock
 {
     /// <summary>
     /// 

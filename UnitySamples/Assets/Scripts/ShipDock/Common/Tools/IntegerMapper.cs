@@ -1,6 +1,4 @@
-﻿using ShipDock.Interfaces;
-
-namespace ShipDock.Tools
+﻿namespace ShipDock
 {
     public class IntegerMapper<MapperValueT> : IReclaim
     {

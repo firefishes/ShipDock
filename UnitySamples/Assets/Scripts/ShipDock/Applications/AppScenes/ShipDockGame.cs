@@ -1,17 +1,9 @@
 ﻿#define _G_LOG
 
-using ShipDock.Datas;
-using ShipDock.Loader;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Server;
-using ShipDock.UI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using ShipDock.Testers;
-using ShipDock.Tools;
 using UnityEngine.SceneManagement;
 #if UNITY_ECS
 using Unity.Scenes;
@@ -20,7 +12,7 @@ using Unity.Scenes;
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 

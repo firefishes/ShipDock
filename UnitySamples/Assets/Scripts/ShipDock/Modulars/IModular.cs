@@ -1,6 +1,4 @@
-﻿using ShipDock.Notices;
-
-namespace ShipDock.Modulars
+﻿namespace ShipDock
 {
     public interface IModular
     {

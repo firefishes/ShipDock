@@ -1,5 +1,4 @@
-﻿using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 
 namespace ShipDock.Editors

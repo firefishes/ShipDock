@@ -1,21 +1,21 @@
-using System;
 using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
+using System;
 
 namespace ShipDock.Applications
-{   
+{
     public class HotFixerInteractorAdapter : CrossBindingAdaptor
     {
         static CrossBindingMethodInfo mRelease_0 = new CrossBindingMethodInfo("Release");
-        static CrossBindingMethodInfo<ShipDock.Applications.HotFixerUI, ShipDock.Applications.HotFixerUIAgent> mInitInteractor_1 = new CrossBindingMethodInfo<ShipDock.Applications.HotFixerUI, ShipDock.Applications.HotFixerUIAgent>("InitInteractor");
-        static CrossBindingMethodInfo<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>> mDispatch_2 = new CrossBindingMethodInfo<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>>("Dispatch");
+        static CrossBindingMethodInfo<ShipDock.HotFixerUI, ShipDock.HotFixerUIAgent> mInitInteractor_1 = new CrossBindingMethodInfo<ShipDock.HotFixerUI, ShipDock.HotFixerUIAgent>("InitInteractor");
+        static CrossBindingMethodInfo<System.Int32, ShipDock.INoticeBase<System.Int32>> mDispatch_2 = new CrossBindingMethodInfo<System.Int32, ShipDock.INoticeBase<System.Int32>>("Dispatch");
         static CrossBindingMethodInfo mUpdateInteractor_3 = new CrossBindingMethodInfo("UpdateInteractor");
         public override Type BaseCLRType
         {
             get
             {
-                return typeof(ShipDock.Applications.HotFixerInteractor);
+                return typeof(ShipDock.HotFixerInteractor);
             }
         }
 
@@ -32,7 +32,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Applications.HotFixerInteractor, CrossBindingAdaptorType
+        public class Adapter : ShipDock.HotFixerInteractor, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;
@@ -58,7 +58,7 @@ namespace ShipDock.Applications
                     mRelease_0.Invoke(this.instance);
             }
 
-            public override void InitInteractor(ShipDock.Applications.HotFixerUI UIOwner, ShipDock.Applications.HotFixerUIAgent agent)
+            public override void InitInteractor(ShipDock.HotFixerUI UIOwner, ShipDock.HotFixerUIAgent agent)
             {
                 if (mInitInteractor_1.CheckShouldInvokeBase(this.instance))
                     base.InitInteractor(UIOwner, agent);
@@ -66,7 +66,7 @@ namespace ShipDock.Applications
                     mInitInteractor_1.Invoke(this.instance, UIOwner, agent);
             }
 
-            public override void Dispatch(System.Int32 name, ShipDock.Notices.INoticeBase<System.Int32> param)
+            public override void Dispatch(System.Int32 name, ShipDock.INoticeBase<System.Int32> param)
             {
                 if (mDispatch_2.CheckShouldInvokeBase(this.instance))
                     base.Dispatch(name, param);

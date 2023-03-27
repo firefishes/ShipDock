@@ -1,12 +1,11 @@
 ﻿using LitJson;
-using ShipDock.Scriptables;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 using System;
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     [Serializable]
     public class CustomAssetsInfoItem : ScriptableItem

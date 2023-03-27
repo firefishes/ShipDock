@@ -2,7 +2,7 @@
 using ILRuntime.Runtime.Enviorment;
 using System.IO;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// ILRuntime热更（dll代码）启动器

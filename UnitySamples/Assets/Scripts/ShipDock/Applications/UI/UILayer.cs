@@ -1,7 +1,6 @@
-﻿using ShipDock.UI;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
 
     public class UILayer : MonoBehaviour

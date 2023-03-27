@@ -1,13 +1,11 @@
-﻿using ShipDock.Tools;
-
-namespace ShipDock.Datas
+﻿namespace ShipDock
 {
     /// <summary>
     /// 
     /// 数据代理管理器
     /// 
     /// </summary>
-    public class DataWarehouse : Interfaces.IReclaim
+    public class DataWarehouse : IReclaim
     {
         private KeyValueList<int, IDataProxy> mDataMapper;
 

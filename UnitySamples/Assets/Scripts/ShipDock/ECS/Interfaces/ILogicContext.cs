@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     public interface ILogicContext
     {

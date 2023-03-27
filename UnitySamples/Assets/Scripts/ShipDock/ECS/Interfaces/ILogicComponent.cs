@@ -1,40 +1,35 @@
-﻿using ShipDock.Pooling;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     public interface ILogicComponent : IECSLogic, IDataValidable
     {
         bool HasDataChanged { get; }
-        int DataPosition { get; }
         byte[] DataBuffs { get; }
+        List<int> ChunkUnits { get; }
 
         void SetEntitas(int entitasID);
         int GetEntitasState(int entitasID, out bool flag);
         void CheckAllDropedEntitas();
-        void FillEntitasData(int entitasID, ILogicData data);
         void CheckAllDataValided();
         bool IsStateRegular(int entitasID, out bool hasEntitas);
-        ILogicData GetEntitasData(int entitasID);
-        ILogicData GetDataByIndex(int index);
-        int GetEntitasIDByIndex(int index);
-        bool IsDatasChanged(int index);
-        int[] GetEntitasValid();
         void SetSizePerData(int size);
         int GetSizePerData();
 
         Type[] GetEntityDataSizeOf();
+        string[] GetEntityDataKeys();
     }
 
-    public interface IDataComponent<T> : ILogicComponent
-    {
-        void UpdateValidWithType<D>(int entitasID, ref D[] successive, out int dataIndex, D value, bool ignoreState = false);
-        V GetDataValueWithType<V>(int entitas, ref V[] successive, out int dataIndex);
-    }
+    //public interface IDataComponent<T> : ILogicComponent
+    //{
+    //    void UpdateValidWithType<D>(int entitasID, ref D[] successive, out int dataIndex, D value, bool ignoreState = false);
+    //    V GetDataValueWithType<V>(int entitas, ref V[] successive, out int dataIndex);
+    //}
 
     public interface IDataValidable
     {
-        ILogicData UpdateValid(int entitasID, bool ignoreState = false);
+        //ILogicData UpdateValid(int entitasID, bool ignoreState = false);
         void WillDrop(int entitasID);
     }
 
@@ -96,7 +91,7 @@ namespace ShipDock.ECS
                 if (IsValided) { }
                 else
                 {
-                    DataValidbler.UpdateValid(EntitasID);
+                    //DataValidbler.UpdateValid(EntitasID);
                 }
             }
             else { }

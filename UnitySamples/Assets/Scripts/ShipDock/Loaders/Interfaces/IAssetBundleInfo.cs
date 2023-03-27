@@ -1,7 +1,6 @@
-﻿using ShipDock.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     /// <summary>
     /// 

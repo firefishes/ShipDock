@@ -1,7 +1,5 @@
 ﻿#define LOG_CLIENT_VERSIONING
 
-using ShipDock.Applications;
-using ShipDock.Loader;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -10,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace ShipDock.Versioning
+namespace ShipDock
 {
     /// <summary>
     /// 
@@ -338,13 +336,13 @@ namespace ShipDock.Versioning
                 UpdateHandler = updateHandler;
                 VersionInvalidHandler = versionInvalidHandler;
 
-                Loader.Loader loader = new Loader.Loader();
+                Loader loader = new Loader();
                 loader.CompleteEvent.AddListener(OnLoadComplete);
                 loader.Load(Versions.res_gateway.Append(ResDataVersion.FILE_RES_DATA_VERSIONS_NAME));
             }
         }
 
-        private void OnLoadComplete(bool success, Loader.Loader target)
+        private void OnLoadComplete(bool success, Loader target)
         {
             if (success)
             {

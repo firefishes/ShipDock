@@ -1,4 +1,4 @@
-﻿namespace ShipDock.FSM
+﻿namespace ShipDock
 {
     [System.Serializable]
     public class ParamerFields

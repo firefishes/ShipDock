@@ -1,11 +1,7 @@
-﻿
-using ShipDock.Applications;
-using ShipDock.Interfaces;
-using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     /// <summary>
     /// 资源加载器

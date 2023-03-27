@@ -1,14 +1,10 @@
-﻿
-using ShipDock.Applications;
-using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.SceneManagement;
 #endif
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     [ExecuteInEditMode]
     public class CustomAssetCoordinator : MonoBehaviour

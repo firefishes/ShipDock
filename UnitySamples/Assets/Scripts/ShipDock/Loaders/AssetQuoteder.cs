@@ -1,10 +1,9 @@
 ﻿#define _LOG_ASSET_QUOTEDER//是否开启资源引用器的日志
 
-using ShipDock.Tools;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     /// <summary>
     /// 

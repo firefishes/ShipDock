@@ -1,5 +1,5 @@
 ﻿
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public interface ICommonBulletChecker
     {

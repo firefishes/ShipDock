@@ -1,18 +1,18 @@
-using System;
 using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
+using System;
 
 namespace ShipDock.Applications
-{   
+{
     public class IDataExtracterAdapter : CrossBindingAdaptor
     {
-        static CrossBindingMethodInfo<ShipDock.Datas.IDataProxy, System.Int32> mOnDataProxyNotify_0 = new CrossBindingMethodInfo<ShipDock.Datas.IDataProxy, System.Int32>("OnDataProxyNotify");
+        static CrossBindingMethodInfo<ShipDock.IDataProxy, System.Int32> mOnDataProxyNotify_0 = new CrossBindingMethodInfo<ShipDock.IDataProxy, System.Int32>("OnDataProxyNotify");
         public override Type BaseCLRType
         {
             get
             {
-                return typeof(ShipDock.Datas.IDataExtracter);
+                return typeof(ShipDock.IDataExtracter);
             }
         }
 
@@ -29,7 +29,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Datas.IDataExtracter, CrossBindingAdaptorType
+        public class Adapter : ShipDock.IDataExtracter, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;
@@ -47,7 +47,7 @@ namespace ShipDock.Applications
 
             public ILTypeInstance ILInstance { get { return instance; } }
 
-            public void OnDataProxyNotify(ShipDock.Datas.IDataProxy data, System.Int32 DCName)
+            public void OnDataProxyNotify(ShipDock.IDataProxy data, System.Int32 DCName)
             {
                 mOnDataProxyNotify_0.Invoke(this.instance, data, DCName);
             }

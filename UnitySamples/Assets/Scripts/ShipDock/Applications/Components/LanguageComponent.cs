@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
 
     public class LanguageComponent : MonoBehaviour

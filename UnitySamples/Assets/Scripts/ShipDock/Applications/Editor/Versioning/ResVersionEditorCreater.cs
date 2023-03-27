@@ -1,6 +1,4 @@
-﻿using ShipDock.Applications;
-using ShipDock.Versioning;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShipDock.Editors
@@ -113,7 +111,7 @@ namespace ShipDock.Editors
                 }
                 else
                 {
-                    Loader.Loader loader = new Loader.Loader
+                    Loader loader = new Loader
                     {
                         ApplyLoom = false
                     };
@@ -125,7 +123,7 @@ namespace ShipDock.Editors
 
         public string ClientVersionFileName { get; set; }
 
-        private void OnGetRemoteVersion(bool flag, Loader.Loader ld)
+        private void OnGetRemoteVersion(bool flag, Loader ld)
         {
             ResDataVersion remoteVers = default;
             if (flag)

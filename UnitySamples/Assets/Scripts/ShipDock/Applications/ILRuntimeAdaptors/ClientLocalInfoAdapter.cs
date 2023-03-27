@@ -1,17 +1,17 @@
-using System;
 using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
+using System;
 
 namespace ShipDock.Applications
-{   
+{
     public class ClientLocalInfoAdapter : CrossBindingAdaptor
     {
         public override Type BaseCLRType
         {
             get
             {
-                return typeof(ShipDock.Datas.ClientLocalInfo);
+                return typeof(ShipDock.ClientLocalInfo);
             }
         }
 
@@ -28,7 +28,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Datas.ClientLocalInfo, CrossBindingAdaptorType
+        public class Adapter : ShipDock.ClientLocalInfo, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;

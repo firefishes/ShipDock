@@ -1,8 +1,7 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 using UnityEngine.UI;
 
-namespace ShipDock.UIControls
+namespace ShipDock
 {
     /// <summary>
     /// 

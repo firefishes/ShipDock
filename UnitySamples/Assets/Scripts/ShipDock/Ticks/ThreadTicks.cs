@@ -1,8 +1,7 @@
-﻿using ShipDock.Interfaces;
-using System;
+﻿using System;
 using System.Threading;
 
-namespace ShipDock.Ticks
+namespace ShipDock
 {
     public class ThreadTicks : IReclaim
     {

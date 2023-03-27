@@ -1,5 +1,4 @@
-﻿using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
 #pragma warning disable
 namespace ShipDock.SDK

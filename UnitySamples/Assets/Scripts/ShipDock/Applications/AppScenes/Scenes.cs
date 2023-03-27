@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class Scenes
     {

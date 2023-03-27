@@ -1,8 +1,6 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Tools;
-using System;
+﻿using System;
 
-namespace ShipDock.Server
+namespace ShipDock
 {
     public class ResolvableBinder : IReclaim
     {

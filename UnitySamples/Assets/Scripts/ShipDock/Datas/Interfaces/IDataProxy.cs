@@ -1,6 +1,4 @@
-﻿using ShipDock.Interfaces;
-
-namespace ShipDock.Datas
+﻿namespace ShipDock
 {
     public interface IDataProxy : IReclaim
     {

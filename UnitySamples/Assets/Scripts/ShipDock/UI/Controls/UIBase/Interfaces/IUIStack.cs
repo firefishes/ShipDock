@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     /// <summary>UI堆栈接口</summary>
     public interface IUIStack

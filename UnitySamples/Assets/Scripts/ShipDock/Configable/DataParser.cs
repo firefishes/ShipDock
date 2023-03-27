@@ -1,7 +1,6 @@
-﻿using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Config
+namespace ShipDock
 {
     public static class DataParser
     {

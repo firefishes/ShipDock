@@ -1,10 +1,7 @@
-﻿
-using ShipDock.Interfaces;
-using ShipDock.Pooling;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     /// <summary>
     /// 

@@ -1,11 +1,10 @@
-﻿using ShipDock.Tools;
-#if ODIN_INSPECTOR
+﻿#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 using System;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
 
     /// <summary>

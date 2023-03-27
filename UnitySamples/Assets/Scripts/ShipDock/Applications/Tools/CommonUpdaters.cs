@@ -1,10 +1,6 @@
-﻿
-using ShipDock.Commons;
-using ShipDock.Notices;
-using ShipDock.Tools;
-using System;
+﻿using System;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class CommonUpdaters
     {

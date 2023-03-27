@@ -1,8 +1,7 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Datas
+namespace ShipDock
 {
     /// <summary>
     /// 数据代理

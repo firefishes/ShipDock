@@ -1,7 +1,6 @@
-﻿using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
     public class TriggerValueItem : ValueItem
     {

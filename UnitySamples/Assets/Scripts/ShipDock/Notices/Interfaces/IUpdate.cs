@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Commons
+﻿namespace ShipDock
 {
     public interface IUpdate
 	{

@@ -4,7 +4,7 @@ using ILRuntime.Runtime.Intepreter;
 using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public interface IAdapter : CrossBindingAdaptorType
     {

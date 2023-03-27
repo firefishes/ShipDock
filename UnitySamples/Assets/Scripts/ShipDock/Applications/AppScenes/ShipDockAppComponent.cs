@@ -1,14 +1,7 @@
-﻿using ShipDock.Config;
-using ShipDock.Datas;
-using ShipDock.Notices;
-using ShipDock.Server;
-using ShipDock.Tools;
-using ShipDock.UI;
-using ShipDock.Versioning;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 

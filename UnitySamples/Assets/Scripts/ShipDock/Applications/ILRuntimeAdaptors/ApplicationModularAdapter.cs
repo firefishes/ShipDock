@@ -1,7 +1,7 @@
-using System;
 using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
+using System;
 
 namespace ShipDock.Applications
 {
@@ -12,21 +12,21 @@ namespace ShipDock.Applications
         static CrossBindingFunctionInfo<System.Int32[]> mget_ModularNoticeListener_2 = new CrossBindingFunctionInfo<System.Int32[]>("get_ModularNoticeListener");
         static CrossBindingFunctionInfo<System.Int32> mget_ModularName_3 = new CrossBindingFunctionInfo<System.Int32>("get_ModularName");
         static CrossBindingMethodInfo<System.Int32> mset_ModularName_4 = new CrossBindingMethodInfo<System.Int32>("set_ModularName");
-        static CrossBindingFunctionInfo<ShipDock.Modulars.IAppModulars> mget_Modulars_5 = new CrossBindingFunctionInfo<ShipDock.Modulars.IAppModulars>("get_Modulars");
-        static CrossBindingMethodInfo<ShipDock.Modulars.IAppModulars> mset_Modulars_6 = new CrossBindingMethodInfo<ShipDock.Modulars.IAppModulars>("set_Modulars");
+        static CrossBindingFunctionInfo<ShipDock.IAppModulars> mget_Modulars_5 = new CrossBindingFunctionInfo<ShipDock.IAppModulars>("get_Modulars");
+        static CrossBindingMethodInfo<ShipDock.IAppModulars> mset_Modulars_6 = new CrossBindingMethodInfo<ShipDock.IAppModulars>("set_Modulars");
         static CrossBindingMethodInfo mDispose_7 = new CrossBindingMethodInfo("Dispose");
         static CrossBindingMethodInfo mInitModular_8 = new CrossBindingMethodInfo("InitModular");
         static CrossBindingMethodInfo mPurge_9 = new CrossBindingMethodInfo("Purge");
-        static CrossBindingMethodInfo<ShipDock.Notices.INoticeBase<System.Int32>> mNoticesHandler_10 = new CrossBindingMethodInfo<ShipDock.Notices.INoticeBase<System.Int32>>("NoticesHandler");
-        static CrossBindingFunctionInfo<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>> mNoticeCreater_11 = new CrossBindingFunctionInfo<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>>("NoticeCreater");
-        static CrossBindingMethodInfo<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>> mNoticeDecorator_12 = new CrossBindingMethodInfo<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>>("NoticeDecorator");
-        static CrossBindingFunctionInfo<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>, ShipDock.Notices.INoticeBase<System.Int32>> mNotifyModular_13 = new CrossBindingFunctionInfo<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>, ShipDock.Notices.INoticeBase<System.Int32>>("NotifyModular");
-        static CrossBindingMethodInfo<ShipDock.Modulars.IAppModulars> mSetModularManager_14 = new CrossBindingMethodInfo<ShipDock.Modulars.IAppModulars>("SetModularManager");
+        static CrossBindingMethodInfo<ShipDock.INoticeBase<System.Int32>> mNoticesHandler_10 = new CrossBindingMethodInfo<ShipDock.INoticeBase<System.Int32>>("NoticesHandler");
+        static CrossBindingFunctionInfo<System.Int32, ShipDock.INoticeBase<System.Int32>> mNoticeCreater_11 = new CrossBindingFunctionInfo<System.Int32, ShipDock.INoticeBase<System.Int32>>("NoticeCreater");
+        static CrossBindingMethodInfo<System.Int32, ShipDock.INoticeBase<System.Int32>> mNoticeDecorator_12 = new CrossBindingMethodInfo<System.Int32, ShipDock.INoticeBase<System.Int32>>("NoticeDecorator");
+        static CrossBindingFunctionInfo<System.Int32, ShipDock.INoticeBase<System.Int32>, ShipDock.INoticeBase<System.Int32>> mNotifyModular_13 = new CrossBindingFunctionInfo<System.Int32, ShipDock.INoticeBase<System.Int32>, ShipDock.INoticeBase<System.Int32>>("NotifyModular");
+        static CrossBindingMethodInfo<ShipDock.IAppModulars> mSetModularManager_14 = new CrossBindingMethodInfo<ShipDock.IAppModulars>("SetModularManager");
         public override Type BaseCLRType
         {
             get
             {
-                return typeof(ShipDock.Modulars.ApplicationModular);
+                return typeof(ShipDock.ApplicationModular);
             }
         }
 
@@ -43,7 +43,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Modulars.ApplicationModular, CrossBindingAdaptorType
+        public class Adapter : ShipDock.ApplicationModular, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;
@@ -82,7 +82,7 @@ namespace ShipDock.Applications
                 mPurge_9.Invoke(this.instance);
             }
 
-            public override ShipDock.Notices.INoticeBase<System.Int32> NotifyModular(System.Int32 name, ShipDock.Notices.INoticeBase<System.Int32> param)
+            public override ShipDock.INoticeBase<System.Int32> NotifyModular(System.Int32 name, ShipDock.INoticeBase<System.Int32> param)
             {
                 if (mNotifyModular_13.CheckShouldInvokeBase(this.instance))
                     return base.NotifyModular(name, param);
@@ -90,7 +90,7 @@ namespace ShipDock.Applications
                     return mNotifyModular_13.Invoke(this.instance, name, param);
             }
 
-            public override void SetModularManager(ShipDock.Modulars.IAppModulars modulars)
+            public override void SetModularManager(ShipDock.IAppModulars modulars)
             {
                 if (mSetModularManager_14.CheckShouldInvokeBase(this.instance))
                     base.SetModularManager(modulars);
@@ -112,7 +112,7 @@ namespace ShipDock.Applications
                 }
             }
 
-            protected override ShipDock.Modulars.IAppModulars Modulars
+            protected override ShipDock.IAppModulars Modulars
             {
                 get
                 {

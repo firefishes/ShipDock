@@ -2,10 +2,9 @@
 #if UNITY_ECS
 using Unity.Entities;
 #endif
-using UnityEditor.PackageManager;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
 #if UNITY_ECS
     public interface IECSResUnit : IComponentData

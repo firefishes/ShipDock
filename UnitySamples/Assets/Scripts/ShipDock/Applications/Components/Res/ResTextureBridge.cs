@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class ResTextureBridge : ResBridge, IResTextureBridge
     {

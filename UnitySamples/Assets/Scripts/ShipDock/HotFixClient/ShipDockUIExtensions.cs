@@ -1,8 +1,4 @@
 ﻿using ShipDock;
-using ShipDock.Applications;
-using ShipDock.Datas;
-using ShipDock.Loader;
-using ShipDock.UI;
 using System;
 
 public static class ShipDockUIExtensions

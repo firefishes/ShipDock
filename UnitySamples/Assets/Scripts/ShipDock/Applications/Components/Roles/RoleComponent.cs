@@ -1,15 +1,14 @@
-using System;
-using ShipDock.Commons;
-using ShipDock.ECS;
-using ShipDock.Notices;
-using ShipDock.Tools;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     [DisallowMultipleComponent]
     public class RoleComponent : MonoBehaviour, INotificationSender
     {
+        public struct BehaviourIDs
+        {
+            public int gameItemID;
+        }
 
         [Header("½ÇÉ«")]
         [SerializeField]
@@ -145,7 +144,7 @@ namespace ShipDock.Applications
 
                 comp.SetGameObjectID(entitas, instanceID);
 
-                BehaviourIDs ids = comp.GetEntitasData(entitas) as BehaviourIDs;
+                BehaviourIDs ids = default;// = comp.GetEntitasData(entitas) as BehaviourIDs;
                 m_BehaviourIDs = ids;
 
                 if (m_OverlapSigner != default)

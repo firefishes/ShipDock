@@ -1,12 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using ShipDock.Testers;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     [Serializable]
     public class LogEnabledItem

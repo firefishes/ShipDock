@@ -44,7 +44,7 @@ public static class JsonDataExtensions
     }
 }
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public class RequestResponser
     {

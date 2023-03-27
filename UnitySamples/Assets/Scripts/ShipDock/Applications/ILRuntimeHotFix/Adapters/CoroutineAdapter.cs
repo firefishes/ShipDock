@@ -5,7 +5,7 @@ using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 using ILRuntime.CLR.Method;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class CoroutineAdapter : CrossBindingAdaptor
     {

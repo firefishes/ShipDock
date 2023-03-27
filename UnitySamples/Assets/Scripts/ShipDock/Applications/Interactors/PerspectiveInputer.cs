@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class PerspectiveInputer
     {

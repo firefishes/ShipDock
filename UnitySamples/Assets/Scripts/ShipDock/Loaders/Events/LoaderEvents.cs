@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Events;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     public class OnLoaderProgress : UnityEvent<Loader> { };
     public class OnLoaderCompleted : UnityEvent<bool, Loader> { };

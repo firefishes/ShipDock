@@ -1,7 +1,6 @@
-﻿using ShipDock.Interfaces;
-using System;
+﻿using System;
 
-namespace ShipDock.Ticks
+namespace ShipDock
 {
     public class TimingCallbacker : IReclaim
     {

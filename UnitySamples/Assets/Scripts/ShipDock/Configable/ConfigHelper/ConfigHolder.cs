@@ -1,7 +1,6 @@
-﻿using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ShipDock.Config
+namespace ShipDock
 {
     public class ConfigHolder<C> : IConfigHolder where C : IConfig, new()
     {

@@ -1,7 +1,7 @@
 ﻿using LitJson;
 using UnityEngine.Events;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public class HTTPJsonRequestInfo
     {

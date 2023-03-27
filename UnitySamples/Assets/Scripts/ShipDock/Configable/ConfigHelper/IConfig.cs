@@ -1,6 +1,4 @@
-﻿using ShipDock.Tools;
-
-namespace ShipDock.Config
+﻿namespace ShipDock
 {
     public interface IConfig
     {

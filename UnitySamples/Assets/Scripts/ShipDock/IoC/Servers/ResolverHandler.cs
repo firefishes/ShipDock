@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Server
+﻿namespace ShipDock
 {
     public class ResolverHandler<InterfaceT> : IResolverHandler, 
                                                IResolverCacher<InterfaceT>, 

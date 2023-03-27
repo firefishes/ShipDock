@@ -1,10 +1,8 @@
-﻿using ShipDock.Ticks;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ShipDock.Server
+namespace ShipDock
 {
     /// <summary>
     /// 

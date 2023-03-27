@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     public interface IUIPointerArea : IPointerClickHandler
     {

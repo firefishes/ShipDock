@@ -1,8 +1,6 @@
-﻿using ShipDock.Applications;
-using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     public class ComponentGroup<C, K> where C : IECSLogic
     {
@@ -82,7 +80,7 @@ namespace ShipDock.ECS
             for (int i = 0; i < max; i++)
             {
                 groupItem = list[i];
-                groupItem.UpdateValid(entitasID);
+                //groupItem.UpdateValid(entitasID);
                 //groupItem.SetDataValidable(value, ref target);
             }
         }

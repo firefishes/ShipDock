@@ -1,11 +1,9 @@
 ﻿#define _G_LOG
 
-using ShipDock.Interfaces;
-using ShipDock.Tools;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
 
     public class AnimationInfoUpdater : IReclaim

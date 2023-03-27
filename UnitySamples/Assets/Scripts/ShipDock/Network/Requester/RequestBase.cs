@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public abstract class RequestBase : IHttpRequester
     {

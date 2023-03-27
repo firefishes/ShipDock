@@ -1,13 +1,11 @@
 ﻿#define _G_LOG
 
-using UnityEngine;
 using System.Collections.Generic;
-using ShipDock.Tools;
+using UnityEngine;
 #if G_LOG
 #endif
-using ShipDock.Applications;
 
-namespace ShipDock.Pooling
+namespace ShipDock
 {
 
     /// <summary>

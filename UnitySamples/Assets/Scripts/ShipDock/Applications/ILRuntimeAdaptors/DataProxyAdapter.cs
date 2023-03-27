@@ -1,21 +1,21 @@
-using System;
 using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
+using System;
 
 namespace ShipDock.Applications
-{   
+{
     public class DataProxyAdapter : CrossBindingAdaptor
     {
         static CrossBindingMethodInfo mDispose_0 = new CrossBindingMethodInfo("Dispose");
-        static CrossBindingMethodInfo<ShipDock.Datas.IDataExtracter> mRegister_1 = new CrossBindingMethodInfo<ShipDock.Datas.IDataExtracter>("Register");
-        static CrossBindingMethodInfo<ShipDock.Datas.IDataExtracter> mUnregister_2 = new CrossBindingMethodInfo<ShipDock.Datas.IDataExtracter>("Unregister");
+        static CrossBindingMethodInfo<ShipDock.IDataExtracter> mRegister_1 = new CrossBindingMethodInfo<ShipDock.IDataExtracter>("Register");
+        static CrossBindingMethodInfo<ShipDock.IDataExtracter> mUnregister_2 = new CrossBindingMethodInfo<ShipDock.IDataExtracter>("Unregister");
         static CrossBindingFunctionInfo<System.Int32> mget_DataName_3 = new CrossBindingFunctionInfo<System.Int32>("get_DataName");
         public override Type BaseCLRType
         {
             get
             {
-                return typeof(ShipDock.Datas.DataProxy);
+                return typeof(ShipDock.DataProxy);
             }
         }
 
@@ -32,7 +32,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Datas.DataProxy, CrossBindingAdaptorType
+        public class Adapter : ShipDock.DataProxy, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;
@@ -58,7 +58,7 @@ namespace ShipDock.Applications
                     mDispose_0.Invoke(this.instance);
             }
 
-            public override void Register(ShipDock.Datas.IDataExtracter dataHandler)
+            public override void Register(ShipDock.IDataExtracter dataHandler)
             {
                 if (mRegister_1.CheckShouldInvokeBase(this.instance))
                     base.Register(dataHandler);
@@ -66,7 +66,7 @@ namespace ShipDock.Applications
                     mRegister_1.Invoke(this.instance, dataHandler);
             }
 
-            public override void Unregister(ShipDock.Datas.IDataExtracter dataHandler)
+            public override void Unregister(ShipDock.IDataExtracter dataHandler)
             {
                 if (mUnregister_2.CheckShouldInvokeBase(this.instance))
                     base.Unregister(dataHandler);

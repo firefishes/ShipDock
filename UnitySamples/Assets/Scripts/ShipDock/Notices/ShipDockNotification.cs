@@ -1,9 +1,7 @@
-﻿using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Tools;
+﻿using ShipDock;
 using System;
 
-namespace ShipDock.Notices
+namespace ShipDock
 {
     /// <summary>
     /// 

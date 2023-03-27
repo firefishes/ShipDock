@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ShipDock.Notices
+namespace ShipDock
 {
     [Serializable]
     public class NoticeBroadcaster

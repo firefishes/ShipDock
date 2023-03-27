@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     public enum CustomAssetType
     {

@@ -1,8 +1,7 @@
-﻿using ShipDock.ECS;
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 通用覆盖检测映射器接口

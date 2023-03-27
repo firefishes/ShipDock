@@ -1,7 +1,4 @@
-﻿using ShipDock.Datas;
-using ShipDock.Tools;
-
-namespace ShipDock.Applications
+﻿namespace ShipDock
 {
     public class ConfigData : DataProxy
     {

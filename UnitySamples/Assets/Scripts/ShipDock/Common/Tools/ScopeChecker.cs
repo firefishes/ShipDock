@@ -1,8 +1,6 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Pooling;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     public class ScopeChecker : IPoolable, IReclaim
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     public interface ILogicSystem : IECSLogic
     {
@@ -15,6 +15,6 @@ namespace ShipDock.ECS
         void SetSceneUpdate(bool value);
         void Execute(int entitas, int componentName, ILogicData data);
         T GetRelatedComponent<T>(int aid) where T : ILogicComponent;
-        void UpdateComponents(int time);
+        void UpdateSystem(int time);
     }
 }

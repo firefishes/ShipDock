@@ -1,8 +1,7 @@
-﻿using ShipDock.Interfaces;
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace ShipDock.Notices
+namespace ShipDock
 {
     public class NoticeHandler<NameT> : IReclaim
     {

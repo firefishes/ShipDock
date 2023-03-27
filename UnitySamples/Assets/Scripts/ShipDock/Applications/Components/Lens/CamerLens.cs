@@ -2,12 +2,9 @@
 #if CINEMACHINE
 using Cinemachine;
 #endif
-using ShipDock.Notices;
-using ShipDock.Server;
-using ShipDock.Tools;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class CamerLens<S, C>: MonoBehaviour, ICamerLens where S : IServer where C : ICamerLens
     {

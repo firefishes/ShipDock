@@ -1,10 +1,8 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Tools;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class FileCommandInfo : IReclaim
     {

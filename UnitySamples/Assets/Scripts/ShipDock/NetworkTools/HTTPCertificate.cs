@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine.Networking;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public class HTTPCertificate : CertificateHandler
     {

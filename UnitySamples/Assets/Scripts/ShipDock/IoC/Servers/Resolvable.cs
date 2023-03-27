@@ -1,9 +1,7 @@
-﻿using ShipDock.Pooling;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Reflection;
 
-namespace ShipDock.Server
+namespace ShipDock
 {
     public class Resolvable : IResolvable
     {

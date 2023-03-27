@@ -1,9 +1,6 @@
-using ShipDock.Commons;
-using ShipDock.Modulars;
-using ShipDock.Notices;
 using System.Collections.Generic;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// ÊÀ½çÄ£¿é

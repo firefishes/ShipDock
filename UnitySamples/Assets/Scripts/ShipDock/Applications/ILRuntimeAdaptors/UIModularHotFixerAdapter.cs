@@ -1,17 +1,17 @@
-using System;
 using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
+using System;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class UIModularHotFixerAdapter : CrossBindingAdaptor
     {
         static CrossBindingFunctionInfo<System.Int32[]> mget_DataProxyLinks_0 = new CrossBindingFunctionInfo<System.Int32[]>("get_DataProxyLinks");
         static CrossBindingMethodInfo<System.Int32[]> mset_DataProxyLinks_1 = new CrossBindingMethodInfo<System.Int32[]>("set_DataProxyLinks");
         static CrossBindingMethodInfo mDispose_2 = new CrossBindingMethodInfo("Dispose");
-        static CrossBindingMethodInfo<ShipDock.Datas.IDataProxy, System.Int32> mOnDataProxyNotify_3 = new CrossBindingMethodInfo<ShipDock.Datas.IDataProxy, System.Int32>("OnDataProxyNotify");
-        static CrossBindingMethodInfo<ShipDock.Notices.INoticeBase<System.Int32>> mUIModularHandler_4 = new CrossBindingMethodInfo<ShipDock.Notices.INoticeBase<System.Int32>>("UIModularHandler");
+        static CrossBindingMethodInfo<ShipDock.IDataProxy, System.Int32> mOnDataProxyNotify_3 = new CrossBindingMethodInfo<ShipDock.IDataProxy, System.Int32>("OnDataProxyNotify");
+        static CrossBindingMethodInfo<ShipDock.INoticeBase<System.Int32>> mUIModularHandler_4 = new CrossBindingMethodInfo<ShipDock.INoticeBase<System.Int32>>("UIModularHandler");
         static CrossBindingMethodInfo mInit_5 = new CrossBindingMethodInfo("Init");
         static CrossBindingMethodInfo mEnter_6 = new CrossBindingMethodInfo("Enter");
         static CrossBindingMethodInfo<System.Boolean> mExit_7 = new CrossBindingMethodInfo<System.Boolean>("Exit");
@@ -33,7 +33,7 @@ namespace ShipDock.Applications
         {
             get
             {
-                return typeof(ShipDock.Applications.UIModularHotFixer);
+                return typeof(ShipDock.UIModularHotFixer);
             }
         }
 
@@ -50,7 +50,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Applications.UIModularHotFixer, CrossBindingAdaptorType
+        public class Adapter : ShipDock.UIModularHotFixer, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;
@@ -68,7 +68,7 @@ namespace ShipDock.Applications
 
             public ILTypeInstance ILInstance { get { return instance; } }
 
-            public override void OnDataProxyNotify(ShipDock.Datas.IDataProxy data, System.Int32 keyName)
+            public override void OnDataProxyNotify(ShipDock.IDataProxy data, System.Int32 keyName)
             {
                 if (mOnDataProxyNotify_3.CheckShouldInvokeBase(this.instance))
                     base.OnDataProxyNotify(data, keyName);
@@ -76,7 +76,7 @@ namespace ShipDock.Applications
                     mOnDataProxyNotify_3.Invoke(this.instance, data, keyName);
             }
 
-            protected override void UIModularHandler(ShipDock.Notices.INoticeBase<System.Int32> param)
+            protected override void UIModularHandler(ShipDock.INoticeBase<System.Int32> param)
             {
                 if (mUIModularHandler_4.CheckShouldInvokeBase(this.instance))
                     base.UIModularHandler(param);

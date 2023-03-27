@@ -1,5 +1,5 @@
 ﻿
-namespace ShipDock.FSM
+namespace ShipDock
 {
     public interface IStateParam
     {

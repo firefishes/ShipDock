@@ -4,7 +4,7 @@ using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {   
     public class IEnumerable_1_ObjectAdapter : CrossBindingAdaptor
     {

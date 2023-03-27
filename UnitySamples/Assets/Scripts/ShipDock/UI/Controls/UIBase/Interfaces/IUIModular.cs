@@ -1,7 +1,6 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Notices;
+﻿using ShipDock;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     public interface IUIModular : INotificationSender, IUIStack, IReclaim
     {

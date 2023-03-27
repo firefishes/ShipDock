@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShipDock.Server
+namespace ShipDock
 {
     public class ResolvableConfigItem<InterfaceT, T> : IResolvableConfig
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace ShipDock.Scriptables
+namespace ShipDock
 {
     public interface IScriptableItems
     {

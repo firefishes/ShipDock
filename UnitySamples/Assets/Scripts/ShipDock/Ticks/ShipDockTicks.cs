@@ -1,6 +1,4 @@
-﻿using ShipDock.Tools;
-
-namespace ShipDock.Ticks
+﻿namespace ShipDock
 {
     public class ShipDockTicks : Singletons<ShipDockTicks>
     {

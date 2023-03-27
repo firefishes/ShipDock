@@ -1,6 +1,4 @@
 ﻿using ShipDock;
-using ShipDock.Datas;
-using ShipDock.Tools;
 
 public static class DatasExtension
 {

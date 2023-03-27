@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace ShipDock.Server
+namespace ShipDock
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class ServerPriority : Attribute

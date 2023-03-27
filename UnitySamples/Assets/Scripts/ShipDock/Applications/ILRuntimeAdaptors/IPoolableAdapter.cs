@@ -3,7 +3,7 @@ using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class IPoolableAdapter : CrossBindingAdaptor
     {
@@ -13,7 +13,7 @@ namespace ShipDock.Applications
         {
             get
             {
-                return typeof(Pooling.IPoolable);
+                return typeof(IPoolable);
             }
         }
 
@@ -30,7 +30,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : Pooling.IPoolable, CrossBindingAdaptorType
+        public class Adapter : IPoolable, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;

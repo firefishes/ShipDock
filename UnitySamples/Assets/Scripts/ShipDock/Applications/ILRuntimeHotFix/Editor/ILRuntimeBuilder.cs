@@ -5,7 +5,6 @@
 #if OPEN_HOTFIX_EDITOR
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
-using ShipDock.Applications;
 using System;
 using System.Configuration;
 using System.IO;

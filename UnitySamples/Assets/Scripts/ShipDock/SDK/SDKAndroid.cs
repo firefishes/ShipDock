@@ -3,8 +3,6 @@
 #define APPLY_TKD_EVENT
 #define _SHIP_DOCK_SDK
 
-using ShipDock.Notices;
-using ShipDock.Pooling;
 using System;
 using System.Collections.Generic;
 using System.Linq;

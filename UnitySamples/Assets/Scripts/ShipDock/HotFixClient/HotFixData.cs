@@ -1,7 +1,6 @@
-﻿using ShipDock.Datas;
-using System;
+﻿using System;
 
-namespace ShipDock.HotFix
+namespace ShipDock
 {
     public class HotFixData : IDataExtracter
     {

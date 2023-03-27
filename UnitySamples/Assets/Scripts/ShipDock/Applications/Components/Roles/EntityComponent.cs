@@ -1,9 +1,6 @@
-using System;
-using ShipDock.ECS;
-using ShipDock.Notices;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     [DisallowMultipleComponent]
     public class EntityComponent : MonoBehaviour, INotificationSender

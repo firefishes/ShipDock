@@ -1,9 +1,7 @@
-﻿using ShipDock.Commons;
-using ShipDock.Pooling;
-using System;
-using SceneCallLaterNotice = ShipDock.Notices.ParamNotice<System.Action<int>>;
+﻿using System;
+using SceneCallLaterNotice = ShipDock.ParamNotice<System.Action<int>>;
 
-namespace ShipDock.Notices
+namespace ShipDock
 {
     public class UpdaterNotice : ParamNotice<IUpdate>
     {

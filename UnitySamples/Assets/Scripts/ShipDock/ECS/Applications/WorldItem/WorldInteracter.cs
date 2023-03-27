@@ -1,9 +1,4 @@
-﻿using ShipDock.ECS;
-using ShipDock.Notices;
-using System;
-using UnityEngine;
-
-namespace ShipDock.Applications
+﻿namespace ShipDock
 {
     //public class WorldInteracter : LogicData, INotificationSender
     //{

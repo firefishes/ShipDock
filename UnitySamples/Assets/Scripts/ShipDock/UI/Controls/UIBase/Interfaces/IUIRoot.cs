@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     public interface IUIRoot
     {

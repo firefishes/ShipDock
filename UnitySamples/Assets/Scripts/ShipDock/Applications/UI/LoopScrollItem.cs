@@ -1,6 +1,4 @@
-﻿using ShipDock.UI;
-
-namespace ShipDock.Applications
+﻿namespace ShipDock
 {
     public abstract class LoopScrollItem : UIContainer
     {

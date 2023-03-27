@@ -10,7 +10,7 @@ using LitJson;
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Scriptables
+namespace ShipDock
 {
     [Serializable]
     public abstract class ScriptableItems<T> : ScriptableObject, IScriptableItems where T : IScriptableItem

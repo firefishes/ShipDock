@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 #endif
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class ParticalsCollecter : MonoBehaviour
     {

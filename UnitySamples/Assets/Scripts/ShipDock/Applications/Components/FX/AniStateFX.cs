@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System;
-using ShipDock.Tools;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
 
     [Serializable]

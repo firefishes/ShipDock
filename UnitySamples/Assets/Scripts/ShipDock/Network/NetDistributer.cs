@@ -1,10 +1,8 @@
 ﻿using LitJson;
-using ShipDock.Testers;
-using ShipDock.Tools;
 using System;
 using UnityEngine;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public class NetDistributer
     {

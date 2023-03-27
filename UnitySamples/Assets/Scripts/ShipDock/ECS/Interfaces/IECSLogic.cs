@@ -1,6 +1,4 @@
-﻿using ShipDock.Interfaces;
-
-namespace ShipDock.ECS
+﻿namespace ShipDock
 {
     /// <summary>
     /// ECS 逻辑接口

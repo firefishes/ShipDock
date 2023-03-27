@@ -1,11 +1,8 @@
-﻿using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Server;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
-    public class MainServer : Server.Server
+    public class MainServer : Server
     {
         private readonly static IResolvableConfig[] ServerConfigs = new IResolvableConfig[]
         {

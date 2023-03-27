@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     public class TreeData<T>
     {

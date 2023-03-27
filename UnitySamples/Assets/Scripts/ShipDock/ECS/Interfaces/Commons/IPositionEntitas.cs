@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     public interface IPositionEntitas
     {

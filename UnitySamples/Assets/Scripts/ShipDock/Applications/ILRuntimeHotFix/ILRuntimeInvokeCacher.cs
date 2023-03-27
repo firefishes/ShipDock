@@ -3,7 +3,7 @@ using ILRuntime.CLR.TypeSystem;
 using ILRuntime.Runtime.Enviorment;
 using System.Collections.Generic;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// ILRuntime方法缓存器

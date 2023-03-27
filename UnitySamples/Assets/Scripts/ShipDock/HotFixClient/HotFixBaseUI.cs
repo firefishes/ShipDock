@@ -1,7 +1,4 @@
-﻿
-using ShipDock.Applications;
-using ShipDock.Notices;
-
+﻿using ShipDock;
 /// <summary>
 /// 
 /// UI热更相关的扩展方法
@@ -23,7 +20,7 @@ public static class HotFixBaseUIExtensions
     }
 }
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
 
     /// <summary>

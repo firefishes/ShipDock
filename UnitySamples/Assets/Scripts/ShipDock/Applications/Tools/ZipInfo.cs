@@ -1,11 +1,9 @@
 ﻿#define _LOG_UNPRESS_ZIP
 
 using ICSharpCode.SharpZipLib.Zip;
-using ShipDock.Commons;
-using ShipDock.Notices;
 using System.IO;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class ZipInfo : IUpdate
     {

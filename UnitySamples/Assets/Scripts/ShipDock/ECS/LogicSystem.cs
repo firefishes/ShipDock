@@ -1,8 +1,7 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 using Unity.Jobs;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     public abstract class LogicSystem : ECSLogic, ILogicSystem
     {
@@ -107,56 +106,9 @@ namespace ShipDock.ECS
         /// 组件的帧更新方法
         /// </summary>
         /// <param name="time"></param>
-        public void UpdateComponents(int time)
+        public virtual void UpdateSystem(int time)
         {
             BeforeUpdateComponents();
-
-            mDeltaTime = time;
-
-            bool hasDataChanged;
-            int j, m, componentName, entitasID;
-
-            int max = RelateComponents.Length;
-            for (int i = 0; i < max; i++)
-            {
-                componentName = RelateComponents[i];
-                mComponent = Context.RefComponentByName(componentName);
-
-                if (mComponent != default)
-                {
-                    hasDataChanged = mComponent.HasDataChanged;
-                    if (hasDataChanged)
-                    {
-                        m = mComponent.DataPosition;
-
-                        mJobHandlers = MakeJobs(componentName, m);
-
-                        for (j = 0; j < m; j++)
-                        {
-                            hasDataChanged = mComponent.IsDatasChanged(j);
-                            if (hasDataChanged)
-                            {
-                                entitasID = mComponent.GetEntitasIDByIndex(j);
-                                if (mComponent.IsStateRegular(entitasID, out _))
-                                {
-                                    mData = mComponent.GetDataByIndex(j);
-                                    Execute(entitasID, componentName, mData);
-                                }
-                                else { }
-                            }
-                            else { }
-                        }
-                    }
-                    else { }
-                }
-                else { }
-            }
-
-            mJobHandlers.Complete();
-            AfterComponentExecuted();
-
-            mData = default;
-            mComponent = default;
         }
 
         /// <summary>

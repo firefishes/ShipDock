@@ -2,7 +2,7 @@
 using ILRuntime.Runtime.Enviorment;
 using System.Collections.Generic;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 方法缓存器

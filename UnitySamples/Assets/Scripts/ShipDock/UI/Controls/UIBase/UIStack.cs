@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     public static class UILayerType
     {

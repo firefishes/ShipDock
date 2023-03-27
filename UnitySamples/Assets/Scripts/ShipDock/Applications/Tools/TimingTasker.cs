@@ -1,9 +1,6 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Tools;
-using System;
-using UnityEngine;
+﻿using System;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class TimingTasker : IReclaim
     {

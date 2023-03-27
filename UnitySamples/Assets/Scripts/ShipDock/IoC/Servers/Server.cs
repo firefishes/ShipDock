@@ -1,10 +1,9 @@
 ﻿#define _G_LOG
 
-using ShipDock.Pooling;
 using System;
 using System.Reflection;
 
-namespace ShipDock.Server
+namespace ShipDock
 {
     /// <summary>
     /// 解析器函数处理器委托类型

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Datas
+namespace ShipDock
 {
     [Serializable]
     public class DeviceLocalInfo

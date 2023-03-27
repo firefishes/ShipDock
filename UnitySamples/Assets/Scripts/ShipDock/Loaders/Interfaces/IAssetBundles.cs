@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     public interface IAssetBundles
     {

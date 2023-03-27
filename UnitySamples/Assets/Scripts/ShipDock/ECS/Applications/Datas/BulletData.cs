@@ -1,8 +1,6 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 子弹数据

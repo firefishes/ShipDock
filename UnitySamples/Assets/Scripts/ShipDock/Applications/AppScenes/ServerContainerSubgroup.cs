@@ -1,12 +1,10 @@
-﻿using ShipDock.Notices;
-using ShipDock.Server;
-using System;
+﻿using System;
 using UnityEngine;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     [Serializable]
     public class ServerContainerSubgroup

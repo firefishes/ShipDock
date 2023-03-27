@@ -1,12 +1,11 @@
 ﻿#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
-using ShipDock.Tools;
 using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     [Serializable]
     public class CustomAssetInfo

@@ -6,7 +6,7 @@ using OnErrorResponse =
     UnityEngine.Events.UnityAction<int, string, string, 
         System.Collections.Generic.Dictionary<string, string>>;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public abstract class ResponserIniter
     {

@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 using ILRuntime.Runtime.Enviorment;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 热更组件抽象类

@@ -1,9 +1,5 @@
 ﻿
 using ShipDock;
-using ShipDock.Applications;
-using ShipDock.Loader;
-using ShipDock.Server;
-using ShipDock.UI;
 using UnityEngine;
 using UnityEngine.UI;
 

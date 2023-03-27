@@ -1,9 +1,6 @@
 ﻿#define G_LOG
 #define _OPEN_SHIPDOCK_EDITOR
 
-using ShipDock.Applications;
-using ShipDock.Loader;
-using ShipDock.Tools;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;

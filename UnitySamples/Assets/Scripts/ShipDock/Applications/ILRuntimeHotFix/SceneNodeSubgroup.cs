@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 场景节点类型枚举

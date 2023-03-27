@@ -1,7 +1,6 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 
-namespace ShipDock.Notices
+namespace ShipDock
 {
 
     public class HandlerMapper<NameT> : KeyValueList<NameT, NoticeHandler<NameT>>

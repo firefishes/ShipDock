@@ -1,6 +1,4 @@
-﻿using ShipDock.Tools;
-
-namespace ShipDock.Applications
+﻿namespace ShipDock
 {
     public enum ValueItemType
     {

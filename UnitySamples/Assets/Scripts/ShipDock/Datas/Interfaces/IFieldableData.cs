@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ShipDock.Datas
+namespace ShipDock
 {
     public interface IFieldableData
     {

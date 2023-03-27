@@ -1,12 +1,9 @@
-﻿using ShipDock.Applications;
-using ShipDock.Pooling;
-using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using static ShipDock.Pooling.AssetsPooling;
+using static ShipDock.AssetsPooling;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     /// <summary>
     /// 

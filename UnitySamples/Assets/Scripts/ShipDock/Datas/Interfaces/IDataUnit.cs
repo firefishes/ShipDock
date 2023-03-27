@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Datas
+﻿namespace ShipDock
 {
     public interface IDataUnit
     {

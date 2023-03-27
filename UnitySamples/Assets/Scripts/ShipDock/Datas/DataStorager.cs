@@ -1,6 +1,4 @@
-﻿using ShipDock.Tools;
-
-namespace ShipDock.Datas
+﻿namespace ShipDock
 {
     public class DataStorager : DataProxy
     {

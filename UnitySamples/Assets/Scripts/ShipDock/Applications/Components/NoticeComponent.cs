@@ -1,11 +1,10 @@
-﻿using ShipDock.Notices;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class NoticeComponent : MonoBehaviour
     {

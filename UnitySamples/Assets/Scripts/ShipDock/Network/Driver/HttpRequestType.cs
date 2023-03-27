@@ -1,5 +1,5 @@
 ﻿
-namespace ShipDock.Network
+namespace ShipDock
 {
     public enum HttpRequestType
     {

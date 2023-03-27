@@ -1,7 +1,6 @@
-using ShipDock.Config;
 using System.Collections.Generic;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public static class ConfigableIoCExtension
     {

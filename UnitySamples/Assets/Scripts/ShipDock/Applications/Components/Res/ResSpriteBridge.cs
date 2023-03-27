@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class ResSpriteBridge : ResBridge, IResSpriteBridge
     {
@@ -29,7 +29,7 @@ namespace ShipDock.Applications
 
                 string abName = m_Asset.GetABName();
                 string assetName = m_Asset.GetAssetName();
-                "error:Do not contains ab pack {0} when ResBridge get asset {1}".Log(!(Assets as Loader.AssetBundles).HasBundel(abName), abName, assetName);
+                "error:Do not contains ab pack {0} when ResBridge get asset {1}".Log(!(Assets as AssetBundles).HasBundel(abName), abName, assetName);
                 Sprite = Assets.Get<Sprite>(abName, assetName);
                 Texture = Sprite.texture;
             }

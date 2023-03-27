@@ -1,5 +1,5 @@
 ﻿
-namespace ShipDock.Pooling
+namespace ShipDock
 {
     public interface IPoolBase
     {

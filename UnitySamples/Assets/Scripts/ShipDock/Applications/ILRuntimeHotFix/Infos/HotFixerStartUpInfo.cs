@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 #endif
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     [System.Serializable]
     public class HotFixerStartUpInfo

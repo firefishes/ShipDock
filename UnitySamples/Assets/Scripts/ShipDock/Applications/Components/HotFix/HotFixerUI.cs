@@ -1,9 +1,6 @@
-﻿using ShipDock.Loader;
-using ShipDock.Pooling;
-using ShipDock.UI;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 
@@ -12,7 +9,7 @@ namespace ShipDock.Applications
     /// 为兼顾ILRuntime中尽量不继承 MonoBehaviour 的原则、同时获得框架的UI类功能而设计
     /// 
     /// </summary>
-    public class HotFixerUI : UI.UI
+    public class HotFixerUI : UI
     {
         public HotFixerInteractor HotFixerInteractor { get; private set; }
         public HotFixerUIAgent Agent { get; private set; }

@@ -1,12 +1,8 @@
-﻿using ShipDock.Datas;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Server;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
-    public class CamerasServer<C, D> : Server.Server, IDataExtracter where C : ICamerLens where D : IDataProxy
+    public class CamerasServer<C, D> : Server, IDataExtracter where C : ICamerLens where D : IDataProxy
     {
         private C mLens;
         private ServerRelater mRelater;

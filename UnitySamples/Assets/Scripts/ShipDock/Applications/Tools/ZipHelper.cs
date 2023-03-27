@@ -1,13 +1,10 @@
 ﻿#define _LOG_UNPRESS_ZIP
 
 using ICSharpCode.SharpZipLib.Zip;
-using ShipDock.Commons;
-using ShipDock.Notices;
-using ShipDock.Tools;
 using System;
 using System.IO;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ShipDock.Notices
+namespace ShipDock
 {
     [Serializable]
     public class NoticeHandlerEvent : UnityEvent<INoticeBase<int>> { }

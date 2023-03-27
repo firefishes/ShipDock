@@ -1,7 +1,5 @@
 ﻿#define SHOW_MENU_IN_EDITOR
 
-using ShipDock.Applications;
-using ShipDock.Loader;
 using System;
 using System.Collections.Generic;
 using System.IO;

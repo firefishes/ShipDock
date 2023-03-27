@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShipDock.Interfaces
+namespace ShipDock
 {
     public delegate void QueueNextUnit(IQueueExecuter param);
     public delegate void QueueUnitExecuted(IQueueExecuter param);

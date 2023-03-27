@@ -1,9 +1,7 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Datas
+namespace ShipDock
 {
     /// <summary>
     /// 

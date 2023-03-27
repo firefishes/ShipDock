@@ -1,7 +1,6 @@
-﻿using ShipDock.Interfaces;
-using System;
+﻿using System;
 
-namespace ShipDock.Commons
+namespace ShipDock
 {
     public class MethodUpdater : IUpdate, IReclaim
     {

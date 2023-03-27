@@ -1,9 +1,8 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class UIChangingTasker
     {
@@ -15,9 +14,9 @@ namespace ShipDock.Applications
         private List<TimeGapper> mChangeTimes;
         private KeyValueList<string, Action<TimeGapper>> mChangeHnadlers;
 
-        private UI.UI Owner { get; set; }
+        private UI Owner { get; set; }
 
-        public UIChangingTasker(UI.UI target)
+        public UIChangingTasker(UI target)
         {
             Owner = target;
 

@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Pooling
+namespace ShipDock
 {
 
     /// <summary>

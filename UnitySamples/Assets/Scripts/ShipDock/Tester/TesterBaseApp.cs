@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Testers
+﻿namespace ShipDock
 {
     public class TesterBaseApp : ITester
     {

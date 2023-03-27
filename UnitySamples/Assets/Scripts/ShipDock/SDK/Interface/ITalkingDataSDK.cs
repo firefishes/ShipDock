@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
 
 #pragma warning disable
 namespace ShipDock.SDK

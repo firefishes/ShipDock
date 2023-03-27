@@ -1,7 +1,7 @@
 ﻿
 using ILRuntime.Runtime.Enviorment;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
 #if UNITY_EDITOR
     /// <summary>

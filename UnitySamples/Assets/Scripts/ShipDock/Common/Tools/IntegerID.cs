@@ -1,7 +1,4 @@
-﻿
-using ShipDock.Interfaces;
-
-namespace ShipDock.Tools
+﻿namespace ShipDock
 {
     /// <summary>
     /// 

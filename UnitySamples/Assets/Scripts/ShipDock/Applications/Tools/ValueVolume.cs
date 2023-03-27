@@ -1,6 +1,6 @@
 using System;
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     /// <summary>
     /// 

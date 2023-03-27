@@ -1,10 +1,6 @@
-using ShipDock.Commons;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Tools;
 using System.Collections.Generic;
 
-namespace ShipDock.Modulars
+namespace ShipDock
 {
     /// <summary>
     /// 消息队列模块

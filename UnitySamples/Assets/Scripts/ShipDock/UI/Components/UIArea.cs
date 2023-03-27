@@ -1,10 +1,6 @@
-﻿using ShipDock.Applications;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
 
     public class UIArea : MonoBehaviour

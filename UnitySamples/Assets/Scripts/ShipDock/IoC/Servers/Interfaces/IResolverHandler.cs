@@ -1,6 +1,4 @@
-﻿using ShipDock.Interfaces;
-
-namespace ShipDock.Server
+﻿namespace ShipDock
 {
     public interface IResolverHandler : IReclaim
     {

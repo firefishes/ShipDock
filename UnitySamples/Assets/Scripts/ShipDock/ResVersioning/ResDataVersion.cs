@@ -1,6 +1,4 @@
-﻿using ShipDock.Applications;
-using ShipDock.Tools;
-#if ODIN_INSPECTOR
+﻿#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 using System;
@@ -8,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace ShipDock.Versioning
+namespace ShipDock
 {
     public enum ResDataVersionType
     {

@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using UnityEngine;
 using UnityEngine.UI;
-using ShipDock.Tools;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 

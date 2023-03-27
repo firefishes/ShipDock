@@ -1,10 +1,7 @@
-﻿using ECS;
-using ShipDock.Pooling;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     /// <summary>
     /// 实体生成器
@@ -14,23 +11,40 @@ namespace ShipDock.ECS
     /// </summary>
     public class LogicEntities : ILogicEntities
     {
+        /// <summary>
+        /// 实体信息
+        /// </summary>
         public struct EntityInfo
         {
             public int chunkIndex;
             public int offset;
         }
 
+        /// <summary>实体数据字段长度：整型</summary>
         public static int sizeOfInt32 = 4;
+        /// <summary>实体数据字段长度：布尔型</summary>
         public static int sizeOfBoolean = 1;
+        /// <summary>实体数据字段长度：浮点型</summary>
         public static int sizeOfFloat = 4;
+        /// <summary>实体数据字段长度：无符号长整型</summary>
         public static int sizeOfULong = 8;
+        /// <summary>实体数据字段长度：长整型</summary>
         public static int sizeOfLong = 8;
+        /// <summary>实体数据字段长度：双精度浮点型</summary>
         public static int sizeOfDouble = 8;
+        /// <summary>实体数据字段长度：双精度浮点型</summary>
+        public static int sizeOfString = 64;
 
+        /// <summary>默认的空组件列表</summary>
         private readonly static int[] emptyComponents = new int[0];
+        /// <summary>实体 ID 起始值</summary>
         private static int IDEntityas = 1000;
-        private Chunks mAllChunks;
 
+        /// <summary>
+        /// 创建实体
+        /// </summary>
+        /// <param name="entitasType"></param>
+        /// <returns></returns>
         public static int CreateEntitas(int entitasType = 0)
         {
             ILogicContext context = ShipDockECS.Instance.Context;
@@ -41,6 +55,9 @@ namespace ShipDock.ECS
             return result;
         }
 
+        /// <summary>
+        /// ECS 上下文管理器
+        /// </summary>
         private ILogicContext Context
         {
             get
@@ -49,17 +66,27 @@ namespace ShipDock.ECS
             }
         }
 
+        /// <summary>实体组件模板</summary>
         private Dictionary<int, int[]> mEntityCompsTemplate;
+        /// <summary>实体与组件的映射数据</summary>
         private KeyValueList<int, Dictionary<int, int>> mEntitiesCompBindeds;
+        /// <summary>实体类型映射数据</summary>
         private KeyValueList<int, EntityType> mEntitesTypes;
+        /// <summary>实体中组件数据所有可能使用到的字段类型长度</summary>
         private Dictionary<Type, int> mCompDataTypeSizes;
+        /// <summary>实体信息映射数据</summary>
         private Dictionary<int, EntityInfo> mEntityInfos;
+        /// <summary>所有实体</summary>
         private Dictionary<int, Entity> mEntities;
+
+        /// <summary>实体内存池</summary>
+        public Chunks Chunks { get; private set; }
 
         public LogicEntities()
         {
             mEntityCompsTemplate = new Dictionary<int, int[]>()
             {
+                //定义默认的实体模板（无组件的实体）
                 [0] = new int[] { },
             };
             mEntitiesCompBindeds = new KeyValueList<int, Dictionary<int, int>>();
@@ -68,22 +95,22 @@ namespace ShipDock.ECS
             mCompDataTypeSizes = new Dictionary<Type, int>();
             mEntities = new Dictionary<int, Entity>();
 
+            #region 定义组件数据有可能使用到的字段类型长度
             AddTypeSizeOf(typeof(int), sizeOfInt32);
             AddTypeSizeOf(typeof(bool), sizeOfBoolean);
             AddTypeSizeOf(typeof(float), sizeOfFloat);
             AddTypeSizeOf(typeof(ulong), sizeOfULong);
             AddTypeSizeOf(typeof(long), sizeOfLong);
             AddTypeSizeOf(typeof(double), sizeOfDouble);
+            #endregion
 
-            mAllChunks = new Chunks();
+            Chunks = new Chunks();
             mEntityInfos = new Dictionary<int, EntityInfo>();
         }
 
-        public void AddTypeSizeOf(Type type, int byteSize)
-        {
-            mCompDataTypeSizes[type] = byteSize;
-        }
-
+        /// <summary>
+        /// 回收
+        /// </summary>
         public void Reclaim()
         {
             IDEntityas = 0;
@@ -92,6 +119,21 @@ namespace ShipDock.ECS
             Utils.Reclaim(ref mEntitiesCompBindeds);
         }
 
+        /// <summary>
+        /// 根据对象类型增加组件数据有可能使用到的字段类型长度
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="byteSize"></param>
+        public void AddTypeSizeOf(Type type, int byteSize)
+        {
+            mCompDataTypeSizes[type] = byteSize;
+        }
+
+        /// <summary>
+        /// 构建实体模板
+        /// </summary>
+        /// <param name="entityType"></param>
+        /// <param name="componentNames"></param>
         public void BuildEntitasTemplate(int entityType, params int[] componentNames)
         {
             if (entityType != 0)
@@ -101,84 +143,125 @@ namespace ShipDock.ECS
                 if (flag) { }
                 else
                 {
+                    //根据组件列表添加新模板
                     comps = new int[max];
                     mEntityCompsTemplate[entityType] = comps;
                 }
 
                 flag = mEntitesTypes.TryGetValue(entityType, out EntityType entityTypeValue);
                 if (flag) { }
-                else 
+                else
                 {
+                    //根据实体类型添加新的实体类型信息
                     entityTypeValue = new EntityType(entityType);
                     mEntitesTypes[entityType] = entityTypeValue;
                 }
 
-                int sizeOf;
+                Type type;
                 Type[] types;
+                string[] keys;
                 ILogicComponent comp;
+                int sizeOf, compType, count, sizePerData;
                 for (int i = 0; i < max; i++)
                 {
-                    comps[i] = componentNames[i];
-                    comp = Context.RefComponentByName(comps[i]);
+                    compType = componentNames[i];
+                    comps[i] = compType;
+                    comp = Context.RefComponentByName(compType);
+                    
+                    //按照组件的所有数据字段长度定义实体实例的数据长度
                     types = comp.GetEntityDataSizeOf();
+                    keys = comp.GetEntityDataKeys();
 
-                    int count = types.Length;
+                    count = types.Length;
                     for (int j = 0; j < count; j++)
                     {
-                        sizeOf = mCompDataTypeSizes[types[i]];
-                        entityTypeValue.AddCompSizePerData(sizeOf);
+                        type = types[i];
+                        sizeOf = mCompDataTypeSizes[type];
+                        entityTypeValue.AddCompSizePerData(compType, sizeOf, count, j, keys[j]);
                     }
 
-                    comp.SetSizePerData(entityTypeValue.SizePerData);
+                    //标记数组数据段的位置并设置组件中单个实体所需的数据长度
+                    entityTypeValue.MarkComponentSection(compType);
+                    sizePerData = entityTypeValue.SizePerEntityData;
+                    comp.SetSizePerData(sizePerData);
                 }
             }
             else { }
         }
 
+        /// <summary>
+        /// 设置所有已构建的实体类型的基本信息
+        /// </summary>
         public void MakeChunks()
         {
-            EntityType item;
+            EntityType entityType;
             List<EntityType> values = mEntitesTypes.Values;
             int max = values.Count;
             for (int i = 0; i < max; i++)
             {
-                item = values[i];
-                item.CapacityPerChunk = ChunkUnit.sizeOfBytesPerChunk / item.SizePerEntity;
+                entityType = values[i];
+                entityType.InitCapacityPerChunk();
             }
         }
 
-        public void AddEntitas(out int entity, int entityType = 0)
+        public EntityType GetEntityType(int entityID, out int index, out int chunkIndex)
         {
-            entity = int.MaxValue;
+            index = -1;
+            chunkIndex = -1;
+            EntityType result = default;
+
+            bool flag = mEntities.TryGetValue(entityID, out Entity entity);
+            if (flag)
+            {
+                int entityType = entity.entityType;
+                chunkIndex = entity.chunkIndex;
+                index = entity.index;
+                mEntitesTypes.TryGetValue(entityType, out result);
+            }
+            else { }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 添加实体
+        /// </summary>
+        /// <param name="entityID"></param>
+        /// <param name="entityType"></param>
+        public void AddEntitas(out int entityID, int entityType = 0)
+        {
+            entityID = int.MaxValue;
 
             int[] info = mEntityCompsTemplate[entityType];
             if (info != default)
             {
                 
-                entity = IDEntityas;
+                entityID = IDEntityas;
                 IDEntityas++;
 
-                EntityType entityTypeResult = mEntitesTypes[entityType];
+                //EntityType entityTypeResult = mEntitesTypes[entityType];
                 //entityTypeResult.
 
-                bool isValid = HasEntitas(entity);
+                bool isValid = HasEntitas(entityID);
                 if (isValid) { }
                 else
                 {
-                    bool flag = mEntitesTypes.TryGetValue(entityType, out EntityType typeResult);
+                    bool flag = mEntitesTypes.TryGetValue(entityType, out EntityType entityTypeValue);
                     if (flag)
                     {
-                        Entity item = typeResult.BindEntity(entity, entityType, ref mAllChunks);
-                        mEntities[entity] = item;
+                        //通过内存池创建实体
+                        Entity item = entityTypeValue.BindEntityToChunk(entityID, entityType, Chunks);
+                        mEntities[entityID] = item;
                     }
                     else { }
 
+                    //为实体添加组件
                     int compName;
                     int max = info.Length;
                     for (int i = 0; i < max; i++)
                     {
                         compName = info[i];
-                        AddComponent(entity, compName);
+                        AddComponent(entityID, compName);
                     }
                 }
             }
@@ -203,7 +286,7 @@ namespace ShipDock.ECS
                     for (int i = 0; i < comps.Length; i++)
                     {
                         component = Context != default ? Context.RefComponentByName(comps[i]) : default;
-                        data = component.GetEntitasData(entitas);
+                        //data = component.GetEntitasData(entitas);
                         RemoveComponent(entitas, component);
 
     #if LOG

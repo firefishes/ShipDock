@@ -1,9 +1,8 @@
-﻿using ShipDock.Notices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.UIControls
+namespace ShipDock
 {
     /// <summary>
     /// 

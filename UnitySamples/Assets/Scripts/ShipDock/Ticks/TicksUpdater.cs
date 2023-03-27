@@ -1,10 +1,7 @@
-﻿using ShipDock.Commons;
-using ShipDock.Notices;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Ticks
+namespace ShipDock
 {
     /// <summary>
     /// 

@@ -1,10 +1,4 @@
-﻿using ShipDock.Datas;
-using ShipDock.ECS;
-using ShipDock.Interfaces;
-using ShipDock.Server;
-using ShipDock.Tools;
-
-namespace ShipDock.Applications
+﻿namespace ShipDock
 {
     public class ServerRelater : IReclaim
     {

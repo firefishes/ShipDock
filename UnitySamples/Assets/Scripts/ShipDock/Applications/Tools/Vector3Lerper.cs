@@ -1,8 +1,7 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     [Serializable]
     public struct Vector3Lerper

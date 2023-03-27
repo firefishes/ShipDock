@@ -1,8 +1,7 @@
-﻿using ShipDock.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     public interface IQueueExecuterCollection
     {

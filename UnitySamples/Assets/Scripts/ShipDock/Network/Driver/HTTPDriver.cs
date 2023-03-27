@@ -12,7 +12,7 @@ using OnErrorResponse = UnityEngine.Events.UnityAction<int, string, string, Syst
 using OnErrorResponseJSON = UnityEngine.Events.UnityAction<int, string, string, LitJson.JsonData>;
 using OnSuccess = UnityEngine.Events.UnityAction<string>;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     /// <summary>
     /// 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     public class ResourcesUI
     {

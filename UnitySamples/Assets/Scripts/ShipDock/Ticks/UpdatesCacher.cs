@@ -1,12 +1,8 @@
-using ShipDock.Commons;
-using ShipDock.Interfaces;
-using ShipDock.Notices;
-using ShipDock.Tools;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Ticks
+namespace ShipDock
 {
     public class UpdatesCacher : IReclaim
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Scriptables
+namespace ShipDock
 {
     [Serializable]
     public abstract class ScriptableItem : IScriptableItem

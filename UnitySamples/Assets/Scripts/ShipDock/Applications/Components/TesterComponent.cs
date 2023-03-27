@@ -1,13 +1,12 @@
 ﻿using System;
 #if G_LOG
-using ShipDock.Testers;
 #endif
 using UnityEngine;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     [ExecuteAlways]
     public class TesterComponent : MonoBehaviour

@@ -1,7 +1,6 @@
-﻿using ShipDock.Interfaces;
-using System;
+﻿using System;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     /// <summary>
     /// ECS 实体生成器接口
@@ -25,5 +24,7 @@ namespace ShipDock.ECS
         void AddTypeSizeOf(Type type, int byteSize);
 
         void MakeChunks();
+        EntityType GetEntityType(int entityID, out int index, out int chunkIndex);
+        Chunks Chunks { get; }
     }
 }

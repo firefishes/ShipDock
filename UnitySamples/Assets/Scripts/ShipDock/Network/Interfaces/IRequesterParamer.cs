@@ -1,7 +1,7 @@
 ﻿using LitJson;
 using System.Collections.Generic;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public interface IRequesterParamer
     {

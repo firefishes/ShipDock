@@ -1,7 +1,6 @@
 ﻿using System;
-using ShipDock.Interfaces;
 
-namespace ShipDock.Pooling
+namespace ShipDock
 {
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
     public class AutomataMachine : StateMachine
     {

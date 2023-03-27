@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     /// <summary>
     /// 

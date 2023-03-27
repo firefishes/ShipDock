@@ -5,7 +5,7 @@ using Cinemachine;
 using System;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     [Serializable]
     public class VirtualCameraSubgroup

@@ -1,12 +1,7 @@
-﻿using ShipDock.Datas;
-using ShipDock.Loader;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.UI;
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 基于界面接口方式的 UI 模块实现

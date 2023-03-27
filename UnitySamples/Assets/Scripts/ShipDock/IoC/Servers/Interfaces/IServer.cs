@@ -1,8 +1,4 @@
-﻿
-using ShipDock.Interfaces;
-using ShipDock.Pooling;
-
-namespace ShipDock.Server
+﻿namespace ShipDock
 {
     /// <summary>
     /// 服务容器接口

@@ -3,7 +3,7 @@ using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {   
     public class INotificationSenderAdapter : CrossBindingAdaptor
     {
@@ -11,7 +11,7 @@ namespace ShipDock.Applications
         {
             get
             {
-                return typeof(ShipDock.Notices.INotificationSender);
+                return typeof(ShipDock.INotificationSender);
             }
         }
 
@@ -28,7 +28,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Notices.INotificationSender, CrossBindingAdaptorType
+        public class Adapter : ShipDock.INotificationSender, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;

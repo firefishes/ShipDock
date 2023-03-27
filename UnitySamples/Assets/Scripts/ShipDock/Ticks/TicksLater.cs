@@ -1,8 +1,6 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Tools;
-using System;
+﻿using System;
 
-namespace ShipDock.Ticks
+namespace ShipDock
 {
     public class TicksLater : IReclaim
     {

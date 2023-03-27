@@ -1,7 +1,6 @@
-﻿using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public static class AppPaths
     {

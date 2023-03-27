@@ -1,8 +1,6 @@
 ﻿#define XLSX
 
 using Excel;
-using ShipDock.Applications;
-using ShipDock.Tools;
 using System.Data;
 using System.IO;
 using System.Text;

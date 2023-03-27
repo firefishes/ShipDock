@@ -1,13 +1,9 @@
-﻿using ShipDock.Applications;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     /// <summary>
     /// 

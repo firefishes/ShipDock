@@ -1,23 +1,10 @@
 ﻿#define _G_LOG
 #define _SHIPDOCK_MODULARS
 
-using ShipDock.Commons;
-using ShipDock.Datas;
-using ShipDock.ECS;
-using ShipDock.FSM;
-using ShipDock.Loader;
-using ShipDock.Modulars;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Server;
-using ShipDock.Testers;
-using ShipDock.Ticks;
-using ShipDock.Tools;
-using ShipDock.UI;
 using System;
 using UnityEngine;
 
-namespace ShipDock.Applications 
+namespace ShipDock
 {
 
     /// <summary>

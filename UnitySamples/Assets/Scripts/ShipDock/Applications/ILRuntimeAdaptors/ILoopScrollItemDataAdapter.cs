@@ -1,15 +1,15 @@
-using System;
 using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
+using System;
 
-namespace ShipDock.Applications
-{   
+namespace ShipDock
+{
     public class ILoopScrollItemDataAdapter : CrossBindingAdaptor
     {
         class FillInfoToItem_0Info : CrossBindingMethodInfo
         {
-            static Type[] pTypes = new Type[] {typeof(ShipDock.Applications.LoopScrollItem).MakeByRefType()};
+            static Type[] pTypes = new Type[] {typeof(ShipDock.LoopScrollItem).MakeByRefType()};
 
             public FillInfoToItem_0Info()
                 : base("FillInfoToItem")
@@ -20,7 +20,7 @@ namespace ShipDock.Applications
             protected override Type ReturnType { get { return null; } }
 
             protected override Type[] Parameters { get { return pTypes; } }
-            public void Invoke(ILTypeInstance instance, ref ShipDock.Applications.LoopScrollItem item)
+            public void Invoke(ILTypeInstance instance, ref ShipDock.LoopScrollItem item)
             {
                 EnsureMethod(instance);
                 if (method != null)
@@ -34,7 +34,7 @@ namespace ShipDock.Applications
                             ctx.PushObject(instance);
                             ctx.PushReference(0);
                             ctx.Invoke();
-                            item = ctx.ReadObject<ShipDock.Applications.LoopScrollItem>(0);
+                            item = ctx.ReadObject<ShipDock.LoopScrollItem>(0);
                         }
                     }
                     finally
@@ -54,7 +54,7 @@ namespace ShipDock.Applications
         {
             get
             {
-                return typeof(ShipDock.Applications.ILoopScrollItemData);
+                return typeof(ShipDock.ILoopScrollItemData);
             }
         }
 
@@ -71,7 +71,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Applications.ILoopScrollItemData, CrossBindingAdaptorType
+        public class Adapter : ShipDock.ILoopScrollItemData, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;
@@ -89,7 +89,7 @@ namespace ShipDock.Applications
 
             public ILTypeInstance ILInstance { get { return instance; } }
 
-            public void FillInfoToItem(ref ShipDock.Applications.LoopScrollItem item)
+            public void FillInfoToItem(ref ShipDock.LoopScrollItem item)
             {
                 mFillInfoToItem_0.Invoke(this.instance, ref item);
             }

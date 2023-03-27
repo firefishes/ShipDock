@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public interface IBulletBehaviour
     {

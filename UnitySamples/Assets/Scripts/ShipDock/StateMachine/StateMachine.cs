@@ -1,11 +1,10 @@
 ﻿#define G_LOG
 #define LOG_FSM_STATE_CHANGED
 
-using ShipDock.Tools;
 using System;
 using System.Collections.Generic;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
     /// <summary>
     /// 

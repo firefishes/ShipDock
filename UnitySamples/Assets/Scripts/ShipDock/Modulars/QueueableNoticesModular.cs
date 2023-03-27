@@ -1,8 +1,6 @@
-using ShipDock.Notices;
-using ShipDock.Tools;
 using System;
 
-namespace ShipDock.Modulars
+namespace ShipDock
 {
     /// <summary>
     /// 队列化消息处理模块

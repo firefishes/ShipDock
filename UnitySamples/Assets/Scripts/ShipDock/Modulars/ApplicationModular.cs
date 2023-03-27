@@ -1,10 +1,7 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Notices;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Modulars
+namespace ShipDock
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class ModularNoticeCreateAttribute : Attribute, IModularMethodPriority

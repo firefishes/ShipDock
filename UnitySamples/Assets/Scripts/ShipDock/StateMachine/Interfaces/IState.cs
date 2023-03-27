@@ -1,8 +1,6 @@
-﻿
-using ShipDock.Interfaces;
-using System;
+﻿using System;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
     /// <summary>
     /// 

@@ -1,10 +1,6 @@
-﻿using ShipDock.Applications;
-using ShipDock.Loader;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     /// <summary>
     /// UI虚类

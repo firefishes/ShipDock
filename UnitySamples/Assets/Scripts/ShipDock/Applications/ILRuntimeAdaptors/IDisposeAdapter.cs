@@ -3,7 +3,7 @@ using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {   
     public class IDisposeAdapter : CrossBindingAdaptor
     {
@@ -13,7 +13,7 @@ namespace ShipDock.Applications
         {
             get
             {
-                return typeof(ShipDock.Interfaces.IReclaim);
+                return typeof(ShipDock.IReclaim);
             }
         }
 
@@ -30,7 +30,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : Interfaces.IReclaim, CrossBindingAdaptorType
+        public class Adapter : IReclaim, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;

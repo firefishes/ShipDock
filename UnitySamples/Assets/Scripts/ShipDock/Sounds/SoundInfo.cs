@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShipDock.Sounds
+namespace ShipDock
 {
     /// <summary>
     /// 音频信息

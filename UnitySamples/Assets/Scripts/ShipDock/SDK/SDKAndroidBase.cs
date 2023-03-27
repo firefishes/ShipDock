@@ -1,6 +1,4 @@
-﻿using ShipDock.Notices;
-using ShipDock.Pooling;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 #pragma warning disable

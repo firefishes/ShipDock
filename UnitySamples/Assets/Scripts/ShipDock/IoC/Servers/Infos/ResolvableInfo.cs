@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ShipDock.Server
+﻿namespace ShipDock
 {
     public struct ResolvableInfo
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     [Serializable]
     public class AnimationSubgroup

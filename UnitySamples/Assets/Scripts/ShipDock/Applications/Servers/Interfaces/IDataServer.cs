@@ -1,6 +1,5 @@
-﻿using ShipDock.Server;
-
-namespace ShipDock.Applications
+﻿
+namespace ShipDock
 {
     public interface IDataServer : IServer
     {

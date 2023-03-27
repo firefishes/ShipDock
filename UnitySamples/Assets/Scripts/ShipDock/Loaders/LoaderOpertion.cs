@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Loader
+﻿namespace ShipDock
 {
     public class LoaderOpertion
     {

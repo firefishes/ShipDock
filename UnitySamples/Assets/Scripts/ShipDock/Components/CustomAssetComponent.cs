@@ -1,9 +1,7 @@
-﻿
-using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     [ExecuteInEditMode]
     public class CustomAssetComponent : MonoBehaviour

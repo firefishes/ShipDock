@@ -1,8 +1,8 @@
 ﻿using System;
-using OnlyOnceListenerList = System.Collections.Generic.List<System.Action<ShipDock.Notices.INoticeBase<int>>>;
-using OnlyOnceListenerMapper = ShipDock.Tools.KeyValueList<int, System.Collections.Generic.List<System.Action<ShipDock.Notices.INoticeBase<int>>>>;
+using OnlyOnceListenerList = System.Collections.Generic.List<System.Action<ShipDock.INoticeBase<int>>>;
+using OnlyOnceListenerMapper = ShipDock.KeyValueList<int, System.Collections.Generic.List<System.Action<ShipDock.INoticeBase<int>>>>;
 
-namespace ShipDock.Notices
+namespace ShipDock
 {
     /// <summary>
     /// 

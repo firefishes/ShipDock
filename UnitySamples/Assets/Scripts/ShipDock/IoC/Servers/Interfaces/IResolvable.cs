@@ -1,8 +1,6 @@
-﻿using ShipDock.Interfaces;
-using ShipDock.Pooling;
-using System;
+﻿using System;
 
-namespace ShipDock.Server
+namespace ShipDock
 {
     public interface IResolvable : IReclaim
     {

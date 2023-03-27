@@ -1,9 +1,6 @@
-﻿using ShipDock.Config;
-using ShipDock.Notices;
-using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public interface IConfigNotice : IParamNotice<string[]>
     {

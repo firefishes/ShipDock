@@ -5,9 +5,8 @@ using Sirenix.OdinInspector;
 
 using System;
 using UnityEngine;
-using ShipDock.UI;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     [Serializable]
     public class HotFixerSubgroup : UINodes

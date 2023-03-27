@@ -1,6 +1,4 @@
-﻿using ShipDock.Applications;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;

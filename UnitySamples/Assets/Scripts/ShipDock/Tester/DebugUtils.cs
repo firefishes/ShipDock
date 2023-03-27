@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using UnityEngine.Profiling;
 #endif
 
-namespace ShipDock.Testers
+namespace ShipDock
 {
     /// <summary>调试工具类</summary>
     public class DebugUtils

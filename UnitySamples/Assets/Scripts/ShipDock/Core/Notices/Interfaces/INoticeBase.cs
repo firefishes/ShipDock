@@ -1,8 +1,4 @@
-﻿
-using ShipDock.Interfaces;
-using ShipDock.Pooling;
-
-namespace ShipDock.Notices
+﻿namespace ShipDock
 {
     /// <summary>
     /// 

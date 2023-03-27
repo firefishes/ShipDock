@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Networking;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public static class HttpUtility
     {

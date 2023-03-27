@@ -1,4 +1,4 @@
-namespace ShipDock.ECS
+namespace ShipDock
 {
     public abstract class ECSLogic : IECSLogic
     {

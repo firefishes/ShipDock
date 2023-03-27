@@ -1,13 +1,8 @@
 ﻿#define _G_LOG
 
-using ShipDock.Config;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Server;
-
-namespace ShipDock.Applications
+namespace ShipDock
 {
-    public class ConfigServer : Server.Server
+    public class ConfigServer : Server
     {
         public bool hasLocalsConfig;
         private ConfigHelper mHelper;

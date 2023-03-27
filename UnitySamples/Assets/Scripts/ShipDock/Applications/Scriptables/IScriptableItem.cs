@@ -1,7 +1,4 @@
-﻿
-using LitJson;
-
-namespace ShipDock.Scriptables
+﻿namespace ShipDock
 {
     public interface IScriptableItem
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class HotFixerAppEnter<T> : HotFixBridge where T : AppHotFixConfigBase, new()
     {

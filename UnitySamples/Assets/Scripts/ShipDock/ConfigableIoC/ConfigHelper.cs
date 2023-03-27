@@ -1,11 +1,8 @@
-﻿using ShipDock.Config;
-using ShipDock.Loader;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class ConfigHelper
     {

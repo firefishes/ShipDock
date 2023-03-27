@@ -3,7 +3,7 @@
 using System;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class ResPrefabBridge : ResBridge, IResPrefabBridge
     {
@@ -40,7 +40,9 @@ namespace ShipDock.Applications
                 }
                 else { }
 
-                GameObject source = Assets.Get(m_Asset.GetABName(), m_Asset.GetAssetName());
+                string abName = m_Asset.GetABName();
+                string assetName = m_Asset.GetAssetName();
+                GameObject source = Assets.Get(abName, assetName);
                 Prefab = source;
 
             }

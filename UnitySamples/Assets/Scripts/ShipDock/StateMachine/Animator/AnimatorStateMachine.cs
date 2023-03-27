@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
     public class AnimatorStateMachine : StateMachine
     {

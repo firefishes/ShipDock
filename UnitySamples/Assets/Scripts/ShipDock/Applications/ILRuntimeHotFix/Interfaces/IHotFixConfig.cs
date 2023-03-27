@@ -1,7 +1,7 @@
 ﻿using ILRuntime.Runtime.Enviorment;
 using AutoAdaptorGeneratesDic = System.Collections.Generic.Dictionary<string, System.Type>;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public interface IHotFixConfig
     {

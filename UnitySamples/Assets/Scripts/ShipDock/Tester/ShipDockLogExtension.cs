@@ -1,6 +1,6 @@
 ﻿#define G_LOG
 
-using ShipDock.Testers;
+using ShipDock;
 using UnityEngine;
 
 public static class ShipDockLogExtension

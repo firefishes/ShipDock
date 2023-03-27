@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Datas
+namespace ShipDock
 {
     /// <summary>
     /// 

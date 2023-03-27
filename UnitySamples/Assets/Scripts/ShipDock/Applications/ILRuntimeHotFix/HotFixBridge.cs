@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 使用热更类库的抽象类实现的桥接器组件，可以直接使用

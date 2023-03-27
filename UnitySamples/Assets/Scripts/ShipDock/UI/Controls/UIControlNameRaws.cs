@@ -1,4 +1,4 @@
-﻿namespace ShipDock.UIControls
+﻿namespace ShipDock
 {
     public static class UIControlNameRaws
     {

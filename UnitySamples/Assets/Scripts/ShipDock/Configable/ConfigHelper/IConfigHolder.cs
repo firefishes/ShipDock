@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Config
+﻿namespace ShipDock
 {
     public interface IConfigHolder
     {

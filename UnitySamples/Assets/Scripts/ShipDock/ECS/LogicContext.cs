@@ -1,12 +1,7 @@
-﻿
-using ShipDock.Interfaces;
-using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.Jobs;
 
-namespace ShipDock.ECS
+namespace ShipDock
 {
     public static class ShipDockECSSetting
     {
@@ -341,12 +336,12 @@ namespace ShipDock.ECS
                         if (method == default)
                         {
                             //同步更新
-                            item.UpdateComponents(time);
+                            item.UpdateSystem(time);
                         }
                         else
                         {
                             //异步更新
-                            onUpdate = item.UpdateComponents;
+                            onUpdate = item.UpdateSystem;
                             method.Invoke(onUpdate);
                         }
                     }
@@ -377,12 +372,12 @@ namespace ShipDock.ECS
                     if (method == default)
                     {
                         //同步更新
-                        item.UpdateComponents(time);
+                        item.UpdateSystem(time);
                     }
                     else
                     {
                         //异步更新
-                        onUpdate = item.UpdateComponents;
+                        onUpdate = item.UpdateSystem;
                         method.Invoke(onUpdate);
                     }
                 }

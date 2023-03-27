@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShipDock.Datas
+namespace ShipDock
 {
     [Serializable]
     public class ClientLocalInfo

@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Applications
+﻿namespace ShipDock
 {
     public interface IStartingUpdatePopup
     {

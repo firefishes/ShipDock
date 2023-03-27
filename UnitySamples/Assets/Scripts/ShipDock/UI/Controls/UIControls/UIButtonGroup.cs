@@ -1,10 +1,9 @@
-﻿using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace ShipDock.UIControls
+namespace ShipDock
 {
     public class UIButtonGroup : UIBase
     {

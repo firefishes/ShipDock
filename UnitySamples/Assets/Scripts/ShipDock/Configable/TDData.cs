@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.Config
+namespace ShipDock
 {
     [Serializable]
     public class TDData

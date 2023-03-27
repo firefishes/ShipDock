@@ -1,11 +1,6 @@
 ﻿using ILRuntime.Runtime.Enviorment;
+using ShipDock;
 using ShipDock.Applications;
-using ShipDock.Config;
-using ShipDock.Datas;
-using ShipDock.Interfaces;
-using ShipDock.Modulars;
-using ShipDock.Notices;
-using ShipDock.Tools;
 using System.Collections.Generic;
 using UnityEngine;
 using AutoAdaptorGeneratesDic = System.Collections.Generic.Dictionary<string, System.Type>;
@@ -71,9 +66,9 @@ public class AppHotFixConfigBase : IHotFixConfig
             ["IEnumerable_1_StringAdapter"] = typeof(IEnumerable<string>),
             ["ValueItemAdapter"] = typeof(ValueItem),
             ["IDataExtracterAdapter"] = typeof(IDataExtracter),
-            ["ILoopScrollItemDataAdapter"] = typeof(ShipDock.Applications.ILoopScrollItemData),
-            ["DeviceLocalInfoAdapter"] = typeof(ShipDock.Datas.DeviceLocalInfo),
-            ["ClientLocalInfoAdapter"] = typeof(ShipDock.Datas.ClientLocalInfo),
+            ["ILoopScrollItemDataAdapter"] = typeof(ShipDock.ILoopScrollItemData),
+            ["DeviceLocalInfoAdapter"] = typeof(ShipDock.DeviceLocalInfo),
+            ["ClientLocalInfoAdapter"] = typeof(ShipDock.ClientLocalInfo),
         };
     }
 
@@ -83,17 +78,17 @@ public class AppHotFixConfigBase : IHotFixConfig
         appdomain.DelegateManager.RegisterMethodDelegate<INoticeBase<int>>();
         appdomain.DelegateManager.RegisterMethodDelegate<INotice>();        appdomain.DelegateManager.RegisterMethodDelegate<IParamNotice<System.Int32>>();
         appdomain.DelegateManager.RegisterMethodDelegate<InputData>();
-        appdomain.DelegateManager.RegisterMethodDelegate<GameObject>();        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Vector3>();        appdomain.DelegateManager.RegisterMethodDelegate<ILRuntime.Runtime.Intepreter.ILTypeInstance>();        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.Tools.TimeGapper>();
+        appdomain.DelegateManager.RegisterMethodDelegate<GameObject>();        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Vector3>();        appdomain.DelegateManager.RegisterMethodDelegate<ILRuntime.Runtime.Intepreter.ILTypeInstance>();        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.TimeGapper>();
         appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.EventSystems.BaseEventData>();        appdomain.DelegateManager.RegisterMethodDelegate<System.Single>();
-        appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean, ShipDock.Loader.AssetsLoader>();        appdomain.DelegateManager.RegisterMethodDelegate<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>>();
-        appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean, System.Single>();        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.UI.IUIStack, System.Boolean>();        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.Datas.IDataProxy, System.Int32>();        appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean, UnityEngine.EventSystems.EventTriggerType>();        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.SceneManagement.Scene, UnityEngine.SceneManagement.LoadSceneMode>();        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.Applications.AniStateFX, UnityEngine.GameObject>();
-        appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean, ShipDock.Loader.Loader>();        appdomain.DelegateManager.RegisterFunctionDelegate<System.Object>();        appdomain.DelegateManager.RegisterFunctionDelegate<INoticeBase<int>>();        appdomain.DelegateManager.RegisterFunctionDelegate<UnityEngine.Vector3>();        appdomain.DelegateManager.RegisterFunctionDelegate<ShipDock.Config.IConfigHolder>();        appdomain.DelegateManager.RegisterFunctionDelegate<ILRuntime.Runtime.Intepreter.ILTypeInstance>();
-        appdomain.DelegateManager.RegisterFunctionDelegate<ShipDock.Applications.HotFixerInteractor>();        appdomain.DelegateManager.RegisterFunctionDelegate<System.Boolean>();        appdomain.DelegateManager.RegisterFunctionDelegate<System.Single>();        appdomain.DelegateManager.RegisterFunctionDelegate<System.Int32, ShipDock.Notices.INoticeBase<System.Int32>>();
-        appdomain.DelegateManager.RegisterFunctionDelegate<ShipDock.Applications.IDisposeAdapter.Adapter, ShipDock.Applications.IDisposeAdapter.Adapter, System.Int32>();
-        appdomain.DelegateManager.RegisterFunctionDelegate<Dictionary<int, Dictionary<int, ShipDock.Config.IConfig>>>();
+        appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean, ShipDock.AssetsLoader>();        appdomain.DelegateManager.RegisterMethodDelegate<System.Int32, ShipDock.INoticeBase<System.Int32>>();
+        appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean, System.Single>();        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.IUIStack, System.Boolean>();        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.IDataProxy, System.Int32>();        appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean, UnityEngine.EventSystems.EventTriggerType>();        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.SceneManagement.Scene, UnityEngine.SceneManagement.LoadSceneMode>();        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.AniStateFX, UnityEngine.GameObject>();
+        appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean, ShipDock.Loader>();        appdomain.DelegateManager.RegisterFunctionDelegate<System.Object>();        appdomain.DelegateManager.RegisterFunctionDelegate<INoticeBase<int>>();        appdomain.DelegateManager.RegisterFunctionDelegate<UnityEngine.Vector3>();        appdomain.DelegateManager.RegisterFunctionDelegate<ShipDock.IConfigHolder>();        appdomain.DelegateManager.RegisterFunctionDelegate<ILRuntime.Runtime.Intepreter.ILTypeInstance>();
+        appdomain.DelegateManager.RegisterFunctionDelegate<ShipDock.HotFixerInteractor>();        appdomain.DelegateManager.RegisterFunctionDelegate<System.Boolean>();        appdomain.DelegateManager.RegisterFunctionDelegate<System.Single>();        appdomain.DelegateManager.RegisterFunctionDelegate<System.Int32, ShipDock.INoticeBase<System.Int32>>();
+        appdomain.DelegateManager.RegisterFunctionDelegate<ShipDock.IDisposeAdapter.Adapter, ShipDock.IDisposeAdapter.Adapter, System.Int32>();
+        appdomain.DelegateManager.RegisterFunctionDelegate<Dictionary<int, Dictionary<int, ShipDock.IConfig>>>();
         appdomain.DelegateManager.RegisterMethodDelegate<System.Boolean>();
         appdomain.DelegateManager.RegisterMethodDelegate<System.String[]>();
-        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.UI.UIManager, ShipDock.UI.IUIStack>();        appdomain.DelegateManager.RegisterMethodDelegate<System.Single, System.Int32, System.Int32>();
+        appdomain.DelegateManager.RegisterMethodDelegate<ShipDock.UIManager, ShipDock.IUIStack>();        appdomain.DelegateManager.RegisterMethodDelegate<System.Single, System.Int32, System.Int32>();
         appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.Boolean>>((act) =>
         {
             return new UnityEngine.Events.UnityAction<System.Boolean>((arg0) =>
@@ -102,11 +97,11 @@ public class AppHotFixConfigBase : IHotFixConfig
             });
         });
 
-        appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.Boolean, ShipDock.Loader.Loader>>((act) =>
+        appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.Boolean, ShipDock.Loader>>((act) =>
         {
-            return new UnityEngine.Events.UnityAction<System.Boolean, ShipDock.Loader.Loader>((arg0, arg1) =>
+            return new UnityEngine.Events.UnityAction<System.Boolean, ShipDock.Loader>((arg0, arg1) =>
             {
-                ((System.Action<System.Boolean, ShipDock.Loader.Loader>)act)(arg0, arg1);
+                ((System.Action<System.Boolean, ShipDock.Loader>)act)(arg0, arg1);
             });
         });
         appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Application.LogCallback>((act) =>
@@ -176,11 +171,11 @@ public class AppHotFixConfigBase : IHotFixConfig
             });
         });
 
-        appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.Boolean, ShipDock.Loader.AssetsLoader>>((act) =>
+        appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.Boolean, ShipDock.AssetsLoader>>((act) =>
         {
-            return new UnityEngine.Events.UnityAction<System.Boolean, ShipDock.Loader.AssetsLoader>((arg0, arg1) =>
+            return new UnityEngine.Events.UnityAction<System.Boolean, ShipDock.AssetsLoader>((arg0, arg1) =>
             {
-                ((System.Action<System.Boolean, ShipDock.Loader.AssetsLoader>)act)(arg0, arg1);
+                ((System.Action<System.Boolean, ShipDock.AssetsLoader>)act)(arg0, arg1);
             });
         });
 
@@ -196,11 +191,11 @@ public class AppHotFixConfigBase : IHotFixConfig
             {
                 return ((System.Func<UnityEngine.Vector3>)act)();
             });
-        });        appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<ShipDock.Applications.IDisposeAdapter.Adapter>>((act) =>
+        });        appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<ShipDock.IDisposeAdapter.Adapter>>((act) =>
         {
-            return new System.Comparison<ShipDock.Applications.IDisposeAdapter.Adapter>((x, y) =>
+            return new System.Comparison<ShipDock.IDisposeAdapter.Adapter>((x, y) =>
             {
-                return ((System.Func<ShipDock.Applications.IDisposeAdapter.Adapter, ShipDock.Applications.IDisposeAdapter.Adapter, System.Int32>)act)(x, y);
+                return ((System.Func<ShipDock.IDisposeAdapter.Adapter, ShipDock.IDisposeAdapter.Adapter, System.Int32>)act)(x, y);
             });
         });
     }

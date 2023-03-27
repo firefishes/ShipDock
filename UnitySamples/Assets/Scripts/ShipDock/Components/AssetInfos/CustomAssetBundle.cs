@@ -1,8 +1,7 @@
-﻿using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Loader
+namespace ShipDock
 {
     public class CustomAssetBundle : ICustomAssetBundle
     {

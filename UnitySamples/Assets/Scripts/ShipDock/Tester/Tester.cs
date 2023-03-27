@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using AsserterMapper = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<ShipDock.Testers.Asserter>>;
-using LogsMapper = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, ShipDock.Testers.LogItem>>;
+using AsserterMapper = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<ShipDock.Asserter>>;
+using LogsMapper = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, ShipDock.LogItem>>;
 using TesterIndxMapper = System.Collections.Generic.Dictionary<string, int>;
-using TesterMapper = System.Collections.Generic.Dictionary<string, ShipDock.Testers.ITester>;
+using TesterMapper = System.Collections.Generic.Dictionary<string, ShipDock.ITester>;
 
-namespace ShipDock.Testers
+namespace ShipDock
 {
     public interface ITester
     {

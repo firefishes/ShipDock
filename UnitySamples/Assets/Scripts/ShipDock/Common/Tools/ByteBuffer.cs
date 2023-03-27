@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     public class ByteBuffer
     {
@@ -17,6 +17,11 @@ namespace ShipDock.Tools
         private int markWirteIndex = 0;
         //缓存区字节数组的长度
         private int capacity;
+
+        public void ClearRef()
+        {
+            buf = default;
+        }
 
         /// <summary>
         /// 构造方法
@@ -473,6 +478,15 @@ namespace ShipDock.Tools
         public void Clear()
         {
             buf = new byte[buf.Length];
+            readIndex = 0;
+            writeIndex = 0;
+            markReadIndex = 0;
+            markWirteIndex = 0;
+        }
+
+        public void Reset(byte[] vs = default)
+        {
+            buf = vs == default ? new byte[buf.Length] : vs;
             readIndex = 0;
             writeIndex = 0;
             markReadIndex = 0;

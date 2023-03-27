@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 #endif
 using System;
 
-namespace ShipDock.Versioning
+namespace ShipDock
 {
     /// <summary>
     /// 

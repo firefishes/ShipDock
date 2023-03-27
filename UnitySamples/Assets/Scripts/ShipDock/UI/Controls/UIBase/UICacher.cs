@@ -1,8 +1,7 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     public class UICacher
     {

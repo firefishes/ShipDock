@@ -1,6 +1,4 @@
-﻿using ShipDock.Tools;
-
-namespace ShipDock.ECS
+﻿namespace ShipDock
 {
     public class ShipDockECS : Singletons<ShipDockECS>
     {

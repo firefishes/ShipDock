@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Notices
+﻿namespace ShipDock
 {
     public static class ShipDockConsts
     {

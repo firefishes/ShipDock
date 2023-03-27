@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ShipDock.Network
+namespace ShipDock
 {
     public class RSACryptoHelper : IEncryptionHelper
     {

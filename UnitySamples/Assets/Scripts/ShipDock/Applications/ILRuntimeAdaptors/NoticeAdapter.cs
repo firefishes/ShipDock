@@ -3,7 +3,7 @@ using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {   
     public class NoticeAdapter : CrossBindingAdaptor
     {
@@ -15,13 +15,13 @@ namespace ShipDock.Applications
         static CrossBindingFunctionInfo<System.Boolean> mget_IsRecivedNotice_5 = new CrossBindingFunctionInfo<System.Boolean>("get_IsRecivedNotice");
         static CrossBindingMethodInfo<System.Boolean> mset_IsRecivedNotice_6 = new CrossBindingMethodInfo<System.Boolean>("set_IsRecivedNotice");
         static CrossBindingFunctionInfo<System.Int32> mget_Name_7 = new CrossBindingFunctionInfo<System.Int32>("get_Name");
-        static CrossBindingFunctionInfo<ShipDock.Notices.INotificationSender> mget_NotifcationSender_8 = new CrossBindingFunctionInfo<ShipDock.Notices.INotificationSender>("get_NotifcationSender");
-        static CrossBindingMethodInfo<ShipDock.Notices.INotificationSender> mset_NotifcationSender_9 = new CrossBindingMethodInfo<ShipDock.Notices.INotificationSender>("set_NotifcationSender");
+        static CrossBindingFunctionInfo<ShipDock.INotificationSender> mget_NotifcationSender_8 = new CrossBindingFunctionInfo<ShipDock.INotificationSender>("get_NotifcationSender");
+        static CrossBindingMethodInfo<ShipDock.INotificationSender> mset_NotifcationSender_9 = new CrossBindingMethodInfo<ShipDock.INotificationSender>("set_NotifcationSender");
         public override Type BaseCLRType
         {
             get
             {
-                return typeof(ShipDock.Notices.Notice);
+                return typeof(ShipDock.Notice);
             }
         }
 
@@ -38,7 +38,7 @@ namespace ShipDock.Applications
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : ShipDock.Notices.Notice, CrossBindingAdaptorType
+        public class Adapter : ShipDock.Notice, CrossBindingAdaptorType
         {
             ILTypeInstance instance;
             ILRuntime.Runtime.Enviorment.AppDomain appdomain;
@@ -128,7 +128,7 @@ namespace ShipDock.Applications
             }
             }
 
-            public override ShipDock.Notices.INotificationSender NotifcationSender
+            public override ShipDock.INotificationSender NotifcationSender
             {
             get
             {

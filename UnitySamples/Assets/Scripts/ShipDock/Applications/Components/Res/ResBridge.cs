@@ -1,9 +1,6 @@
-﻿using ShipDock.Loader;
-using ShipDock.Tools;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class ResBridge : MonoBehaviour, IResBridge
     {

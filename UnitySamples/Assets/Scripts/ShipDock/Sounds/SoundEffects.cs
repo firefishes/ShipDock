@@ -1,9 +1,8 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShipDock.Sounds
+namespace ShipDock
 {
     /// <summary>
     /// 

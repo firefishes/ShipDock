@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Tools
+﻿namespace ShipDock
 {
     public class ValueItem
     {

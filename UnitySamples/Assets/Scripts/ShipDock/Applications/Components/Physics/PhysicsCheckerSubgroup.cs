@@ -1,11 +1,10 @@
 ﻿#define _G_LOG
 
-using ShipDock.Interfaces;
-using ShipDock.Tools;
 using System;
 using UnityEngine;
+using static ShipDock.RoleComponent;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     /// <summary>
     /// 物理检测器子组

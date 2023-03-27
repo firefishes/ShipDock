@@ -1,4 +1,4 @@
-﻿namespace ShipDock.Network
+﻿namespace ShipDock
 {
     public interface IEncryptionHelper
     {

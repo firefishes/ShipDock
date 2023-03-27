@@ -1,6 +1,4 @@
-﻿using ShipDock.Interfaces;
-
-namespace ShipDock.Loader
+﻿namespace ShipDock
 {
     public interface ICustomAssetBundle : IReclaim
     {

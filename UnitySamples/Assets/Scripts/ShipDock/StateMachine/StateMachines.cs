@@ -1,7 +1,6 @@
-﻿using ShipDock.Tools;
-using System;
+﻿using System;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
     /// <summary>
     /// 

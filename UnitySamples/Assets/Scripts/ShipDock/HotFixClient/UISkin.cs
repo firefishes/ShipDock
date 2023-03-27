@@ -1,10 +1,8 @@
-﻿using ShipDock.Notices;
-using ShipDock.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public class UISkin : HotFixBase
     {

@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace ShipDock.Server
+namespace ShipDock
 {
     /// <summary>
     /// 服务容器的解析器特性

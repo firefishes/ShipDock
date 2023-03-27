@@ -1,7 +1,6 @@
-﻿using ShipDock.Pooling;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ShipDock.Tools
+namespace ShipDock
 {
     /// <summary>
     /// 标记位

@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-namespace ShipDock.Applications
+namespace ShipDock
 {
     public static class DataSerialize
     {

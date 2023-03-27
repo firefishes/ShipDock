@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace ShipDock.UIControls
+namespace ShipDock
 {
     /// <summary>
     /// 

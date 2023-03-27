@@ -1,10 +1,9 @@
 ﻿#define _G_LOG
 
-using ShipDock.Tools;
 using System;
 using System.Collections.Generic;
 
-namespace ShipDock.FSM
+namespace ShipDock
 {
     public class FSMStateParam : IStateParam
     {

@@ -1,14 +1,4 @@
-﻿using ShipDock.Applications;
-using ShipDock.Commons;
-using ShipDock.Config;
-using ShipDock.Datas;
-using ShipDock.FSM;
-using ShipDock.HotFix;
-using ShipDock.Modulars;
-using ShipDock.Network;
-using ShipDock.Notices;
-using ShipDock.Sounds;
-using ShipDock.Tools;
+﻿using ShipDock;
 using System;
 using System.Collections.Generic;
 
@@ -42,7 +32,7 @@ public static class HotFixClientExtensions
     }
 }
 
-namespace ShipDock.HotFix
+namespace ShipDock
 {
     /// <summary>
     /// 

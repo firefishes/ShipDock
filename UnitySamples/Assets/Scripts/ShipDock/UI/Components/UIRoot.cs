@@ -6,7 +6,7 @@ using System;
 using Sirenix.OdinInspector;
 #endif
 
-namespace ShipDock.UI
+namespace ShipDock
 {
     /// <summary>
     /// 
