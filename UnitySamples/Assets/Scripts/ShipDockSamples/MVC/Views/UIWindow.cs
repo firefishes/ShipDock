@@ -1,6 +1,4 @@
-using ShipDock.Notices;
-using ShipDock.Tools;
-using ShipDock.UI;
+using ShipDock;
 using UnityEngine;
 using UnityEngine.UI;
 

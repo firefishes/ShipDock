@@ -1,5 +1,4 @@
-using ShipDock.Modulars;
-using ShipDock.Notices;
+using ShipDock;
 
 public class SampleGameStartModular : ApplicationModular
 {

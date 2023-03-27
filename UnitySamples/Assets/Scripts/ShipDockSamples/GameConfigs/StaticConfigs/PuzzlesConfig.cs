@@ -1,6 +1,4 @@
-using ShipDock.Config;
-
-using ShipDock.Tools;
+using ShipDock;
 
 namespace StaticConfig
 {

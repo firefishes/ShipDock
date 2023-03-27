@@ -1,5 +1,4 @@
-﻿using ShipDock.Applications;
-using ShipDock.Loader;
+﻿using ShipDock;
 using UnityEngine;
 
 public class Sample_AssetsLoader : ShipDockAppComponent

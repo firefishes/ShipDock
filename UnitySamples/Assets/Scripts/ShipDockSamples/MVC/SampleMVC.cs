@@ -1,11 +1,4 @@
-using ShipDock.Applications;
-using ShipDock.Datas;
-using ShipDock.Notices;
-using ShipDock.UI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using ShipDock;
 
 public class SampleMVC : ShipDockAppComponent
 {

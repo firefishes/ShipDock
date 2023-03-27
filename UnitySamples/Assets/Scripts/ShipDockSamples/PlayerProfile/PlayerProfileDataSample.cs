@@ -1,7 +1,4 @@
-using ShipDock.Applications;
-using ShipDock.Datas;
-using ShipDock.Notices;
-
+using ShipDock;
 /// <summary>
 /// ShipDock 案例: 玩家账户数据
 /// </summary>

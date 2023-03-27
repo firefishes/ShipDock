@@ -1,6 +1,4 @@
-using ShipDock.Applications;
-using ShipDock.Datas;
-using ShipDock.Notices;
+using ShipDock;
 
 public class DataProxySample : ShipDockAppComponent
 {

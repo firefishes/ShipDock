@@ -1,8 +1,4 @@
-using ShipDock.Applications;
-using ShipDock.Datas;
-using ShipDock.Notices;
-using ShipDock.UI;
-
+using ShipDock;
 /// <summary>
 /// 
 /// ¿ØÖÆ²ã

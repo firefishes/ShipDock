@@ -1,4 +1,4 @@
-using ShipDock.Tools;
+using ShipDock;
 using UnityEngine;
 
 public class CubeRotate : MonoBehaviour

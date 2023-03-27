@@ -1,7 +1,4 @@
-using ShipDock.Applications;
-using ShipDock.Datas;
-using ShipDock.Modulars;
-using ShipDock.Notices;
+using ShipDock;
 
 public class SampleLogicModulars : ShipDockAppComponent
 {

@@ -1,5 +1,4 @@
-using ShipDock.Applications;
-using ShipDock.Notices;
+using ShipDock;
 using System;
 
 public class NoticesSample : ShipDockAppComponent

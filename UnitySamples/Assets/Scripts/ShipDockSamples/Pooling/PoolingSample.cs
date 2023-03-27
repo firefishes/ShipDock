@@ -1,10 +1,4 @@
-using System;
-using ShipDock.Applications;
-using ShipDock.Commons;
-using ShipDock.Loader;
-using ShipDock.Notices;
-using ShipDock.Pooling;
-using ShipDock.Tools;
+using ShipDock;
 using UnityEngine;
 
 public class PoolingSample : ShipDockAppComponent

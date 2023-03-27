@@ -1,5 +1,4 @@
-﻿using ShipDock.Applications;
-using ShipDock.Testers;
+﻿using ShipDock;
 
 public class ColorableLogSample : ShipDockAppComponent
 {

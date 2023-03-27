@@ -1,4 +1,4 @@
-﻿using ShipDock.Applications;
+﻿using ShipDock;
 
 public class CreateGameStartUpSample : ShipDockAppComponent
 {

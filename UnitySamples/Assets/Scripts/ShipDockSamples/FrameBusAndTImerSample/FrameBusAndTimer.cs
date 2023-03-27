@@ -1,7 +1,4 @@
-using ShipDock.Applications;
-using ShipDock.Commons;
-using ShipDock.Notices;
-using ShipDock.Ticks;
+using ShipDock;
 
 public class FrameBusAndTimer : ShipDockAppComponent
 {

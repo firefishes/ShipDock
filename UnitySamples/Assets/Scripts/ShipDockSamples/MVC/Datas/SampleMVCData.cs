@@ -1,8 +1,4 @@
-using ShipDock.Datas;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+using ShipDock;
 /// <summary>
 /// 
 /// Êý¾Ý²ã

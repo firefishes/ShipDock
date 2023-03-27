@@ -1,5 +1,4 @@
-using ShipDock.Datas;
-
+using ShipDock;
 /// <summary>
 /// ’Àªß–≈œ¢
 /// </summary>
