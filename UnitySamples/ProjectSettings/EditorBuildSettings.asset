@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scripts/ShipDockSamples/LoadScene/LoadSceneSampleA.unity
-    guid: 54a6da99ad3ec774488061207206173e
+    path: Assets/Scenes/ZombiesTranval.unity
+    guid: 6d39f15bd24ff13408985e30987eac35
   - enabled: 1
-    path: Assets/Scripts/ShipDockSamples/LoadScene/LoadSceneSampleB.unity
-    guid: d63f522f6755039489ca07eba4d401a4
+    path: Assets/Scenes/GameStart.unity
+    guid: 0c059c7bf8b154d4bb35fab9f427629b
   m_configObjects: {}

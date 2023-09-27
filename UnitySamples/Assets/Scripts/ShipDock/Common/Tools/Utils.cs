@@ -285,13 +285,21 @@ namespace ShipDock
             return randomSeedByOrder;
         }
 
+        private static System.Random staticRandom = new();
+
         /// <summary>
         /// 获取浮点型随机数
         /// </summary>
         public static float RangeRandom(float min, float max, int seed = -1)
         {
-            System.Random random = seed == -1 ? new System.Random() : new System.Random(seed);
-            var d = random.NextDouble() * (max - min) + min;
+            if (seed >= 0)
+            {
+                staticRandom = new System.Random(seed);
+            }
+            else { }
+
+            //System.Random random = seed == -1 ? staticRandom : new System.Random(seed);
+            var d = staticRandom.NextDouble() * (max - min) + min;
             return (float)d;
         }
 

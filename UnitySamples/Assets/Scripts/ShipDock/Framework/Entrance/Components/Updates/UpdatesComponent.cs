@@ -1,0 +1,106 @@
+using System;
+using UnityEngine;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
+
+namespace ShipDock
+{
+    /// <summary>
+    /// 
+    /// 总线帧更新组件
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
+    [DisallowMultipleComponent]
+    public class UpdatesComponent : MonoBehaviour, IUpdatesComponent
+    {
+#if ODIN_INSPECTOR
+        [TitleGroup("主线帧更新组件")]
+#endif
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("消息名 - 组件就绪"), EnableIf("@false"), Indent(1)]
+#endif 
+        private int m_ReadyNoticeName = ShipDockConsts.NOTICE_SCENE_UPDATE_READY;
+
+        [SerializeField, Tooltip("触发Unity主线程驱动模式的帧更新消息")]
+#if ODIN_INSPECTOR
+        [LabelText("消息名 - 新增帧更新项"), EnableIf("@false"), Indent(1)]
+#endif
+        private int m_AddItemNoticeName = ShipDockConsts.NOTICE_ADD_SCENE_UPDATE;
+
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("消息名 - 移除帧更新项"), EnableIf("@false"), Indent(1)]
+#endif
+        private int m_RemoveItemNoticeName = ShipDockConsts.NOTICE_REMOVE_SCENE_UPDATE;
+
+        [SerializeField]
+#if ODIN_INSPECTOR
+        [LabelText("消息名 - 推迟至下一帧更新"), EnableIf("@false"), Indent(1)]
+#endif
+        private int m_CallLateItemNoticeName = ShipDockConsts.NOTICE_SCENE_CALL_LATE;
+
+        private Action mOnSyncToFrame;
+        private UpdatesCacher mUpdatesCacher;
+
+        private void Awake()
+        {
+            Framework.Instance.Updates = this;
+        }
+
+        private void OnDestroy()
+        {
+            mOnSyncToFrame = default;
+
+            mUpdatesCacher?.Reclaim();
+            mUpdatesCacher = default;
+        }
+
+        public void Init()
+        {
+            if ((int.MaxValue != m_AddItemNoticeName) && (int.MinValue != m_RemoveItemNoticeName))
+            {
+                mUpdatesCacher = new UpdatesCacher(m_AddItemNoticeName, m_RemoveItemNoticeName, m_CallLateItemNoticeName);
+            }
+            else { }
+
+            if(m_ReadyNoticeName != int.MaxValue)
+            {
+                m_ReadyNoticeName.Broadcast();
+            }
+            else { }
+        }
+
+        private void Update()
+        {
+            mOnSyncToFrame?.Invoke();
+            mOnSyncToFrame = default;
+
+            mUpdatesCacher?.Update(Time.deltaTime);
+        }
+
+        private void FixedUpdate()
+        {
+            float dTime = (Time.timeScale != 0f) ? (Time.fixedDeltaTime * Time.timeScale) : Time.fixedDeltaTime;
+            mUpdatesCacher?.FixedUpdate(dTime);
+        }
+
+        private void LateUpdate()
+        {
+            mUpdatesCacher?.LateUpdate();
+            mUpdatesCacher?.CheckDeleted();
+        }
+
+        public void SyncToFrame(Action method)
+        {
+            if (method != default)
+            {
+                mOnSyncToFrame += method;
+            }
+            else { }
+        }
+    }
+}

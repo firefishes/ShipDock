@@ -61,29 +61,21 @@ namespace ShipDock
             instance.ToPool(target);
         }
 
-        public static bool CheckAndRevert(T item)
-        {
-            bool result = IsUsed(item);
-            if (result)
-            {
-                To(item);
-            }
-            return result;
-        }
-
+#if UNITY_EDITOR
         public static bool IsUsed(T target)
         {
             CheckPoolNull(default);
             return instance.CheckUsed(target);
         }
-        #endregion
+#endif
+#endregion
 
         private readonly string mPoolTypeName = typeof(T).FullName;
 
         private object mLock;
-        private bool mIsAddResetCallback = true;
         private Stack<T> mPool;
         private Func<T> mCreater;
+        private bool mIsAddResetCallback = true;
 
         /// <summary>获取当前对象池中对象的数量</summary>
         public int UsedCount { get; private set; }
@@ -115,14 +107,17 @@ namespace ShipDock
             else { }
 
             mLock = new object();
+
+#if UNITY_EDITOR
+            const string format = "Pooling {0} created";
+            string log = string.Format(format, mPoolTypeName);
+            "log".Log(log);
+#endif
         }
 
         /// <summary>销毁对象池</summary>
         public virtual void Reclaim()
         {
-#if UNITY_EDITOR
-            AllPools.used.Clear();
-#endif
             ClearPool();
             mCreater = default;
             mPool = default;
@@ -138,7 +133,7 @@ namespace ShipDock
             lock (mLock)
             {
                 T result = default;
-                if (mInstanceCount > 2 && mPool.Count > 0)
+                if (mInstanceCount > 0 && mPool.Count > 0)
                 {
                     mInstanceCount--;
                     result = mPool.Pop();
@@ -156,12 +151,6 @@ namespace ShipDock
                 }
                 UsedCount++;
 
-#if UNITY_EDITOR
-                //if (!AllPools.used.Contains(result))
-                //{
-                //    AllPools.used.Add(result);
-                //}
-#endif
                 if (result == default)
                 {
                     result = new T();
@@ -183,21 +172,25 @@ namespace ShipDock
 
             target.Revert();
 
-            if (!mPool.Contains(target))
+#if UNITY_EDITOR
+            if (mPool.Contains(target))
             {
+                const string format = "Pooling {0} try revert an instance one more time.";
+                string log = string.Format(format, mPoolTypeName);
+                "error".Log(log);
+            }
+            else
+            {
+#endif
                 mPool.Push(target);
                 mInstanceCount++;
                 UsedCount--;
-            }
-            else { }
 #if UNITY_EDITOR
-            //if (AllPools.used.Contains(target))
-            //{
-            //    AllPools.used.Remove(target);
-            //}
+            }
 #endif
         }
 
+#if UNITY_EDITOR
         /// <summary>检测一个对象是否正在使用</summary>
         public bool CheckUsed(T target)
         {
@@ -219,6 +212,7 @@ namespace ShipDock
             else { }
             return result;
         }
+#endif
 
         /// <summary>重置池中所有对象</summary>
         public void ClearPool()
@@ -226,7 +220,6 @@ namespace ShipDock
             if (mPool != default)
             {
                 int max = mPool.Count;
-                //"pool clear".Log(max > 0, mPoolTypeName.Append(", count is ", max.ToString()));
                 for (int i = 0; i < max; i++)
                 {
                     T item = mPool.Pop();
@@ -238,6 +231,12 @@ namespace ShipDock
                     else { }
                 }
                 mPool.Clear();
+
+#if UNITY_EDITOR
+                const string format = "Pooling {0} clear";
+                string log = string.Format(format, mPoolTypeName);
+                "log".Log(log);
+#endif
             }
             else { }
             UsedCount = 0;
@@ -245,7 +244,7 @@ namespace ShipDock
 
         public IPoolable Create()
         {
-            return FromPool() as IPoolable;
+            return FromPool();
         }
 
         public void Reserve(ref IPoolable item)

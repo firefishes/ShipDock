@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ShipDock
 {
@@ -12,10 +11,6 @@ namespace ShipDock
     /// </summary>
     public static class AllPools
     {
-#if UNITY_EDITOR
-        /// <summary>使用中的实例</summary>
-        public static List<IPoolable> used = new List<IPoolable>();
-#endif
         private static Action onResetAllPooling;
 
         public static void ResetAllPooling()
