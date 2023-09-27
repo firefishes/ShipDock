@@ -181,11 +181,12 @@
             return this;
         }
 
-        public void Change(string value)
+        public void Change(string newValue)
         {
-            if (!value.Equals(Value))
+            newValue = newValue == default ? string.Empty : newValue;
+            if (!newValue.Equals(Value))
             {
-                Value = value;
+                Value = newValue;
 
                 if (!bool.TryParse(Value, out mBool))
                 {

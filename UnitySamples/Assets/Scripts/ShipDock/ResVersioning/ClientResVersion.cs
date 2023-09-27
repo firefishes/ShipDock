@@ -12,7 +12,7 @@ namespace ShipDock
 {
     /// <summary>
     /// 
-    /// 远程网关可选项
+    /// 客户端资源版本工具
     /// 
     /// add by Minghua.ji
     /// 
@@ -105,13 +105,15 @@ namespace ShipDock
 
 #if ODIN_INSPECTOR
         [ShowIf("m_ApplyCurrentResGateway", true), Button(name: "应用 Gateway")]
-        private void UpdateRemoteGatewaySelected()
+        private void UpdateRemoteGatewayBySelected()
         {
             mRemoteSelected = -1;
+            RemoteGatewayItem item;
             int max = m_OptionalGateways.Length;
             for (int i = 0; i < max; i++)
             {
-                if (m_OptionalGateways[i].selected)
+                item = m_OptionalGateways[i];
+                if (item.selected)
                 {
                     mRemoteSelected = i;
                     break;
@@ -123,13 +125,15 @@ namespace ShipDock
             {
                 if (mRemoteSelected != i)
                 {
-                    m_OptionalGateways[i].selected = false;
+                    item = m_OptionalGateways[i];
+                    item.selected = false;
                 }
                 else { }
             }
             if (mRemoteSelected != -1)
             {
-                m_ResRemoteGateway = m_OptionalGateways[mRemoteSelected].gateway;
+                item = m_OptionalGateways[mRemoteSelected];
+                m_ResRemoteGateway = item.gateway;
             }
             else { }
         }
@@ -137,13 +141,9 @@ namespace ShipDock
         [Button(name: "预览其他"), ShowIf("@this.mIsShowPreview == false && m_Preview != null")]
         private void PreviewVersionsData()
         {
-            if (m_Preview != default)
-            {
-                mBeforePreview = m_Res;
-                mIsShowPreview = true;
-                m_Res = JsonUtility.FromJson<ResDataVersion>(m_Preview.text);
-            }
-            else { }
+            mBeforePreview = m_Res;
+            mIsShowPreview = true;
+            m_Res = JsonUtility.FromJson<ResDataVersion>(m_Preview.text);
         }
 
         [Button(name: "返回"), ShowIf("@this.mIsShowPreview == true")]
@@ -336,9 +336,14 @@ namespace ShipDock
                 UpdateHandler = updateHandler;
                 VersionInvalidHandler = versionInvalidHandler;
 
+                //从远端加载资源版本配置文件
                 Loader loader = new Loader();
                 loader.CompleteEvent.AddListener(OnLoadComplete);
-                loader.Load(Versions.res_gateway.Append(ResDataVersion.FILE_RES_DATA_VERSIONS_NAME));
+
+                //构建远端资源版本配置文件的链接
+                string resGayWay = Versions.res_gateway;
+                string url = resGayWay.Append(ResDataVersion.FILE_RES_DATA_VERSIONS_NAME);
+                loader.Load(url);
             }
         }
 

@@ -12,7 +12,7 @@ namespace ShipDock
         private List<string> mStartedChangeTask;
         private List<int> mFinishTaskIndex;
         private List<TimeGapper> mChangeTimes;
-        private KeyValueList<string, Action<TimeGapper>> mChangeHnadlers;
+        private KeyValueList<string, Action<TimeGapper>> mChangeHandlers;
 
         private UI Owner { get; set; }
 
@@ -23,7 +23,7 @@ namespace ShipDock
             mStartedChangeTask = new List<string>();
             mFinishTaskIndex = new List<int>();
             mChangeTimes = new List<TimeGapper>();
-            mChangeHnadlers = new KeyValueList<string, Action<TimeGapper>>();
+            mChangeHandlers = new KeyValueList<string, Action<TimeGapper>>();
         }
 
         public void Clean()
@@ -32,12 +32,12 @@ namespace ShipDock
             mFinishTaskIndex?.Clear();
             mChangeTimes = default;
 
-            int max = mChangeHnadlers.Keys.Count;
             string key;
+            int max = mChangeHandlers.Keys.Count;
             for (int i = 0; i < max; i++)
             {
-                key = mChangeHnadlers.Keys[i];
-                mChangeHnadlers[key] = default;
+                key = mChangeHandlers.Keys[i];
+                mChangeHandlers[key] = default;
             }
 
             Owner = default;
@@ -111,7 +111,7 @@ namespace ShipDock
                 mChangeTimes.Add(timeGapper);
 
                 mStartedChangeTask.Add(taskName);
-                mChangeHnadlers[taskName] = handler;
+                mChangeHandlers[taskName] = handler;
             }
             Owner.UIChanged = true;
         }
@@ -139,7 +139,7 @@ namespace ShipDock
                         {
                             mCurrentTaskName = mStartedChangeTask[i];
                         }
-                        mTaskCallback = mChangeHnadlers[mCurrentTaskName];
+                        mTaskCallback = mChangeHandlers[mCurrentTaskName];
                         mTaskCallback?.Invoke(gapper);
                         mTaskCallback = default;
                     }

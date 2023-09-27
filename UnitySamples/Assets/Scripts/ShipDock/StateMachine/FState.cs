@@ -262,7 +262,7 @@ namespace ShipDock
                 }
                 else { }
 #if ILRUNTIME
-                state?.Dispose();
+                state?.Reclaim();
 #else
                 Utils.Reclaim(state);
 #endif

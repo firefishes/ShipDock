@@ -566,15 +566,15 @@ namespace ShipDock
         }
 
         /// <summary>
-        /// 初始化 ILRuntime 热更
+        /// 初始化 ILRuntime 热更（编辑器扩展也需要此方法作为编辑器功能的开端）
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="hotFixCore"></param>
         /// <param name="config"></param>
-        public void SetHotFixSetting(ILRuntimeHotFix value, IHotFixConfig config)
+        public void SetHotFixSetting(ILRuntimeHotFix hotFixCore, IHotFixConfig config)
         {
-            if (value != default)
+            if (hotFixCore != default)
             {
-                ILRuntimeHotFix = value;//新建IL热更方案的管理器
+                ILRuntimeHotFix = hotFixCore;//新建IL热更方案的管理器
                 if (ILRuntimeHotFix.GetAppILRuntime() == default)
                 {
                     ILRuntimeHotFix.SetOwner(this);
@@ -587,15 +587,13 @@ namespace ShipDock
         }
 
         /// <summary>
-        /// 以传入热更配置的泛型参数作为方式初始化 ILRuntime 热更
+        /// 传入热更配置的泛型类，初始化 ILRuntime 热更所需的启动对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
         public void InitILRuntime<T>() where T : IHotFixConfig, new()
         {
-            T hotFixConfig = new T();
             ILRuntimeHotFix hotFixCore = new ILRuntimeHotFix(this);
-
-            SetHotFixSetting(hotFixCore, hotFixConfig);
+            SetHotFixSetting(hotFixCore, new T());
         }
 
         public IHotFixConfig GetHotFixConfig()

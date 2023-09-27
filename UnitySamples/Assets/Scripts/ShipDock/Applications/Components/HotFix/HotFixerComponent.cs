@@ -57,6 +57,7 @@ namespace ShipDock
         {
             mCompBridge?.Reclaim();
             mCompBridge = default;
+
             m_Settings.Clear();
             m_Settings = default;
         }

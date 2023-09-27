@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define _LOG_ENABLED
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -15,6 +17,10 @@ namespace ShipDock.Editors
     /// </summary>
     public class AssetBundleInfoPopupEditor : ShipDockEditor
     {
+        private const string FILE_CS_EXT = ".cs";
+        private const string FILE_UNITY_SCENE_EXT = ".unity";
+        private const string KEY_AB_UNITY_SCENE = "_unityscene";
+
         /// <summary>
         /// 弹出编辑器工具弹窗
         /// </summary>
@@ -26,14 +32,15 @@ namespace ShipDock.Editors
         }
 
         #region 编辑器字段名
-        private string mIsBuildABKey = "is_build_ab";
-        private string mOverrideToStreamingKey = "override_to_streaming";
-        private string mABItemNameKey = "ab_item_name";
-        private string mDisplayResShowerKey = "display_res_shower";
-        private string mIsBuildVersionsKey = "is_build_versions";
-        private string mCoordinatorPathKey = "coordinator_path";
-        private string mBuildTargetTitleKey = "build_target";
+        public const string KEY_IS_BUILD_AB = "is_build_ab";
+        public const string KEY_OVERRIDE_TO_STREAMING = "override_to_streaming";
+        public const string KEY_AB_ITEM_NAME = "ab_item_name";
+        public const string KEY_DISPLAY_RES_SHOWER = "display_res_shower";
+        public const string KEY_IS_BUILD_VERSION = "is_build_versions";
+        public const string KEY_COORDINATOR_PATH = "coordinator_path";
+        public const string KEY_BUILD_TARGET_TITLE = "build_target";
         #endregion
+
         private int mBuildTargetStatu;
         private Vector2 mResShowerScrollPos;
 
@@ -44,13 +51,13 @@ namespace ShipDock.Editors
             ShipDockEditorData editorData = ShipDockEditorData.Instance;
             string buildTargetTitle = AssetBundleBuilder.GetBuildPlatFromTitle(editorData.buildPlatform, out mBuildTargetStatu);
 
-            SetValueItem(mIsBuildABKey, TRUE);//是否生成资源包
-            SetValueItem(mOverrideToStreamingKey, FALSE);//是否将生成的资源包覆盖至Streaming目录
-            SetValueItem(mABItemNameKey, string.Empty);
-            SetValueItem(mDisplayResShowerKey, TRUE);//是否显示带打包的资源列表
-            SetValueItem(mIsBuildVersionsKey, TRUE);//是否构建资源版本
-            SetValueItem(mCoordinatorPathKey, editorData.coordinatorPath);//资源协调器路径
-            SetValueItem(mBuildTargetTitleKey, buildTargetTitle);//构建资源的目标平台
+            SetValueItem(KEY_IS_BUILD_AB, TRUE);//是否生成资源包
+            SetValueItem(KEY_OVERRIDE_TO_STREAMING, FALSE);//是否将生成的资源包覆盖至Streaming目录
+            SetValueItem(KEY_AB_ITEM_NAME, string.Empty);
+            SetValueItem(KEY_DISPLAY_RES_SHOWER, TRUE);//是否显示带打包的资源列表
+            SetValueItem(KEY_IS_BUILD_VERSION, TRUE);//是否构建资源版本
+            SetValueItem(KEY_COORDINATOR_PATH, editorData.coordinatorPath);//资源协调器路径
+            SetValueItem(KEY_BUILD_TARGET_TITLE, buildTargetTitle);//构建资源的目标平台
 
             ResDataVersionEditorCreater.SetEditorValueItems(this);
         }
@@ -64,104 +71,138 @@ namespace ShipDock.Editors
         {
             base.CheckGUI();
 
+            const string triggerTitle_IsBuildAB = "创建资源包";
+            const string triggerTitle_OverrideToStreaming = "    资源打包完成后复制到 SteamingAssets";
+            const string triggerTitle_IsBuildVersions = "生成资源版本";
+
             EditorGUILayout.Space();
             EditorGUILayout.BeginVertical();
+
             bool isIgnoreRemote = false;
-            bool isBuildAB = ValueItemTriggle(mIsBuildABKey, "创建资源包");
+            bool isBuildAB = ValueItemTriggle(KEY_IS_BUILD_AB, triggerTitle_IsBuildAB);
             if (isBuildAB)
             {
-                ValueItemTriggle(mOverrideToStreamingKey, "    资源打包完成后复制到 SteamingAssets");
+                //在AB资源包构建被启用时才出现此勾选项
+                ValueItemTriggle(KEY_OVERRIDE_TO_STREAMING, triggerTitle_OverrideToStreaming);
             }
             else { }
 
-            bool isBuildVersions = ValueItemTriggle("is_build_versions", "生成资源版本");
+            bool isBuildVersions = ValueItemTriggle(KEY_IS_BUILD_VERSION, triggerTitle_IsBuildVersions);
             if (isBuildVersions)
             {
-                if (isBuildAB)
-                {
-                    ResDataVersionEditorCreater.CheckEditorGUI(this);
-                }
-                else
-                {
-                    ValueItemTriggle("sync_app_version", "    更新版本配置的App版本号");
-                    ValueItemTriggle("is_sync_client_versions", "    作为最新版客户端的资源配置模板");
-                }
-
-                ResDataVersionEditorCreater.CheckGatewayEditorGUI(this, out isIgnoreRemote);
-
-                string versionFileNameKey = ResDataVersionEditorCreater.ApplyReleaseGateway ? 
-                    ResDataVersionEditorCreater.versionFileNameReleaseKey : ResDataVersionEditorCreater.versionFileNameKey;
-
-                ValueItemTextAreaField(versionFileNameKey, true, "    客户端配置资源文件名");
+                RefreshBuildVersionView(isBuildAB, ref isIgnoreRemote);
             }
             else { }
 
             if (isBuildAB)
             {
-                ShipDockEditorData editorData = ShipDockEditorData.Instance;
-                ResList = editorData.selections;
-
-                ValueItemLabel(mBuildTargetTitleKey, "目标平台");
-
-                if (editorData.isBuildFromCoordinator)
-                {
-                    ValueItemLabel(mCoordinatorPathKey, "   资源协调器路径");
-                }
-                else { }
-
-                ShowABWillBuildResult();
-
-                if (mBuildTargetStatu == 0)
-                {
-                    if (GUILayout.Button("Build Assets"))
-                    {
-                        AssetBuilding();
-                    }
-                    else { }
-                }
-                else { }
+                //启用了构建AB资源包的选项则直接开始构建资源包
+                RefreshBuildABView();
             }
             else if (isBuildVersions)
             {
-                if (isIgnoreRemote)
-                {
-                    if (GUILayout.Button("Build Versions Only"))
-                    {
-                        BuildVersions(default);
-                    }
-                    else { }
-                }
-                else
-                {
-                    if (GUILayout.Button("Sync Versions From Remote"))
-                    {
-                        BuildVersions(default);
-                    }
-                    else { }
-                }
+                //只启用了构建资源版本选项则开始单独构建资源版本
+                RefreshBuildVersionsView(isIgnoreRemote);
             }
             else
             {
-                ValueItemLabel(string.Empty, "请从以上提供的选项中，选择一个或多个以继续", false);
+                const string warningInfo = "请从以上提供的选项中，选择一个或多个以继续";
+                ValueItemLabel(string.Empty, warningInfo, false);
             }
 
             EditorGUILayout.Space();
             EditorGUILayout.EndVertical();
         }
 
+        private void RefreshBuildVersionsView(bool isIgnoreRemote)
+        {
+            const string buttonTitle_BuildVersionsOnly = "Build Versions Only";
+            const string buttonTitle_BuildVersionsFromRemote = "Sync Versions From Remote";
+
+            string buttonTitle = isIgnoreRemote ? buttonTitle_BuildVersionsOnly : buttonTitle_BuildVersionsFromRemote;
+            if (GUILayout.Button(buttonTitle))
+            {
+                BuildVersions(default);
+            }
+            else { }
+        }
+
+        private void RefreshBuildABView()
+        {
+            const string labelTitle_TargetPlatform = "目标平台";
+            const string labelTitle_CoordinatorPath = "   资源协调器路径";
+            const string buttonTitle_BuildAssets = "Build Assets";
+
+            ShipDockEditorData editorData = ShipDockEditorData.Instance;
+            ResList = editorData.selections;
+
+            ValueItemLabel(KEY_BUILD_TARGET_TITLE, labelTitle_TargetPlatform);
+
+            if (editorData.isBuildFromCoordinator)
+            {
+                //若是从资源协调器构建AB资源包，则显示资源协调器所在的路径
+                ValueItemLabel(KEY_COORDINATOR_PATH, labelTitle_CoordinatorPath);
+            }
+            else { }
+
+            ShowABWillBuildResult();
+
+            if (mBuildTargetStatu == 0)
+            {
+                if (GUILayout.Button(buttonTitle_BuildAssets))
+                {
+                    AssetBuilding();
+                }
+                else { }
+            }
+            else { }
+        }
+
+        private void RefreshBuildVersionView(bool isBuildAB, ref bool isIgnoreRemote)
+        {
+            const string triggerTitle_SyncAppVersion = "    更新App版本号";
+            const string triggerTitle_IsSyncClientVersions = "    同步至本地客户端资源配置";
+            const string triggerTitle_VersionFileName = "    客户端资源配置文件名";
+
+            if (isBuildAB)
+            {
+                //构建资源包的同时也构建资源版本
+                ResDataVersionEditorCreater.RefreshEditorGUI(this);
+            }
+            else
+            {
+                //仅构建资源版本
+                ValueItemTriggle(ResDataVersionEditorCreater.KEY_SYNC_APP_VERSION, triggerTitle_SyncAppVersion);
+                ValueItemTriggle(ResDataVersionEditorCreater.KEY_IS_SYNC_TO_CLIENT_VERSIONS, triggerTitle_IsSyncClientVersions);
+            }
+
+            ResDataVersionEditorCreater.CheckGatewayEditorGUI(this, out isIgnoreRemote);
+
+            bool flag = ResDataVersionEditorCreater.ApplyReleaseGateway;
+            string keyFieldName = flag ?
+                ResDataVersionEditorCreater.KEY_VERSION_FILE_NAME_RELEASE :
+                ResDataVersionEditorCreater.KEY_VERSION_FILE_NAME;
+
+            //显示资源版本的文件名，若没保存过此值则自动创建
+            ValueItemTextAreaField(keyFieldName, true, triggerTitle_VersionFileName);
+        }
+
         private void AssetBuilding()
         {
-            string abName = string.Empty;
             ShipDockEditorData editorData = ShipDockEditorData.Instance;
 
             editorData.ABCreaterMapper?.Clear();
             Utils.Reclaim(ref editorData.ABCreaterMapper, false);
 
             editorData.ABCreaterMapper = new KeyValueList<string, List<ABAssetCreater>>();
-            CreateAssetImporters(ref abName, ref editorData.ABCreaterMapper);
+            CreateAssetImporters(ref editorData.ABCreaterMapper);
 
             string output = AppPaths.ABBuildOutputRoot;
-            if (!Directory.Exists(output))
+            if (Directory.Exists(output))
+            {
+                //目录已存在，不做处理
+            }
+            else
             {
                 Directory.CreateDirectory(output);
             }
@@ -172,7 +213,7 @@ namespace ShipDock.Editors
             {
                 AssetDatabase.Refresh();
 
-                bool overrideToStreaming = GetValueItem(mOverrideToStreamingKey).Bool;
+                bool overrideToStreaming = GetValueItem(KEY_OVERRIDE_TO_STREAMING).Bool;
                 string path;
                 int max = abNames.Count;
                 byte[] vs;
@@ -205,49 +246,59 @@ namespace ShipDock.Editors
 
         private string GetResItemKey(int index)
         {
-            return "res_".Append(index.ToString());
+            const string resKey = "res_";
+            return resKey.Append(index.ToString());
         }
 
-        private void CreateAssetImporters(ref string abName, ref KeyValueList<string, List<ABAssetCreater>> mapper)
+        private void CreateAssetImporters(ref KeyValueList<string, List<ABAssetCreater>> mapper)
         {
-            string path;
-            string assetItemName;
-            string relativeName;
-            string starter = StringUtils.PATH_SYMBOL.Append(AppPaths.resDataRoot);
+            string assetPath, path, assetItemName, relativeName;
 
+            ShipDockEditorData editorData = ShipDockEditorData.Instance;
+            Dictionary<string, string> coordinatorABNames = editorData.assetsFromCoordinator;
+            bool isBuildFromCoordinator = editorData.isBuildFromCoordinator;
+
+            string name, abName ;
+            ValueItem item;
             FileInfo fileInfo;
             List<ABAssetCreater> list;
-            string name;
-            Dictionary<string, string> coordinatorABNames = ShipDockEditorData.Instance.assetsFromCoordinator;
-            bool isBuildFromCoordinator = ShipDockEditorData.Instance.isBuildFromCoordinator;
+
+            const string assetsPathRoot = "Assets/";
+
+            string starter = StringUtils.PATH_SYMBOL.Append(AppPaths.resDataRoot);
             int starterLen = starter.Length;
             int max = ResList.Length;
-            ValueItem item;
             for (int i = 0; i < max; i++)
             {
                 name = GetResItemKey(i);
                 item = GetValueItem(name);
                 if (item == default)
                 {
+                    //资源数据项不存在
                     continue;
                 }
                 else { }
+
+                assetPath = assetsPathRoot.Append(AppPaths.resDataRoot);
                 assetItemName = item.Value;//"res_1"
-                relativeName = assetItemName.Replace("Assets/".Append(AppPaths.resDataRoot), string.Empty);
+                relativeName = assetItemName.Replace(assetPath, string.Empty);
                 path = AppPaths.DataPathResDataRoot.Append(relativeName);
 
                 fileInfo = new FileInfo(path);
                 string ext = fileInfo.Extension;
-                if (ext != ".cs")
+                if (ext != FILE_CS_EXT)
                 {
                     int index = path.IndexOf(starter, StringComparison.Ordinal);
-                    ABAssetCreater creater = new ABAssetCreater(path.Substring(index + starterLen));
+                    path = path.Substring(index + starterLen);
+
+                    ABAssetCreater creater = new ABAssetCreater(path);
                     abName = isBuildFromCoordinator ? coordinatorABNames[assetItemName] : creater.GetABName();
-                    bool isScene = ext == ".unity";
+                    bool isScene = ext == FILE_UNITY_SCENE_EXT;
                     if (isScene)
                     {
-                        abName = abName.Append("_unityscene");
+                        abName = abName.Append(KEY_AB_UNITY_SCENE);
                     }
+                    else { }
 
                     if (mapper.ContainsKey(abName))
                     {
@@ -260,9 +311,12 @@ namespace ShipDock.Editors
                     }
                     creater.Importer = AssetImporter.GetAtPath(assetItemName);
                     list.Add(creater);
-                    //Debug.Log("Importers: " + abName);
-                    //Debug.Log("FileInfo: " + fileInfo.Name);
+#if LOG_ENABLED
+                    Debug.Log("Importers: " + abName);
+                    Debug.Log("FileInfo: " + fileInfo.Name);
+#endif
                 }
+                else { }
             }
         }
 
@@ -283,7 +337,9 @@ namespace ShipDock.Editors
                 for (int n = 0; n < m; n++)
                 {
                     list[n].Importer.assetBundleName = abName;
-                    //Debug.Log(abName);
+#if LOG_ENABLED
+                    Debug.Log(abName);
+#endif
                 }
             }
             BuildPipeline.BuildAssetBundles(AppPaths.ABBuildOutputRoot, BuildAssetBundleOptions.None, editorData.buildPlatform);
@@ -291,11 +347,12 @@ namespace ShipDock.Editors
 
         private void BuildVersions(List<string> abNames)
         {
-            bool isBuildVersions = GetValueItem(mIsBuildVersionsKey).Bool;
+            bool isBuildVersions = GetValueItem(KEY_IS_BUILD_VERSION).Bool;
             if (isBuildVersions)
             {
                 ResDataVersionEditorCreater.BuildVersions(this, ref abNames);
             }
+            else { }
         }
 
         private void ShowABWillBuildResult()
@@ -304,41 +361,71 @@ namespace ShipDock.Editors
             {
                 return;
             }
+            else { }
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.Space();
             EditorGUILayout.EndHorizontal();
-            bool displayShower = ValueItemTriggle(mDisplayResShowerKey, "查看即将打包的资源");
+
+            const string triggerTitle_DisplayResShower = "查看即将打包的资源";
+            const string labelTitle_ResList = "资源名清单：";
+
+            bool displayShower = ValueItemTriggle(KEY_DISPLAY_RES_SHOWER, triggerTitle_DisplayResShower);
             if (displayShower)
             {
-                EditorGUILayout.LabelField("资源名清单：");
+                EditorGUILayout.LabelField(labelTitle_ResList);
                 mResShowerScrollPos = EditorGUILayout.BeginScrollView(mResShowerScrollPos, false, true);
             }
-            int max = ResList.Length;
+            else { }
+
+            ValueItem valueItem;
             UnityEngine.Object item;
-            string path;
-            string key, fieldValue, keyABItemName = mABItemNameKey;
+            string path, key, fieldValue, buttonTitle;
+
+            int max = ResList.Length;
             for (int i = 0; i < max; i++)
             {
                 item = ResList[i];
+                
                 key = GetResItemKey(i);// key Sample: "res_1"
                 path = AssetDatabase.GetAssetPath(item);
-                if (!path.EndsWith(".cs"))//排除脚本文件
+
+                if (path.EndsWith(FILE_CS_EXT))
                 {
+                    //排除脚本文件
+                }
+                else
+                {
+                    //设置资源的路径数据
                     SetValueItem(key, path);
-                    if (displayShower && GUILayout.Button(ResList[i].name))
+
+                    buttonTitle = item.name;
+                    if (displayShower && GUILayout.Button(buttonTitle))
                     {
-                        fieldValue = GetValueItem(key).Value;
-                        GetValueItem(keyABItemName)?.Change(fieldValue);
+                        valueItem = GetValueItem(key);
+                        fieldValue = valueItem.Value;
+
+                        //更新资源选中项的数据
+                        valueItem = GetValueItem(KEY_AB_ITEM_NAME);
+                        valueItem?.Change(fieldValue);
                     }
+                    else { }
                 }
             }
-            if(displayShower)
+
+            if (displayShower)
             {
+                //更新资源选中项的显示
                 EditorGUILayout.EndScrollView();
-                ValueItemLabel(keyABItemName);
+                ValueItemLabel(KEY_AB_ITEM_NAME);
             }
+            else { }
+
             EditorGUILayout.Space();
-            ValueItemLabel(string.Empty, string.Format("即将构建的资源数量：{0}", max.ToString()));
+
+            const string labelTitle_WillBuildResCount = "即将构建的资源数量：{0}";
+            string label = string.Format(labelTitle_WillBuildResCount, max.ToString());
+            ValueItemLabel(string.Empty, label);
         }
     }
 }

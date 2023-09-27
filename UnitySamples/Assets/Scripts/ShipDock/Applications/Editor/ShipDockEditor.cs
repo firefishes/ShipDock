@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define _EDITOR_LOG_ENABLED
+
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -141,20 +143,46 @@ namespace ShipDock.Editors
             return mValueItemMapper != default ? mValueItemMapper[keyField] : default;
         }
 
+        [System.Diagnostics.Conditional("EDITOR_LOG_ENABLED")]
+        private void CheckAndLog(int logType, string keyFieldItem = "", string keyFieldValue = "")
+        {
+            switch (logType)
+            {
+                case 0:
+                    const string logAboutWriteKey = "Write key [{0}] = [{1}]";
+                    Debug.Log(string.Format(logAboutWriteKey, keyFieldItem, keyFieldValue));
+                    break;
+
+                case 1:
+                    const string logAboutReadKey = "Read value [{0}] from key [{1}]";
+                    Debug.Log(string.Format(logAboutReadKey, keyFieldItem, keyFieldValue));
+                    break;
+
+                case 2:
+                    const string logAboutEmptyValue = "Value is empty, it is create new value in key [{0}]";
+                    Debug.Log(string.Format(logAboutEmptyValue, keyFieldItem));
+                    break;
+            }
+        }
+
         /// <summary>
         /// 将值写入编辑器的缓存
         /// </summary>
         /// <param name="keyFields"></param>
         public void WriteValueItemDataToEditor(params string[] keyFields)
         {
-            foreach (var item in keyFields)
+            foreach (string name in keyFields)
             {
-                string value = mValueItemMapper[item].Value;
-                EditorPrefs.SetString(item, value);
-                if (string.IsNullOrEmpty(value)) { }
+                string value = mValueItemMapper[name].Value;
+                EditorPrefs.SetString(name, value);
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    CheckAndLog(2, name);
+                }
                 else
                 {
-                    Debug.Log(string.Format("Write key [{0}] to [{1}]", item, value));
+                    CheckAndLog(0, name, value);
                 }
             }
         }
@@ -162,15 +190,19 @@ namespace ShipDock.Editors
         /// <summary>
         /// 从编辑器缓存中读取值
         /// </summary>
-        /// <param name="keyField"></param>
-        public void ReadValueItemValueFromEditor(string keyField)
+        /// <param name="keyFieldName"></param>
+        public void ReadValueItemValueFromEditor(string keyFieldName)
         {
-            string value = EditorPrefs.GetString(keyField);
-            SetValueItem(keyField, value);
-            if (string.IsNullOrEmpty(value)) { }
+            string value = EditorPrefs.GetString(keyFieldName);
+            SetValueItem(keyFieldName, value);
+
+            if (string.IsNullOrEmpty(value))
+            {
+                CheckAndLog(2, keyFieldName);
+            }
             else
             {
-                Debug.Log(string.Format("Read value [{0}] from key [{1}]", value, keyField));
+                CheckAndLog(1, value, keyFieldName);
             }
         }
 
@@ -228,12 +260,13 @@ namespace ShipDock.Editors
             }
             else { }
 
-            ValueItem item = GetValueItem(keyField);
-            if (item != default)
+            ValueItem valueItem = GetValueItem(keyField);
+            if (valueItem != default)
             {
-                string input = GetValueItem(keyField).Value;
+                string input = valueItem.Value;
                 string value = EditorGUILayout.TextField(input);
-                GetValueItem(keyField).Change(value);
+                valueItem.Change(value);
+
                 if (isReadFromEditor)
                 {
                     WriteValueItemDataToEditor(keyField);

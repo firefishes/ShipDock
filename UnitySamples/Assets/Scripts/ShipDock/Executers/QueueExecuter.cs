@@ -116,13 +116,13 @@ namespace ShipDock
         {
             if (isDisposeItem)
             {
-                IDispose item;
+                IReclaim item;
                 if (mQueue != default)
                 {
                     while (mQueue.Count > 0)
                     {
                         item = mQueue[0];
-                        item?.Dispose();
+                        item?.Reclaim();
                         mQueue.RemoveAt(0);
                     }
                 }
@@ -133,7 +133,7 @@ namespace ShipDock
                     while (mQueueExecuted.Count > 0)
                     {
                         item = mQueueExecuted[0];
-                        item?.Dispose();
+                        item?.Reclaim();
                         mQueueExecuted.RemoveAt(0);
                     }
                 }

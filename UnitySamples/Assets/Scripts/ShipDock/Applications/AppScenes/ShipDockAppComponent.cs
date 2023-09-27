@@ -117,7 +117,7 @@ namespace ShipDock
         public virtual void ServerFinishedHandler() { }
 
         /// <summary>
-        /// 相应应用程序关闭事件的处理函数
+        /// 应用程序关闭事件的处理函数
         /// </summary>
         public virtual void ApplicationCloseHandler()
         {
@@ -130,7 +130,7 @@ namespace ShipDock
         }
 
         /// <summary>
-        /// 相应更新远程资源事件的处理函数
+        /// 用于更新远程资源事件的处理函数
         /// </summary>
         public virtual void UpdateRemoteAssetHandler()
         {
@@ -144,7 +144,13 @@ namespace ShipDock
                 mainBridge = Instantiate(mainBridge);
 
                 HotFixerComponent hotfixer = mainBridge.GetComponent<HotFixerComponent>();
-                ILRuntimeUtils.InvokeMethodILR(hotfixer.ShellBridge, hotFixSubgroup.initerClassName, hotFixSubgroup.initerGameCompSetter, 1, GameComponent);
+
+                object ILCls = hotfixer.ShellBridge;
+                string clsName = hotFixSubgroup.initerClassName;
+                string initerMethodName = hotFixSubgroup.initerGameCompSetter;
+                ShipDockGame paramValue = GameComponent;
+
+                ILRuntimeUtils.InvokeMethodILR(ILCls, clsName, initerMethodName, 1, paramValue);
             }
             else
             {

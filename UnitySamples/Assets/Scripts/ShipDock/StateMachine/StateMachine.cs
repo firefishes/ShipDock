@@ -137,7 +137,7 @@ namespace ShipDock
                 {
 #if ILRUNTIME
                     state = mStateList[i] as FState;
-                    state.Dispose();
+                    state.Reclaim();
 #else
                     Utils.Reclaim(mStateList[i]);
 #endif
@@ -267,7 +267,7 @@ namespace ShipDock
             else { }
 
 #if ILRUNTIME
-            state?.Dispose();
+            state?.Reclaim();
 #else
             Utils.Reclaim(state);
 #endif

@@ -694,10 +694,12 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     : _RELEASE;G_LOG;COLOR_LOG;ODIN_INSPECTOR;_ILRUNTIME
-    Standalone: G_LOG;COLOR_LOG;ODIN_INSPECTOR
+    Standalone: G_LOG;COLOR_LOG;ODIN_INSPECTOR;ILRUNTIME
+    WebGL: ODIN_INSPECTOR
   additionalCompilerArguments: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Standalone: 1
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
   managedStrippingLevel: {}

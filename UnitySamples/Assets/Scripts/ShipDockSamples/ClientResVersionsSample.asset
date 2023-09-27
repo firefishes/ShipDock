@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6dc8918a71cd443929df00ec1ad3aa, type: 3}
+  m_Name: ClientResVersionsSample
+  m_EditorClassIdentifier: 
+  m_RemoteName: 
+  m_Res:
+    resVersionType: 1
+    res_version: 0
+    app_version: 1
+    res_gateway: https://mhjcats.oss-cn-beijing.aliyuncs.com/mhj_elm_res_data_test/
+    res_total: 0
+    updating_total: 0
+    res: []
+    updatings: []
+  m_ResChanged: []
+  m_ApplyCurrentResGateway: 1
+  m_ResRemoteGateway: https://mhjcats.oss-cn-beijing.aliyuncs.com/mhj_elm_res_data_test/
+  m_OptionalGateways: []
+  m_Preview: {fileID: 0}

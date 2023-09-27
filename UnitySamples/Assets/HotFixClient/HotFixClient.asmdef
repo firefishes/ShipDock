@@ -1,0 +1,16 @@
+{
+    "name": "HotFixClient",
+    "rootNamespace": "",
+    "references": [
+        "GUID:598e67cdab77d8d4f8c491dfcca70b83"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

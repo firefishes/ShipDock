@@ -1,12 +1,14 @@
 ﻿#define OPEN_HOTFIX_EDITOR
 #define _OPEN_GENERATE_ADAPTER_EDITOR
-#define DEF_APPLICATION_SETTING_BASE_ADAPTER
+#define _DEF_APPLICATION_SETTING_BASE_ADAPTER
 
 #if OPEN_HOTFIX_EDITOR
 using ILRuntime.Runtime.Enviorment;
-using ILRuntime.Runtime.Intepreter;
 using System;
+#if DEF_APPLICATION_SETTING_BASE_ADAPTER
+using ILRuntime.Runtime.Intepreter;
 using System.Configuration;
+#endif
 using System.IO;
 using UnityEditor;
 using AppDomain = ILRuntime.Runtime.Enviorment.AppDomain;
@@ -65,6 +67,7 @@ namespace ShipDock.Editors
                     ILRuntime.Runtime.CLRBinding.BindingCodeGenerator.GenerateBindingCode(domain, generatedRoot);
                 }
             }
+            else { }
         }
 
         [MenuItem("ShipDock/Generate Cross Binding Adapter")]
@@ -74,6 +77,7 @@ namespace ShipDock.Editors
             {
                 CommonForBindingCode(OnGenerateAdapter);
             }
+            else { }
         }
 
         private static void OnGenerateAdapter(AppDomain domain, string path)
@@ -106,13 +110,16 @@ namespace ShipDock.Editors
                         throw new Exception(info);
                     }
                 }
+                else { }
             }
+
             if (!hasAdapterConfig)
             {
                 string info = "选定的文件可能未包含在适配器的配置中，请通过修改 AppHotFixConfigBase 或其子类中的 GetAutoAdapterGenerates() 方法增加定义之后重试";
                 EditorUtility.DisplayDialog("生成错误", info, "朕知道了");
                 throw new Exception(info);
             }
+            else { }
         }
     }
 

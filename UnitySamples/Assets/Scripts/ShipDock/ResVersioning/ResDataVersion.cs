@@ -38,13 +38,14 @@ namespace ShipDock
 
         #region 编辑器相关
 #if UNITY_EDITOR
+        //发生版本变化的版本项列表
         private List<ResVersion> mResChanged;
 
         /// <summary>本版数据包含的所有变更过的资源版本</summary>
         public ResVersion[] ResChanges { get; private set; }
 
         /// <summary>
-        /// 新建一个资源版本
+        /// 在编辑器中构建资源版本
         /// </summary>
         /// <param name="remoteRootURL">远端资源服务器网关</param>
         /// <param name="isUpdateVersion">是否迭代资源版本</param>
@@ -52,25 +53,36 @@ namespace ShipDock
         /// <param name="isSyncAppVersion">是否同步应用版本</param>
         /// <param name="remoteVers">远端资源服务器的资源配置</param>
         /// <param name="abNames">需要迭代版本的资源名</param>
-        public void CreateNewResVersion(ref string remoteRootURL, bool isUpdateVersion, bool isUpdateResVersion, bool isSyncAppVersion, ref ResDataVersion remoteVers, ref string[] abNames)
+        public void BuildDuringEditor(ref string remoteRootURL, bool isUpdateVersion, bool isUpdateResVersion, bool isSyncAppVersion, ref ResDataVersion remoteVers, ref string[] abNames)
         {
             res_gateway = remoteRootURL;
 
+            //初始化正在操作的资源版本对象
             Init();
+            //初始化从远端获取数据时创建的资源版本对象
             remoteVers?.Init();
 
             CheckMainManifestVersion(ref abNames);
             FillChangedABList(out List<string> changeds);
 
             int max = abNames.Length;
-            CheckTotalVersion(isUpdateResVersion, isSyncAppVersion, max);
-            CheckResVersions(max, ref abNames, ref remoteVers, isUpdateVersion, ref changeds);
+            CheckTotalVersion(max, isUpdateResVersion, isSyncAppVersion);
+            CheckResVersions(ref abNames, ref remoteVers, isUpdateVersion, ref changeds);
         }
 
-        private void CheckResVersions(int max, ref string[] abNames, ref ResDataVersion remoteVers, bool isUpdateVersion, ref List<string> changeds)
+        /// <summary>
+        /// 检测各个资源版本号是否需要升版
+        /// </summary>
+        /// <param name="abNames"></param>
+        /// <param name="remoteVers"></param>
+        /// <param name="isUpdateVersion"></param>
+        /// <param name="changeds"></param>
+        private void CheckResVersions(ref string[] abNames, ref ResDataVersion remoteVers, bool isUpdateVersion, ref List<string> changeds)
         {
             string abName = string.Empty;
             ResVersion item, remote = default;
+
+            int max = abNames.Length;
             for (int i = 0; i < max; i++)
             {
                 abName = abNames[i];
@@ -84,12 +96,18 @@ namespace ShipDock
                 }
                 else { }
 
-                NewResVersion(baseVersion, isUpdateVersion, ref item, ref abName);
-                UpdateVersionChange(ref changeds, ref abName, ref item);
+                CheckAndAdvanceResVersion(baseVersion, isUpdateVersion, ref item, ref abName);
+                RecordVersionChange(ref changeds, ref abName, ref item);
             }
         }
 
-        private void CheckTotalVersion(bool isUpdateResVersion, bool isSyncAppVersion, int changeABCount)
+        /// <summary>
+        /// 检测App版本号、资源总版本号是否需要升版
+        /// </summary>
+        /// <param name="changeABCount"></param>
+        /// <param name="isUpdateResVersion"></param>
+        /// <param name="isSyncAppVersion"></param>
+        private void CheckTotalVersion(int changeABCount, bool isUpdateResVersion, bool isSyncAppVersion)
         {
             if (isUpdateResVersion && changeABCount > 0)
             {
@@ -104,11 +122,16 @@ namespace ShipDock
             else { }
         }
 
+        /// <summary>
+        /// 填充发生变化的资源包版本清单
+        /// </summary>
+        /// <param name="changeds"></param>
         private void FillChangedABList(out List<string> changeds)
         {
-            int max = ResChanges != default ? ResChanges.Length : 0;
             changeds = new List<string>();
+
             string abName = string.Empty;
+            int max = ResChanges != default ? ResChanges.Length : 0;
             for (int i = 0; i < max; i++)
             {
                 abName = ResChanges[i].name;
@@ -137,26 +160,43 @@ namespace ShipDock
             }
         }
 
-        private void NewResVersion(int baseVersion, bool isUpdateVersion, ref ResVersion item, ref string name)
+        /// <summary>
+        /// 对具体资源进行升版
+        /// </summary>
+        /// <param name="baseVersion"></param>
+        /// <param name="isUpdateVersion"></param>
+        /// <param name="item"></param>
+        /// <param name="name"></param>
+        private void CheckAndAdvanceResVersion(int baseVersion, bool isUpdateVersion, ref ResVersion item, ref string name)
         {
             if (item == default)
             {
+                //追加新的资源版本
                 item = AddNewRes(name, DEFAULT_VERSION);
                 mResIndexMapper[name] = mRes.Count;
             }
             else
             {
+                //资源升版
                 int version = isUpdateVersion ? baseVersion + 1 : baseVersion;
                 item.version = version;
             }
         }
 
-        private void UpdateVersionChange(ref List<string> changeds, ref string abName, ref ResVersion item)
+        /// <summary>
+        /// 记录发生版本变化的版本项
+        /// </summary>
+        /// <param name="changeds"></param>
+        /// <param name="abName"></param>
+        /// <param name="item"></param>
+        private void RecordVersionChange(ref List<string> changeds, ref string abName, ref ResVersion item)
         {
             if (changeds.Contains(abName))
             {
+                //版本项已在列表中则直接更新版本号
                 int index = changeds.IndexOf(abName);
-                mResChanged[index].version = item.version;
+                ResVersion resChangedItem = mResChanged[index];
+                resChangedItem.version = item.version;
             }
             else
             {
@@ -166,36 +206,47 @@ namespace ShipDock
                 }
                 else
                 {
-                    Debug.LogError("Version item is null");
+                    Debug.LogError("Version item is null druing record the changes");
                 }
             }
         }
 
-        private void GetRepeatsVersionRes(ref List<ResVersion> repeates)
+        private void FillRepeatsVersionRes(out List<ResVersion> repeates)
         {
             repeates = new List<ResVersion>();
             KeyValueList<string, ResVersion> realMapper = new KeyValueList<string, ResVersion>();
-            foreach (var item in mRes)
+
+            string name;
+            foreach (ResVersion item in mRes)
             {
-                if (realMapper.ContainsKey(item.name))
+                name = item.name;
+                if (realMapper.ContainsKey(name))
                 {
-                    if (realMapper[item.name].version >= item.version)
+                    if (realMapper[name].version >= item.version)
                     {
-                        Debug.LogWarning("Repeate version item, name is " + item.name);
+                        Debug.LogWarning("Repeate version item, name is " + name);
                         repeates.Add(item);
                     }
                     else
                     {
-                        realMapper[item.name] = item;
+                        realMapper[name] = item;
                     }
                 }
                 else
                 {
-                    realMapper[item.name] = item;
+                    realMapper[name] = item;
                 }
             }
         }
 #endif
+
+        [System.Diagnostics.Conditional("UNITY_EDITOR")]
+        private void InitResChangedInEditor()
+        {
+#if UNITY_EDITOR
+            mResChanged = ResChanges == default ? new List<ResVersion>() : new List<ResVersion>(ResChanges);
+#endif
+        }
 
         [System.Diagnostics.Conditional("UNITY_EDITOR")]
         private void RefreshResChangedInEditor()
@@ -210,28 +261,25 @@ namespace ShipDock
         }
 
         [System.Diagnostics.Conditional("UNITY_EDITOR")]
-        private void InitResChangedInEditor()
-        {
-#if UNITY_EDITOR
-            mResChanged = ResChanges == default ? new List<ResVersion>() : new List<ResVersion>(ResChanges);
-#endif
-        }
-
-        [System.Diagnostics.Conditional("UNITY_EDITOR")]
         private void RefreshInEditor()
         {
 #if UNITY_EDITOR
-            List<ResVersion> repeates = default;
-            GetRepeatsVersionRes(ref repeates);
-
-            int max = repeates.Count;
-            Debug.Log("Repeate items total " + max);
-            for (int i = 0; i < max; i++)
+            if (mRes != default)
             {
-                mRes.Remove(repeates[i]);
-            }
+                FillRepeatsVersionRes(out List<ResVersion> repeates);
 
-            CreateIndexsMapper();
+                int max = repeates.Count;
+                Debug.Log("Repeate items total " + max);
+                for (int i = 0; i < max; i++)
+                {
+                    mRes.Remove(repeates[i]);
+                }
+
+                CreateIndexsMapper();
+
+                res = mRes.ToArray();
+            }
+            else { }
 #endif
         }
         #endregion
@@ -328,6 +376,7 @@ namespace ShipDock
         public void Init()
         {
             InitTemporaryData();
+
             InitResChangedInEditor();
         }
 
@@ -350,12 +399,17 @@ namespace ShipDock
             }
         }
 
+        /// <summary>
+        /// 创建版本列表的索引映射
+        /// </summary>
         private void CreateIndexsMapper()
         {
-            string resName;
-            ResVersion item;
             mResIndexMapper?.Clear();
             mResIndexMapper = new Dictionary<string, int>();
+
+            string resName;
+            ResVersion item;
+
             int max = IsVersionsEmpty() ? 0 : res.Length;
             for (int i = 0; i < max; i++)
             {
@@ -408,18 +462,13 @@ namespace ShipDock
         }
 
         /// <summary>
-        /// 将中间数据更新到正式数据
+        /// 将中间数据更新到此对象的正式数据
         /// </summary>
         public void Refresh()
         {
-            if (mRes != default)
-            {
-                RefreshInEditor();
-                res = mRes.ToArray();
-            }
-            else { }
-
+            RefreshInEditor();
             RefreshResChangedInEditor();
+
             res_total = res.Length;
             updating_total = updatings.Length;
         }
@@ -480,6 +529,7 @@ namespace ShipDock
             res_gateway = copyFrom.res_gateway;
 
             ResVersion item;
+
             int resSize = copyFrom.res.Length;
             res = new ResVersion[resSize];
             for (int i = 0; i < resSize; i++)
@@ -735,7 +785,7 @@ namespace ShipDock
         }
 
         /// <summary>
-        /// 是否一个空的资源版本配置
+        /// 检测此版本对象是否一个空的资源版本配置
         /// </summary>
         /// <returns></returns>
         public bool IsVersionsEmpty()
@@ -757,7 +807,7 @@ namespace ShipDock
         }
 
         /// <summary>
-        /// 获取资源版本
+        /// 获取资源版本项
         /// </summary>
         /// <param name="abName"></param>
         /// <returns></returns>

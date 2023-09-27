@@ -7,12 +7,13 @@ public static class HotFixClientExtensions
     public static Dictionary<int, ConfigT> GetConfig<ConfigT>(this string configName) where ConfigT : IConfig, new()
     {
         Dictionary<int, ConfigT> result = default;
-        HotFixClient hotFixClient = HotFixClient.Instance;
-        int dataName = hotFixClient.configsDataName;
-        int modularName = hotFixClient.configsModularName;
+
+        ShipDock.HotFixClient singleton = ShipDock.HotFixClient.Instance;
+        int dataName = singleton.configsDataName;
+        int modularName = singleton.configsModularName;
         if (dataName != int.MaxValue && modularName != int.MaxValue)
         {
-            result = hotFixClient.GetConfig<ConfigT>(dataName, modularName, configName, out _);
+            result = singleton.GetConfig<ConfigT>(dataName, modularName, configName, out _);
         }
         else { }
 
@@ -21,13 +22,14 @@ public static class HotFixClientExtensions
 
     public static void SetSceneUpdate(this object target, Action<int> handler, bool isAdd)
     {
+        ShipDock.HotFixClient singleton = ShipDock.HotFixClient.Instance;
         if (isAdd)
         {
-            HotFixClient.Instance.AddUpdate(handler);
+            singleton.AddUpdate(handler);
         }
         else
         {
-            HotFixClient.Instance.RemoveUpdate(handler);
+            singleton.RemoveUpdate(handler);
         }
     }
 }

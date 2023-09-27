@@ -1,4 +1,6 @@
-﻿#define _G_LOG
+﻿#pragma warning disable
+
+#define _G_LOG
 
 using System;
 using System.Collections.Generic;

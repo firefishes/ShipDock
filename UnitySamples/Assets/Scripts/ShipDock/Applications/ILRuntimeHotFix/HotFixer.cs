@@ -238,7 +238,7 @@ namespace ShipDock
         {
             ShellBridge = ILRuntimeUtils.InstantiateFromIL(clsName);
 
-            string method = "GetUpdateMethods";
+            const string method = "GetUpdateMethods";
             string className = m_StartUpInfo.ClassName;
 
             if (m_StartUpInfo.ApplyFixedUpdate)
@@ -259,7 +259,8 @@ namespace ShipDock
             }
             else { }
 
-            ILRuntimeUtils.InvokeMethodILR(ShellBridge, className, method, 1, OnGetDestroyMethod, "OnDestroy");//模拟 OnDestroy
+            const string onDstroyKey = "OnDestroy";
+            ILRuntimeUtils.InvokeMethodILR(ShellBridge, className, method, 1, OnGetDestroyMethod, onDstroyKey);//模拟 OnDestroy
             ILRuntimeUtils.InvokeMethodILR(ShellBridge, className, m_StartUpInfo.IniterMethodName, 1, this);
         }
 

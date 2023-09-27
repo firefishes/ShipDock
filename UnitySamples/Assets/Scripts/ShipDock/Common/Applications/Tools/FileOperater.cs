@@ -82,6 +82,7 @@ namespace ShipDock
                 FileFullName = filePath,
                 FileReadType = FileCommandInfo.FileCommandInfoReadType.Bytes
             };
+
             fileOperater.ReadFile(ref fileCommandInfo);
 
             byte[] bytes = fileCommandInfo.DataBytes;
