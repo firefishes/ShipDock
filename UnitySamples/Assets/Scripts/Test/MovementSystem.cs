@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementTenon : ECSComponent<Movement>
+public class MovementComponent : ECSComponent<Movement>
 {
 
 }
@@ -14,13 +14,20 @@ public class MovementSystem : ECSSystem
 
     public override void Execute()
     {
-        ChunkGroup<Movement>.Instance.TraverseAll(DuringExecute);
+        ECS.Instance.Search<Movement>(this, OnSearchedResult);
     }
 
-    protected override void DuringExecute<T>(T data)
+    protected void OnSearchedResult(int componentID, int entity)
     {
-        base.DuringExecute(data);
-
-
+        if (componentID == Consts.TENON_TYPE_MOVEMENT)
+        {
+            Movement movement = GetComponentDataByEntity<Movement>(componentID, entity, out bool isValid);
+            if (isValid)
+            {
+                Debug.Log(entity);
+            }
+            else { }
+        }
+        else { }
     }
 }

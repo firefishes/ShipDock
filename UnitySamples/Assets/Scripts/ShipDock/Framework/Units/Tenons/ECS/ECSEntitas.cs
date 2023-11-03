@@ -1,32 +1,52 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace ShipDock
 {
+    /// <summary>
+    /// ECS 实体管理器
+    /// </summary>
     public class ECSEntitas : Tenon
     {
+        public readonly static ChunkInfo NULL_ENTITY = new()
+        {
+            chunkIndex = -1,
+            itemIndex = -1,
+        };
+
         private static int entityID = 0;
 
         private Dictionary<int, int> mEntitas;
         private Dictionary<int, int[]> mEntityTypes;
+        private ChunkGroup<Entity> mAllEntitas;
+        private Dictionary<int, ChunkInfo> mAllEntitasMap;
+        private Queue<int> mIdleEntitasIDs;
 
         protected override void Purge()
         {
+            mIdleEntitasIDs?.Clear();
+            mAllEntitasMap?.Clear();
             mEntitas?.Clear();
             mEntityTypes?.Clear();
+
+            mEntitas = default;
         }
 
         protected override void Reset()
         {
             base.Reset();
-
+            
             if (mEntitas == default)
             {
+                mIdleEntitasIDs = new Queue<int>();
+                mAllEntitasMap = new Dictionary<int, ChunkInfo>();
                 mEntitas = new Dictionary<int, int>();
                 mEntityTypes = new Dictionary<int, int[]>();
             }
             else { }
+
+            int preload = 10000;
+            ChunkGroup<Entity>.Init(0, 0, preload);
+            mAllEntitas = ChunkGroup<Entity>.Instance;
         }
 
         public override void SetupTenon(Tenons tenons)
@@ -34,61 +54,114 @@ namespace ShipDock
             base.SetupTenon(tenons);
         }
 
-        public void BuildEntiy<T>(int entityType, params int[] ids)
+        public void BuildEntiy(int entityType, params int[] ids)
         {
-            bool flag = mEntityTypes.TryGetValue(entityType, out int[] chunkGroupIDs);
+            bool flag = mEntityTypes.TryGetValue(entityType, out _);
             if (flag) { }
             else 
             {
-                chunkGroupIDs = new int[ids.Length];
+                int[] chunkGroupIDs = new int[ids.Length];
                 for (int i = 0; i < ids.Length; i++)
                 {
                     chunkGroupIDs[i] = ids[i];
                 }
+                mEntityTypes[entityType] = chunkGroupIDs;
             }
         }
 
         public int CreateEntiyByType(int entityType)
         {
+            int entity = -1;
             bool flag = mEntityTypes.TryGetValue(entityType, out int[] ids);
             if (flag)
             {
-                //IChunkGroup chunkGroup;
-                for (int i = 0; i < ids.Length; i++)
+                if (mIdleEntitasIDs.Count > 0)
                 {
-                    //ShipDockApp.Instance.Tenons.AddTenonByType<>();
+                    entity = mIdleEntitasIDs.Dequeue();
+                }
+                else
+                {
+                    entity = entityID;
+                    entityID++;
+                }
+
+                flag = mAllEntitasMap.TryGetValue(entity, out ChunkInfo info);
+                if (flag) { }
+                else
+                {
+                    mAllEntitas.Pop(entity, ref info);
+                    mAllEntitasMap[entity] = info;
+
+                    Entity item = mAllEntitas.GetItem(info.chunkIndex, info.itemIndex);
+                    item.entityID = entity;
+                    item.entityType = entityType;
+                }
+
+                int componentID;
+                IECSComponentBase componentBase;
+
+                ECS ecs = ECS.Instance;
+                int max = ids.Length;
+                for (int i = 0; i < max; i++)
+                {
+                    componentID = ids[i];
+                    componentBase = ecs.GetComponentByBase(componentID);
+                    if (componentBase != default)
+                    {
+                        componentBase.BindEntity(entity);
+                    }
+                    else { }
                 }
             }
-            return entityID;
+            return entity;
+        }
+
+        public ChunkInfo GetEntityByID(int entity, out bool isValid)
+        {
+            isValid = mAllEntitasMap.TryGetValue(entity, out ChunkInfo info);
+            return isValid ? info : NULL_ENTITY;
+        }
+
+        public void DestroyEntity(int entity)
+        {
+            if (mAllEntitasMap.TryGetValue(entity, out ChunkInfo info))
+            {
+                Entity item = mAllEntitas.GetItem(info.chunkIndex, info.itemIndex);
+                int entityType = item.entityType;
+                bool flag = mEntityTypes.TryGetValue(entityType, out int[] ids);
+                if (flag)
+                {
+                    mIdleEntitasIDs.Enqueue(entity);
+                    mAllEntitas.Drop(info.chunkIndex, info.itemIndex);
+                    mAllEntitasMap.Remove(entity);
+
+                    int componentID;
+                    IECSComponentBase componentBase;
+
+                    ECS ecs = ECS.Instance;
+                    int max = ids.Length;
+                    for (int i = 0; i < max; i++)
+                    {
+                        componentID = ids[i];
+                        componentBase = ecs.GetComponentByBase(componentID);
+                        if (componentBase != default)
+                        {
+                            componentBase.DebindEntity(entity);
+                        }
+                        else { }
+                    }
+
+                    item.entityID = int.MaxValue;
+                    item.entityType = int.MaxValue;
+                }
+                else { }
+            }
+            else { }
         }
     }
 
-    public class ECS : Singletons<ECS>
+    public static class ECSStatics
     {
-        private Dictionary<int, IChunkGroup> mAllChunkGroups;
 
-        public ECSEntitas AllEntitas { get; private set; }
-
-        public void InitECS()
-        {
-            mAllChunkGroups = new Dictionary<int, IChunkGroup>();
-
-            Tenons tenons = ShipDockApp.Instance.Tenons;
-            AllEntitas = tenons.AddTenonByType<ECSEntitas>(ShipDockConsts.TENON_ECS_ALL_ENTITAS);
-        }
-
-        public void InitChunkGroup<T>(int groupID, int sizePerInstance = 0, int preloadSize = 0, int totalBytesPerChunk = 14) where T : IECSData, new()
-        {
-            ChunkGroup<T>.Init(sizePerInstance, preloadSize, totalBytesPerChunk);
-            ChunkGroup<T>.Instance.SetGroupID(groupID);
-
-            mAllChunkGroups[groupID] = ChunkGroup<T>.Instance;
-        }
-
-        public IChunkGroup GetChunkGroup(int groupID)
-        {
-            mAllChunkGroups.TryGetValue(groupID, out IChunkGroup result);
-            return result;
-        }
     }
 }

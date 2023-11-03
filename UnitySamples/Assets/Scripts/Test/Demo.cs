@@ -40,13 +40,13 @@ public class Demo : ShipDockAppComponent
         //ÃÌº”œµÕ≥
         Tenons tenons = ShipDockApp.Instance.Tenons;
         //Pooling<Movement>.From();
-        tenons.AddSystem<MovementSystem>();
+        //tenons.AddSystem<MovementSystem>();
 
-        ChunkGroup<Movement>.Init(0, 10000);
+        ChunkGroup<Movement>.Init(0, 0, 10000);
 
         for (int i = 0; i < 10000; i++)
         {
-            tenons.AddTenonByType<MovementTenon>(Consts.TENON_TYPE_MOVEMENT);
+            tenons.AddTenonByType<MovementComponent>(Consts.TENON_TYPE_MOVEMENT);
         }
         //ShootSystem shootSystem = tenons.AddSystem<ShootSystem>();
 
@@ -168,7 +168,18 @@ public class Demo : ShipDockAppComponent
         //UpdaterNotice.AddUpdater(a);
         //UpdaterNotice.AddSceneUpdater(aa);
 
+        ECS.Instance.MemorySizeInBytes = 140;
+        ECS.Instance.InitECS();
+        ECS.Instance.InitChunkGroup<Movement>(1);//, 0, 0, 64);
+        ECS.Instance.CreateComponent<MovementComponent, Movement>(Consts.TENON_TYPE_MOVEMENT);
+        ECS.Instance.AddSystem<MovementSystem>();
 
+        ECS.Instance.AllEntitas.BuildEntiy(1, new int[] { Consts.TENON_TYPE_MOVEMENT });
+
+        for (int i = 0; i < 20000; i++)
+        {
+            ECS.Instance.AllEntitas.CreateEntiyByType(1);
+        }
     }
 
     private void Walk2(float obj)
@@ -209,7 +220,7 @@ public class Demo : ShipDockAppComponent
             item.SetPosition(pos);
             item.SetRotateSpeed(100f);
 
-            tenonChunk.UpdateItem(ainfo.chunkIndex, ainfo.itemIndex, item);
+            tenonChunk.ChangeItem(ainfo.chunkIndex, ainfo.itemIndex, item);
         }
         else
         {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShipDock
 {
-    public struct Movement : IECSData
+    public struct Movement //: IECSData
     {
         public Vector3 positionPrev;
         public Vector3 direction;

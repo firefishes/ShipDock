@@ -115,7 +115,7 @@ namespace ShipDock
 
         protected virtual void ResetData() { }
 
-        public virtual T GetData<T>() where T : IECSData
+        public virtual T GetData<T>() where T : struct//IECSData
         {
             return default;
         }

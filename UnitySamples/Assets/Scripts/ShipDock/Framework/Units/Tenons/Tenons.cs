@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ namespace ShipDock
     {
         private static int IDSeed;
         private static int instanceIndex;
-        private static List<int> idleIDs = new List<int>();
+        private static List<int> idleIDs = new();
 
         private static int GetAdvancedID()
         {
@@ -31,9 +30,6 @@ namespace ShipDock
         private List<ITenon> mTenonValues;
         private List<ITenon> mDropeds;
         private Dictionary<int, int> mInstanceCounts;
-        private Dictionary<int, IECSSystem> mSystems;
-        private IECSSystem[] mSystemQueues;
-        private List<IECSSystem> mSystemList;
         private KeyValueList<int, ITenon> mMapper;
         private KeyValueList<int, List<ITenon>> mPoolings;
 
@@ -122,8 +118,6 @@ namespace ShipDock
             mMapper = new KeyValueList<int, ITenon>();
             mPoolings = new KeyValueList<int, List<ITenon>>();
             mDropeds = new List<ITenon>();
-            mSystems = new Dictionary<int, IECSSystem>();
-            mSystemList = new List<IECSSystem>();
 
             mMapper.ApplyMapper();
             mPoolings.ApplyMapper();
@@ -387,36 +381,6 @@ namespace ShipDock
 
             mTenon = default;
             mTenonValues = default;
-        }
-
-        public void RunSystems(float deltaTime)
-        {
-            if (mSystemQueues == default || mSystemQueues.Length == 0)
-            {
-                mSystemQueues = mSystemList.ToArray();
-            }
-            else { }
-
-            int max = mSystemQueues.Length;
-            if (max > 0)
-            {
-                IECSSystem system;
-                for (int i = 0; i < max; i++)
-                {
-                    system = mSystemQueues[i];
-                    system.Execute();
-                }
-            }
-            else { }
-        }
-
-        public T AddSystem<T>() where T : IECSSystem, new()
-        {
-            IECSSystem system = new T();
-            mSystems[system.SystemID] = system;
-            mSystemList.Add(system);
-            system.Init(this);
-            return (T)system;
         }
 
         //public void BindSystem<T>(ITenon<T> tenon, int systemID) where T : ITenonData

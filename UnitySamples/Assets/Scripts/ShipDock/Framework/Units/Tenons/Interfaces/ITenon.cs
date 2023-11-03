@@ -27,9 +27,4 @@ namespace ShipDock
         int GetTenonType();
         void SetTenonType(int value);
     }
-
-    public interface IECSComponent<T> : ITenon where T : IECSData
-    {
-        T GetData();
-    }
 }

@@ -217,7 +217,8 @@ namespace ShipDock
             //Tenons?.RunSystems();
             //UpdaterNotice.AddUpdater(mTennonsSystemUpdater);
 
-            TicksUpdater.CallLater(Tenons.RunSystems);
+            //ECS.Instance.RunSystems(0f);
+            TicksUpdater.CallLater(ECS.Instance.RunSystems);
         }
 
         private void OnSceneUpdateReady(INoticeBase<int> time)
