@@ -27,22 +27,8 @@ namespace ShipDock
 
         public void Start()
         {
-            Framework.Instance.DuringCurrentFrame(mOnStarted);
+            Framework.Instance.CallOnNextFrame(mOnStarted);
         }
-
-        //private void OnAppStart()
-        //{
-            //ICustomFramework app = Framework.Instance.App;
-            //if (app.UpdatesComponent != default)
-            //{
-            //    mOnStarted?.Invoke();
-            //}
-            //else
-            //{
-            //    app.MergeCallOnMainThread += mOnStarted;
-            //}
-        //    mOnStarted?.Invoke();
-        //}
     }
 
 }

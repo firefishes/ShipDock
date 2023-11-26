@@ -4,5 +4,5 @@ using UnityEngine.Events;
 namespace ShipDock
 {
     [Serializable]
-    public class OnUIRootAwaked : UnityEvent<IUIRoot> { };
+    public class UIRootAwaked : UnityEvent<IUIRoot> { };
 }

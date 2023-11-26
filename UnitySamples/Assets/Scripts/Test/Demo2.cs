@@ -6,6 +6,14 @@ using UnityEngine;
 
 public class Demo2 : ShipDockAppComponent
 {
+
+    public override void InitConfigTypesHandler(IParamNotice<ConfigHelper> param)
+    {
+        base.InitConfigTypesHandler(param);
+
+        param.ParamValue.AddHolderType<StaticConfig.SampleConfig>("heros");
+    }
+
     public override void EnterGameHandler()
     {
         base.EnterGameHandler();
@@ -35,9 +43,16 @@ public class Demo2 : ShipDockAppComponent
 
     private void StartGame()
     {
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    ECS.Instance.AllEntitas.CreateEntiyByType(1);
-        //}
+        for (int i = 0; i < 10; i++)
+        {
+            ECS.Instance.AllEntitas.CreateEntiyByType(1);
+        }
+
+        AssetBundles abs = ShipDockApp.Instance.ABs;
+        GameObject res = abs.Get("roles", "Unit");
+        GameObject unit = ShipDockApp.Instance.AssetsPooling.FromPool(1, ref res);
+        GameObject unit2 = ShipDockApp.Instance.AssetsPooling.FromPool(1, ref res);
+        //GameObject unit = abs.GetAndQuote<GameObject>("roles", "Unit", out AssetQuoteder quoteder);
+        //GameObject unit2 = quoteder.Instantiate<GameObject>();
     }
 }

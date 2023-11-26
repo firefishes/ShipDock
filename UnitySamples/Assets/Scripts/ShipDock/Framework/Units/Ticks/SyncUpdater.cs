@@ -4,6 +4,7 @@ namespace ShipDock
 {
     public class SyncUpdater : IReclaim
     {
+        //双缓冲回调组织器
         private DoubleBuffers<Action<float>> mDoubleBuffer;
 
         public SyncUpdater() : base()

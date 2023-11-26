@@ -3,33 +3,37 @@ using System.Collections.Generic;
 
 namespace ShipDock
 {
+    /// <summary>
+    /// 
+    /// 消息泵
+    /// 
+    /// add by Minghua.ji
+    /// 
+    /// </summary>
     public class MessageLooper : IReclaim
     {
         public static void AddMessage(int message, INoticeBase<int> paramNotice)
         {
+            MessageLooper messageLooper = Framework.UNIT_MSG_LOOPER.Unit<MessageLooper>();
             MessageNotice msgNotice = MessageNotice.Create(message, paramNotice);
-            ShipDockConsts.NOTICE_MSG_ADD.Broadcast(msgNotice);
+            messageLooper.CommitMessagesAdded(msgNotice);
         }
 
-        public static void OnMessage(Action<INoticeBase<int>> handler, bool isRemove = false)
+        public static void AddSettleMessageHandler(Action<IMessageNotice> handler, bool isRemove = false)
         {
-            if (isRemove)
-            {
-                ShipDockConsts.NOTICE_MSG_QUEUE.Remove(handler);
-            }
-            else
-            {
-                ShipDockConsts.NOTICE_MSG_QUEUE.Add(handler);
-            }
+            MessageLooper messageLooper = Framework.UNIT_MSG_LOOPER.Unit<MessageLooper>();
+            messageLooper.ChangeSettleMessageEvent(handler, isRemove);
         }
 
-        private bool mHasMessageNotice;
         private IPoolable mReclaimParam;
         private IPoolable mMessageParam;
-        private IUpdate mMessageUpdater;
-        private IMessageNotice mNoticeWillAdd;
+        private MethodUpdater mMessageUpdater;
         private Queue<IPoolable> mMessageParamReclaims;
         private DoubleBuffers<IMessageNotice> mDoubleBuffers;
+        /// <summary>添加待处理消息事件</summary>
+        private event Action<IMessageNotice> mAddMessageEvent;
+        /// <summary>处理消息事件</summary>
+        private event Action<IMessageNotice> mSettleMessageEvent;
 
         public void Reclaim()
         {
@@ -38,7 +42,11 @@ namespace ShipDock
 
         private void Purge()
         {
-            UpdaterNotice.RemoveSceneUpdater(mMessageUpdater);
+            UpdaterNotice.RemoveSceneUpdate(mMessageUpdater);
+            mMessageUpdater?.Reclaim();
+
+            mAddMessageEvent = default;
+            mSettleMessageEvent = default;
 
             mDoubleBuffers?.Reclaim();
             mMessageParamReclaims?.Clear();
@@ -57,24 +65,35 @@ namespace ShipDock
                 Update = OnModularUpdate,
             };
 
-            ShipDockConsts.NOTICE_MSG_ADD.Add(OnMessageAdd);
-            UpdaterNotice.AddSceneUpdater(mMessageUpdater);
+            //ShipDockConsts.NOTICE_MSG_ADD.Add(OnMessageAdd);
+            mAddMessageEvent += OnMessageAdd;
+            UpdaterNotice.AddSceneUpdate(mMessageUpdater);
         }
 
-        private void OnMessageAdd(INoticeBase<int> param)
+        public void CommitMessagesAdded(IMessageNotice notice)
         {
-            mNoticeWillAdd = param as IMessageNotice;
-            if (mNoticeWillAdd != default)
+            mAddMessageEvent?.Invoke(notice);
+        }
+
+        public void ChangeSettleMessageEvent(Action<IMessageNotice> handler, bool isRemove)
+        {
+            if (isRemove)
             {
-                if (mNoticeWillAdd != default)
-                {
-                    mDoubleBuffers.Enqueue(mNoticeWillAdd);
-                }
-                else { }
+                mSettleMessageEvent += handler;
+            }
+            else
+            {
+                mSettleMessageEvent -= handler;
+            }
+        }
+
+        private void OnMessageAdd(IMessageNotice param)
+        {
+            if (param != default)
+            {
+                mDoubleBuffers.Enqueue(param);
             }
             else { }
-
-            mNoticeWillAdd = default;
         }
 
         private void OnModularUpdate(float deltaTime)
@@ -96,12 +115,10 @@ namespace ShipDock
 
         private void OnMessageDequeue(float dTime, IMessageNotice param)
         {
-            mHasMessageNotice = param != default;
-
-            if (mHasMessageNotice)
+            if (param != default)
             {
-                //派发处理消息的模块消息
-                ShipDockConsts.NOTICE_MSG_QUEUE.Broadcast(param);
+                //通知其他功能处理消息
+                mSettleMessageEvent?.Invoke(param);
 
                 mMessageParam = param.MsgNotice as IPoolable;
                 if ((mMessageParam != default) && !mMessageParamReclaims.Contains(mMessageParam))
@@ -111,11 +128,10 @@ namespace ShipDock
                 else { }
 
                 param.ToPool();
+
+                mMessageParam = default;
             }
             else { }
-
-            mHasMessageNotice = false;
-            mMessageParam = default;
         }
     }
 }

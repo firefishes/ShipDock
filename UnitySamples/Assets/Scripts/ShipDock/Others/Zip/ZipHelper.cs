@@ -40,6 +40,15 @@ namespace ShipDock
         public Action OnCompleted { get; set; }
         public FileStream FileStream { get; private set; }
 
+        public int Index { get; set; }
+
+        public bool WillDelete { get; set; } = false;
+
+        public void SetIndex(int value)
+        {
+            Index = value;
+        }
+
         public void AfterAddUpdate() { }
 
         public void AfterRemoveUpdate() { }
@@ -184,7 +193,7 @@ namespace ShipDock
             }
             else { }
 
-            UpdaterNotice.AddUpdater(this);
+            UpdaterNotice.AddUpdate(this);
         }
     }
 }

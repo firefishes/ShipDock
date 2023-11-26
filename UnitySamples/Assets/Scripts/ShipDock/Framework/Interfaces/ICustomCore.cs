@@ -2,7 +2,7 @@
 
 namespace ShipDock
 {
-    public interface ICustomFramework
+    public interface ICustomCore
     {
         bool IsStarted { get; }
         IFrameworkUnit [] FrameworkUnits { get; }
@@ -12,7 +12,8 @@ namespace ShipDock
         void Run(int ticks);
         void SetUpdatesComponent(IUpdatesComponent component);
         void SetStarted(bool value);
-        void SyncToUpdatesComponent(Action method);
+        void InitUIRoot(IUIRoot root);
+        void SyncToUpdates(Action method);
         void Clean();
     }
 }

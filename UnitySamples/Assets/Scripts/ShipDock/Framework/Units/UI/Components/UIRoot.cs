@@ -58,7 +58,7 @@ namespace ShipDock
 #if ODIN_INSPECTOR
         [LabelText("组件唤醒事件")]
 #endif
-        private OnUIRootAwaked m_OnAwaked = new OnUIRootAwaked();
+        private UIRootAwaked m_OnAwaked = new UIRootAwaked();
 
         public float MatchWidthOrHeight
         {
@@ -104,8 +104,8 @@ namespace ShipDock
         public void UpdateScaleRatio()
         {
             Vector2 resolution = m_CanvasScaler.referenceResolution;
-            float resol = Mathf.Max(resolution.x, resolution.y);
-            float maxW = Mathf.Max(resolution.x, resolution.y);
+            //float resol = Mathf.Max(resolution.x, resolution.y);
+            //float maxW = Mathf.Max(resolution.x, resolution.y);
 
             ScreenW = Screen.width;
             ScreenH = Screen.height;

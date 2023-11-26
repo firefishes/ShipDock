@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace ShipDock
 {
-    public class ConfigHelper
+    public class ConfigHelper : IReclaim
     {
         private string mConfigLoading;
         private Action<ConfigsResult> mLoadConfigHandler;
         private Queue<string> mWillLoadNames;
         private List<string> mConfigReady;
-        private KeyValueList<string, IConfigHolder> mConfigHolders;
-        private readonly KeyValueList<string, Func<IConfigHolder>> mConfigHolderCreater;
+        private Dictionary<string, IConfigHolder> mConfigHolders;
+        private KeyValueList<string, Func<IConfigHolder>> mConfigHolderCreater;
 
         public string ConfigResABName { get; set; }
         public List<string> HolderTypes { get; private set; }
@@ -19,31 +19,40 @@ namespace ShipDock
         public ConfigHelper()
         {
             HolderTypes = new List<string>();
-            mConfigHolders = new KeyValueList<string, IConfigHolder>();
+            mConfigHolders = new Dictionary<string, IConfigHolder>();
             mConfigHolderCreater = new KeyValueList<string, Func<IConfigHolder>>();
         }
 
-        public void AddHolderType<T>(string name) where T : IConfig, new()
+        public void Reclaim()
         {
-            if (!HolderTypes.Contains(name))
+            HolderTypes?.Clear();
+            HolderTypes = default;
+            mLoadConfigHandler = default;
+
+            Utils.Reclaim(ref mConfigReady);
+            Utils.Reclaim(ref mConfigHolders);
+            Utils.Reclaim(ref mConfigHolderCreater);
+        }
+
+        public void AddHolderType<T>(string configName) where T : IConfig, new()
+        {
+            if (HolderTypes.Contains(configName)) { }
             {
-                IConfigHolder creater()
+                static IConfigHolder creater()
                 {
                     return new ConfigHolder<T>();
                 }
-                AddHolderType(name, creater);
+                AddHolderType(configName, creater);
             }
-            else { }
         }
 
-        public void AddHolderType(string name, Func<IConfigHolder> creater = default)
+        public void AddHolderType(string configName, Func<IConfigHolder> creater = default)
         {
-            if (!HolderTypes.Contains(name))
+            if (HolderTypes.Contains(configName)) { }
             {
-                HolderTypes.Add(name);
-                mConfigHolderCreater[name] = creater;
+                HolderTypes.Add(configName);
+                mConfigHolderCreater[configName] = creater;
             }
-            else { }
         }
 
         public void Load(Action<ConfigsResult> target, params string[] configNames)
@@ -134,7 +143,7 @@ namespace ShipDock
             else { }
 
             mConfigLoading = mWillLoadNames.Dequeue();
-            AssetBundles abs = Framework.Instance.GetUnit<AssetBundles>(Framework.UNIT_AB);
+            AssetBundles abs = Framework.UNIT_AB.Unit<AssetBundles>();
             TextAsset data = abs.Get<TextAsset>(ConfigResABName, mConfigLoading);
 
             LogConfigEmptyAfterLoaded(data == default, ref mConfigLoading);
@@ -176,7 +185,7 @@ namespace ShipDock
         [System.Diagnostics.Conditional("G_LOG")]
         private void LogLoadConfigResABNameEmpty()
         {
-            "error".Log("ConfigHelper need set property ConfigResABName for get config res.");
+            "warning".Log("ConfigHelper need set property ConfigResABName for get config res.");
         }
 
         [System.Diagnostics.Conditional("G_LOG")]

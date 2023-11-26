@@ -1,7 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace ShipDock
 {
+    [Serializable]
+    public struct AssetsPoolingDefaultLayer
+    {
+        public int poolName;
+        public LayerMask defaultLayerMask;
+    }
+
+    [Serializable]
+    public class AssetsPoolingDefaultLayers : SceneInfosMapper<int, AssetsPoolingDefaultLayer>
+    {
+        public override int GetInfoKey(ref AssetsPoolingDefaultLayer item)
+        {
+            return item.poolName;
+        }
+    }
+
     /// <summary>
     /// 
     /// 游戏对象池组件（单例组件）
@@ -16,77 +33,111 @@ namespace ShipDock
 
         [SerializeField]
         private bool m_ApplyPoolItemParent;
+        [SerializeField]
+        private bool m_ApplyUnvisibleLayer;
+        [SerializeField]
+        private LayerMask m_UnvisibleLayer;
+        [SerializeField]
+        private AssetsPoolingDefaultLayers m_DefaultLayers;
 
-        private bool mIsDestroyed;
         private ComponentBridge mCompBridge;
 
         private void Awake()
         {
             name = "AssetsPool";
-            mIsDestroyed = false;
             transform.position = GameObjectReadyPos;
 
+            m_DefaultLayers.ApplyMapper();
+            m_DefaultLayers.InitInfos();
+
+            Reinit();
+        }
+
+        private void Reinit()
+        {
             mCompBridge = new ComponentBridge(OnInited);
             mCompBridge.Start();
         }
 
-        private void OnDestroy()
+        private void Reset()
         {
-            Utils.Reclaim(mCompBridge);
-            mIsDestroyed = true;
+            Reinit();
         }
 
         private void OnInited()
         {
-            ShipDockConsts.NOTICE_APPLICATION_CLOSE.Add(OnAppClose);
+            Utils.Reclaim(mCompBridge);
 
-            ShipDockApp.Instance.AssetsPooling.SetAssetsPoolComp(this);
+            Framework.Instance.OnFrameworkStartUp(OnAppStartUp);
         }
 
-        private void OnAppClose(INoticeBase<int> obj)
+        private void OnAppStartUp(bool isStartUp)
         {
-            if (mIsDestroyed)
+            if (isStartUp)
             {
-                return;
+                AssetsPooling assetsPooling = Framework.UNIT_ASSET_POOL.Unit<AssetsPooling>();
+                assetsPooling.SetAssetsPoolComp(this);
             }
             else { }
-
-            GameObject item;
-            int count = transform.childCount;
-            for (int i = 0; i < count; i++)
-            {
-                item = transform.GetChild(i).gameObject;
-                Destroy(item);
-            }
         }
 
-        public void Get(GameObject target)
+        private bool CheckAndFillDefaultLayer(int poolName, out AssetsPoolingDefaultLayer value)
         {
-#if UNITY_EDITOR
-            if (m_ApplyPoolItemParent && target.transform.parent == transform)
+            value = default;
+            return m_ApplyUnvisibleLayer && (poolName >= 0) && m_DefaultLayers.TryGetValue(poolName, out value);
+        }
+
+        public void Get(GameObject target, int poolName = -1)
+        {
+            UpdateTargetParent(ref target, false);
+
+            if (CheckAndFillDefaultLayer(poolName, out AssetsPoolingDefaultLayer value))
             {
-                target.transform.SetParent(default);
+                target.layer = value.defaultLayerMask.value;
             }
             else { }
-#endif
-            if (target.activeSelf)
-            {
-
-            }
-            else
-            {
-                target.SetActive(true);
-            }
-            
         }
 
-        public void Collect(GameObject target, bool visible = false)
+        public void Collect(GameObject target, bool visible = false, int poolName = -1)
         {
-            target.transform.localPosition = GameObjectReadyPos;
-#if UNITY_EDITOR
-            if (m_ApplyPoolItemParent && target.transform.parent != transform)
+            if (CheckAndFillDefaultLayer(poolName, out _))
             {
-                target.transform.SetParent(transform);
+                target.layer = m_UnvisibleLayer.value;
+            }
+            else 
+            {
+                if (target.activeSelf != visible)
+                {
+                    target.SetActive(visible);
+                }
+                else { }
+            }
+
+            UpdateTargetParent(ref target, true);
+        }
+
+        private void UpdateTargetParent(ref GameObject target, bool isCollect)
+        {
+#if UNITY_EDITOR
+            if (m_ApplyPoolItemParent && target != default)
+            {
+                Transform trans = target.transform;
+                if (isCollect)
+                {
+                    if (trans.parent != transform)
+                    {
+                        trans.SetParent(transform);
+                    }
+                    else { }
+                }
+                else
+                {
+                    if (trans.parent == transform)
+                    {
+                        trans.SetParent(default);
+                    }
+                    else { }
+                }
             }
             else { }
 #endif

@@ -5,10 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/ZombiesTranval.unity
+  - enabled: 0
+    path: Assets/Scenes_/ZombiesTranval.unity
     guid: 6d39f15bd24ff13408985e30987eac35
-  - enabled: 1
-    path: Assets/Scenes/GameStart.unity
+  - enabled: 0
+    path: Assets/Scenes_/GameStart.unity
     guid: 0c059c7bf8b154d4bb35fab9f427629b
+  - enabled: 1
+    path: Assets/Scenes_/Demo2.unity
+    guid: 09f67f692f7de744aa8150c98fc2f752
+  - enabled: 1
+    path: Assets/Scenes_/GameStart_Demo2.unity
+    guid: 321d84fc70604af43b3553f944425951
   m_configObjects: {}

@@ -11,7 +11,7 @@ namespace ShipDock
         [SerializeField]
         public V[] infos;
 
-        public virtual void InitMapper(V[] source = default)
+        public virtual void InitInfos(V[] source = default)
         {
             if (source != default)
             {
@@ -24,7 +24,8 @@ namespace ShipDock
             for (int i = 0; i < max; i++)
             {
                 info = infos[i];
-                Put(GetInfoKey(ref info), info);
+                K key = GetInfoKey(ref info);
+                Put(key, info);
                 AfterInitItem(ref info);
             }
         }

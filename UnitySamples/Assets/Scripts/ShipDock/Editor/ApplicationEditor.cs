@@ -24,7 +24,7 @@ namespace ShipDock.Editors
         /// <summary>
         /// 编辑器菜单：创建一个应用
         /// </summary>
-        [MenuItem("ShipDock/Create Application")]
+        [MenuItem("ShipDock/Create Application/App")]
         public static void CreateApplication()
         {
             string name = "UIRoot";
@@ -75,6 +75,62 @@ namespace ShipDock.Editors
             ShipDockEditorUtils.CreateGameObjectWithComponent<AssetsPoolingComponent>("AssetPool", p);
             ShipDockEditorUtils.CreateGameObjectWithComponent<CustomAssetCoordinator>("CustomAsset", p);
             ShipDockEditorUtils.CreateGameObjectWithComponent<TesterComponent>("TesterAsserter", p);
+        }
+
+        /// <summary>
+        /// 编辑器菜单：创建一个应用
+        /// </summary>
+        [MenuItem("ShipDock/Create Application/Wechat Game")]
+        public static void CreateApplicationForWechatGame()
+        {
+            string name = "UIRoot";
+            if (GameObject.Find(name) == default)
+            {
+                List<GameObject> result = new List<GameObject>();
+                ShipDockEditorUtils.FindAssetInEditorProject(ref result, "UIRoot t:GameObject", @"Assets\Scripts\ShipDock\Prefabs");
+
+                GameObject UIRoot = Instantiate(result[0]);
+                UIRoot.name = name;
+                Canvas canvas = UIRoot.GetComponentInChildren<Canvas>();
+
+                CanvasScaler canvasScaler = UIRoot.GetComponentInChildren<CanvasScaler>();
+                GraphicRaycaster graphicRaycaster = UIRoot.GetComponentInChildren<GraphicRaycaster>();
+
+                GameObject target = GameObject.Find("UIRoot/EventSystem");
+                EventSystem eventSystem = target.GetComponent<EventSystem>();
+                StandaloneInputModule inputModule = target.GetComponent<StandaloneInputModule>();
+
+                if (canvasScaler == default)
+                {
+                    canvas.gameObject.AddComponent<CanvasScaler>();
+                }
+                else { }
+
+                if (graphicRaycaster == default)
+                {
+                    canvas.gameObject.AddComponent<GraphicRaycaster>();
+                }
+                else { }
+
+                if (eventSystem == default)
+                {
+                    target.AddComponent<EventSystem>();
+                }
+                else { }
+
+                if (inputModule == default)
+                {
+                    target.AddComponent<StandaloneInputModule>();
+                }
+                else { }
+            }
+            else { }
+
+            string gameSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            Transform p = ShipDockEditorUtils.CreateGameObjectWithComponent<ShipDockWechatGame>(gameSceneName);
+            ShipDockEditorUtils.CreateGameObjectWithComponent<AssetsPoolingComponent>("AssetPool", p);
+            ShipDockEditorUtils.CreateGameObjectWithComponent<CustomAssetCoordinator>("CustomAsset", p);
+            //ShipDockEditorUtils.CreateGameObjectWithComponent<TesterComponent>("TesterAsserter", p);
         }
 
 #if OPEN_SHIPDOCK_EDITOR

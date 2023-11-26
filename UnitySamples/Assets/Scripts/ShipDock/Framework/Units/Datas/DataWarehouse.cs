@@ -12,6 +12,7 @@
         public DataWarehouse()
         {
             mDataMapper = new KeyValueList<int, IDataProxy>();
+            mDataMapper.ApplyMapper();
         }
 
         public void Reclaim()

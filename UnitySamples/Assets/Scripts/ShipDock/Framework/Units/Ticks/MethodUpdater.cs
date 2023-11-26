@@ -13,6 +13,15 @@ namespace ShipDock
         public bool IsLateUpdate { get; set; } = true;
         public bool Asynced { get; set; }
 
+        public int Index { get; set; }
+
+        public bool WillDelete { get; set; } = false;
+
+        public void SetIndex(int value)
+        {
+            Index = value;
+        }
+
         public virtual void Reclaim()
         {
             Asynced = false;

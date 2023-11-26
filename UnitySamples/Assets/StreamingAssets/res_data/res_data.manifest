@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 3788489354
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: ui
+      Dependencies: {}

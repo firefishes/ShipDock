@@ -1,0 +1,1 @@
+[{"id":0,"valid":true,"bundleName":"roles","assets":[{"valid":true,"assetName":"Unit","assetPath":"Assets/res_data/demo_ecs/Unit.prefab","assetType":0,"otherAssetPaths":["Assets/res_data/demo_ecs/Unit.prefab","","","","",""]}]}]

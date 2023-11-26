@@ -75,7 +75,8 @@ namespace ShipDock
             if (mIsDisposed) { }
             else
             {
-                mCache = mIsFront ? mCacheBack : mCacheFront;//切换到需要处理的队列
+                //切换到需要处理的队列
+                mCache = mIsFront ? mCacheBack : mCacheFront;
                 mEnqueueCache = mIsFront ? mCacheFront : mCacheBack;
 
                 Advance(dTime);

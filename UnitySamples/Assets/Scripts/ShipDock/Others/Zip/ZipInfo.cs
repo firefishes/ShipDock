@@ -20,6 +20,15 @@ namespace ShipDock
         public bool IsFixedUpdate { get; }
         public bool IsLateUpdate { get; }
 
+        public int Index { get; set; }
+
+        public bool WillDelete { get; set; } = false;
+
+        public void SetIndex(int value)
+        {
+            Index = value;
+        }
+
         public ZipInfo(string fileName, int size, ZipInputStream zipStream)
         {
             StreamReadSize = size;
@@ -63,7 +72,7 @@ namespace ShipDock
 
             if (IsCompleted)
             {
-                UpdaterNotice.RemoveUpdater(this);
+                UpdaterNotice.RemoveUpdate(this);
 
                 FileStream.Close();
                 FileStream.Dispose();

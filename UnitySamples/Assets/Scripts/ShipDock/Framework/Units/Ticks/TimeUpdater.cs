@@ -80,7 +80,7 @@ namespace ShipDock
             Repeatable = mRepeats > 0;
             mCancelChecker = cancelCondition;
 
-            UpdaterNotice.RemoveSceneUpdater(this);
+            UpdaterNotice.RemoveSceneUpdate(this);
         }
 
         public void Start()
@@ -94,7 +94,7 @@ namespace ShipDock
             }
             else
             {
-                UpdaterNotice.AddSceneUpdater(this);
+                UpdaterNotice.AddSceneUpdate(this);
             }
         }
 
@@ -130,7 +130,7 @@ namespace ShipDock
             IsStarted = false;
             IsPause = false;
 
-            UpdaterNotice.RemoveSceneUpdater(this);
+            UpdaterNotice.RemoveSceneUpdate(this);
         }
 
         public override void OnUpdate(float dTime)

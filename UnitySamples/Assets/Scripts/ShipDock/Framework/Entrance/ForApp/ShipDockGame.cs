@@ -20,6 +20,12 @@ namespace ShipDock
 #endif
         private int m_FrameRate = 40;
 
+        [SerializeField, Tooltip("启用子线程执行 Ticks")]
+#if ODIN_INSPECTOR
+        [LabelText("执行子线程 Ticks"), Indent(1)]
+#endif
+        private bool m_ThreadTicksEnabled = true;
+
         [SerializeField, Tooltip("多语言本地化标识")]
 #if ODIN_INSPECTOR
         [LabelText("语言本地化参数"), Indent(1)]
@@ -120,9 +126,6 @@ namespace ShipDock
                 UIRoot ui = target.GetComponent<UIRoot>();
                 if (ui != default)
                 {
-                    //DontDestroyOnLoad(ui.gameObject);
-                    //DontDestroyOnLoad(Camera.main.gameObject);
-
                     LogUIRootCreated();
 
                     ui.AddAwakedHandler(UIRootAwaked);
@@ -143,6 +146,8 @@ namespace ShipDock
 #if RELEASE
             Debug.unityLogger.logEnabled = false;//编译发布版时关闭日志
 #endif
+            ShipDockAppSettings.threadTicksEnabled = m_ThreadTicksEnabled;
+
             ShipDockApp.Instance.InitUIRoot(root);
             ShipDockApp.StartUp(m_FrameRate, OnShipDockStart);
         }

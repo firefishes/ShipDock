@@ -18,6 +18,7 @@ namespace ShipDock
         [SerializeField]
         private bool m_RemoveEmptyAssets;
 
+        private AssetBundles mABs;
         private ComponentBridge mBridge;
         private CustomAssetBundle mCustomAssetBundle;
 
@@ -38,6 +39,8 @@ namespace ShipDock
             Utils.Reclaim(mBridge);
             Utils.Reclaim(mCustomAssetBundle);
             Utils.Reclaim(ref m_Assets);
+
+            mABs = default;
         }
 
 #if UNITY_EDITOR
@@ -102,8 +105,6 @@ namespace ShipDock
                     DestroyImmediate(gameObj);
                 }
 
-                list = new CustomAssetComponent[list.Length];
-
                 List<CustomAssetsInfoItem> infos = m_Info.GetAssetInfos();
                 foreach (CustomAssetsInfoItem item in infos)
                 {
@@ -111,12 +112,11 @@ namespace ShipDock
                     customAsset.transform.SetParent(transform);
                     CustomAssetComponent customAssetComp = customAsset.AddComponent<CustomAssetComponent>();
                     customAssetComp.SetBundleName(item.name);
-                    List<CustomAsset> assets = customAssetComp.Assets;
-                    assets = new List<CustomAsset>();
+                    List<CustomAsset> assets = new List<CustomAsset>();
                     int assetsCount = item.assets.Length;
                     for (int i = 0; i < assetsCount; i++)
                     {
-                        CustomAsset assetItemComp = new CustomAsset
+                        CustomAsset assetItemComp = new()
                         {
                             refresh = true
                         };
@@ -152,8 +152,10 @@ namespace ShipDock
         private void OnAppReady()
         {
             mCustomAssetBundle?.FillAssets(ref m_Assets);
-            ICustomAssetBundle bundle = mCustomAssetBundle as ICustomAssetBundle;
-            ShipDockApp.Instance.ABs.SetCustomBundles(ref bundle);
+            ICustomAssetBundle bundle = mCustomAssetBundle;
+
+            mABs = Framework.UNIT_AB.Unit<AssetBundles>();
+            mABs.SetCustomBundles(ref bundle);
         }
 
         [ContextMenu("从信息体同步")]

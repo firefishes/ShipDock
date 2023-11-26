@@ -14,7 +14,7 @@ public class Demo : ShipDockAppComponent
     {
         base.InitConfigTypesHandler(param);
 
-        param.ParamValue.AddHolderType<StaticConfig.PuzzlesConfig>("heros");
+        param.ParamValue.AddHolderType<StaticConfig.SampleConfig>("heros");
     }
 
     public override void EnterGameHandler()

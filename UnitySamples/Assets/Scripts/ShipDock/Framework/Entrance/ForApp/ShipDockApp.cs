@@ -3,8 +3,25 @@ using UnityEngine;
 
 namespace ShipDock
 {
-    public class ShipDockApp : Singletons<ShipDockApp>, ICustomFramework
+    public class ShipDockApp : Singletons<ShipDockApp>, ICustomCore
     {
+
+        /// <summary>
+        /// 启动 ShipDock（原生应用） 框架
+        /// </summary>
+        /// <param name="ticks">子线程心跳帧率</param>
+        /// <param name="onStartUp">初始化后调用的回调函数</param>
+        public static void StartUp(int ticks, Action onStartUp = default)
+        {
+            //将内核加入框架
+            Framework.Instance.InitByCustomCore(Instance, ticks, onStartUp);
+        }
+
+        public static void Close()
+        {
+            Framework.Instance.Clean();
+        }
+
         public bool IsStarted { get; private set; }
         public IFrameworkUnit[] FrameworkUnits { get; private set; }
         public IUpdatesComponent UpdatesComponent { get; private set; }
@@ -42,12 +59,20 @@ namespace ShipDock
 
             IsStarted = false;
 
-            UpdaterNotice.RemoveSceneUpdater(mTennonsUpdater);
+            UpdaterNotice.RemoveSceneUpdate(mTennonsUpdater);
             mTennonsUpdater.Reclaim();
             mTennonsUpdater = default;
 
             ShipDockConsts.NOTICE_APPLICATION_CLOSE.Broadcast();
+            AllPools.ResetAllPooling();
 
+            DuringClean();
+
+            GC.Collect();
+        }
+
+        private void DuringClean()
+        {
 #if ULTIMATE
             ILRuntimeHotFix?.Clear();
             Utils.Reclaim(ref mFSMUpdaters);
@@ -71,7 +96,6 @@ namespace ShipDock
             AppModulars?.Reclaim();
 #endif
             Tester?.Reclaim();
-            AllPools.ResetAllPooling();
 
             Notificater = default;
             TicksUpdater = default;
@@ -89,17 +113,11 @@ namespace ShipDock
             ILRuntimeHotFix = default;
             AppModulars = default;
 #endif
-
-            GC.Collect();
-        }
-
-        public static void Close()
-        {
-            Framework.Instance.Clean();
         }
 
         public void SetStarted(bool value)
         {
+            IsStarted = value;
         }
 
         public void SetUpdatesComponent(IUpdatesComponent component)
@@ -129,7 +147,7 @@ namespace ShipDock
             ABs = new AssetBundles();//新建资源包管理器
             DataWarehouse datas = new();//新建数据管理器
             AssetsPooling = new AssetsPooling();//新建场景资源对象池
-            Locals = new Locals();//新建本地化管理器
+            Locals = new Locals();//新建语言本地化管理器
             Effects = new Effects();//新建特效管理器
             Tenons = new Tenons();//能力组件管理器
             Messages = new MessageLooper();//消息队列
@@ -172,14 +190,18 @@ namespace ShipDock
                 framework.CreateUnitByBridge(Framework.UNIT_UI, UIs),
             };
             framework.LoadUnit(FrameworkUnits);
-#endregion
+            #endregion
 
 #if ULTIMATE
             mFSMUpdaters = new KeyValueList<IStateMachine, IUpdate>();
             mStateUpdaters = new KeyValueList<IState, IUpdate>();
 #endif
-            //新建客户端心跳帧更新器
-            TicksUpdater = new TicksUpdater(Application.targetFrameRate);
+            if (ShipDockAppSettings.threadTicksEnabled)
+            {
+                //新建客户端运行于子线程的帧更新器
+                TicksUpdater = new TicksUpdater(Application.targetFrameRate);
+            }
+            else { }
 
             AssertFrameworkInit(1);
             AssertFrameworkInit(2);
@@ -218,7 +240,7 @@ namespace ShipDock
             //UpdaterNotice.AddUpdater(mTennonsSystemUpdater);
 
             //ECS.Instance.RunSystems(0f);
-            TicksUpdater.CallLater(ECS.Instance.RunSystems);
+            TicksUpdater?.CallLater(ECS.Instance.RunSystems);
         }
 
         private void OnSceneUpdateReady(INoticeBase<int> time)
@@ -229,7 +251,7 @@ namespace ShipDock
             SceneUpdaterReady?.Invoke();
 #endif
             Messages.Init();
-            UpdaterNotice.AddSceneUpdater(mTennonsUpdater);
+            UpdaterNotice.AddSceneUpdate(mTennonsUpdater);
         }
 
         public void InitUIRoot(IUIRoot root)
@@ -247,19 +269,7 @@ namespace ShipDock
             else { }
         }
 
-        /// <summary>
-        /// 启动 ShipDock 框架
-        /// </summary>
-        /// <param name="ticks">子线程心跳帧率</param>
-        /// <param name="onStartUp">初始化后调用的回调函数</param>
-        public static void StartUp(int ticks, Action onStartUp = default)
-        {
-            //将 ShipDock 门面对象加入框架定制
-            ICustomFramework app = Instance;
-            Framework.Instance.InitCustomFramework(app, ticks, onStartUp);
-        }
-
-        public void SyncToUpdatesComponent(Action method)
+        public void SyncToUpdates(Action method)
         {
             UpdatesComponent.SyncToFrame(method);
         }

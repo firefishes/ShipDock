@@ -20,7 +20,9 @@ namespace ShipDock
 
         public delegate void OnGameObjectPoolItem(GameObject target);
         public delegate void OnComponentPoolItem<T>(T target);
-        
+
+        public AssetsPoolingComponent PoolContainer { get; private set; }
+
         #region 私有属性
         /// <summary>以游戏物体预设为模板的对象池最大数量的集合</summary>
         private KeyValueList<int, int> mPoolElmMax;
@@ -40,6 +42,11 @@ namespace ShipDock
             mCompPool = new KeyValueList<int, Queue<Component>>();
             mPoolElmMax = new KeyValueList<int, int>();
             mCompPoolElmMax = new KeyValueList<int, int>();
+
+            mPool.ApplyMapper();
+            mCompPool.ApplyMapper();
+            mPoolElmMax.ApplyMapper();
+            mCompPoolElmMax.ApplyMapper();
         }
 
         #region 销毁相关
@@ -160,7 +167,7 @@ namespace ShipDock
             {
                 if (flag && (PoolContainer != null))
                 {
-                    PoolContainer.Get(tempResult.gameObject);
+                    PoolContainer.Get(tempResult.gameObject, poolName);
                 }
                 else { }
             }
@@ -188,7 +195,7 @@ namespace ShipDock
             {
                 if (flag && (PoolContainer != null))
                 {
-                    PoolContainer.Get(result);
+                    PoolContainer.Get(result, poolName);
                 }
                 else { }
             }
@@ -221,7 +228,7 @@ namespace ShipDock
 
                     if (PoolContainer != null)
                     {
-                        PoolContainer.Collect(target.gameObject, visible);
+                        PoolContainer.Collect(target.gameObject, visible, poolName);
                     }
                     else
                     {
@@ -262,7 +269,7 @@ namespace ShipDock
 
                     if (PoolContainer != default)
                     {
-                        PoolContainer.Collect(target, visible);
+                        PoolContainer.Collect(target, visible, poolName);
                     }
                     else
                     {
@@ -271,7 +278,7 @@ namespace ShipDock
                 }
                 else
                 {
-                    Debug.Log(target);
+                    //Debug.Log(target);
                     Object.DestroyImmediate(target);
                 }
             }
@@ -310,7 +317,5 @@ namespace ShipDock
         {
             PoolContainer = value;
         }
-
-        public AssetsPoolingComponent PoolContainer { get; private set; }
     }
 }

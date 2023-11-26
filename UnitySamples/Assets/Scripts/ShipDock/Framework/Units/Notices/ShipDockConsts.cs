@@ -10,8 +10,8 @@
         public const int NOTICE_ADD_UPDATE = -1002;
         /// <summary>移除帧更新项</summary>
         public const int NOTICE_REMOVE_UPDATE = -1003;
-        /// <summary>帧更新组件已就绪</summary>
-        public const int NOTICE_FRAME_UPDATER_COMP_READY = -1004;
+        /// <summary>运行于子线程帧更新组件已就绪</summary>
+        public const int NOTICE_FRAME_UPDATER_READY = -1004;
         /// <summary>添加以Unity主线程为驱动的帧更新项</summary>
         public const int NOTICE_ADD_SCENE_UPDATE = -1005;
         /// <summary>移除以Unity主线程为驱动的帧更新项</summary>
@@ -21,15 +21,11 @@
         /// <summary>触发以Unity主线程为驱动的帧延迟</summary>
         public const int NOTICE_SCENE_CALL_LATE = -1008;
         /// <summary>触发配置预加载</summary>
-        public const int NOTICE_CONFIG_PRELOADED = -1009;
+        //public const int NOTICE_CONFIG_PRELOADED = -1009;
         /// <summary>应用暂停</summary>
-        public const int NOTICE_APPLICATION_PAUSE = -1010;
+        //public const int NOTICE_APPLICATION_PAUSE = -1010;
         /// <summary>显示帧率</summary>
-        public const int NOTICE_FPS_SHOW = -1011;
-        /// <summary>加入消息队列</summary>
-        public const int NOTICE_MSG_ADD = -1012;
-        /// <summary>处理消息队列</summary>
-        public const int NOTICE_MSG_QUEUE = -1013;
+        //public const int NOTICE_FPS_SHOW = -1011;
 
         /// <summary>配置数据组：默认分组名</summary>
         public const int CONF_GROUP_CONFIGS = -1;

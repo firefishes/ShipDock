@@ -16,7 +16,17 @@
         public int Name { get; private set; }
 
         /// <summary>单元的对象引用</summary>
-        public T Unit { get; private set; }
+        public T Unit { get; private set; } = default;
+
+        public void Reclaim()
+        {
+            if (Unit is IReclaim reclaim)
+            {
+                reclaim.Reclaim();
+                Unit = default;
+            }
+            else { }
+        }
 
         public FrameworkUnitBrige(int name, T unit)
         {

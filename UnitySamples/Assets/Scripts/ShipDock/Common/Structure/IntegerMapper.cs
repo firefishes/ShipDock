@@ -9,6 +9,7 @@
         {
             mIndexer = new IntegerID<MapperValueT>();
             mMapper = new KeyValueList<int, MapperValueT>();
+            mMapper.ApplyMapper();
         }
 
         public void Reclaim()

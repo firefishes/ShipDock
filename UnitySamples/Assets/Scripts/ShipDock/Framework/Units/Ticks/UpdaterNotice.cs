@@ -1,5 +1,4 @@
 ﻿using System;
-using SceneCallLaterNotice = ShipDock.ParamNotice<System.Action<float>>;
 
 namespace ShipDock
 {
@@ -21,7 +20,12 @@ namespace ShipDock
             }
         }
 
-        public static void AddUpdater(IUpdate target)
+        public override void ToPool()
+        {
+            Pooling<UpdaterNotice>.To(this);
+        }
+
+        public static void AddUpdate(IUpdate target)
         {
             UpdaterNotice notice = Pooling<UpdaterNotice>.From();
             notice.ParamValue = target;
@@ -30,7 +34,7 @@ namespace ShipDock
             notice.ToPool();
         }
 
-        public static void RemoveUpdater(IUpdate target)
+        public static void RemoveUpdate(IUpdate target)
         {
             UpdaterNotice notice = Pooling<UpdaterNotice>.From();
             notice.ParamValue = target;
@@ -39,36 +43,39 @@ namespace ShipDock
             notice.ToPool();
         }
 
-        public static void AddSceneUpdater(IUpdate target)
-        {
-            UpdaterNotice notice = Pooling<UpdaterNotice>.From();
-            notice.ParamValue = target;
-            notice.SetNoticeName(ShipDockConsts.NOTICE_ADD_SCENE_UPDATE);
-            Notificater.Broadcast(notice);
-            notice.ToPool();
-        }
-
-        public static void RemoveSceneUpdater(IUpdate target)
-        {
-            UpdaterNotice notice = Pooling<UpdaterNotice>.From();
-            notice.ParamValue = target;
-            notice.SetNoticeName(ShipDockConsts.NOTICE_REMOVE_SCENE_UPDATE);
-            Notificater.Broadcast(notice);
-            notice.ToPool();
-        }
-
         public static void SceneCallLater(Action<float> target)
         {
-            SceneCallLaterNotice notice = Pooling<SceneCallLaterNotice>.From();
-            notice.ParamValue = target;
-            notice.SetNoticeName(ShipDockConsts.NOTICE_SCENE_CALL_LATE);
-            Notificater.Broadcast(notice);
-            notice.ToPool();
+            Framework.Instance.Updates?.AddCallLate(target);
         }
 
-        public override void ToPool()
+        public static void AddSceneUpdate(IUpdate target)
         {
-            Pooling<UpdaterNotice>.To(this);
+            Framework.Instance.Updates?.AddUpdate(target);
+        }
+
+        public static void RemoveSceneUpdate(IUpdate target)
+        {
+            Framework.Instance.Updates?.RemoveUpdate(target);
+        }
+
+        public static void AddSceneFixedUpdate(IUpdate target)
+        {
+            Framework.Instance.Updates?.AddFixedUpdate(target);
+        }
+
+        public static void RemoveSceneFixedUpdate(IUpdate target)
+        {
+            Framework.Instance.Updates?.RemoveFixedUpdate(target);
+        }
+
+        public static void AddSceneLateUpdate(IUpdate target)
+        {
+            Framework.Instance.Updates?.AddLateUpdate(target);
+        }
+
+        public static void RemoveSceneLateUpdate(IUpdate target)
+        {
+            Framework.Instance.Updates.RemoveLateUpdate(target);
         }
     }
 }

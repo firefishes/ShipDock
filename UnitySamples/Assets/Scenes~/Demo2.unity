@@ -334,6 +334,62 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!1 &414264650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 414264651}
+  - component: {fileID: 414264652}
+  m_Layer: 0
+  m_Name: 'roles: Unit'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &414264651
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414264650}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2095377562}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &414264652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414264650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacbd8a44a3e644caf220bc5d5c0306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Valid: 1
+  m_BundleName: roles
+  m_Assets:
+  - assetName: Unit
+    customAssetType: 0
+    asset: {fileID: 8233608242995865838, guid: ee8380c81db7e984984a19698bb6d8cf, type: 3}
+    tex2D: {fileID: 0}
+    sprite: {fileID: 0}
+    audioClip: {fileID: 0}
+    textData: {fileID: 0}
+    assetBundle: {fileID: 0}
+    refresh: 0
 --- !u!1 &551865408
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,6 +607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FrameRate: 60
+  m_ThreadTicksEnabled: 0
   m_Locals: CN
   m_DevelopSubgroup:
     m_playerPrefsVersionCached: 
@@ -856,7 +913,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 414264651}
   m_Father: {fileID: 1433223707}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -872,7 +930,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df39580f79b933141be0802efa1ec9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Info: {fileID: 0}
-  m_Assets: []
+  m_Info: {fileID: 11400000, guid: cf929019f6e6ab44e8941749928a887e, type: 2}
+  m_Assets:
+  - {fileID: 414264652}
   m_SyncCusntomList: 0
   m_RemoveEmptyAssets: 0

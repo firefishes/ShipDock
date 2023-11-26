@@ -2,7 +2,7 @@ using ShipDock;
 
 namespace StaticConfig
 {
-    public partial class PuzzlesConfig : IConfig
+    public partial class SampleConfig : IConfig
     {
         /// <summary>
         /// 配置id

@@ -124,8 +124,8 @@ public static class ShipDockAppExtension
         if (max > 0)
         {
             Framework framework = Framework.Instance;
-            UIManager uis = framework.GetUnit<UIManager>(Framework.UNIT_UI);
-            AssetBundles abs = framework.GetUnit<AssetBundles>(Framework.UNIT_AB);
+            UIManager uis = Framework.UNIT_UI.Unit<UIManager>();
+            AssetBundles abs = Framework.UNIT_AB.Unit<AssetBundles>();
             if (abs != default)
             {
                 AssetsLoader loader = new AssetsLoader();

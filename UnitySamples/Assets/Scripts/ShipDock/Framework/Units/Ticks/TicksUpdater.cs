@@ -29,8 +29,9 @@ namespace ShipDock
         private IUpdate mItemRemoved;
         private List<IUpdate> mTicksList;
         private List<IUpdate> mListDeleted;
-        private SyncUpdater mSyncUpdater;
+        private SyncUpdater mNextFrameSyncer;
         private ThreadTicks mThreadTicks;
+        private UpdatesEvent mUpdatesEvent;
         private UpdaterNotice mNoticeAdded;
         private UpdaterNotice mNoticeRemoved;
 
@@ -69,6 +70,8 @@ namespace ShipDock
 
         public TicksUpdater(int tickTime, float fixedUpdateTime = 0.01f)
         {
+            mUpdatesEvent = new UpdatesEvent();
+
             mThreadTicks = new ThreadTicks(tickTime);
             mThreadTicks.Add(ThreadUpdating);
             mThreadTicks.Start();
@@ -81,7 +84,7 @@ namespace ShipDock
             mFixedUpdateMSec = (int)(fixedUpdateTime * ThreadTicks.UNIT_SEC);
             mFixedUpdateCountMSec = mFixedUpdateMSec;
 
-            mSyncUpdater = new SyncUpdater();
+            mNextFrameSyncer = new SyncUpdater();
             mTicksList = new List<IUpdate>();
             mListDeleted = new List<IUpdate>();
 
@@ -91,46 +94,55 @@ namespace ShipDock
         public void Reclaim()
         {
             mIsDisposed = true;
-            ShipDockConsts.NOTICE_REMOVE_UPDATE.Remove(RemoveUpdate);
-            ShipDockConsts.NOTICE_ADD_UPDATE.Remove(AddUpdate);
+
+            mUpdatesEvent?.RemoveAllListeners();
+
+            //ShipDockConsts.NOTICE_REMOVE_UPDATE.Remove(RemoveUpdate);
+            //ShipDockConsts.NOTICE_ADD_UPDATE.Remove(AddUpdate);
             
             Utils.Reclaim(ref mTicksList);
             Utils.Reclaim(ref mListDeleted);
-            Utils.Reclaim(mSyncUpdater);
+            Utils.Reclaim(mNextFrameSyncer);
             Utils.Reclaim(mThreadTicks);
 
-            mItem = null;
-            mItemAdded = null;
-            mItemRemoved = null;
-            mNoticeAdded = null;
-            mNoticeRemoved = null;
-            mSyncUpdater = null;
-            mThreadTicks = null;
+            mUpdatesEvent = default;
+            mItem = default;
+            mItemAdded = default;
+            mItemRemoved = default;
+            mNoticeAdded = default;
+            mNoticeRemoved = default;
+            mNextFrameSyncer = default;
+            mThreadTicks = default;
         }
 
         private void Enabled()
         {
             if (mIsDisposed)
             {
-                return;
             }
-            else { }
+            else
+            {
+                mUpdatesEvent.AddListener(AddUpdate);
+                mUpdatesEvent.AddListener(RemoveUpdate);
 
-            ShipDockConsts.NOTICE_REMOVE_UPDATE.Add(RemoveUpdate);
-            ShipDockConsts.NOTICE_ADD_UPDATE.Add(AddUpdate);
-            ShipDockConsts.NOTICE_FRAME_UPDATER_COMP_READY.Broadcast();
+                //ShipDockConsts.NOTICE_REMOVE_UPDATE.Add(RemoveUpdate);
+                //ShipDockConsts.NOTICE_ADD_UPDATE.Add(AddUpdate);
+                ShipDockConsts.NOTICE_FRAME_UPDATER_READY.Broadcast();
+            }
         }
 
         private void Disabled()
         {
             if (mIsDisposed)
             {
-                return;
             }
-            else { }
-
-            ShipDockConsts.NOTICE_REMOVE_UPDATE.Remove(RemoveUpdate);
-            ShipDockConsts.NOTICE_ADD_UPDATE.Remove(AddUpdate);
+            else 
+            {
+                //ShipDockConsts.NOTICE_REMOVE_UPDATE.Remove(RemoveUpdate);
+                //ShipDockConsts.NOTICE_ADD_UPDATE.Remove(AddUpdate);
+                mUpdatesEvent.RemoveListener(AddUpdate);
+                mUpdatesEvent.RemoveListener(RemoveUpdate);
+            }
         }
 
         public void RefreshThreadSleepTime(int newTime)
@@ -146,73 +158,85 @@ namespace ShipDock
         {
             if (mIsDisposed || mItemAdded == null)
             {
-                return;
             }
-            else { }
-
-            if ((mTicksList != null) && (mTicksList.IndexOf(mItemAdded) == -1))
+            else
             {
-                mTicksList.Add(mItemAdded);
-                mItemAdded.AfterAddUpdate();
-            }
-            else { }
+                if ((mTicksList != null) && (mTicksList.IndexOf(mItemAdded) == -1))
+                {
+                    mTicksList.Add(mItemAdded);
+                    mItemAdded.AfterAddUpdate();
+                }
+                else { }
 
-            if ((mListDeleted != null) && mListDeleted.Contains(mItemAdded))
-            {
-                mListDeleted.Remove(mItemAdded);//清除之前添加过的移除刷帧标记，避免最新的队列标记不生效
-            }
-            else { }
+                if ((mListDeleted != null) && mListDeleted.Contains(mItemAdded))
+                {
+                    mListDeleted.Remove(mItemAdded);//清除之前添加过的移除刷帧标记，避免最新的队列标记不生效
+                }
+                else { }
 
-            mItemAdded = null;
+                mItemAdded = null;
+            }
         }
 
         private void RemoveUpdaterItem()
         {
             if (mIsDisposed)
             {
-                return;
             }
-            else { }
-
-            if ((mItemRemoved != null) && (mListDeleted != null) && (mListDeleted.IndexOf(mItemRemoved) == -1))
+            else
             {
-                mListDeleted.Add(mItemRemoved);//加入删除列表，下一次帧周期中统一移除
+                if ((mItemRemoved != null) && (mListDeleted != null) && (mListDeleted.IndexOf(mItemRemoved) == -1))
+                {
+                    mListDeleted.Add(mItemRemoved);//加入删除列表，下一次帧周期中统一移除
+                }
+                else { }
             }
-            else { }
         }
 
         /// <summary>添加一个需要刷帧的对象</summary>
-        protected virtual void AddUpdate(INoticeBase<int> param)
+        //protected virtual void AddUpdate(INoticeBase<int> param)
+        protected virtual void AddUpdate(int noticeName, IUpdate target)
         {
-            mNoticeAdded = param as UpdaterNotice;
-            if ((mNoticeAdded == null) || 
-                (mNoticeAdded.ParamValue == null) || 
-                (mNoticeAdded.NotifcationSender != null && !mNoticeAdded.CheckSender(this)))
+            //mNoticeAdded = param as UpdaterNotice;
+            //if ((mNoticeAdded == null) || 
+            //    (mNoticeAdded.ParamValue == null) || 
+            //    (mNoticeAdded.NotifcationSender != null && !mNoticeAdded.CheckSender(this)))
+            //{
+            //    return;
+            //}
+            //else { }
+
+            if (noticeName == ShipDockConsts.NOTICE_ADD_UPDATE)
             {
-                return;
+                //mItemAdded = mNoticeAdded.ParamValue;
+                mItemAdded = target;
+                AddUpdaterItem();
+                mNoticeAdded = null;
             }
             else { }
-
-            mItemAdded = mNoticeAdded.ParamValue;
-            AddUpdaterItem();
-            mNoticeAdded = null;
         }
 
         /// <summary>移除一个需要刷帧的对象</summary>
-        protected virtual void RemoveUpdate(INoticeBase<int> param)
+        //protected virtual void RemoveUpdate(INoticeBase<int> param)
+        protected virtual void RemoveUpdate(int noticeName, IUpdate target)
         {
-            mNoticeRemoved = param as UpdaterNotice;
-            if (mNoticeRemoved != null || 
-                mNoticeRemoved.ParamValue == null ||
-                (mNoticeAdded.NotifcationSender != null && !mNoticeAdded.CheckSender(this)))
+            //mNoticeRemoved = param as UpdaterNotice;
+            //if (mNoticeRemoved != null || 
+            //    mNoticeRemoved.ParamValue == null ||
+            //    (mNoticeAdded.NotifcationSender != null && !mNoticeAdded.CheckSender(this)))
+            //{
+            //    return;
+            //}
+            //else { }
+
+            //mItemRemoved = mNoticeRemoved.ParamValue;
+            if (noticeName == ShipDockConsts.NOTICE_REMOVE_UPDATE)
             {
-                return;
+                mItemRemoved = target;
+                RemoveUpdaterItem();
+                mNoticeRemoved = null;
             }
             else { }
-
-            mItemRemoved = mNoticeRemoved.ParamValue;
-            RemoveUpdaterItem();
-            mNoticeRemoved = null;
         }
 
         /// <summary>检测一个刷帧对象是否有效</summary>
@@ -234,7 +258,7 @@ namespace ShipDock
             CheckRemoveUpdate();
 
             float dTime = millisecond * ThreadTicks.UNIT_MSEC_F;
-            mSyncUpdater?.Update(dTime);
+            mNextFrameSyncer?.Update(dTime);
 
             WalkUpdateItems(millisecond, TICKS_FIXED_UPDATE);
             WalkUpdateItems(millisecond, TICKS_UPDATE);
@@ -313,7 +337,7 @@ namespace ShipDock
                     if(mIsUpdateLate && mItem.IsUpdate)
                     {
                         dTime = mUpdateMSec * ThreadTicks.UNIT_MSEC_F;
-                        mSyncUpdater?.Update(dTime);
+                        mNextFrameSyncer?.Update(dTime);
                         mItem?.OnUpdate(dTime);
                     }
                     else { }
@@ -330,7 +354,7 @@ namespace ShipDock
 
         public void CallLater(Action<float> method)
         {
-            mSyncUpdater.CallLater(method);
+            mNextFrameSyncer.CallLater(method);
         }
 
         /// <summary>检测已被标记为移除的刷帧对象</summary>

@@ -1,12 +1,14 @@
-﻿namespace ShipDock
+﻿using System.Collections.Generic;
+
+namespace ShipDock
 {
     public class ConfigData : DataProxy
     {
-        private KeyValueList<int, ConfigsResult> mConfigs;
+        private Dictionary<int, ConfigsResult> mConfigs;
 
         public ConfigData(int name) : base(name)
         {
-            mConfigs = new KeyValueList<int, ConfigsResult>();
+            mConfigs = new Dictionary<int, ConfigsResult>();
         }
 
         public bool HasConfigGroup(int name)
@@ -26,8 +28,13 @@
 
         public void RemoveConfigs(int name)
         {
-            ConfigsResult configs = mConfigs.Remove(name);
-            configs.Clean();
+            bool flag = mConfigs.TryGetValue(name, out ConfigsResult configsResult);
+            if (flag)
+            {
+                mConfigs.Remove(name);
+                configsResult.Clean();
+            }
+            else { }
         }
 
         public ConfigsResult GetConfigs(int name)

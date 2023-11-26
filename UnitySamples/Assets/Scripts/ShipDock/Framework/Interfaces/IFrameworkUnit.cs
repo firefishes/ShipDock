@@ -7,7 +7,7 @@
     /// add by Minghua.ji
     /// 
     /// </summary>
-    public interface IFrameworkUnit
+    public interface IFrameworkUnit : IReclaim
     {
         int Name { get; }
     }

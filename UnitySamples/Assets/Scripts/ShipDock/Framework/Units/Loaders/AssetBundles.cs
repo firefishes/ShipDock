@@ -357,7 +357,7 @@ public static class AssetBundlesExtensions
     /// <param name="isAutoDispose"></param>
     public static void DestroyFromQuote(this Object target, bool isAutoDispose = false)
     {
-        AssetBundles abs = Framework.Instance.GetUnit<AssetBundles>(Framework.UNIT_AB);
+        AssetBundles abs = Framework.UNIT_AB.Unit<AssetBundles>();
         abs?.DestroyQuotederAsset(target, isAutoDispose);
     }
 }

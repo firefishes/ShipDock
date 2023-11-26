@@ -21,14 +21,14 @@ namespace ShipDock
             for (int i = 0; i < max; i++)
             {
                 updater = mUpdaterMapper.GetValueByIndex(i);
-                UpdaterNotice.RemoveSceneUpdater(updater);
+                UpdaterNotice.RemoveSceneUpdate(updater);
                 updater.Reclaim();
             }
             max = mUpdaterMapper.Size;
             for (int i = 0; i < max; i++)
             {
                 updater = mLateUpdaterMapper.GetValueByIndex(i);
-                UpdaterNotice.RemoveSceneUpdater(updater);
+                UpdaterNotice.RemoveSceneUpdate(updater);
                 updater.Reclaim();
             }
             mUpdaterMapper?.Clear();
@@ -44,7 +44,7 @@ namespace ShipDock
                     Update = method
                 };
                 mUpdaterMapper[method] = updater;
-                UpdaterNotice.AddSceneUpdater(updater);
+                UpdaterNotice.AddSceneUpdate(updater);
             }
             else { }
         }
@@ -60,7 +60,7 @@ namespace ShipDock
                     IsUpdate = false,
                 };
                 mUpdaterMapper[method] = updater;
-                UpdaterNotice.AddSceneUpdater(updater);
+                UpdaterNotice.AddSceneUpdate(updater);
             }
             else { }
         }
@@ -76,7 +76,7 @@ namespace ShipDock
                     IsUpdate = false,
                 };
                 mLateUpdaterMapper[method] = updater;
-                UpdaterNotice.AddSceneUpdater(updater);
+                UpdaterNotice.AddSceneUpdate(updater);
             }
             else { }
         }
@@ -86,7 +86,7 @@ namespace ShipDock
             if (mUpdaterMapper.ContainsKey(method))
             {
                 MethodUpdater updater = mUpdaterMapper.GetValue(method, true);
-                UpdaterNotice.RemoveSceneUpdater(updater);
+                UpdaterNotice.RemoveSceneUpdate(updater);
                 updater.Reclaim();
             }
             else { }
@@ -97,7 +97,7 @@ namespace ShipDock
             if (mLateUpdaterMapper.ContainsKey(method))
             {
                 MethodUpdater updater = mLateUpdaterMapper.GetValue(method, true);
-                UpdaterNotice.RemoveSceneUpdater(updater);
+                UpdaterNotice.RemoveSceneUpdate(updater);
                 updater.Reclaim();
             }
             else { }

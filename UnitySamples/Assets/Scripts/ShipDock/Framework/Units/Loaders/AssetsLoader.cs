@@ -75,7 +75,7 @@ namespace ShipDock
             mLoader.ApplyLoom = true;
             mLoader.CompleteEvent.AddListener(OnCompleted);
 
-            AssetBundles abs = Framework.Instance.GetUnit<AssetBundles>(Framework.UNIT_AB);
+            AssetBundles abs = Framework.UNIT_AB.Unit<AssetBundles>();
             if (Framework.Instance.IsStarted)
             {
                 ABs = abs;
